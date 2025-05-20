@@ -1,0 +1,60 @@
+/* Import fonts first to fix CSS warning */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&family=Caveat&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Fonts */
+
+:root {
+  --primary-color: #4A90E2;
+  --secondary-color: #F5A623;
+  --accent-color: #7ED321;
+  --text-color: #2C3E50;
+  --light-bg: #F9F9F9;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: var(--text-color);
+  background-color: var(--light-bg);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+}
+
+.handwritten {
+  font-family: 'Caveat', cursive;
+}
+
+/* Custom Components */
+.hero-section {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/hero-bg.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.map-container {
+  height: 400px;
+  width: 100%;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .map-container {
+    height: 300px;
+  }
+}
