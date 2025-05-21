@@ -574,7 +574,7 @@ const ListingsPage: React.FC = () => {
                           <div className="flex space-x-2">
                             {/* View Details button */}
                             <Link 
-                              to={`/${listing.type}s/${listing.id}`} 
+                              to={`/${path}/${listing.id}`}  
                               className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300 text-sm"
                             >
                               View Details

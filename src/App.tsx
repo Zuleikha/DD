@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Routes, Route, useParams } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import HomePage from './pages/HomePage';
@@ -15,34 +15,34 @@ import ForumPage from './pages/ForumPage';
 import MarketplacePage from './pages/MarketplacePage';
 import AdoptionPage from './pages/AdoptionPage';
 
-// Detail page wrapper to handle params
-const DetailPageWrapper = () => {
-  const { id } = useParams();
-  return <DetailPage />;
-};
-
 function App() {
   return (
     <HelmetProvider>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        
+        {/* Main section routes */}
         <Route path="/vets" element={<ListingsPage />} />
-        <Route path="/vets/:id" element={<DetailPageWrapper />} />
         <Route path="/parks" element={<ParksPage />} />
-        <Route path="/parks/:id" element={<DetailPageWrapper />} />
         <Route path="/nutrition" element={<NutritionPage />} />
-        <Route path="/nutrition/:id" element={<DetailPageWrapper />} />
         <Route path="/training" element={<TrainingPage />} />
-        <Route path="/training/:id" element={<DetailPageWrapper />} />
         <Route path="/grooming" element={<GroomingPage />} />
-        <Route path="/grooming/:id" element={<DetailPageWrapper />} />
         <Route path="/places" element={<PlacesPage />} />
-        <Route path="/places/:id" element={<DetailPageWrapper />} />
         <Route path="/community" element={<CommunityPage />} />
         <Route path="/forum" element={<ForumPage />} />
         <Route path="/marketplace" element={<MarketplacePage />} />
         <Route path="/adoption" element={<AdoptionPage />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        
+        {/* Detail page routes - explicitly define each one */}
+        <Route path="/vets/:id" element={<DetailPage />} />
+        <Route path="/parks/:id" element={<DetailPage />} />
+        <Route path="/nutrition/:id" element={<DetailPage />} />
+        <Route path="/training/:id" element={<DetailPage />} />
+        <Route path="/grooming/:id" element={<DetailPage />} />
+        <Route path="/places/:id" element={<DetailPage />} />
+        
+        {/* Catch-all route */}
         <Route path="*" element={<HomePage />} />
       </Routes>
     </HelmetProvider>
