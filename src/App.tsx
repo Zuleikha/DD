@@ -21,33 +21,30 @@ const DetailPageWrapper = () => {
   return <DetailPage />;
 };
 
-// Separate AppRoutes component to maintain your existing route structure
-function AppRoutes() {
-  return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/vets" element={<ListingsPage />} />
-      <Route path="/vets/:id" element={<DetailPageWrapper />} />
-      <Route path="/parks" element={<ParksPage />} />
-      <Route path="/parks/:id" element={<DetailPageWrapper />} />
-      <Route path="/nutrition" element={<NutritionPage />} />
-      <Route path="/training" element={<TrainingPage />} />
-      <Route path="/grooming" element={<GroomingPage />} />
-      <Route path="/places" element={<PlacesPage />} />
-      <Route path="/community" element={<CommunityPage />} />
-      <Route path="/forum" element={<ForumPage />} />
-      <Route path="/marketplace" element={<MarketplacePage />} />
-      <Route path="/adoption" element={<AdoptionPage />} />
-      <Route path="/admin" element={<AdminDashboard />} />
-      <Route path="*" element={<HomePage />} />
-    </Routes>
-  );
-}
-
 function App() {
   return (
     <HelmetProvider>
-      <AppRoutes />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/vets" element={<ListingsPage />} />
+        <Route path="/vets/:id" element={<DetailPageWrapper />} />
+        <Route path="/parks" element={<ParksPage />} />
+        <Route path="/parks/:id" element={<DetailPageWrapper />} />
+        <Route path="/nutrition" element={<NutritionPage />} />
+        <Route path="/nutrition/:id" element={<DetailPageWrapper />} />
+        <Route path="/training" element={<TrainingPage />} />
+        <Route path="/training/:id" element={<DetailPageWrapper />} />
+        <Route path="/grooming" element={<GroomingPage />} />
+        <Route path="/grooming/:id" element={<DetailPageWrapper />} />
+        <Route path="/places" element={<PlacesPage />} />
+        <Route path="/places/:id" element={<DetailPageWrapper />} />
+        <Route path="/community" element={<CommunityPage />} />
+        <Route path="/forum" element={<ForumPage />} />
+        <Route path="/marketplace" element={<MarketplacePage />} />
+        <Route path="/adoption" element={<AdoptionPage />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="*" element={<HomePage />} />
+      </Routes>
     </HelmetProvider>
   );
 }

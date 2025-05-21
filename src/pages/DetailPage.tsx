@@ -1,375 +1,613 @@
-import React from 'react';
-import { MapPin, Phone, Mail, Globe, Clock } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { MapPin, Phone, Globe, Mail, Clock, ArrowLeft, Star } from 'lucide-react';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
-import ChatbotWidget from '../components/common/ChatbotWidget';
+import GoogleMap from '../components/maps/GoogleMap';
+import SEO from '../components/common/SEO';
 
-const DetailPage: React.FC = () => {
-  // Sample data for demonstration
-  const listing = {
+// Add Google Maps API key variable - leave empty until you have a valid key
+const GOOGLE_MAPS_API_KEY = "";
+
+// Mock database of all listings
+const allListings = [
+  // VET LISTINGS
+  {
     id: 1,
-    title: 'Happy Paws Veterinary Clinic',
-    address: '123 Main Street, Dublin 2',
-    phone: '01 234 5678',
-    email: 'info@happypawsvet.ie',
-    website: 'www.happypawsvet.ie',
+    title: 'Village Vets Cabra',
+    address: '2 Quarry Rd, Cabra East, Dublin 7, D07 FX97',
     rating: 4.8,
     reviewCount: 124,
+    distance: '1.2 km',
     type: 'vet',
-    description: 'Happy Paws Veterinary Clinic has been providing exceptional care for dogs across Dublin since 2010. Our team of experienced veterinarians specializes in preventative care, emergency services, and surgical procedures for all breeds.',
-    images: [
-      'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80',
-      'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80',
-      'https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1068&q=80'
-    ],
-    services: [
-      { name: '24/7 Emergency Care', description: 'Round-the-clock emergency services for urgent situations' },
-      { name: 'Surgical Services', description: 'Full range of surgical procedures with modern equipment' },
-      { name: 'Dental Care', description: 'Comprehensive dental examinations and treatments' },
-      { name: 'Vaccinations', description: 'Complete vaccination programs for puppies and adult dogs' }
-    ],
-    hours: [
-      { day: 'Monday-Friday', hours: '8:00 AM - 7:00 PM' },
-      { day: 'Saturday', hours: '9:00 AM - 5:00 PM' },
-      { day: 'Sunday', hours: '10:00 AM - 4:00 PM' }
-    ],
-    reviews: [
-      { id: 1, name: 'John D.', rating: 5, date: 'March 15, 2025', content: 'Excellent care for my Golden Retriever. The staff was friendly and professional, and the facilities are clean and modern.' },
-      { id: 2, name: 'Sarah M.', rating: 4, date: 'February 28, 2025', content: 'Great service during an emergency situation. The only reason for 4 stars is the wait time, but that\'s understandable for emergency care.' }
+    image: 'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80',
+    featured: true,
+    lat: 53.3643,
+    lng: -6.2977,
+    phone: '01 869 2309',
+    website: 'https://villagevets.ie',
+    email: 'cabra@villagevets.ie',
+    hours: 'Mon-Fri: 8am-7pm, Sat: 9am-1pm, Sun: Closed',
+    description: 'Village Vets Cabra is a modern, fully-equipped veterinary clinic providing comprehensive healthcare services for dogs, cats, and small pets. Our team of experienced veterinarians offers preventative care, surgical procedures, dental treatments, and emergency services.',
+    services: ['Vaccinations', 'Microchipping', 'Surgery', 'Dental Care', 'X-Ray & Ultrasound', 'Laboratory Testing', 'Nutritional Counseling'],
+    team: [
+      { name: 'Dr. Sarah Murphy', role: 'Lead Veterinarian', bio: 'Dr. Murphy has over 15 years of experience in small animal medicine and surgery.' },
+      { name: 'Dr. James O\'Connor', role: 'Veterinary Surgeon', bio: 'Dr. O\'Connor specializes in orthopedic procedures and emergency medicine.' }
     ]
-  };
+  },
+  {
+    id: 2,
+    title: 'Botanic Veterinary Hospital',
+    address: '183 Botanic Rd, Glasnevin, Dublin 9, D09 R9R2',
+    rating: 4.7,
+    reviewCount: 98,
+    distance: '1.8 km',
+    type: 'vet',
+    image: 'https://images.unsplash.com/photo-1606425271394-c3ca9aa1fc06?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
+    featured: false,
+    lat: 53.3723,
+    lng: -6.2701,
+    phone: '01 837 3745',
+    website: 'https://botanicvets.ie',
+    email: 'info@botanicvets.ie',
+    hours: 'Mon-Fri: 8:30am-6:30pm, Sat: 9am-1pm, Sun: Closed',
+    description: 'Botanic Veterinary Hospital has been serving the Glasnevin community for over 25 years. We provide comprehensive care for pets of all kinds with a focus on preventative medicine and client education.',
+    services: ['Wellness Exams', 'Vaccinations', 'Surgery', 'Dental Care', 'Diagnostic Imaging', 'Pet Passports', 'Behavioral Consultations'],
+    team: [
+      { name: 'Dr. Emma Kelly', role: 'Practice Owner', bio: 'Dr. Kelly founded Botanic Veterinary Hospital in 1998 and specializes in internal medicine.' },
+      { name: 'Dr. Michael Byrne', role: 'Associate Veterinarian', bio: 'Dr. Byrne joined the practice in 2010 and has a special interest in dermatology.' }
+    ]
+  },
+  {
+    id: 3,
+    title: 'Sandymount Pet Hospital',
+    address: '19 Sandymount Green, Dublin 4, D04 V9Y0',
+    rating: 4.9,
+    reviewCount: 156,
+    distance: '3.5 km',
+    type: 'vet',
+    image: 'https://images.unsplash.com/photo-1584553391301-23a229a443bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
+    featured: true,
+    lat: 53.3344,
+    lng: -6.2183,
+    phone: '01 269 7745',
+    website: 'https://sandymountpethospital.ie',
+    email: 'info@sandymountpethospital.ie',
+    hours: 'Mon-Fri: 8am-7pm, Sat: 9am-2pm, Sun: Emergency Only',
+    description: 'Sandymount Pet Hospital is a state-of-the-art facility offering the highest standard of veterinary care. Our compassionate team is dedicated to providing personalized attention to each pet and their family.',
+    services: ['Preventative Care', 'Advanced Surgery', 'Digital Radiography', 'Ultrasound', 'In-house Laboratory', 'Geriatric Care', 'Exotic Pet Services'],
+    team: [
+      { name: 'Dr. Laura Walsh', role: 'Medical Director', bio: 'Dr. Walsh is a graduate of UCD Veterinary School with additional training in advanced imaging.' },
+      { name: 'Dr. David Chen', role: 'Surgical Specialist', bio: 'Dr. Chen completed his surgical residency at the Royal Veterinary College in London.' }
+    ]
+  },
+  {
+    id: 4,
+    title: 'MyVet Firhouse',
+    address: 'Unit 1, Woodlawn SC, Firhouse Rd, Dublin 24, D24 P7Y2',
+    rating: 4.6,
+    reviewCount: 87,
+    distance: '7.2 km',
+    type: 'vet',
+    image: 'https://images.unsplash.com/photo-1581888227599-779811939961?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1674&q=80',
+    featured: false,
+    lat: 53.2787,
+    lng: -6.3349,
+    phone: '01 451 5395',
+    website: 'https://myvet.ie',
+    email: 'firhouse@myvet.ie',
+    hours: 'Mon-Fri: 8:30am-7pm, Sat: 9am-2pm, Sun: Closed',
+    description: 'MyVet Firhouse is part of the MyVet network of clinics across Dublin. We provide affordable, high-quality veterinary care with a focus on client communication and education.',
+    services: ['Wellness Programs', 'Vaccinations', 'Neutering', 'Microchipping', 'Dental Care', 'Nutrition Advice', 'Senior Pet Care'],
+    team: [
+      { name: 'Dr. Niamh Doyle', role: 'Head Veterinarian', bio: 'Dr. Doyle has been with MyVet for 8 years and has a special interest in feline medicine.' },
+      { name: 'Dr. Robert Wilson', role: 'Veterinary Surgeon', bio: 'Dr. Wilson joined the practice in 2019 after working in emergency medicine for 5 years.' }
+    ]
+  },
+  {
+    id: 5,
+    title: 'Palmerstown Veterinary Hospital',
+    address: 'Unit 3, Palmerstown SC, Dublin 20, D20 YV61',
+    rating: 4.8,
+    reviewCount: 112,
+    distance: '5.8 km',
+    type: 'vet',
+    image: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1738&q=80',
+    featured: true,
+    lat: 53.3558,
+    lng: -6.3708,
+    phone: '01 623 0911',
+    website: 'https://palmerstownvets.ie',
+    email: 'info@palmerstownvets.ie',
+    hours: 'Mon-Fri: 8am-8pm, Sat: 9am-4pm, Sun: 10am-1pm',
+    description: 'Palmerstown Veterinary Hospital offers comprehensive veterinary services in a modern, comfortable environment. Our extended hours make it convenient for working pet owners to access quality care.',
+    services: ['Preventative Care', 'Surgery', 'Dentistry', 'Diagnostic Imaging', 'Laboratory Services', 'Puppy & Kitten Care', 'Emergency Services'],
+    team: [
+      { name: 'Dr. Claire Murphy', role: 'Practice Owner', bio: 'Dr. Murphy established Palmerstown Veterinary Hospital in 2012 after working in both general practice and emergency medicine.' },
+      { name: 'Dr. John Fitzgerald', role: 'Associate Veterinarian', bio: 'Dr. Fitzgerald has a special interest in soft tissue surgery and pain management.' }
+    ]
+  },
+  {
+    id: 6,
+    title: 'Raheny Veterinary Hospital',
+    address: '168 Howth Rd, Raheny, Dublin 5, D05 Y9F4',
+    rating: 4.7,
+    reviewCount: 93,
+    distance: '6.3 km',
+    type: 'vet',
+    image: 'https://images.unsplash.com/photo-1599443015574-be5fe8a05783?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
+    featured: false,
+    lat: 53.3782,
+    lng: -6.1791,
+    phone: '01 831 2230',
+    website: 'https://rahenyvets.ie',
+    email: 'info@rahenyvets.ie',
+    hours: 'Mon-Fri: 8:30am-6:30pm, Sat: 9am-1pm, Sun: Closed',
+    description: 'Raheny Veterinary Hospital has been serving the north Dublin community for over 30 years. We provide compassionate care for pets in a family-friendly environment.',
+    services: ['Wellness Exams', 'Vaccinations', 'Soft Tissue Surgery', 'Dental Procedures', 'Geriatric Care', 'Nutritional Counseling', 'Microchipping'],
+    team: [
+      { name: 'Dr. Patrick O\'Sullivan', role: 'Senior Veterinarian', bio: 'Dr. O\'Sullivan has been with the practice since 1995 and specializes in canine medicine.' },
+      { name: 'Dr. Aoife Ryan', role: 'Associate Veterinarian', bio: 'Dr. Ryan joined in 2015 and has a particular interest in feline medicine and behavior.' }
+    ]
+  },
+  {
+    id: 7,
+    title: 'Blackrock Veterinary Clinic',
+    address: '27 Carysfort Ave, Blackrock, Co. Dublin, A94 X8K4',
+    rating: 4.9,
+    reviewCount: 142,
+    distance: '8.1 km',
+    type: 'vet',
+    image: 'https://images.unsplash.com/photo-1598894000396-bc7e3242c75e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
+    featured: true,
+    lat: 53.3018,
+    lng: -6.1778,
+    phone: '01 288 8443',
+    website: 'https://blackrockvet.ie',
+    email: 'info@blackrockvet.ie',
+    hours: 'Mon-Fri: 8am-7pm, Sat: 9am-3pm, Sun: Emergency Only',
+    description: 'Blackrock Veterinary Clinic combines cutting-edge technology with compassionate care. Our modern facility is equipped to handle a wide range of medical and surgical needs for your pets.',
+    services: ['Preventative Medicine', 'Advanced Surgery', 'Digital Radiography', 'Ultrasound', 'Endoscopy', 'Dental Suite', 'Intensive Care'],
+    team: [
+      { name: 'Dr. Catherine Murray', role: 'Medical Director', bio: 'Dr. Murray completed advanced training in internal medicine and has been leading the clinic since 2010.' },
+      { name: 'Dr. Thomas Lynch', role: 'Surgical Specialist', bio: 'Dr. Lynch has over 15 years of experience in advanced surgical procedures.' }
+    ]
+  },
+  {
+    id: 8,
+    title: 'Clontarf Veterinary Hospital',
+    address: '19 Vernon Ave, Clontarf, Dublin 3, D03 E977',
+    rating: 4.8,
+    reviewCount: 118,
+    distance: '4.2 km',
+    type: 'vet',
+    image: 'https://images.unsplash.com/photo-1603077492137-9d7b98358022?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
+    featured: false,
+    lat: 53.3642,
+    lng: -6.2091,
+    phone: '01 833 2501',
+    website: 'https://clontarfvets.ie',
+    email: 'info@clontarfvets.ie',
+    hours: 'Mon-Fri: 8:30am-7pm, Sat: 9am-2pm, Sun: Closed',
+    description: 'Clontarf Veterinary Hospital is a full-service animal hospital committed to providing exceptional care throughout your pet\'s life. From routine preventative care to emergency treatment, we are equipped to handle all of your pet\'s health needs.',
+    services: ['Wellness Care', 'Vaccinations', 'Surgery', 'Dental Care', 'Laboratory Services', 'Pharmacy', 'Behavioral Counseling'],
+    team: [
+      { name: 'Dr. Fiona Kelly', role: 'Practice Owner', bio: 'Dr. Kelly established Clontarf Veterinary Hospital in 2008 after working in both Ireland and the UK.' },
+      { name: 'Dr. Brian McCarthy', role: 'Associate Veterinarian', bio: 'Dr. McCarthy has a special interest in exotic pet medicine and surgery.' }
+    ]
+  },
+  
+  // PARK LISTINGS
+  {
+    id: 9,
+    title: 'Phoenix Park Dog Walking Area',
+    address: 'Phoenix Park, Dublin 8',
+    rating: 4.9,
+    reviewCount: 87,
+    distance: '2.5 km',
+    type: 'park',
+    image: 'https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
+    lat: 53.3558,
+    lng: -6.3308,
+    description: 'Phoenix Park is one of Europe\'s largest enclosed recreational spaces, offering extensive areas for dog walking. The park spans 1,750 acres with numerous trails and open spaces perfect for dogs to run and play.',
+    facilities: ['Off-leash areas', 'Water points', 'Waste bins', 'Picnic areas', 'Parking'],
+    rules: ['Dogs must be under control at all times', 'Please clean up after your dog', 'Keep dogs away from deer and wildlife'],
+    bestTimes: 'Early morning and late afternoon are quietest. Weekends can be busy.'
+  },
+  {
+    id: 10,
+    title: 'St. Stephen\'s Green Dog Area',
+    address: 'St. Stephen\'s Green, Dublin 2',
+    rating: 4.5,
+    reviewCount: 62,
+    distance: '1.1 km',
+    type: 'park',
+    image: 'https://images.unsplash.com/photo-1551651653-c5dcb914d809?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
+    lat: 53.3382,
+    lng: -6.2591,
+    description: 'St. Stephen\'s Green has designated areas where dogs are permitted on leash. This historic park in the heart of Dublin offers beautiful walking paths around a lake and through manicured gardens.',
+    facilities: ['On-leash walking paths', 'Waste bins', 'Seating areas', 'Water features'],
+    rules: ['Dogs must be kept on leash at all times', 'Not permitted in certain areas of the park', 'Please clean up after your dog'],
+    bestTimes: 'Weekday mornings before 9am are quietest. Avoid lunchtime hours when the park is busiest.'
+  },
+  {
+    id: 11,
+    title: 'Marlay Park Dog Trail',
+    address: 'Marlay Park, Rathfarnham, Dublin 16',
+    rating: 4.8,
+    reviewCount: 93,
+    distance: '7.3 km',
+    type: 'park',
+    image: 'https://images.unsplash.com/photo-1568393691622-c7ba131d63b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
+    lat: 53.2987,
+    lng: -6.2649,
+    description: 'Marlay Park features a dedicated dog park where dogs can run off-leash in a secure environment. The park also offers extensive walking trails through woodlands and open spaces.',
+    facilities: ['Enclosed off-leash area', 'Water points', 'Waste bins', 'Parking', 'Café nearby'],
+    rules: ['Dogs can be off-leash in designated areas only', 'Please clean up after your dog', 'Dogs must be under control at all times'],
+    bestTimes: 'Early mornings and weekdays are less crowded. The dog park can get busy on weekend afternoons.'
+  },
+  
+  // GROOMING LISTINGS
+  {
+    id: 12,
+    title: 'Paws & Relax Dog Grooming',
+    address: '45 Grafton Street, Dublin 2',
+    rating: 4.2,
+    reviewCount: 29,
+    distance: '0.8 km',
+    type: 'grooming',
+    image: 'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80',
+    lat: 53.3402,
+    lng: -6.2736,
+    phone: '01 679 4283',
+    website: 'https://pawsandrelax.ie',
+    email: 'info@pawsandrelax.ie',
+    hours: 'Mon-Sat: 9am-6pm, Sun: Closed',
+    description: 'Paws & Relax offers premium grooming services in the heart of Dublin. Our experienced groomers provide personalized care for dogs of all breeds and sizes in a calm, stress-free environment.',
+    services: ['Full Grooming', 'Bath & Brush', 'Nail Trimming', 'Ear Cleaning', 'De-shedding Treatments', 'Breed-Specific Styling', 'Puppy Introduction Sessions'],
+    team: [
+      { name: 'Lisa O\'Connor', role: 'Head Groomer', bio: 'Lisa has over 10 years of experience and specializes in styling for show dogs.' },
+      { name: 'Mark Brennan', role: 'Groomer', bio: 'Mark is known for his gentle approach with nervous dogs and senior pets.' }
+    ]
+  }
+];
+
+const DetailPage: React.FC = ( ) => {
+  const { id, type } = useParams<{ id: string, type: string }>();
+  const [listing, setListing] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Simulate fetching data from API
+    const fetchListing = () => {
+      setLoading(true);
+      try {
+        // Find the listing with matching id
+        const foundListing = allListings.find(item => item.id === parseInt(id || '0'));
+        
+        if (foundListing) {
+          setListing(foundListing);
+          setError(null);
+        } else {
+          setError('Listing not found');
+        }
+      } catch (err) {
+        setError('Error loading listing details');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchListing();
+  }, [id, type]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-grow flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading details...</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error || !listing) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-grow container mx-auto px-4 py-12">
+          <div className="bg-red-50 p-6 rounded-lg text-center">
+            <p className="text-red-700 mb-4">{error || 'Listing not found'}</p>
+            <Link to="/" className="text-blue-600 hover:underline flex items-center justify-center">
+              <ArrowLeft className="h-4 w-4 mr-1" />
+              Return to homepage
+            </Link>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // SEO content
+  const seoTitle = `${listing.title} | DogDays.ie`;
+  const seoDescription = listing.type === 'vet' 
+    ? `Contact ${listing.title} for veterinary services in ${listing.address.split(',').slice(-2)[0].trim()}. Phone: ${listing.phone}.` 
+    : `Visit ${listing.title} in ${listing.address.split(',').slice(-2)[0].trim()}. Rating: ${listing.rating}/5 from ${listing.reviewCount} reviews.`;
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO 
+        title={seoTitle}
+        description={seoDescription}
+        canonicalUrl={`https://www.dogdays.ie/${listing.type}s/${listing.id}`}
+      />
+      
       <Header />
       
       <main className="flex-grow">
-        {/* Breadcrumb Navigation */}
+        {/* Breadcrumb */}
         <div className="bg-gray-100 py-3">
           <div className="container mx-auto px-4">
-            <div className="flex items-center text-sm">
-              <a href="/" className="text-gray-600 hover:text-[#4A90E2]">Home</a>
-              <span className="mx-2 text-gray-400">/</span>
-              <a href="/vets" className="text-gray-600 hover:text-[#4A90E2]">Vets</a>
-              <span className="mx-2 text-gray-400">/</span>
+            <div className="flex items-center text-sm text-gray-600">
+              <Link to="/" className="hover:text-blue-600">Home</Link>
+              <span className="mx-2">/</span>
+              <Link to={`/${listing.type}s`} className="hover:text-blue-600">
+                {listing.type === 'vet' ? 'Vets' : 
+                 listing.type === 'park' ? 'Parks' : 
+                 listing.type === 'grooming' ? 'Grooming' : 
+                 listing.type === 'nutrition' ? 'Nutrition' : 
+                 listing.type === 'training' ? 'Training' : 
+                 listing.type === 'place' ? 'Places' : 'Listings'}
+              </Link>
+              <span className="mx-2">/</span>
               <span className="text-gray-800 font-medium">{listing.title}</span>
             </div>
           </div>
         </div>
         
-        {/* Detail Hero Section */}
-        <div className="relative h-[400px] overflow-hidden">
+        {/* Hero Section */}
+        <div className="relative h-64 md:h-96 overflow-hidden">
           <img 
-            src={listing.images[0]} 
-            alt={listing.title}
+            src={listing.image} 
+            alt={listing.title} 
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10 text-white">
-            <h1 className="text-3xl md:text-4xl font-bold mb-2">{listing.title}</h1>
-            <div className="flex items-center mb-2">
-              <div className="flex mr-2">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <svg 
-                    key={star} 
-                    className={`w-5 h-5 ${star <= listing.rating ? 'text-yellow-400' : 'text-gray-300'}`} 
-                    fill="currentColor" 
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                  </svg>
-                ))}
+          <div className="absolute inset-0 bg-black bg-opacity-40 flex items-end">
+            <div className="container mx-auto px-4 py-8">
+              <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">{listing.title}</h1>
+              <div className="flex items-center text-white">
+                <MapPin className="h-5 w-5 mr-2" />
+                <span>{listing.address}</span>
               </div>
-              <span>{listing.rating.toFixed(1)} ({listing.reviewCount} reviews)</span>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1 bg-[#F5A623] text-white text-sm font-medium rounded-full">
-                24/7 Emergency Care
-              </span>
-              <span className="px-3 py-1 bg-[#4A90E2] text-white text-sm font-medium rounded-full">
-                Surgical Services
-              </span>
-              <span className="px-3 py-1 bg-[#7ED321] text-white text-sm font-medium rounded-full">
-                Dental Care
-              </span>
             </div>
           </div>
         </div>
         
-        {/* Main Content Area */}
+        {/* Main Content */}
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left Column: Main Information */}
+            {/* Details Column */}
             <div className="lg:col-span-2">
-              {/* About Section */}
-              <section className="mb-10">
-                <h2 className="text-2xl font-semibold mb-4 text-gray-800">About</h2>
-                <p className="text-gray-700 leading-relaxed">{listing.description}</p>
-              </section>
-              
-              {/* Gallery Section */}
-              <section className="mb-10">
-                <h2 className="text-2xl font-semibold mb-4 text-gray-800">Gallery</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {listing.images.map((image, index) => (
-                    <div key={index} className="rounded-lg overflow-hidden h-48">
-                      <img 
-                        src={image} 
-                        alt={`${listing.title} - Image ${index + 1}`}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                      />
+              {/* Rating and Contact */}
+              <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6">
+                  <div className="flex items-center mb-4 md:mb-0">
+                    <div className="bg-blue-50 px-3 py-1 rounded-full flex items-center">
+                      <span className="text-blue-600 font-semibold mr-1">{listing.rating}</span>
+                      <Star className="h-5 w-5 text-yellow-500 fill-current" />
+                      <span className="text-gray-500 text-sm ml-1">({listing.reviewCount} reviews )</span>
                     </div>
-                  ))}
+                    {listing.featured && (
+                      <span className="ml-3 bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
+                        Featured
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex space-x-2">
+                    {listing.phone && (
+                      <a 
+                        href={`tel:${listing.phone}`} 
+                        className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors duration-300 flex items-center"
+                      >
+                        <Phone className="h-4 w-4 mr-2" />
+                        Call
+                      </a>
+                    )}
+                    {listing.website && (
+                      <a 
+                        href={listing.website} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300 flex items-center"
+                      >
+                        <Globe className="h-4 w-4 mr-2" />
+                        Website
+                      </a>
+                    )}
+                  </div>
                 </div>
-              </section>
-              
-              {/* Services Section */}
-              <section className="mb-10">
-                <h2 className="text-2xl font-semibold mb-4 text-gray-800">Services</h2>
+                
+                {/* Contact Details */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {listing.services.map((service, index) => (
-                    <div key={index} className="bg-white p-4 rounded-lg border border-gray-200 hover:border-[#4A90E2] transition-colors duration-300">
-                      <h3 className="font-semibold text-gray-800 mb-2">{service.name}</h3>
-                      <p className="text-gray-600 text-sm">{service.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </section>
-              
-              {/* Reviews Section */}
-              <section>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-800">Reviews</h2>
-                
-                {/* Review Summary */}
-                <div className="bg-gray-50 p-6 rounded-lg mb-6">
-                  <div className="flex items-center mb-4">
-                    <div className="text-4xl font-bold text-gray-800 mr-4">{listing.rating.toFixed(1)}</div>
-                    <div>
-                      <div className="flex mb-1">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <svg 
-                            key={star} 
-                            className={`w-5 h-5 ${star <= listing.rating ? 'text-yellow-400' : 'text-gray-300'}`} 
-                            fill="currentColor" 
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                          </svg>
-                        ))}
+                  {listing.phone && (
+                    <div className="flex items-start">
+                      <Phone className="h-5 w-5 mr-3 text-gray-500 mt-0.5" />
+                      <div>
+                        <h3 className="text-sm font-medium text-gray-500">Phone</h3>
+                        <p className="text-gray-800">
+                          <a href={`tel:${listing.phone}`} className="hover:text-blue-600">
+                            {listing.phone}
+                          </a>
+                        </p>
                       </div>
-                      <div className="text-sm text-gray-600">Based on {listing.reviewCount} reviews</div>
                     </div>
-                  </div>
+                  )}
                   
-                  {/* Rating Bars */}
-                  <div className="space-y-2">
-                    <div className="flex items-center">
-                      <div className="w-16 text-sm text-gray-600">5 stars</div>
-                      <div className="flex-grow h-2 mx-2 bg-gray-200 rounded-full overflow-hidden">
-                        <div className="bg-yellow-400 h-full rounded-full" style={{ width: '85%' }}></div>
+                  {listing.email && (
+                    <div className="flex items-start">
+                      <Mail className="h-5 w-5 mr-3 text-gray-500 mt-0.5" />
+                      <div>
+                        <h3 className="text-sm font-medium text-gray-500">Email</h3>
+                        <p className="text-gray-800">
+                          <a href={`mailto:${listing.email}`} className="hover:text-blue-600">
+                            {listing.email}
+                          </a>
+                        </p>
                       </div>
-                      <div className="w-10 text-sm text-gray-600">85%</div>
                     </div>
-                    <div className="flex items-center">
-                      <div className="w-16 text-sm text-gray-600">4 stars</div>
-                      <div className="flex-grow h-2 mx-2 bg-gray-200 rounded-full overflow-hidden">
-                        <div className="bg-yellow-400 h-full rounded-full" style={{ width: '10%' }}></div>
+                  )}
+                  
+                  {listing.website && (
+                    <div className="flex items-start">
+                      <Globe className="h-5 w-5 mr-3 text-gray-500 mt-0.5" />
+                      <div>
+                        <h3 className="text-sm font-medium text-gray-500">Website</h3>
+                        <p className="text-gray-800">
+                          <a href={listing.website} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600">
+                            {listing.website.replace('https://', '' )}
+                          </a>
+                        </p>
                       </div>
-                      <div className="w-10 text-sm text-gray-600">10%</div>
                     </div>
-                    <div className="flex items-center">
-                      <div className="w-16 text-sm text-gray-600">3 stars</div>
-                      <div className="flex-grow h-2 mx-2 bg-gray-200 rounded-full overflow-hidden">
-                        <div className="bg-yellow-400 h-full rounded-full" style={{ width: '3%' }}></div>
+                  )}
+                  
+                  {listing.hours && (
+                    <div className="flex items-start">
+                      <Clock className="h-5 w-5 mr-3 text-gray-500 mt-0.5" />
+                      <div>
+                        <h3 className="text-sm font-medium text-gray-500">Hours</h3>
+                        <p className="text-gray-800">{listing.hours}</p>
                       </div>
-                      <div className="w-10 text-sm text-gray-600">3%</div>
                     </div>
-                    <div className="flex items-center">
-                      <div className="w-16 text-sm text-gray-600">2 stars</div>
-                      <div className="flex-grow h-2 mx-2 bg-gray-200 rounded-full overflow-hidden">
-                        <div className="bg-yellow-400 h-full rounded-full" style={{ width: '1%' }}></div>
-                      </div>
-                      <div className="w-10 text-sm text-gray-600">1%</div>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-16 text-sm text-gray-600">1 star</div>
-                      <div className="flex-grow h-2 mx-2 bg-gray-200 rounded-full overflow-hidden">
-                        <div className="bg-yellow-400 h-full rounded-full" style={{ width: '1%' }}></div>
-                      </div>
-                      <div className="w-10 text-sm text-gray-600">1%</div>
+                  )}
+                </div>
+              </div>
+              
+              {/* Description */}
+              <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+                <h2 className="text-xl font-bold text-gray-800 mb-4">About {listing.title}</h2>
+                <p className="text-gray-700 mb-6">
+                  {listing.description || `${listing.title} is located in ${listing.address.split(',').slice(-2)[0].trim()}. It has a rating of ${listing.rating} out of 5 based on ${listing.reviewCount} reviews.`}
+                </p>
+                
+                {/* Services for vets */}
+                {listing.type === 'vet' && listing.services && (
+                  <div className="mt-6">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-3">Services</h3>
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {listing.services.map((service: string, index: number) => (
+                        <li key={index} className="flex items-center">
+                          <span className="h-2 w-2 bg-blue-500 rounded-full mr-2"></span>
+                          <span>{service}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                
+                {/* Team for vets */}
+                {listing.type === 'vet' && listing.team && (
+                  <div className="mt-8">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-3">Our Team</h3>
+                    <div className="space-y-4">
+                      {listing.team.map((member: any, index: number) => (
+                        <div key={index} className="border-l-4 border-blue-500 pl-4 py-2">
+                          <h4 className="font-medium text-gray-800">{member.name}</h4>
+                          <p className="text-sm text-gray-600">{member.role}</p>
+                          <p className="mt-1 text-gray-700">{member.bio}</p>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                </div>
+                )}
                 
-                {/* Review List */}
-                <div className="space-y-6">
-                  {listing.reviews.map(review => (
-                    <div key={review.id} className="border-b border-gray-200 pb-6">
-                      <div className="flex justify-between mb-2">
-                        <div className="font-medium text-gray-800">{review.name}</div>
-                        <div className="text-sm text-gray-500">{review.date}</div>
-                      </div>
-                      <div className="flex mb-2">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <svg 
-                            key={star} 
-                            className={`w-4 h-4 ${star <= review.rating ? 'text-yellow-400' : 'text-gray-300'}`} 
-                            fill="currentColor" 
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                          </svg>
-                        ))}
-                      </div>
-                      <p className="text-gray-700">{review.content}</p>
-                    </div>
-                  ))}
-                </div>
+                {/* Facilities for parks */}
+                {listing.type === 'park' && listing.facilities && (
+                  <div className="mt-6">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-3">Facilities</h3>
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {listing.facilities.map((facility: string, index: number) => (
+                        <li key={index} className="flex items-center">
+                          <span className="h-2 w-2 bg-green-500 rounded-full mr-2"></span>
+                          <span>{facility}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
                 
-                {/* View More Button */}
-                <div className="mt-6 text-center">
-                  <button className="px-6 py-2 border-2 border-[#4A90E2] text-[#4A90E2] font-medium rounded-md hover:bg-[#4A90E2] hover:text-white transition-colors duration-300">
-                    Read All {listing.reviewCount} Reviews
-                  </button>
-                </div>
-              </section>
+                {/* Rules for parks */}
+                {listing.type === 'park' && listing.rules && (
+                  <div className="mt-6">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-3">Park Rules</h3>
+                    <ul className="space-y-2">
+                      {listing.rules.map((rule: string, index: number) => (
+                        <li key={index} className="flex items-start">
+                          <span className="h-2 w-2 bg-red-500 rounded-full mr-2 mt-2"></span>
+                          <span>{rule}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    {listing.bestTimes && (
+                      <div className="mt-4 p-3 bg-blue-50 rounded-md">
+                        <p className="text-sm text-blue-800"><strong>Best Times to Visit:</strong> {listing.bestTimes}</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
             
-            {/* Right Column: Contact & Map */}
+            {/* Map Column */}
             <div className="lg:col-span-1">
-              {/* Contact Card */}
-              <div className="bg-white rounded-lg shadow-lg p-6 mb-6 sticky top-24">
-                <h3 className="text-xl font-semibold mb-4 text-gray-800">Contact Information</h3>
-                
-                {/* Address */}
-                <div className="flex items-start mb-4">
-                  <MapPin className="w-5 h-5 text-[#4A90E2] mt-1 mr-3 flex-shrink-0" />
-                  <div>
-                    <p className="text-gray-700">{listing.address}</p>
-                    <button className="mt-2 text-sm text-[#4A90E2] hover:text-[#3A80D2] font-medium">
+              <div className="sticky top-24 bg-white rounded-lg shadow-md overflow-hidden">
+                <div className="p-4 bg-white border-b">
+                  <h3 className="text-lg font-semibold mb-2">Location</h3>
+                  <p className="text-gray-600 mb-4">{listing.address}</p>
+                  
+                  {/* Get Directions */}
+                  <div className="mb-4">
+                    <input
+                      type="text"
+                      placeholder="Enter your location"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-2"
+                    />
+                    <button 
+                      className={`w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300 flex items-center justify-center ${!GOOGLE_MAPS_API_KEY ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      onClick={() => GOOGLE_MAPS_API_KEY ? alert('Get directions') : alert('Maps functionality coming soon')}
+                    >
                       Get Directions
                     </button>
                   </div>
                 </div>
                 
-                {/* Phone */}
-                <div className="flex items-center mb-4">
-                  <Phone className="w-5 h-5 text-[#4A90E2] mr-3 flex-shrink-0" />
-                  <p className="text-gray-700">{listing.phone}</p>
-                </div>
-                
-                {/* Email */}
-                <div className="flex items-center mb-4">
-                  <Mail className="w-5 h-5 text-[#4A90E2] mr-3 flex-shrink-0" />
-                  <p className="text-gray-700">{listing.email}</p>
-                </div>
-                
-                {/* Website */}
-                <div className="flex items-center mb-6">
-                  <Globe className="w-5 h-5 text-[#4A90E2] mr-3 flex-shrink-0" />
-                  <div>
-                    <p className="text-gray-700">{listing.website}</p>
-                    <a 
-                      href={`https://${listing.website}`} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="mt-2 text-sm text-[#4A90E2] hover:text-[#3A80D2] font-medium"
-                    >
-                      Visit Website
-                    </a>
+                {/* Conditionally render Google Map Component based on API key */}
+                {GOOGLE_MAPS_API_KEY ? (
+                  <GoogleMap 
+                    locations={[{ lat: listing.lat, lng: listing.lng, title: listing.title }]}
+                    center={{ lat: listing.lat, lng: listing.lng }}
+                    zoom={15}
+                  />
+                ) : (
+                  <div className="bg-gray-100 p-6 rounded-lg text-center" style={{ height: '300px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                    <p className="text-gray-700 mb-2 font-semibold">Map temporarily unavailable</p>
+                    <p className="text-sm text-gray-500">Google Maps will be available soon</p>
                   </div>
-                </div>
-                
-                {/* Hours */}
-                <div className="border-t border-gray-200 pt-4">
-                  <h4 className="font-medium text-gray-800 mb-3 flex items-center">
-                    <Clock className="w-5 h-5 text-[#4A90E2] mr-2" />
-                    Opening Hours
-                  </h4>
-                  <div className="space-y-2">
-                    {listing.hours.map((item, index) => (
-                      <div key={index} className="flex justify-between">
-                        <span className="text-gray-600">{item.day}</span>
-                        <span className="text-gray-800 font-medium">{item.hours}</span>
-                      </div>
-                    ))}
-                  </div>
-                  <p className="mt-3 text-sm text-[#F5A623] font-medium">
-                    Emergency services available 24/7
-                  </p>
-                </div>
-                
-                {/* Map */}
-                <div className="mt-6">
-                  <div className="bg-gray-200 h-48 rounded-lg flex items-center justify-center">
-                    <MapPin className="w-8 h-8 text-[#4A90E2]" />
-                  </div>
-                  <p className="mt-2 text-sm text-gray-500 text-center">
-                    Located 2.3 km from Dublin City Centre
-                  </p>
-                </div>
-                
-                {/* Action Buttons */}
-                <div className="mt-6 space-y-3">
-                  <button className="w-full py-3 bg-[#4A90E2] text-white font-medium rounded-md hover:bg-[#3A80D2] transition-colors duration-300">
-                    Contact Now
-                  </button>
-                  <button className="w-full py-3 bg-white border border-gray-300 text-gray-700 font-medium rounded-md hover:bg-gray-50 transition-colors duration-300">
-                    Save to Favorites
-                  </button>
-                </div>
+                )}
               </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Related Listings Section */}
-        <div className="bg-gray-100 py-12">
-          <div className="container mx-auto px-4">
-            <h2 className="text-2xl font-semibold mb-6 text-gray-800">Other Vets Nearby</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Simplified Listing Cards */}
-              {[1, 2, 3].map(id => (
-                <div key={id} className="bg-white rounded-lg shadow-md overflow-hidden">
-                  <div className="h-40 bg-gray-200">
-                    <img 
-                      src={`https://images.unsplash.com/photo-1583337130417-3346a1be7dee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80`} 
-                      alt="Vet Clinic"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold text-gray-800 mb-1">Dublin Pet Hospital {id}</h3>
-                    <p className="text-sm text-gray-600 mb-2">456 Oak Street, Dublin {id}</p>
-                    <div className="flex items-center mb-2">
-                      <div className="flex mr-1">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <svg 
-                            key={star} 
-                            className={`w-4 h-4 ${star <= 4 ? 'text-yellow-400' : 'text-gray-300'}`} 
-                            fill="currentColor" 
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                          </svg>
-                        ))}
-                      </div>
-                      <span className="text-xs text-gray-500">(42 reviews)</span>
-                    </div>
-                    <p className="text-xs text-[#4A90E2]">{id + 1}.5 km away</p>
-                    <button className="mt-3 w-full py-2 bg-[#4A90E2] text-white text-sm font-medium rounded-md hover:bg-[#3A80D2] transition-colors duration-300">
-                      View Details
-                    </button>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </div>
       </main>
       
       <Footer />
-      <ChatbotWidget />
     </div>
   );
 };

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { Search, Filter, MapPin, Phone, Globe, Mail, Clock } from 'lucide-react';
-import ListingCard from '../components/listings/ListingCard';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import ChatbotWidget from '../components/common/ChatbotWidget';
@@ -572,13 +571,23 @@ const ListingsPage: React.FC = () => {
                         <div className="mt-4 flex justify-between items-center">
                           <span className="text-gray-600 text-sm">{listing.distance} from center</span>
                           
-                          {/* Get Directions button */}
-                          <button 
-                            className={`px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors duration-300 text-sm ${!GOOGLE_MAPS_API_KEY ? 'opacity-50 cursor-not-allowed' : ''}`}
-                            onClick={() => GOOGLE_MAPS_API_KEY ? getDirections(listing.lat, listing.lng) : alert('Maps functionality coming soon')}
-                          >
-                            Get Directions
-                          </button>
+                          <div className="flex space-x-2">
+                            {/* View Details button */}
+                            <Link 
+                              to={`/${listing.type}s/${listing.id}`} 
+                              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300 text-sm"
+                            >
+                              View Details
+                            </Link>
+                            
+                            {/* Get Directions button */}
+                            <button 
+                              className={`px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors duration-300 text-sm ${!GOOGLE_MAPS_API_KEY ? 'opacity-50 cursor-not-allowed' : ''}`}
+                              onClick={() => GOOGLE_MAPS_API_KEY ? getDirections(listing.lat, listing.lng) : alert('Maps functionality coming soon')}
+                            >
+                              Get Directions
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
