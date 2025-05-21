@@ -12,7 +12,7 @@ const ListingsPage: React.FC = () => {
   const path = location.pathname.split('/')[1]; // Get the first part of the path (e.g., 'vets', 'parks', etc.)
   
   // Define page content based on current path
-  const pageContent = {
+  const pageContent: Record<string, any> = {
     vets: {
       title: 'Find a Vet in Ireland',
       description: 'Locate trusted veterinary services across Ireland for your dog',
@@ -102,7 +102,7 @@ const ListingsPage: React.FC = () => {
   // Function to get directions
   const getDirections = (destinationLat: number, destinationLng: number) => {
     if (userLocation && window.calculateRoute) {
-      window.calculateRoute(userLocation, new google.maps.LatLng(destinationLat, destinationLng));
+      window.calculateRoute(userLocation, { lat: destinationLat, lng: destinationLng });
     } else {
       alert('Please enter your location first');
     }
@@ -193,7 +193,7 @@ const ListingsPage: React.FC = () => {
                   aria-label="Select county"
                   style={{ '--tw-ring-color': currentPage.color } as React.CSSProperties}
                 >
-                  {counties.map((county) => (
+                  {counties.map((county ) => (
                     <option key={county} value={county.toLowerCase().replace(' ', '-')}>
                       {county}
                     </option>
@@ -311,7 +311,7 @@ const ListingsPage: React.FC = () => {
 // Add calculateRoute to window type
 declare global {
   interface Window {
-    calculateRoute?: (origin: string, destination: google.maps.LatLng) => void;
+    calculateRoute?: (origin: string, destination: any) => void;
   }
 }
 

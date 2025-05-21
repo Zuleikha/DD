@@ -1,6 +1,14 @@
 // Google Maps integration component
 import React, { useEffect, useRef } from 'react';
 
+// Define types for Google Maps API
+declare global {
+  interface Window {
+    google: any;
+    calculateRoute?: (origin: string, destination: any) => void;
+  }
+}
+
 interface GoogleMapProps {
   locations?: Array<{
     lat: number;
@@ -19,8 +27,8 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   mapType = 'roadmap'
 }) => {
   const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<google.maps.Map | null>(null);
-  const markersRef = useRef<google.maps.Marker[]>([]);
+  const mapInstanceRef = useRef<any>(null);
+  const markersRef = useRef<any[]>([]);
 
   useEffect(() => {
     // Load Google Maps API script
@@ -30,7 +38,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
       script.async = true;
       script.defer = true;
       script.onload = initializeMap;
-      document.head.appendChild(script);
+      document.head.appendChild(script );
     };
 
     // Initialize map once API is loaded
@@ -38,30 +46,30 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
       if (!mapRef.current) return;
 
       // Create map instance
-      const mapOptions: google.maps.MapOptions = {
+      const mapOptions: any = {
         center,
         zoom,
-        mapTypeId: mapType as google.maps.MapTypeId,
+        mapTypeId: mapType,
         mapTypeControl: true,
         streetViewControl: true,
         fullscreenControl: true,
         zoomControl: true,
       };
 
-      const map = new google.maps.Map(mapRef.current, mapOptions);
+      const map = new window.google.maps.Map(mapRef.current, mapOptions);
       mapInstanceRef.current = map;
 
       // Add markers for each location
       locations.forEach(location => {
-        const marker = new google.maps.Marker({
+        const marker = new window.google.maps.Marker({
           position: { lat: location.lat, lng: location.lng },
           map,
           title: location.title,
-          animation: google.maps.Animation.DROP,
+          animation: window.google.maps.Animation.DROP,
         });
 
         // Create info window for each marker
-        const infoWindow = new google.maps.InfoWindow({
+        const infoWindow = new window.google.maps.InfoWindow({
           content: `<div><h3>${location.title}</h3></div>`
         });
 
@@ -74,8 +82,8 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
       });
 
       // Add directions service
-      const directionsService = new google.maps.DirectionsService();
-      const directionsRenderer = new google.maps.DirectionsRenderer();
+      const directionsService = new window.google.maps.DirectionsService();
+      const directionsRenderer = new window.google.maps.DirectionsRenderer();
       directionsRenderer.setMap(map);
 
       // Add directions panel
@@ -85,14 +93,14 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
       }
 
       // Function to calculate route (can be called from parent component)
-      (window as any).calculateRoute = (origin: string, destination: google.maps.LatLng) => {
+      window.calculateRoute = (origin: string, destination: any) => {
         directionsService.route(
           {
             origin,
             destination,
-            travelMode: google.maps.TravelMode.DRIVING,
+            travelMode: window.google.maps.TravelMode.DRIVING,
           },
-          (response, status) => {
+          (response: any, status: any) => {
             if (status === 'OK') {
               directionsRenderer.setDirections(response);
             } else {
@@ -112,8 +120,10 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
 
     // Cleanup function
     return () => {
-      markersRef.current.forEach(marker => marker.setMap(null));
-      markersRef.current = [];
+      if (markersRef.current) {
+        markersRef.current.forEach(marker => marker.setMap(null));
+        markersRef.current = [];
+      }
     };
   }, [center, zoom, mapType, locations]);
 
