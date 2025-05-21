@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
+import { Routes, Route, useParams } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import HomePage from './pages/HomePage';
 import ListingsPage from './pages/ListingsPage';
@@ -21,6 +21,7 @@ const DetailPageWrapper = () => {
   return <DetailPage />;
 };
 
+// Separate AppRoutes component to maintain your existing route structure
 function AppRoutes() {
   return (
     <Routes>
@@ -46,9 +47,7 @@ function AppRoutes() {
 function App() {
   return (
     <HelmetProvider>
-      <Router>
-        <AppRoutes />
-      </Router>
+      <AppRoutes />
     </HelmetProvider>
   );
 }
