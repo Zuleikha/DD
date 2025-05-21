@@ -6,6 +6,10 @@ import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import ChatbotWidget from '../components/common/ChatbotWidget';
 import GoogleMap from '../components/maps/GoogleMap';
+import SEO from '../components/common/SEO';
+
+// Add Google Maps API key variable - leave empty until you have a valid key
+const GOOGLE_MAPS_API_KEY = "";
 
 const ListingsPage: React.FC = () => {
   const location = useLocation();
@@ -158,8 +162,72 @@ const ListingsPage: React.FC = () => {
     "Waterford", "Westmeath", "Wexford", "Wicklow"
   ];
 
+  // Define SEO content based on current path
+  const getSEOContent = ( ) => {
+    switch(path) {
+      case 'vets':
+        return {
+          title: "Find a Vet in Ireland",
+          description: "Locate trusted veterinary services across Ireland for your dog. Browse our comprehensive directory of qualified vets.",
+          keywords: "dog vets ireland, veterinary services, pet doctors, animal healthcare",
+          canonicalUrl: "https://www.dogdays.ie/vets"
+        };
+      case 'parks':
+        return {
+          title: "Dog Parks in Ireland",
+          description: "Discover the best dog parks and walking trails across Ireland. Find perfect spots for your dog to play and exercise.",
+          keywords: "dog parks ireland, dog walking trails, pet friendly parks, dog exercise areas",
+          canonicalUrl: "https://www.dogdays.ie/parks"
+        };
+      case 'nutrition':
+        return {
+          title: "Dog Nutrition Resources in Ireland",
+          description: "Find the best nutrition options and advice for your dog in Ireland. Discover premium food brands and dietary experts.",
+          keywords: "dog nutrition ireland, dog food, pet diet, canine nutrition",
+          canonicalUrl: "https://www.dogdays.ie/nutrition"
+        };
+      case 'training':
+        return {
+          title: "Dog Training Services in Ireland",
+          description: "Connect with professional dog trainers and training facilities across Ireland for your pet.",
+          keywords: "dog training ireland, puppy training, dog behavior, obedience training",
+          canonicalUrl: "https://www.dogdays.ie/training"
+        };
+      case 'grooming':
+        return {
+          title: "Dog Grooming Services in Ireland",
+          description: "Discover professional grooming services for your dog across Ireland. Find groomers, salons and mobile services.",
+          keywords: "dog grooming ireland, pet grooming, dog haircut, dog spa",
+          canonicalUrl: "https://www.dogdays.ie/grooming"
+        };
+      case 'places':
+        return {
+          title: "Dog-Friendly Places in Ireland",
+          description: "Discover restaurants, cafés, and venues that welcome dogs across Ireland. Find pet-friendly establishments.",
+          keywords: "dog friendly ireland, pet friendly restaurants, dog welcome cafes, places to bring dogs",
+          canonicalUrl: "https://www.dogdays.ie/places"
+        };
+      default:
+        return {
+          title: "Find Dog-Friendly Services",
+          description: "Discover dog-friendly services across Ireland including vets, parks, grooming, and more.",
+          canonicalUrl: "https://www.dogdays.ie"
+        };
+    }
+  };
+  
+  const seoContent = getSEOContent( );
+
   return (
     <div className="min-h-screen flex flex-col">
+      {/* Add SEO component */}
+      <SEO 
+        title={seoContent.title}
+        description={seoContent.description}
+        keywords={seoContent.keywords}
+        canonicalUrl={seoContent.canonicalUrl}
+      />
+      
       <Header />
       
       <main className="flex-grow">
@@ -193,7 +261,7 @@ const ListingsPage: React.FC = () => {
                   aria-label="Select county"
                   style={{ '--tw-ring-color': currentPage.color } as React.CSSProperties}
                 >
-                  {counties.map((county ) => (
+                  {counties.map((county) => (
                     <option key={county} value={county.toLowerCase().replace(' ', '-')}>
                       {county}
                     </option>
@@ -231,12 +299,20 @@ const ListingsPage: React.FC = () => {
                   </div>
                 </div>
                 
-                {/* Google Map Component */}
-                <GoogleMap 
-                  locations={currentPage.locations}
-                  center={{ lat: 53.3498, lng: -6.2603 }} // Dublin center
-                  zoom={12}
-                />
+                {/* Conditionally render Google Map Component based on API key */}
+                {GOOGLE_MAPS_API_KEY ? (
+                  <GoogleMap 
+                    locations={currentPage.locations}
+                    center={{ lat: 53.3498, lng: -6.2603 }} // Dublin center
+                    zoom={12}
+                  />
+                ) : (
+                  <div className="bg-gray-100 p-6 rounded-lg text-center" style={{ height: '500px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                    <p className="text-gray-700 mb-2 font-semibold">Map temporarily unavailable</p>
+                    <p className="text-sm text-gray-500">Google Maps will be available soon</p>
+                    <p className="text-xs text-gray-400 mt-4">Locations shown in list view below</p>
+                  </div>
+                )}
                 
                 {/* Directions Panel */}
                 <div id="directions-panel" className="p-4 max-h-[300px] overflow-y-auto"></div>
@@ -271,10 +347,10 @@ const ListingsPage: React.FC = () => {
                       image={listing.image}
                       featured={listing.featured}
                     />
-                    {/* Add Get Directions button */}
+                    {/* Add Get Directions button - only enable if API key exists */}
                     <button 
-                      className="absolute bottom-4 right-4 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors duration-300 text-sm"
-                      onClick={() => getDirections(listing.lat, listing.lng)}
+                      className={`absolute bottom-4 right-4 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors duration-300 text-sm ${!GOOGLE_MAPS_API_KEY ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      onClick={() => GOOGLE_MAPS_API_KEY ? getDirections(listing.lat, listing.lng) : alert('Maps functionality coming soon')}
                     >
                       Get Directions
                     </button>
