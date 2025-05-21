@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import HomePage from './pages/HomePage';
 import ListingsPage from './pages/ListingsPage';
 import DetailPage from './pages/DetailPage';
@@ -20,7 +21,7 @@ const DetailPageWrapper = () => {
   return <DetailPage />;
 };
 
-function App() {
+function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
@@ -39,6 +40,16 @@ function App() {
       <Route path="/admin" element={<AdminDashboard />} />
       <Route path="*" element={<HomePage />} />
     </Routes>
+  );
+}
+
+function App() {
+  return (
+    <HelmetProvider>
+      <Router>
+        <AppRoutes />
+      </Router>
+    </HelmetProvider>
   );
 }
 
