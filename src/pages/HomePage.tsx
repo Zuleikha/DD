@@ -4,6 +4,7 @@ import { Coffee, Clock, Smile, CupSoda, MapPin, PawPrint } from 'lucide-react';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import SEO from '../components/common/SEO';
+import dogImage from '../assets/images/dog.jpg';
 
 const HomePage: React.FC = () => {
   return (
@@ -17,15 +18,64 @@ const HomePage: React.FC = () => {
       <Header />
       
       <main className="flex-grow">
-        {/* Hero Section */}
-        <section className="bg-blue-50 py-16">
+        {/* Hero Section without Dog Image */}
+        <section className="relative">
+          {/* Hero Container */}
+          <div className="w-full h-[200px] md:h-[300px] relative overflow-hidden bg-blue-600">
+            {/* Hero Content */}
+            <div className="absolute inset-0 z-20 flex items-center justify-center">
+              <div className="container mx-auto px-4">
+                <div className="max-w-3xl mx-auto text-center">
+                  <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 drop-shadow-lg">
+                    Find Dog-Friendly Services Across Ireland
+                  </h1>
+                  <p className="text-xl text-white mb-8 drop-shadow-md">
+                    Everything you need for your furry friend in one place
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-4">
+                    <a 
+                      href="#services" 
+                      className="px-6 py-3 bg-white text-blue-600 rounded-md hover:bg-blue-50 transition-colors duration-300 shadow-lg"
+                    >
+                      Explore Services
+                    </a>
+                    <Link 
+						to="/community" 
+						className="px-6 py-3 bg-blue-100 text-blue-600 rounded-md hover:bg-blue-200 transition-colors duration-300 shadow-lg"
+					>
+						Join Community
+					</Link>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        {/* Dog Image Feature Section */}
+        <section className="py-12 bg-gray-100">
           <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto text-center">
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Find Dog-Friendly Services Across Ireland</h1>
-              <p className="text-xl text-gray-600 mb-8">Everything you need for your furry friend in one place</p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <a href="#services" className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300">Explore Services</a>
-                <a href="#community" className="px-6 py-3 bg-white border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 transition-colors duration-300">Join Community</a>
+            <div className="flex flex-col md:flex-row items-center gap-8">
+              <div className="md:w-1/2">
+                <div className="rounded-lg overflow-hidden shadow-lg">
+                  <img 
+                    src={dogImage} 
+                    alt="Adorable dog with yellow flower" 
+                    className="w-full h-auto"
+                  />
+                </div>
+              </div>
+              <div className="md:w-1/2">
+                <h2 className="text-3xl font-bold text-gray-800 mb-4">Meet Our Mascot</h2>
+                <p className="text-lg text-gray-600 mb-6">
+                  Our furry friend reminds us why we're passionate about connecting dog owners 
+                  with the best services across Ireland. From veterinary care to dog-friendly 
+                  cafés, we've got everything covered for you and your canine companion.
+                </p>
+                <Link to="/about" className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300 inline-block">
+                  Learn More About Us
+                </Link>
               </div>
             </div>
           </div>

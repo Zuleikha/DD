@@ -18,13 +18,15 @@ interface GoogleMapProps {
   center?: { lat: number; lng: number };
   zoom?: number;
   mapType?: string;
+  showMap?: boolean;
 }
 
 const GoogleMap: React.FC<GoogleMapProps> = ({
   locations = [],
   center = { lat: 53.3498, lng: -6.2603 }, // Default to Dublin
   zoom = 12,
-  mapType = 'roadmap'
+  mapType = 'roadmap',
+  showMap = false // Default to not showing the map
 }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<any>(null);
@@ -33,15 +35,21 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Only load the map if showMap is true
+    if (!showMap) {
+      setIsLoading(false);
+      return;
+    }
+
     // Load Google Maps API script with timeout
     const loadGoogleMapsApi = () => {
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyA9nmAemVv4-rkPRHhs52i0-7sVCb5GEC4&libraries=places`;
       script.async = true;
       script.defer = true;
       
       // Set up success handler
-      script.onload = ( ) => {
+      script.onload = () => {
         setIsLoading(false);
         initializeMap();
       };
@@ -161,7 +169,12 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
         markersRef.current = [];
       }
     };
-  }, [center, zoom, mapType, locations, isLoading]);
+  }, [center, zoom, mapType, locations, isLoading, showMap]);
+
+  // If showMap is false, don't render the map component at all
+  if (!showMap) {
+    return null;
+  }
 
   // Render map or error/loading state
   return (
