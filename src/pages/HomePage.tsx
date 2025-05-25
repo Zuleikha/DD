@@ -1,13 +1,18 @@
+// src/pages/HomePage.tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Coffee, Clock, Smile, CupSoda, MapPin, PawPrint } from 'lucide-react';
-import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
+// import Header from '../components/layout/Header'; // Header is now handled by App.tsx
+// import Footer from '../components/layout/Footer'; // Footer is now handled by App.tsx
 import SEO from '../components/common/SEO';
-import dogImage from '../assets/images/dog.jpg';
 
-// --- NEW IMPORTS FOR HOME PAGE SECTIONS ---
-import HeroSection from '../components/home/HeroSection'; // New: Importing HeroSection component
+// --- NEW/UPDATED IMPORT for the large dog image ---
+import largeDogPic from '../assets/images/dp2.jpg'; // <--- ASSUMING 'dp2.jpg' is your desired large image
+// If you want to keep 'dog.jpg' for this section, ensure 'dogImage' is imported correctly.
+// import dogImage from '../assets/images/dog.jpg'; // If you still want to use dog.jpg
+
+// ... existing imports for sections ...
+import HeroSection from '../components/home/HeroSection';
 import FeaturedCategories from '../components/home/FeaturedCategories';
 import MapSection from '../components/home/MapSection';
 import CommunitySection from '../components/home/CommunitySection';
@@ -23,24 +28,24 @@ const HomePage: React.FC = () => {
         canonicalUrl="https://www.dogdays.ie"
       />
       
-      <Header />
+      {/* <Header /> REMOVED - Header is handled by App.tsx */}
       
       <main className="flex-grow">
-        {/* --- REPLACED: Hero Section (now using component) --- */}
+        {/* Hero Section (using component) */}
         <HeroSection />
 
-        {/* --- NEW SECTION: Featured Categories --- */}
+        {/* Featured Categories */}
         <FeaturedCategories />
         
-        {/* Dog Image Feature Section (existing) */}
+        {/* Dog Image Feature Section - USING YOUR LARGE DOG PIC */}
         <section className="py-12 bg-gray-100">
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row items-center gap-8">
               <div className="md:w-1/2">
                 <div className="rounded-lg overflow-hidden shadow-lg">
                   <img 
-                    src={dogImage} 
-                    alt="Adorable dog with yellow flower" 
+                    src={largeDogPic} // <--- CHANGED: Now uses your imported dp2.jpg (or dogImage)
+                    alt="Adorable dog with yellow flower" // Update alt text if dp2.jpg is different
                     className="w-full h-auto"
                   />
                 </div>
@@ -62,6 +67,7 @@ const HomePage: React.FC = () => {
         
         {/* Services Section (existing) */}
         <section id="services" className="py-16 bg-gray-50">
+          {/* ... existing services content ... */}
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Our Services</h2>
             
@@ -134,19 +140,18 @@ const HomePage: React.FC = () => {
             </div>
           </div>
         </section>
-
-        {/* --- NEW SECTION: Map Section (assuming a map component from previous discussions) --- */}
+        
+        {/* Map Section */}
         <MapSection />
 
-        {/* --- NEW SECTION: Community Section --- */}
+        {/* Community Section */}
         <CommunitySection />
 
-        {/* --- NEW SECTION: Newsletter Section --- */}
+        {/* Newsletter Section */}
         <NewsletterSection />
-        
       </main>
       
-      <Footer />
+      {/* <Footer /> REMOVED - Footer is handled by App.tsx */}
     </div>
   );
 };

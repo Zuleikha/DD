@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Menu, X, Search } from 'lucide-react';
 import { Button } from '../ui/button';
-import { Input } from '../ui/input'; // Assuming this is where your Input component is
+import { Input } from '../ui/input';
 import { Link, useLocation, NavLink, NavLinkProps } from 'react-router-dom';
-import dp2Logo from '../../assets/images/dp2.jpg'; // <-- ADD THIS LINE
-
+// import dp2Logo from '../../assets/images/dp2.jpg'; // <-- REMOVED: No longer needed for header logo
 
 // Define proper types for the StableNavLink component
 type StableNavLinkProps = {
@@ -58,20 +57,13 @@ const Header: React.FC = () => {
       }}
     >
       <div className="container mx-auto px-4 py-4">
-  <div className="flex items-center justify-between">
-    {/* Logo */}
-    <div className="flex items-center">
-      <Link to="/" className="flex items-center">
-        <img
-          src={dp2Logo} // <--- CHANGE THIS LINE to use the imported variable
-          alt="DogDays.ie Logo" // Good descriptive alt text
-          className="h-10 w-auto mr-2"
-          // You can remove the onError prop now, as the local image should load directly
-          // onError={(e) => {
-          //   e.currentTarget.src = 'https://via.placeholder.com/40x40?text=Logo';
-          // }}
-        />
-      </Link>
+        <div className="flex items-center justify-between">
+          {/* Logo - now just text "DogDays.ie" */}
+          <div className="flex items-center">
+            <Link to="/" className="flex items-center">
+              {/* REMOVED: <img> tag for the dog picture logo */}
+              <span className="text-2xl font-bold text-gray-800">DogDays.ie</span> {/* <--- ADDED: Text logo */}
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
@@ -138,12 +130,11 @@ const Header: React.FC = () => {
           {/* Search Bar (Desktop) */}
           <div className="hidden md:flex items-center">
             <div className="relative">
-              {/* Added a label for accessibility */}
               <label htmlFor="desktopSearchInput" className="sr-only">Search</label>
               <Input
                 type="text"
-                id="desktopSearchInput" // Added unique ID
-                name="desktopSearch"    // Added name for form submission
+                id="desktopSearchInput"
+                name="desktopSearch"
                 placeholder="Search..."
                 className="pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#4A90E2] focus:border-transparent"
               />
@@ -202,7 +193,7 @@ const Header: React.FC = () => {
               </StableNavLink>
               <StableNavLink to="/grooming" className="block">
                 <span className="flex items-center">
-                  <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.0.org/2000/svg">
+                  <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                   Grooming
@@ -228,12 +219,11 @@ const Header: React.FC = () => {
             </nav>
             <div className="mt-4">
               <div className="relative">
-                {/* Added a label for accessibility */}
                 <label htmlFor="mobileSearchInput" className="sr-only">Search</label>
                 <Input
                   type="text"
-                  id="mobileSearchInput" // Added unique ID for mobile search
-                  name="mobileSearch"    // Added name for mobile search
+                  id="mobileSearchInput"
+                  name="mobileSearch"
                   placeholder="Search..."
                   className="pl-10 pr-4 py-2 w-full rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#4A90E2] focus:border-transparent"
                 />
