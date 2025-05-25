@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { MapPin, Phone, Globe, Mail, Clock, ArrowLeft, Star } from 'lucide-react';
-import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
+
 import GoogleMap from '../components/maps/GoogleMap';
 import SEO from '../components/common/SEO';
 

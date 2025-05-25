@@ -1,7 +1,6 @@
 import React from 'react';
 import { MessageCircle, ShoppingBag, Heart } from 'lucide-react';
-import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
+
 import ChatbotWidget from '../components/common/ChatbotWidget';
 
 const CommunityPage: React.FC = () => {
