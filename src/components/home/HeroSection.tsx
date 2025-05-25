@@ -8,7 +8,8 @@ interface HeroSectionProps {
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({
-  title = "Find Dog-Friendly Places & Services Across Ireland",
+  // Updated the default title text
+  title = "Discover Ireland’s Best Dog-Friendly Places & Services",
   subtitle = "Your complete resource for everything dog-related in Ireland"
 }) => {
   // Counties in Ireland for the dropdown
@@ -22,17 +23,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
   return (
     <section className="relative h-[600px] md:h-[500px] overflow-hidden">
-      {/* Hero Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80')`,
-          filter: 'brightness(0.7)'
-        }}
-      ></div>
+      {/* Hero Background - Now a solid color */}
+      {/* Replaced the div with backgroundImage and filter with a simple div with a solid background color */}
+      <div className="absolute inset-0 bg-gray-900"></div> 
       
-      {/* Content Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30"></div>
+      {/* Removed the separate content overlay as the solid background handles it */}
+      {/* <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30"></div> */}
       
       {/* Hero Content */}
       <div className="relative container mx-auto px-4 h-full flex flex-col justify-center items-center text-center text-white">
