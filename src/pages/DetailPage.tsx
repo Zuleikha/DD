@@ -393,7 +393,6 @@ const DetailPage: React.FC = () => {
         canonicalUrl={`https://www.dogdays.ie${canonicalBasePath}/${listing.id}`}
       />
 
-      <Header />
 
       <main className="flex-grow">
         {/* Breadcrumb */}

@@ -36,7 +36,6 @@ const TrainingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
       
       <main className="flex-grow">
         {/* Page Header */}
@@ -126,7 +125,7 @@ const TrainingPage: React.FC = () => {
         </div>
       </main>
       
-      <Footer />
+     
       <ChatbotWidget />
     </div>
   );
