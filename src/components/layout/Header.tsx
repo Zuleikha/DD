@@ -1,19 +1,16 @@
-// src/components/layout/Header.tsx
 import React, { useState, useEffect, useCallback } from 'react';
 import { Menu, X, Search } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Link, useLocation, NavLink, NavLinkProps } from 'react-router-dom';
-import dogLogo from '../../assets/images/dog.jpg'; // <--- BROUGHT BACK: Import the original mascot logo
+import dogLogo from '../../assets/images/dog.jpg';
 
-// Define proper types for the StableNavLink component
 type StableNavLinkProps = {
   to: string;
   className?: string;
   children: React.ReactNode;
 };
 
-// Custom NavLink component to prevent flickering
 const StableNavLink: React.FC<StableNavLinkProps> = React.memo(({ to, children, className }) => {
   const location = useLocation();
   const isActive = location.pathname === to;
@@ -29,19 +26,16 @@ const StableNavLink: React.FC<StableNavLinkProps> = React.memo(({ to, children, 
   );
 });
 
-// Set display name for debugging
 StableNavLink.displayName = 'StableNavLink';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
-  // Close mobile menu when route changes
   useEffect(() => {
     setIsMenuOpen(false);
   }, [location.pathname]);
 
-  // Memoize toggle function to prevent re-renders
   const toggleMenu = useCallback(() => {
     setIsMenuOpen(prevState => !prevState);
   }, []);
@@ -59,19 +53,17 @@ const Header: React.FC = () => {
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo - now with the original image AND text */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
               <img
-                src={dogLogo} // <--- REVERTED: Using the imported dogLogo
-                alt="DogDays.ie Mascot Logo" // <--- UPDATED: Good alt text
-                className="h-10 w-auto mr-2" // Adjust size as needed
+                src={dogLogo}
+                alt="DogDays.ie Mascot Logo"
+                className="h-10 w-auto mr-2"
               />
-              <span className="text-2xl font-bold text-gray-800">DogDays.ie</span> {/* <--- REVERTED: DogDays.ie text is still here */}
+              <span className="text-2xl font-bold text-gray-800">DogDays.ie</span>
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-6">
             <StableNavLink to="/vets">
               <span className="flex items-center">
@@ -132,7 +124,6 @@ const Header: React.FC = () => {
             </StableNavLink>
           </nav>
 
-          {/* Search Bar (Desktop) */}
           <div className="hidden md:flex items-center">
             <div className="relative">
               <label htmlFor="desktopSearchInput" className="sr-only">Search</label>
@@ -147,7 +138,6 @@ const Header: React.FC = () => {
             </div>
           </div>
 
-          {/* Mobile Menu Button */}
           <div className="md:hidden">
             <Button
               variant="ghost"
@@ -160,7 +150,6 @@ const Header: React.FC = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden mt-4 py-4 border-t border-gray-200">
             <nav className="flex flex-col space-y-4">
