@@ -41,7 +41,7 @@ const NutritionPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      
       
       <main className="flex-grow">
         {/* Page Header */}
@@ -112,7 +112,7 @@ const NutritionPage: React.FC = () => {
         </div>
       </main>
       
-      <Footer />
+     
       <ChatbotWidget />
     </div>
   );

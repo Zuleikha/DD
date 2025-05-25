@@ -345,14 +345,14 @@ const DetailPage: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col">
-        <Header />
+        
         <main className="flex-grow flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
             <p className="mt-4 text-gray-600">Loading details...</p>
           </div>
         </main>
-        <Footer />
+        
       </div>
     );
   }
@@ -360,7 +360,7 @@ const DetailPage: React.FC = () => {
   if (error || !listing) {
     return (
       <div className="min-h-screen flex flex-col">
-        <Header />
+       
         <main className="flex-grow container mx-auto px-4 py-12">
           <div className="bg-red-50 p-6 rounded-lg text-center">
             <p className="text-red-700 mb-4">{error || 'Listing not found.'}</p>
@@ -370,7 +370,7 @@ const DetailPage: React.FC = () => {
             </Link>
           </div>
         </main>
-        <Footer />
+      
       </div>
     );
   }
@@ -659,7 +659,7 @@ const DetailPage: React.FC = () => {
         </div>
       </main>
 
-      <Footer />
+    
     </div>
   );
 };

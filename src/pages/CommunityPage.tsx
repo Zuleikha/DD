@@ -6,7 +6,7 @@ import ChatbotWidget from '../components/common/ChatbotWidget';
 const CommunityPage: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      
       
       <main className="flex-grow">
         {/* Page Header */}
@@ -278,7 +278,7 @@ const CommunityPage: React.FC = () => {
         </section>
       </main>
       
-      <Footer />
+      
       <ChatbotWidget />
     </div>
   );
