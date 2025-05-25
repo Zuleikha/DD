@@ -6,6 +6,14 @@ import Footer from '../components/layout/Footer';
 import SEO from '../components/common/SEO';
 import dogImage from '../assets/images/dog.jpg';
 
+// --- NEW IMPORTS FOR HOME PAGE SECTIONS ---
+import HeroSection from '../components/home/HeroSection'; // New: Importing HeroSection component
+import FeaturedCategories from '../components/home/FeaturedCategories';
+import MapSection from '../components/home/MapSection';
+import CommunitySection from '../components/home/CommunitySection';
+import NewsletterSection from '../components/home/NewsletterSection';
+
+
 const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
@@ -18,42 +26,13 @@ const HomePage: React.FC = () => {
       <Header />
       
       <main className="flex-grow">
-        {/* Hero Section without Dog Image */}
-        <section className="relative">
-          {/* Hero Container */}
-          <div className="w-full h-[200px] md:h-[300px] relative overflow-hidden bg-blue-600">
-            {/* Hero Content */}
-            <div className="absolute inset-0 z-20 flex items-center justify-center">
-              <div className="container mx-auto px-4">
-                <div className="max-w-3xl mx-auto text-center">
-                  <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 drop-shadow-lg">
-                    Find Dog-Friendly Services Across Ireland
-                  </h1>
-                  <p className="text-xl text-white mb-8 drop-shadow-md">
-                    Everything you need for your furry friend in one place
-                  </p>
-                  <div className="flex flex-wrap justify-center gap-4">
-                    <a 
-                      href="#services" 
-                      className="px-6 py-3 bg-white text-blue-600 rounded-md hover:bg-blue-50 transition-colors duration-300 shadow-lg"
-                    >
-                      Explore Services
-                    </a>
-                    <Link 
-						to="/community" 
-						className="px-6 py-3 bg-blue-100 text-blue-600 rounded-md hover:bg-blue-200 transition-colors duration-300 shadow-lg"
-					>
-						Join Community
-					</Link>
+        {/* --- REPLACED: Hero Section (now using component) --- */}
+        <HeroSection />
 
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* --- NEW SECTION: Featured Categories --- */}
+        <FeaturedCategories />
         
-        {/* Dog Image Feature Section */}
+        {/* Dog Image Feature Section (existing) */}
         <section className="py-12 bg-gray-100">
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row items-center gap-8">
@@ -81,7 +60,7 @@ const HomePage: React.FC = () => {
           </div>
         </section>
         
-        {/* Services Section */}
+        {/* Services Section (existing) */}
         <section id="services" className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Our Services</h2>
@@ -155,13 +134,21 @@ const HomePage: React.FC = () => {
             </div>
           </div>
         </section>
+
+        {/* --- NEW SECTION: Map Section (assuming a map component from previous discussions) --- */}
+        <MapSection />
+
+        {/* --- NEW SECTION: Community Section --- */}
+        <CommunitySection />
+
+        {/* --- NEW SECTION: Newsletter Section --- */}
+        <NewsletterSection />
         
-        {/* Rest of your HomePage content... */}
       </main>
       
       <Footer />
     </div>
-   );
+  );
 };
 
 export default HomePage;
