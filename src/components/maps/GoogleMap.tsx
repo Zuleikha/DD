@@ -146,14 +146,18 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
         });
 
         const directionsService = new window.google.maps.DirectionsService();
-        const directionsRenderer = new window.google.maps.DirectionsRenderer();
-        directionsRenderer.setMap(map);
-        directionsRendererRef.current = directionsRenderer; // Store renderer in ref
+		const directionsRenderer = new window.google.maps.DirectionsRenderer();
+		directionsRenderer.setMap(map);
+		directionsRendererRef.current = directionsRenderer; // Store renderer in ref
 
-        const directionsPanel = document.getElementById(directionsPanelId);
-        if (directionsPanel) {
-          directionsRenderer.setPanel(directionsPanel);
-        }
+		// Ensure directionsPanelId is a string before calling getElementById
+		const directionsPanel = directionsPanelId
+		? document.getElementById(directionsPanelId)
+		: null; // If directionsPanelId is undefined, directionsPanel will be null
+
+		if (directionsPanel) {
+		directionsRenderer.setPanel(directionsPanel);
+		}
 
         // Define the `calculateRoute` function that will be exposed to the parent
         const calculateRoute: CalculateRouteFunction = (origin, destination) => {
