@@ -1,6 +1,18 @@
-import { Facebook, Instagram, Twitter } from 'lucide-react';
+import React from 'react';
+import { Facebook, Instagram, Twitter } from 'lucide-react'; // Make sure Lucide icons are imported
 
 const Footer = () => {
+  // You might want to add a simple state for the email input if you plan to handle submission with React
+  // For now, I'm just adding the form structure and attributes.
+  // const [newsletterEmail, setNewsletterEmail] = useState('');
+
+  // const handleNewsletterSubmit = (e) => {
+  //   e.preventDefault(); // Prevent default form submission
+  //   console.log("Subscribing email:", newsletterEmail);
+  //   // Add your subscription logic here (e.g., API call)
+  //   setNewsletterEmail(''); // Clear input after submission
+  // };
+
   return (
     <footer className="bg-[#2C3E50] text-white">
       <div className="container mx-auto px-4 py-12">
@@ -46,16 +58,28 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-semibold mb-4">Stay Connected</h3>
             <p className="mb-4">Subscribe to our newsletter for updates on dog-friendly places and events.</p>
-            <div className="flex mb-6">
-              <input 
-                type="email" 
-                placeholder="Your email address" 
+
+            {/* !!! IMPORTANT CHANGE HERE: Wrapped input and button in a <form> tag !!! */}
+            {/* Added a label for accessibility */}
+            <form className="flex mb-6" /*onSubmit={handleNewsletterSubmit} */>
+              <label htmlFor="footerNewsletterEmail" className="sr-only">Your Email Address</label> {/* Added sr-only for visual hiding and unique ID */}
+              <input
+                type="email"
+                id="footerNewsletterEmail" // Changed ID to be unique within the entire application
+                name="email"           // Consistent name for email input
+                placeholder="Your email address"
                 className="px-4 py-2 rounded-l-md w-full text-gray-800 focus:outline-none"
+                // value={newsletterEmail} // Uncomment if you add useState and onChange
+                // onChange={(e) => setNewsletterEmail(e.target.value)}
               />
-              <button className="bg-[#F5A623] hover:bg-[#E09612] px-4 py-2 rounded-r-md text-white font-medium">
+              <button
+                type="submit" // Crucial for form submission
+                className="bg-[#F5A623] hover:bg-[#E09612] px-4 py-2 rounded-r-md text-white font-medium"
+              >
                 Subscribe
               </button>
-            </div>
+            </form>
+
             <div className="flex space-x-4">
               <a href="https://facebook.com" className="hover:text-[#F5A623]" aria-label="Facebook">
                 <Facebook />

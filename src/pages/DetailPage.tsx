@@ -6,11 +6,37 @@ import Footer from '../components/layout/Footer';
 import GoogleMap from '../components/maps/GoogleMap';
 import SEO from '../components/common/SEO';
 
-// Add Google Maps API key variable - leave empty until you have a valid key
-const GOOGLE_MAPS_API_KEY = "";
+// Define a type for your listing objects for better type safety
+interface Listing {
+  id: number;
+  title: string;
+  address: string;
+  rating: number;
+  reviewCount: number;
+  distance: string;
+  type: 'vet' | 'park' | 'grooming' | 'nutrition' | 'training' | 'place'; // More specific types
+  image: string;
+  featured?: boolean; // Optional property
+  lat: number;
+  lng: number;
+  phone?: string;
+  website?: string;
+  email?: string;
+  hours?: string;
+  description: string;
+  services?: string[]; // Specific to vets/grooming
+  team?: { name: string; role: string; bio: string; }[]; // Specific to vets/grooming
+  facilities?: string[]; // Specific to parks
+  rules?: string[]; // Specific to parks
+  bestTimes?: string; // Specific to parks
+}
 
-// Mock database of all listings
-const allListings = [
+// Add Google Maps API key variable - leave empty until you have a valid key
+// In a real application, you might load this from environment variables (e.g., process.env.REACT_APP_Maps_API_KEY)
+const Maps_API_KEY = ""; // Replace with your actual API key when ready
+
+// Mock database of all listings (typed)
+const allListings: Listing[] = [
   // VET LISTINGS
   {
     id: 1,
@@ -196,7 +222,7 @@ const allListings = [
       { name: 'Dr. Brian McCarthy', role: 'Associate Veterinarian', bio: 'Dr. McCarthy has a special interest in exotic pet medicine and surgery.' }
     ]
   },
-  
+
   // PARK LISTINGS
   {
     id: 9,
@@ -246,7 +272,7 @@ const allListings = [
     rules: ['Dogs can be off-leash in designated areas only', 'Please clean up after your dog', 'Dogs must be under control at all times'],
     bestTimes: 'Early mornings and weekdays are less crowded. The dog park can get busy on weekend afternoons.'
   },
-  
+
   // GROOMING LISTINGS
   {
     id: 12,
@@ -272,35 +298,50 @@ const allListings = [
   }
 ];
 
-const DetailPage: React.FC = ( ) => {
+const DetailPage: React.FC = () => {
   const { id, type } = useParams<{ id: string, type: string }>();
-  const [listing, setListing] = useState<any>(null);
+  // Use the defined Listing type for the state
+  const [listing, setListing] = useState<Listing | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [userLocation, setUserLocation] = useState<string>(''); // State for user input location
 
   useEffect(() => {
-    // Simulate fetching data from API
     const fetchListing = () => {
       setLoading(true);
+      setError(null); // Clear previous errors
       try {
-        // Find the listing with matching id
         const foundListing = allListings.find(item => item.id === parseInt(id || '0'));
-        
+
         if (foundListing) {
           setListing(foundListing);
-          setError(null);
         } else {
-          setError('Listing not found');
+          setError('Listing not found. The provided ID might be incorrect.');
         }
       } catch (err) {
-        setError('Error loading listing details');
+        console.error("Error fetching listing:", err); // Log the actual error
+        setError('An unexpected error occurred while loading listing details.');
       } finally {
         setLoading(false);
       }
     };
 
     fetchListing();
-  }, [id, type]);
+  }, [id, type]); // Depend on id and type from useParams
+
+  // Function to handle "Get Directions" button click
+  const handleGetDirections = () => {
+    if (!Maps_API_KEY) {
+      alert('Google Maps functionality is currently unavailable. Please add your API key.');
+      return;
+    }
+    if (!listing) return; // Should not happen if rendering component, but for type safety
+
+    const destination = encodeURIComponent(listing.address);
+    const origin = encodeURIComponent(userLocation); // Use user entered location
+    const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${destination}${origin ? `&origin=${origin}` : ''}`;
+    window.open(googleMapsUrl, '_blank');
+  };
 
   if (loading) {
     return (
@@ -323,7 +364,7 @@ const DetailPage: React.FC = ( ) => {
         <Header />
         <main className="flex-grow container mx-auto px-4 py-12">
           <div className="bg-red-50 p-6 rounded-lg text-center">
-            <p className="text-red-700 mb-4">{error || 'Listing not found'}</p>
+            <p className="text-red-700 mb-4">{error || 'Listing not found.'}</p>
             <Link to="/" className="text-blue-600 hover:underline flex items-center justify-center">
               <ArrowLeft className="h-4 w-4 mr-1" />
               Return to homepage
@@ -337,20 +378,24 @@ const DetailPage: React.FC = ( ) => {
 
   // SEO content
   const seoTitle = `${listing.title} | DogDays.ie`;
-  const seoDescription = listing.type === 'vet' 
-    ? `Contact ${listing.title} for veterinary services in ${listing.address.split(',').slice(-2)[0].trim()}. Phone: ${listing.phone}.` 
+  const seoDescription = listing.type === 'vet'
+    ? `Contact ${listing.title} for veterinary services in ${listing.address.split(',').slice(-2)[0].trim()}. Phone: ${listing.phone || 'N/A'}.`
     : `Visit ${listing.title} in ${listing.address.split(',').slice(-2)[0].trim()}. Rating: ${listing.rating}/5 from ${listing.reviewCount} reviews.`;
+
+  // Determine the base path for canonical URL (e.g., /vets, /parks, /grooming)
+  const canonicalBasePath = `/${listing.type}s`;
 
   return (
     <div className="min-h-screen flex flex-col">
-      <SEO 
+      <SEO
         title={seoTitle}
         description={seoDescription}
-        canonicalUrl={`https://www.dogdays.ie/${listing.type}s/${listing.id}`}
+        // Construct canonical URL more robustly
+        canonicalUrl={`https://www.dogdays.ie${canonicalBasePath}/${listing.id}`}
       />
-      
+
       <Header />
-      
+
       <main className="flex-grow">
         {/* Breadcrumb */}
         <div className="bg-gray-100 py-3">
@@ -358,12 +403,13 @@ const DetailPage: React.FC = ( ) => {
             <div className="flex items-center text-sm text-gray-600">
               <Link to="/" className="hover:text-blue-600">Home</Link>
               <span className="mx-2">/</span>
-              <Link to={`/${listing.type}s`} className="hover:text-blue-600">
-                {listing.type === 'vet' ? 'Vets' : 
-                 listing.type === 'park' ? 'Parks' : 
-                 listing.type === 'grooming' ? 'Grooming' : 
-                 listing.type === 'nutrition' ? 'Nutrition' : 
-                 listing.type === 'training' ? 'Training' : 
+              <Link to={canonicalBasePath} className="hover:text-blue-600">
+                {/* Dynamically display category name */}
+                {listing.type === 'vet' ? 'Vets' :
+                 listing.type === 'park' ? 'Parks' :
+                 listing.type === 'grooming' ? 'Grooming' :
+                 listing.type === 'nutrition' ? 'Nutrition' :
+                 listing.type === 'training' ? 'Training' :
                  listing.type === 'place' ? 'Places' : 'Listings'}
               </Link>
               <span className="mx-2">/</span>
@@ -371,12 +417,12 @@ const DetailPage: React.FC = ( ) => {
             </div>
           </div>
         </div>
-        
+
         {/* Hero Section */}
         <div className="relative h-64 md:h-96 overflow-hidden">
-          <img 
-            src={listing.image} 
-            alt={listing.title} 
+          <img
+            src={listing.image}
+            alt={listing.title}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black bg-opacity-40 flex items-end">
@@ -389,7 +435,7 @@ const DetailPage: React.FC = ( ) => {
             </div>
           </div>
         </div>
-        
+
         {/* Main Content */}
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -412,8 +458,8 @@ const DetailPage: React.FC = ( ) => {
                   </div>
                   <div className="flex space-x-2">
                     {listing.phone && (
-                      <a 
-                        href={`tel:${listing.phone}`} 
+                      <a
+                        href={`tel:${listing.phone}`}
                         className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors duration-300 flex items-center"
                       >
                         <Phone className="h-4 w-4 mr-2" />
@@ -421,10 +467,10 @@ const DetailPage: React.FC = ( ) => {
                       </a>
                     )}
                     {listing.website && (
-                      <a 
-                        href={listing.website} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href={listing.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300 flex items-center"
                       >
                         <Globe className="h-4 w-4 mr-2" />
@@ -433,7 +479,7 @@ const DetailPage: React.FC = ( ) => {
                     )}
                   </div>
                 </div>
-                
+
                 {/* Contact Details */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {listing.phone && (
@@ -449,7 +495,7 @@ const DetailPage: React.FC = ( ) => {
                       </div>
                     </div>
                   )}
-                  
+
                   {listing.email && (
                     <div className="flex items-start">
                       <Mail className="h-5 w-5 mr-3 text-gray-500 mt-0.5" />
@@ -463,7 +509,7 @@ const DetailPage: React.FC = ( ) => {
                       </div>
                     </div>
                   )}
-                  
+
                   {listing.website && (
                     <div className="flex items-start">
                       <Globe className="h-5 w-5 mr-3 text-gray-500 mt-0.5" />
@@ -471,13 +517,13 @@ const DetailPage: React.FC = ( ) => {
                         <h3 className="text-sm font-medium text-gray-500">Website</h3>
                         <p className="text-gray-800">
                           <a href={listing.website} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600">
-                            {listing.website.replace('https://', '' )}
+                            {listing.website.replace('https://', '')}
                           </a>
                         </p>
                       </div>
                     </div>
                   )}
-                  
+
                   {listing.hours && (
                     <div className="flex items-start">
                       <Clock className="h-5 w-5 mr-3 text-gray-500 mt-0.5" />
@@ -489,14 +535,14 @@ const DetailPage: React.FC = ( ) => {
                   )}
                 </div>
               </div>
-              
+
               {/* Description */}
               <div className="bg-white rounded-lg shadow-md p-6 mb-8">
                 <h2 className="text-xl font-bold text-gray-800 mb-4">About {listing.title}</h2>
                 <p className="text-gray-700 mb-6">
                   {listing.description || `${listing.title} is located in ${listing.address.split(',').slice(-2)[0].trim()}. It has a rating of ${listing.rating} out of 5 based on ${listing.reviewCount} reviews.`}
                 </p>
-                
+
                 {/* Services for vets */}
                 {listing.type === 'vet' && listing.services && (
                   <div className="mt-6">
@@ -511,13 +557,13 @@ const DetailPage: React.FC = ( ) => {
                     </ul>
                   </div>
                 )}
-                
+
                 {/* Team for vets */}
                 {listing.type === 'vet' && listing.team && (
                   <div className="mt-8">
                     <h3 className="text-lg font-semibold text-gray-800 mb-3">Our Team</h3>
                     <div className="space-y-4">
-                      {listing.team.map((member: any, index: number) => (
+                      {listing.team.map((member: { name: string; role: string; bio: string; }, index: number) => (
                         <div key={index} className="border-l-4 border-blue-500 pl-4 py-2">
                           <h4 className="font-medium text-gray-800">{member.name}</h4>
                           <p className="text-sm text-gray-600">{member.role}</p>
@@ -527,7 +573,7 @@ const DetailPage: React.FC = ( ) => {
                     </div>
                   </div>
                 )}
-                
+
                 {/* Facilities for parks */}
                 {listing.type === 'park' && listing.facilities && (
                   <div className="mt-6">
@@ -542,7 +588,7 @@ const DetailPage: React.FC = ( ) => {
                     </ul>
                   </div>
                 )}
-                
+
                 {/* Rules for parks */}
                 {listing.type === 'park' && listing.rules && (
                   <div className="mt-6">
@@ -564,41 +610,48 @@ const DetailPage: React.FC = ( ) => {
                 )}
               </div>
             </div>
-            
+
             {/* Map Column */}
             <div className="lg:col-span-1">
               <div className="sticky top-24 bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="p-4 bg-white border-b">
                   <h3 className="text-lg font-semibold mb-2">Location</h3>
                   <p className="text-gray-600 mb-4">{listing.address}</p>
-                  
+
                   {/* Get Directions */}
                   <div className="mb-4">
                     <input
                       type="text"
-                      placeholder="Enter your location"
+                      id="userLocationInput" // Added id
+                      name="userLocation"   // Added name
+                      placeholder="Enter your location (e.g., Dublin, Ireland)"
+                      aria-label="Enter your starting location for directions" // Added ARIA label
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-2"
+                      value={userLocation}
+                      onChange={(e) => setUserLocation(e.target.value)}
                     />
-                    <button 
-                      className={`w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300 flex items-center justify-center ${!GOOGLE_MAPS_API_KEY ? 'opacity-50 cursor-not-allowed' : ''}`}
-                      onClick={() => GOOGLE_MAPS_API_KEY ? alert('Get directions') : alert('Maps functionality coming soon')}
+                    <button
+                      className={`w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300 flex items-center justify-center ${!Maps_API_KEY ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      onClick={handleGetDirections} // Call the new handler function
+                      disabled={!Maps_API_KEY} // Disable if no API key
                     >
                       Get Directions
                     </button>
                   </div>
                 </div>
-                
+
                 {/* Conditionally render Google Map Component based on API key */}
-                {GOOGLE_MAPS_API_KEY ? (
-                  <GoogleMap 
+                {Maps_API_KEY ? (
+                  <GoogleMap
                     locations={[{ lat: listing.lat, lng: listing.lng, title: listing.title }]}
                     center={{ lat: listing.lat, lng: listing.lng }}
+                    apiKey={Maps_API_KEY}
                     zoom={15}
                   />
                 ) : (
                   <div className="bg-gray-100 p-6 rounded-lg text-center" style={{ height: '300px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <p className="text-gray-700 mb-2 font-semibold">Map temporarily unavailable</p>
-                    <p className="text-sm text-gray-500">Google Maps will be available soon</p>
+                    <p className="text-sm text-gray-500">Google Maps will be available soon (requires API Key)</p>
                   </div>
                 )}
               </div>
@@ -606,7 +659,7 @@ const DetailPage: React.FC = ( ) => {
           </div>
         </div>
       </main>
-      
+
       <Footer />
     </div>
   );

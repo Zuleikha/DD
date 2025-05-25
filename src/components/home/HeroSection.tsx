@@ -13,19 +13,19 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 }) => {
   // Counties in Ireland for the dropdown
   const counties = [
-    "All Counties", "Carlow", "Cavan", "Clare", "Cork", "Donegal", 
-    "Dublin", "Galway", "Kerry", "Kildare", "Kilkenny", "Laois", 
-    "Leitrim", "Limerick", "Longford", "Louth", "Mayo", "Meath", 
-    "Monaghan", "Offaly", "Roscommon", "Sligo", "Tipperary", 
+    "All Counties", "Carlow", "Cavan", "Clare", "Cork", "Donegal",
+    "Dublin", "Galway", "Kerry", "Kildare", "Kilkenny", "Laois",
+    "Leitrim", "Limerick", "Longford", "Louth", "Mayo", "Meath",
+    "Monaghan", "Offaly", "Roscommon", "Sligo", "Tipperary",
     "Waterford", "Westmeath", "Wexford", "Wicklow"
   ];
 
   return (
     <section className="relative h-[600px] md:h-[500px] overflow-hidden">
       {/* Hero Background Image */}
-      <div 
+      <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ 
+        style={{
           backgroundImage: `url('https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80')`,
           filter: 'brightness(0.7)'
         }}
@@ -39,12 +39,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         <h1 className="text-4xl md:text-5xl font-bold mb-4 max-w-3xl">{title}</h1>
         <p className="text-xl md:text-2xl mb-8 max-w-2xl">{subtitle}</p>
         
-        {/* Location Search */}
-        <div className="w-full max-w-2xl bg-white/10 backdrop-blur-md rounded-lg p-4 md:p-6">
+        {/* Location Search Form - Added a wrapping form element for semantic correctness */}
+        <form className="w-full max-w-2xl bg-white/10 backdrop-blur-md rounded-lg p-4 md:p-6">
           <div className="flex flex-col md:flex-row gap-4">
             {/* County Selector */}
             <div className="flex-grow">
-              <select 
+              <label htmlFor="hero-county-select" className="sr-only">Select county</label> {/* Added label for accessibility */}
+              <select
+                id="hero-county-select" // Added unique ID
+                name="selectedCounty" // Added name attribute
                 className="w-full px-4 py-3 rounded-md bg-white text-gray-800 border-0 focus:ring-2 focus:ring-[#4A90E2]"
                 aria-label="Select county"
               >
@@ -58,8 +61,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             
             {/* Search Input */}
             <div className="flex-grow relative">
+              <label htmlFor="hero-search-input" className="sr-only">Search for services, parks, vets...</label> {/* Added label for accessibility */}
               <input
                 type="text"
+                id="hero-search-input" // Added unique ID
+                name="searchQuery"    // Added name attribute
                 placeholder="Search for services, parks, vets..."
                 className="w-full px-4 py-3 pl-10 rounded-md bg-white text-gray-800 border-0 focus:ring-2 focus:ring-[#4A90E2]"
               />
@@ -67,13 +73,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
             
             {/* Search Button */}
-            <Button 
+            <Button
+              type="submit" // Set type to submit for form submission
               className="py-3 px-6 bg-[#F5A623] hover:bg-[#E09612] text-white font-semibold rounded-md"
             >
               Find Near Me
             </Button>
           </div>
-        </div>
+        </form>
       </div>
     </section>
   );

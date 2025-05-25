@@ -88,6 +88,8 @@ const ChatbotWidget: React.FC = () => {
           <form onSubmit={handleSubmit} className="border-t border-gray-200 p-3 flex">
             <input
               type="text"
+              id="questionInput" // Added id attribute
+              name="question"    // Added name attribute
               value={inputValue}
               onChange={handleInputChange}
               placeholder="Type your question..."

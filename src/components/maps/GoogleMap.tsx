@@ -1,15 +1,24 @@
 // Google Maps integration component with error handling and timeout
 import React, { useEffect, useRef, useState } from 'react';
 
-// Define types for Google Maps API
+// Define types for Google Maps API and a global type for 'google'
 declare global {
   interface Window {
-    google: any;
-    calculateRoute?: (origin: string, destination: any) => void;
+    google: {
+      maps: typeof google.maps;
+      // Add other Google Maps services you might use, e.g.,
+      // places: typeof google.maps.places;
+    };
   }
 }
 
+// Define the type for the calculateRoute function that GoogleMap will provide
+// This type should ideally be in a shared types file if used in multiple places,
+// but for this example, it's defined here for completeness within GoogleMap.tsx.
+export type CalculateRouteFunction = (origin: string | google.maps.LatLngLiteral, destination: google.maps.LatLngLiteral) => void;
+
 interface GoogleMapProps {
+  apiKey: string;
   locations?: Array<{
     lat: number;
     lng: number;
@@ -18,74 +27,86 @@ interface GoogleMapProps {
   center?: { lat: number; lng: number };
   zoom?: number;
   mapType?: string;
-  showMap?: boolean;
+  // This prop will receive the setter function from useState in the parent component (ListingsPage)
+  onDirectionsServiceReady?: React.Dispatch<React.SetStateAction<CalculateRouteFunction | null>>;
+  // The ID of the HTML element where directions will be rendered (e.g., 'directions-panel')
+  directionsPanelId?: string;
 }
 
 const GoogleMap: React.FC<GoogleMapProps> = ({
+  apiKey, // Destructure apiKey here
   locations = [],
-  center = { lat: 53.3498, lng: -6.2603 }, // Default to Dublin
+  center = { lat: 53.3498, lng: -6.2603 }, // Default to Dublin, Ireland
   zoom = 12,
   mapType = 'roadmap',
-  showMap = false // Default to not showing the map
+  onDirectionsServiceReady, // Destructure the callback prop
+  directionsPanelId // Destructure the directions panel ID
 }) => {
   const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<any>(null);
-  const markersRef = useRef<any[]>([]);
+  const mapInstanceRef = useRef<google.maps.Map | null>(null); // Better type for map instance
+  const markersRef = useRef<google.maps.Marker[]>([]); // Better type for markers
+  const directionsRendererRef = useRef<google.maps.DirectionsRenderer | null>(null); // To clean up renderer
   const [mapError, setMapError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Only load the map if showMap is true
-    if (!showMap) {
+    // Early exit if API key is missing
+    if (!apiKey) {
       setIsLoading(false);
+      setMapError("Google Maps API key is missing. Please provide a valid key.");
       return;
     }
 
-    // Load Google Maps API script with timeout
     const loadGoogleMapsApi = () => {
+      // Prevent re-loading the script if it's already in the DOM
+      const existingScript = document.querySelector(`script[src*="maps.googleapis.com/maps/api/js?key=${apiKey}"]`);
+      if (existingScript) {
+        setIsLoading(false);
+        initializeMap();
+        return;
+      }
+
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyA9nmAemVv4-rkPRHhs52i0-7sVCb5GEC4&libraries=places`;
+      // Use the actual API key passed as a prop
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`; // 'places' library is useful
       script.async = true;
       script.defer = true;
-      
-      // Set up success handler
+
       script.onload = () => {
         setIsLoading(false);
         initializeMap();
       };
-      
-      // Set up error handler
+
       script.onerror = () => {
         setIsLoading(false);
         setMapError("Failed to load Google Maps. Please check your internet connection or API key.");
       };
-      
+
       document.head.appendChild(script);
-      
-      // Set a timeout to prevent infinite loading
+
+      // Set a timeout to handle cases where the script never loads or errors
       const timeoutId = setTimeout(() => {
-        if (isLoading) {
+        if (isLoading) { // Only set error if still loading
           setIsLoading(false);
           setMapError("Google Maps took too long to load. Please refresh the page or check your API key.");
         }
       }, 10000); // 10 second timeout
-      
+
+      // Cleanup function for the timeout
       return () => clearTimeout(timeoutId);
     };
 
-    // Initialize map once API is loaded
     const initializeMap = () => {
-      if (!mapRef.current) return;
-      
+      if (!mapRef.current) return; // Ensure the DOM element exists
+
       try {
-        // Check if Google Maps API is available
+        // Verify that the Google Maps API has loaded
         if (!window.google || !window.google.maps) {
-          setMapError("Google Maps API not available. Please check your API key.");
+          setMapError("Google Maps API object not found. Initialization failed.");
           return;
         }
 
-        // Create map instance
-        const mapOptions: any = {
+        const mapOptions: google.maps.MapOptions = { // Using specific Google Maps types
           center,
           zoom,
           mapTypeId: mapType,
@@ -96,7 +117,13 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
         };
 
         const map = new window.google.maps.Map(mapRef.current, mapOptions);
-        mapInstanceRef.current = map;
+        mapInstanceRef.current = map; // Store the map instance in a ref
+
+        // Clear existing markers before re-rendering new ones
+        if (markersRef.current.length > 0) {
+          markersRef.current.forEach(marker => marker.setMap(null));
+          markersRef.current = [];
+        }
 
         // Add markers for each location
         locations.forEach(location => {
@@ -107,74 +134,86 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
             animation: window.google.maps.Animation.DROP,
           });
 
-          // Create info window for each marker
           const infoWindow = new window.google.maps.InfoWindow({
             content: `<div><h3>${location.title}</h3></div>`
           });
 
-          // Add click listener to show info window
           marker.addListener('click', () => {
             infoWindow.open(map, marker);
           });
 
-          markersRef.current.push(marker);
+          markersRef.current.push(marker); // Store marker in ref
         });
 
-        // Add directions service
         const directionsService = new window.google.maps.DirectionsService();
         const directionsRenderer = new window.google.maps.DirectionsRenderer();
         directionsRenderer.setMap(map);
+        directionsRendererRef.current = directionsRenderer; // Store renderer in ref
 
-        // Add directions panel
-        const directionsPanel = document.getElementById('directions-panel');
+        const directionsPanel = document.getElementById(directionsPanelId);
         if (directionsPanel) {
           directionsRenderer.setPanel(directionsPanel);
         }
 
-        // Function to calculate route (can be called from parent component)
-        window.calculateRoute = (origin: string, destination: any) => {
+        // Define the `calculateRoute` function that will be exposed to the parent
+        const calculateRoute: CalculateRouteFunction = (origin, destination) => {
           directionsService.route(
             {
-              origin,
-              destination,
+              origin: origin,
+              destination: destination,
               travelMode: window.google.maps.TravelMode.DRIVING,
             },
-            (response: any, status: any) => {
-              if (status === 'OK') {
+            (response: google.maps.DirectionsResult | null, status: google.maps.DirectionsStatus) => {
+              if (status === 'OK' && response) {
                 directionsRenderer.setDirections(response);
               } else {
                 console.error(`Directions request failed due to ${status}`);
+                // You might want to update mapError state here as well for user feedback
               }
             }
           );
         };
+
+        // Call the parent's callback with the calculateRoute function
+        if (onDirectionsServiceReady) {
+          onDirectionsServiceReady(calculateRoute);
+        }
+
       } catch (error) {
         console.error("Error initializing map:", error);
-        setMapError("Error initializing map. Please refresh the page.");
+        setMapError("Error initializing map. Please check browser console for details.");
       }
     };
 
-    // Check if Google Maps API is already loaded
-    if (window.google && window.google.maps) {
+    // Determine if API needs to be loaded or map can be initialized immediately
+    if (window.google?.maps) { // Use optional chaining for safety
       setIsLoading(false);
       initializeMap();
     } else {
       loadGoogleMapsApi();
     }
 
-    // Cleanup function
+    // Cleanup function when component unmounts or dependencies change
     return () => {
+      // Clear all markers from the map
       if (markersRef.current) {
         markersRef.current.forEach(marker => marker.setMap(null));
         markersRef.current = [];
       }
+      // Clear directions from the map if renderer exists
+      if (directionsRendererRef.current) {
+        directionsRendererRef.current.setMap(null);
+        directionsRendererRef.current.setPanel(null); // Also clear the panel
+        directionsRendererRef.current = null;
+      }
+      // Inform the parent component that the service is no longer available
+      if (onDirectionsServiceReady) {
+        onDirectionsServiceReady(null);
+      }
     };
-  }, [center, zoom, mapType, locations, isLoading, showMap]);
-
-  // If showMap is false, don't render the map component at all
-  if (!showMap) {
-    return null;
-  }
+    // Dependencies for useEffect: Re-run effect if any of these change
+    // Adding onDirectionsServiceReady to dependencies is important if it changes.
+  }, [apiKey, center, zoom, mapType, locations, directionsPanelId, onDirectionsServiceReady]);
 
   // Render map or error/loading state
   return (
@@ -184,7 +223,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
           <p>Loading map...</p>
         </div>
       )}
-      
+
       {mapError && (
         <div className="map-error p-4 text-center bg-red-100 text-red-700 rounded">
           <p>{mapError}</p>
@@ -193,17 +232,19 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
           </p>
         </div>
       )}
-      
-      <div 
-        ref={mapRef} 
-        style={{ 
-          width: '100%', 
+
+      <div
+        ref={mapRef}
+        // Conditional display based on mapError
+        style={{
+          width: '100%',
           height: '500px',
-          display: mapError ? 'none' : 'block'
+          display: mapError ? 'none' : 'block' // Hide map div if there's an error
         }}
       ></div>
-      
-      <div id="directions-panel" className="mt-4"></div>
+
+      {/* The directions panel will be populated by Google Maps API */}
+      <div id={directionsPanelId} className="mt-4"></div>
     </div>
   );
 };

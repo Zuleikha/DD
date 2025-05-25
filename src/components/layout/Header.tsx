@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Menu, X, Search } from 'lucide-react';
 import { Button } from '../ui/button';
-import { Input } from '../ui/input';
+import { Input } from '../ui/input'; // Assuming this is where your Input component is
 import { Link, useLocation, NavLink, NavLinkProps } from 'react-router-dom';
 
 // Define proper types for the StableNavLink component
@@ -15,10 +15,10 @@ type StableNavLinkProps = {
 const StableNavLink: React.FC<StableNavLinkProps> = React.memo(({ to, children, className }) => {
   const location = useLocation();
   const isActive = location.pathname === to;
-  
+
   return (
-    <NavLink 
-      to={to} 
+    <NavLink
+      to={to}
       className={`${className || ''} ${isActive ? 'text-[#4A90E2]' : 'text-gray-700 hover:text-[#4A90E2]'} font-medium transition-colors duration-200`}
       style={{ WebkitTapHighlightColor: 'transparent' }}
     >
@@ -45,8 +45,8 @@ const Header: React.FC = () => {
   }, []);
 
   return (
-    <header 
-      className="sticky top-0 z-50 w-full bg-white shadow-md" 
+    <header
+      className="sticky top-0 z-50 w-full bg-white shadow-md"
       style={{
         willChange: 'transform',
         transform: 'translateZ(0)',
@@ -60,9 +60,9 @@ const Header: React.FC = () => {
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <img 
-                src="/src/assets/logo.svg" 
-                alt="DogDays.ie" 
+              <img
+                src="/src/assets/logo.svg"
+                alt="DogDays.ie"
                 className="h-10 w-auto mr-2"
                 onError={(e) => {
                   e.currentTarget.src = 'https://via.placeholder.com/40x40?text=Logo';
@@ -133,11 +133,15 @@ const Header: React.FC = () => {
             </StableNavLink>
           </nav>
 
-          {/* Search Bar */}
+          {/* Search Bar (Desktop) */}
           <div className="hidden md:flex items-center">
             <div className="relative">
+              {/* Added a label for accessibility */}
+              <label htmlFor="desktopSearchInput" className="sr-only">Search</label>
               <Input
                 type="text"
+                id="desktopSearchInput" // Added unique ID
+                name="desktopSearch"    // Added name for form submission
                 placeholder="Search..."
                 className="pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#4A90E2] focus:border-transparent"
               />
@@ -147,9 +151,9 @@ const Header: React.FC = () => {
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <Button 
-              variant="ghost" 
-              size="icon" 
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={toggleMenu}
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             >
@@ -196,7 +200,7 @@ const Header: React.FC = () => {
               </StableNavLink>
               <StableNavLink to="/grooming" className="block">
                 <span className="flex items-center">
-                  <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.0.org/2000/svg">
                     <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                   Grooming
@@ -222,8 +226,12 @@ const Header: React.FC = () => {
             </nav>
             <div className="mt-4">
               <div className="relative">
+                {/* Added a label for accessibility */}
+                <label htmlFor="mobileSearchInput" className="sr-only">Search</label>
                 <Input
                   type="text"
+                  id="mobileSearchInput" // Added unique ID for mobile search
+                  name="mobileSearch"    // Added name for mobile search
                   placeholder="Search..."
                   className="pl-10 pr-4 py-2 w-full rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#4A90E2] focus:border-transparent"
                 />
