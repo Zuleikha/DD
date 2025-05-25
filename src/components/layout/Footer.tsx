@@ -98,10 +98,10 @@ const Footer = () => {
         <div className="mt-8 pt-8 border-t border-gray-700">
           <h3 className="text-lg font-semibold mb-4">Partner Organizations</h3>
           <div className="flex flex-wrap gap-4">
-            <a href="https://dpssca.ie" className="hover:text-[#F5A623]">DPSSCA</a>
+            
             <a href="https://dogstrust.ie" className="hover:text-[#F5A623]">Dogs Trust Ireland</a>
             <a href="https://ispca.ie" className="hover:text-[#F5A623]">ISPCA</a>
-            <a href="https://irishkennelclub.ie" className="hover:text-[#F5A623]">Irish Kennel Club</a>
+            <a href="https://www.ikc.ie/" className="hover:text-[#F5A623]">Irish Kennel Club</a>
           </div>
         </div>
 
