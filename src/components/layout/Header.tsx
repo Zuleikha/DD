@@ -1,9 +1,10 @@
+// src/components/layout/Header.tsx
 import React, { useState, useEffect, useCallback } from 'react';
 import { Menu, X, Search } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Link, useLocation, NavLink, NavLinkProps } from 'react-router-dom';
-// import dp2Logo from '../../assets/images/dp2.jpg'; // <-- REMOVED: No longer needed for header logo
+import dogLogo from '../../assets/images/dog.jpg'; // <--- BROUGHT BACK: Import the original mascot logo
 
 // Define proper types for the StableNavLink component
 type StableNavLinkProps = {
@@ -58,11 +59,15 @@ const Header: React.FC = () => {
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo - now just text "DogDays.ie" */}
+          {/* Logo - now with the original image AND text */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              {/* REMOVED: <img> tag for the dog picture logo */}
-              <span className="text-2xl font-bold text-gray-800">DogDays.ie</span> {/* <--- ADDED: Text logo */}
+              <img
+                src={dogLogo} // <--- REVERTED: Using the imported dogLogo
+                alt="DogDays.ie Mascot Logo" // <--- UPDATED: Good alt text
+                className="h-10 w-auto mr-2" // Adjust size as needed
+              />
+              <span className="text-2xl font-bold text-gray-800">DogDays.ie</span> {/* <--- REVERTED: DogDays.ie text is still here */}
             </Link>
           </div>
 

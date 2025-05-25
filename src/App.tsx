@@ -1,65 +1,84 @@
 import React from 'react';
-import { Routes, Route, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+
+// Import your layout components
+import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
+
+// Import all your page components
 import HomePage from './pages/HomePage';
 import ListingsPage from './pages/ListingsPage';
-import DetailPage from './pages/DetailPage';
-import CommunityPage from './pages/CommunityPage';
-import AdminDashboard from './pages/AdminDashboard';
-import NutritionPage from './pages/NutritionPage';
-import GroomingPage from './pages/GroomingPage';
 import ParksPage from './pages/ParksPage';
-import PlacesPage from './pages/PlacesPage';
+import NutritionPage from './pages/NutritionPage';
 import TrainingPage from './pages/TrainingPage';
+import GroomingPage from './pages/GroomingPage';
+import PlacesPage from './pages/PlacesPage';
+import CommunityPage from './pages/CommunityPage';
 import ForumPage from './pages/ForumPage';
 import MarketplacePage from './pages/MarketplacePage';
 import AdoptionPage from './pages/AdoptionPage';
-import Blog from './components/home/BlogPreview'; // Blog component imported
+import AdminDashboard from './pages/AdminDashboard';
+import Blog from './pages/Blog'; // Assuming 'Blog' is in pages folder
+import EventsCalendarPage from './pages/EventsCalendarPage';
+import DetailPage from './pages/DetailPage'; // For detail pages
+import AboutOurMascotPage from './pages/AboutOurMascotPage'; // <--- NEW: Import the new mascot page
 
-// --- IMPORTANT: You need to create this component if you haven't already ---
-// For the Events Calendar, you'll need a component, e.g., EventsCalendarPage.tsx
-// Make sure this file exists in src/pages/EventsCalendarPage.tsx
-import EventsCalendarPage from './pages/EventsCalendarPage'; // Import for Events Calendar page
-
-// --- ADD THIS IMPORT ---
-import ChatbotWidget from './components/common/ChatbotWidget'; // Adjust path if ChatbotWidget.tsx is in another directory
+// Import the ChatbotWidget
+import ChatbotWidget from './ChatbotWidget'; // Adjust path if ChatbotWidget.tsx is in a different folder
 
 function App() {
   return (
     <HelmetProvider>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
+      {/* Router should wrap your entire application content */}
+      <Router>
+        <div className="App flex flex-col min-h-screen">
+          {/* Header will appear on all pages */}
+          <Header />
 
-        {/* Main section routes */}
-        <Route path="/vets" element={<ListingsPage />} />
-        <Route path="/parks" element={<ParksPage />} />
-        <Route path="/nutrition" element={<NutritionPage />} />
-        <Route path="/training" element={<TrainingPage />} />
-        <Route path="/grooming" element={<GroomingPage />} />
-        <Route path="/places" element={<PlacesPage />} />
-        <Route path="/community" element={<CommunityPage />} />
-        <Route path="/forum" element={<ForumPage />} />
-        <Route path="/marketplace" element={<MarketplacePage />} />
-        <Route path="/adoption" element={<AdoptionPage />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+          {/* Main content area where routes are rendered */}
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
 
-        {/* --- NEW ROUTES FOR BLOG AND EVENTS CALENDAR --- */}
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/events-calendar" element={<EventsCalendarPage />} />
+              {/* Main section routes */}
+              <Route path="/vets" element={<ListingsPage />} />
+              <Route path="/parks" element={<ParksPage />} />
+              <Route path="/nutrition" element={<NutritionPage />} />
+              <Route path="/training" element={<TrainingPage />} />
+              <Route path="/grooming" element={<GroomingPage />} />
+              <Route path="/places" element={<PlacesPage />} />
+              <Route path="/community" element={<CommunityPage />} />
+              <Route path="/forum" element={<ForumPage />} />
+              <Route path="/marketplace" element={<MarketplacePage />} />
+              <Route path="/adoption" element={<AdoptionPage />} />
+              <Route path="/admin" element={<AdminDashboard />} />
 
-        {/* Detail page routes - explicitly define each one */}
-        <Route path="/vets/:id" element={<DetailPage />} />
-        <Route path="/parks/:id" element={<DetailPage />} />
-        <Route path="/nutrition/:id" element={<DetailPage />} />
-        <Route path="/training/:id" element={<DetailPage />} />
-        <Route path="/grooming/:id" element={<DetailPage />} />
-        <Route path="/places/:id" element={<DetailPage />} />
+              {/* Blog and Events Calendar routes */}
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/events-calendar" element={<EventsCalendarPage />} />
+              <Route path="/our-mascot" element={<AboutOurMascotPage />} /> {/* <--- NEW ROUTE ADDED */}
 
-        {/* Catch-all route */}
-        <Route path="*" element={<HomePage />} />
-      </Routes>
-      {/* --- ADD THIS COMPONENT RENDERING --- */}
-      <ChatbotWidget />
+              {/* Detail page routes - explicitly define each one */}
+              <Route path="/vets/:id" element={<DetailPage />} />
+              <Route path="/parks/:id" element={<DetailPage />} />
+              <Route path="/nutrition/:id" element={<DetailPage />} />
+              <Route path="/training/:id" element={<DetailPage />} />
+              <Route path="/grooming/:id" element={<DetailPage />} />
+              <Route path="/places/:id" element={<DetailPage />} />
+
+              {/* Catch-all route */}
+              <Route path="*" element={<HomePage />} />
+            </Routes>
+          </main>
+
+          {/* Footer will appear on all pages */}
+          <Footer />
+
+          {/* Chatbot Widget, typically outside the main content flow but within the App div */}
+          <ChatbotWidget /> {/* <--- ADDED THIS COMPONENT RENDERING */}
+        </div>
+      </Router>
     </HelmetProvider>
   );
 }
