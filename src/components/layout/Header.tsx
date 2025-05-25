@@ -3,7 +3,8 @@ import { Menu, X, Search } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Link, useLocation, NavLink, NavLinkProps } from 'react-router-dom';
-import dogLogo from '../../assets/images/dog.jpg';
+//import dogLogo from '../../assets/images/dog.jpg';
+import newLogo from '../../assets/images/new-logo.png';
 
 type StableNavLinkProps = {
   to: string;
