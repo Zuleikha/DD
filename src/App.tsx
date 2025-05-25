@@ -22,10 +22,11 @@ import AdminDashboard from './pages/AdminDashboard';
 import Blog from './pages/Blog'; // Assuming 'Blog' is in pages folder
 import EventsCalendarPage from './pages/EventsCalendarPage';
 import DetailPage from './pages/DetailPage'; // For detail pages
-import AboutOurMascotPage from './pages/AboutOurMascotPage'; // <--- NEW: Import the new mascot page
+import AboutOurMascotPage from './pages/AboutOurMascotPage';
+import Blog from './pages/Blog'; /
 
 // Import the ChatbotWidget
-import ChatbotWidget from './ChatbotWidget'; // Adjust path if ChatbotWidget.tsx is in a different folder
+import ChatbotWidget from './components/common/ChatbotWidget'; // Adjust path if ChatbotWidget.tsx is in a different folder
 
 function App() {
   return (
