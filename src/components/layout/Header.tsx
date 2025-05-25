@@ -3,6 +3,8 @@ import { Menu, X, Search } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input'; // Assuming this is where your Input component is
 import { Link, useLocation, NavLink, NavLinkProps } from 'react-router-dom';
+import dp2Logo from '../../assets/images/dp2.jpg'; // <-- ADD THIS LINE
+
 
 // Define proper types for the StableNavLink component
 type StableNavLinkProps = {
@@ -56,20 +58,20 @@ const Header: React.FC = () => {
       }}
     >
       <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center">
-              <img
-                src="/src/assets/dp2.jpg"
-                alt="DogDays.ie"
-                className="h-10 w-auto mr-2"
-                onError={(e) => {
-                  e.currentTarget.src = 'https://via.placeholder.com/40x40?text=Logo';
-                }}
-              />
-              <span className="text-2xl font-bold text-[#4A90E2]">DogDays.ie</span>
-            </Link>
+  <div className="flex items-center justify-between">
+    {/* Logo */}
+    <div className="flex items-center">
+      <Link to="/" className="flex items-center">
+        <img
+          src={dp2Logo} // <--- CHANGE THIS LINE to use the imported variable
+          alt="DogDays.ie Logo" // Good descriptive alt text
+          className="h-10 w-auto mr-2"
+          // You can remove the onError prop now, as the local image should load directly
+          // onError={(e) => {
+          //   e.currentTarget.src = 'https://via.placeholder.com/40x40?text=Logo';
+          // }}
+        />
+      </Link>
           </div>
 
           {/* Desktop Navigation */}
