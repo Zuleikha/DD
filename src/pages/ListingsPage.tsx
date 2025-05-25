@@ -335,7 +335,7 @@ const ListingsPage: React.FC = () => {
         canonicalUrl={seoContent.canonicalUrl}
       />
 
-      <Header />
+    
 
       <main className="flex-grow">
         {/* Page Header */}
@@ -571,7 +571,7 @@ const ListingsPage: React.FC = () => {
         </div>
       </main>
       <ChatbotWidget />
-      <Footer />
+    
     </div>
   );
 };
