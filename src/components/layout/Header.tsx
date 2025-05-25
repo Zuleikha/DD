@@ -55,11 +55,7 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <img
-                src={dogLogo}
-                alt="DogDays.ie Mascot Logo"
-                className="h-10 w-auto mr-2"
-              />
+              
               <span className="text-2xl font-bold text-gray-800">DogDays.ie</span>
             </Link>
           </div>
