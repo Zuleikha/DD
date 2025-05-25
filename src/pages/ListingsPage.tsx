@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { Search, Filter, MapPin, Phone, Globe, Mail, Clock } from 'lucide-react';
-import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
+
 import ChatbotWidget from '../components/common/ChatbotWidget';
 import GoogleMap, { CalculateRouteFunction } from '../components/maps/GoogleMap'; // Ensure this component is correctly implemented and import CalculateRouteFunction
 import SEO from '../components/common/SEO'; // Ensure this component is correctly implemented
