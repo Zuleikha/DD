@@ -8,7 +8,7 @@ interface HeroSectionProps {
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({
-  title = "Pawsome Places & Services for Your Pup – All Across Ireland",
+  title = "Pawsome Services – Pet Ireland",
   subtitle = "Your complete resource for everything dog-related in Ireland"
 }) => {
   // Counties in Ireland for the dropdown
