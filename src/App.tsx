@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
-// Import your layout components
+// Layout
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 
-// Import all your page components
+// Pages
 import HomePage from './pages/HomePage';
 import ListingsPage from './pages/ListingsPage';
 import ParksPage from './pages/ParksPage';
@@ -19,15 +19,32 @@ import ForumPage from './pages/ForumPage';
 import MarketplacePage from './pages/MarketplacePage';
 import AdoptionPage from './pages/AdoptionPage';
 import AdminDashboard from './pages/AdminDashboard';
-import Blog from './pages/Blog'; // Ensure src/pages/Blog.tsx exists and is correctly named.
+import Blog from './pages/Blog';
 import EventsCalendarPage from './pages/EventsCalendarPage';
 import DetailPage from './pages/DetailPage';
 import AboutOurMascotPage from './pages/AboutOurMascotPage';
-
-// Import the ChatbotWidget from its correct location
-import ChatbotWidget from './components/common/ChatbotWidget'; // Corrected path based on your last confirmation
+import ChatbotWidget from './components/common/ChatbotWidget';
 
 function App() {
+  useEffect(() => {
+    const handleExternalLinks = () => {
+      const links = document.querySelectorAll('a[href^="http"]');
+      links.forEach(link => {
+        if (!link.href.includes(window.location.hostname)) {
+          link.setAttribute('target', '_blank');
+          link.setAttribute('rel', 'noopener noreferrer');
+        }
+      });
+    };
+
+    handleExternalLinks();
+
+    const observer = new MutationObserver(handleExternalLinks);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <HelmetProvider>
       <Router>
