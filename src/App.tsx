@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import ScrollToTop from './components/common/ScrollToTop';
+
 
 // Layout
 import Header from './components/layout/Header';
@@ -48,6 +50,7 @@ function App() {
   return (
     <HelmetProvider>
       <Router>
+	   <ScrollToTop />
         <div className="App flex flex-col min-h-screen">
           <Header />
           <main className="flex-grow">
