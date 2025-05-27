@@ -6,13 +6,15 @@ import { useNavigate } from 'react-router-dom';
 interface HeroSectionProps {
   title?: string;
   subtitle?: string;
-  pageType?: string; // Add this line
+  pageType?: string;
+  gradientClass?: string;
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({
   title = "Pawsome Services – Pet Ireland",
   subtitle = "Your complete resource for everything dog-related in Ireland",
-  pageType = "vets" // Default to vets if not specified
+  pageType = "listings", // Default to listings instead of vets
+  gradientClass = "bg-mesh-gradient-home" // Default to home gradient
 }) => {
   const navigate = useNavigate();
   const [selectedCounty, setSelectedCounty] = useState<string>("all-counties");
@@ -28,40 +30,46 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   ];
   
   const handleSubmit = (e: React.FormEvent) => {
-  e.preventDefault(); // Prevent page reload
-  
-  // Use geolocation for "Find Near Me"
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        // Success - got location
-        const userLat = position.coords.latitude;
-        const userLng = position.coords.longitude;
-        
-        // Navigate to listings with coordinates - use pageType instead of hardcoded "vets"
-        navigate(`/${pageType}?lat=${userLat}&lng=${userLng}&county=${selectedCounty}&query=${encodeURIComponent(searchQuery)}`);
-      },
-      (error) => {
-        // Error getting location
-        console.error("Error getting location:", error);
-        alert("Unable to get your location. Please ensure location services are enabled.");
-        
-        // Fall back to regular search without coordinates
-        navigate(`/${pageType}?county=${selectedCounty}&query=${encodeURIComponent(searchQuery)}`);
-      }
-    );
-  } else {
-    // Geolocation not supported
-    alert("Geolocation is not supported by your browser.");
-    navigate(`/${pageType}?county=${selectedCounty}&query=${encodeURIComponent(searchQuery)}`);
-  }
-};
-
+    e.preventDefault();
+    
+    // Determine the correct page to navigate to based on pageType
+    let targetPage = pageType;
+    
+    // If pageType is not a valid page, default to listings
+    if (!["listings", "grooming", "parks", "nutrition", "training", "places"].includes(pageType)) {
+      targetPage = "listings";
+    }
+    
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          // Success - got location
+          const userLat = position.coords.latitude;
+          const userLng = position.coords.longitude;
+          
+          // Navigate to listings with coordinates - use validated targetPage
+          navigate(`/${targetPage}?lat=${userLat}&lng=${userLng}&county=${selectedCounty}&query=${encodeURIComponent(searchQuery)}`);
+        },
+        (error) => {
+          // Error getting location
+          console.error("Error getting location:", error);
+          alert("Unable to get your location. Please ensure location services are enabled.");
+          
+          // Fall back to regular search without coordinates
+          navigate(`/${targetPage}?county=${selectedCounty}&query=${encodeURIComponent(searchQuery)}`);
+        }
+      );
+    } else {
+      // Geolocation not supported
+      alert("Geolocation is not supported by your browser.");
+      navigate(`/${targetPage}?county=${selectedCounty}&query=${encodeURIComponent(searchQuery)}`);
+    }
+  };
 
   return (
     <section className="relative h-[600px] md:h-[500px] overflow-hidden">
-      {/* Hero Background - Changed to a friendlier blue */}
-      <div className="absolute inset-0 bg-mesh-gradient"></div>
+      {/* Hero Background - Use dynamic gradient class */}
+      <div className={`absolute inset-0 ${gradientClass}`}></div>
       
       {/* Hero Content */}
       <div className="relative container mx-auto px-4 h-full flex flex-col justify-center items-center text-center text-white">

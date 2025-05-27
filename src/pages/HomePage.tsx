@@ -25,8 +25,8 @@ const HomePage: React.FC = () => {
 
       <main className="flex-grow">
   {/* Hero Section (using component) */}
-		<HeroSection pageType="listings" /> {/* Add the pageType prop */}
-	</main>
+		<HeroSection pageType="listings" gradientClass="bg-mesh-gradient-home" />
+	 </main>
 
 
         {/* Featured Categories */}

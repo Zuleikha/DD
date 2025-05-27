@@ -42,10 +42,52 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
 }
 
-/* Mesh gradient for hero section */
+/* Mesh gradients for different pages */
 .bg-mesh-gradient {
   background-color: #4158D0;
   background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+  opacity: 0.85;
+}
+
+.bg-mesh-gradient-home {
+  background-color: #4158D0;
+  background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+  opacity: 0.85;
+}
+
+.bg-mesh-gradient-vets {
+  background-color: #0093E9;
+  background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+  opacity: 0.85;
+}
+
+.bg-mesh-gradient-parks {
+  background-color: #08AEEA;
+  background-image: linear-gradient(0deg, #08AEEA 0%, #2AF598 100%);
+  opacity: 0.85;
+}
+
+.bg-mesh-gradient-nutrition {
+  background-color: #FBAB7E;
+  background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+  opacity: 0.85;
+}
+
+.bg-mesh-gradient-training {
+  background-color: #8EC5FC;
+  background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+  opacity: 0.85;
+}
+
+.bg-mesh-gradient-grooming {
+  background-color: #FF9A8B;
+  background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+  opacity: 0.85;
+}
+
+.bg-mesh-gradient-places {
+  background-color: #21D4FD;
+  background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
   opacity: 0.85;
 }
 
