@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Assuming you have react-router-dom installed
+import Layout from '../components/Layout';
 
 import ChatbotWidget from '../components/common/ChatbotWidget';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Layout from '../components/Layout';
 import ChatbotWidget from '../components/common/ChatbotWidget';
 
 const AdoptionPage: React.FC = () => {
