@@ -1,5 +1,5 @@
 /* Import fonts first to fix CSS warning */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&family=Caveat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&family=Caveat&display=swap' );
 
 @tailwind base;
 @tailwind components;
@@ -40,6 +40,13 @@ h1, h2, h3, h4, h5, h6 {
 .map-container {
   height: 400px;
   width: 100%;
+}
+
+/* Mesh gradient for hero section */
+.bg-mesh-gradient {
+  background-color: #4158D0;
+  background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+  opacity: 0.85;
 }
 
 /* Animations */

@@ -58,7 +58,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   return (
     <section className="relative h-[600px] md:h-[500px] overflow-hidden">
       {/* Hero Background - Changed to a friendlier blue */}
-      <div className="absolute inset-0 bg-yellow-250"></div> 
+      <div className="absolute inset-0 bg-mesh-gradient"></div>
       
       {/* Hero Content */}
       <div className="relative container mx-auto px-4 h-full flex flex-col justify-center items-center text-center text-white">
