@@ -6,11 +6,13 @@ import { useNavigate } from 'react-router-dom';
 interface HeroSectionProps {
   title?: string;
   subtitle?: string;
+  pageType?: string; // Add this line
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({
   title = "Pawsome Services – Pet Ireland",
-  subtitle = "Your complete resource for everything dog-related in Ireland"
+  subtitle = "Your complete resource for everything dog-related in Ireland",
+  pageType = "vets" // Default to vets if not specified
 }) => {
   const navigate = useNavigate();
   const [selectedCounty, setSelectedCounty] = useState<string>("all-counties");
@@ -26,34 +28,35 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   ];
   
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent page reload
-    
-    // Use geolocation for "Find Near Me"
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          // Success - got location
-          const userLat = position.coords.latitude;
-          const userLng = position.coords.longitude;
-          
-          // Navigate to listings with coordinates
-          navigate(`/vets?lat=${userLat}&lng=${userLng}&county=${selectedCounty}&query=${encodeURIComponent(searchQuery)}`);
-        },
-        (error) => {
-          // Error getting location
-          console.error("Error getting location:", error);
-          alert("Unable to get your location. Please ensure location services are enabled.");
-          
-          // Fall back to regular search without coordinates
-          navigate(`/vets?county=${selectedCounty}&query=${encodeURIComponent(searchQuery)}`);
-        }
-      );
-    } else {
-      // Geolocation not supported
-      alert("Geolocation is not supported by your browser.");
-      navigate(`/vets?county=${selectedCounty}&query=${encodeURIComponent(searchQuery)}`);
-    }
-  };
+  e.preventDefault(); // Prevent page reload
+  
+  // Use geolocation for "Find Near Me"
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        // Success - got location
+        const userLat = position.coords.latitude;
+        const userLng = position.coords.longitude;
+        
+        // Navigate to listings with coordinates - use pageType instead of hardcoded "vets"
+        navigate(`/${pageType}?lat=${userLat}&lng=${userLng}&county=${selectedCounty}&query=${encodeURIComponent(searchQuery)}`);
+      },
+      (error) => {
+        // Error getting location
+        console.error("Error getting location:", error);
+        alert("Unable to get your location. Please ensure location services are enabled.");
+        
+        // Fall back to regular search without coordinates
+        navigate(`/${pageType}?county=${selectedCounty}&query=${encodeURIComponent(searchQuery)}`);
+      }
+    );
+  } else {
+    // Geolocation not supported
+    alert("Geolocation is not supported by your browser.");
+    navigate(`/${pageType}?county=${selectedCounty}&query=${encodeURIComponent(searchQuery)}`);
+  }
+};
+
 
   return (
     <section className="relative h-[600px] md:h-[500px] overflow-hidden">
