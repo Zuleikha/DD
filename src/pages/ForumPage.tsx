@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Assuming you have react-router-dom installed
-import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
+
 import ChatbotWidget from '../components/common/ChatbotWidget';
 
 const ForumPage: React.FC = () => {
