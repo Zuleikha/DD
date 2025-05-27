@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Layout from '../components/Layout';
 
 import ChatbotWidget from '../components/common/ChatbotWidget';
 import SEO from '../components/common/SEO'; // Assuming you have this component
