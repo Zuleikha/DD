@@ -3,16 +3,13 @@ import { Link } from 'react-router-dom';
 import { Coffee, Clock, Smile, CupSoda, MapPin, PawPrint } from 'lucide-react';
 import SEO from '../components/common/SEO';
 
-// Make sure dog.jpg is the correct image for your main feature section
 import dogImage from '../assets/images/dog.jpg';
 
-// Import your home section components
 import HeroSection from '../components/home/HeroSection';
 import FeaturedCategories from '../components/home/FeaturedCategories';
 import MapSection from '../components/home/MapSection';
 import CommunitySection from '../components/home/CommunitySection';
 import NewsletterSection from '../components/home/NewsletterSection';
-
 
 const HomePage: React.FC = () => {
   return (
@@ -24,22 +21,20 @@ const HomePage: React.FC = () => {
       />
 
       <main className="flex-grow">
-  {/* Hero Section (using component) */}
-		<HeroSection pageType="listings" gradientClass="bg-mesh-gradient-home" />
-	 </main>
-
+        {/* Hero Section */}
+        <HeroSection pageType="listings" gradientClass="bg-mesh-gradient-home" />
 
         {/* Featured Categories */}
         <FeaturedCategories />
 
-        {/* Dog Image Feature Section - Uses your original main dog pic */}
+        {/* Dog Image Feature Section */}
         <section className="py-12 bg-gray-100">
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row items-center gap-8">
               <div className="md:w-1/2">
                 <div className="rounded-lg overflow-hidden shadow-lg">
                   <img
-                    src={dogImage} // Now uses your original dogImage
+                    src={dogImage}
                     alt="Adorable dog with yellow flower"
                     className="w-full h-auto"
                   />
@@ -52,7 +47,6 @@ const HomePage: React.FC = () => {
                   with the best services across Ireland. From veterinary care to dog-friendly
                   cafés, we've got everything covered for you and your canine companion.
                 </p>
-                {/* Updated: Link to the new /our-mascot page */}
                 <Link to="/our-mascot" className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300 inline-block">
                   Learn More About Us
                 </Link>
@@ -61,13 +55,13 @@ const HomePage: React.FC = () => {
           </div>
         </section>
 
-        {/* Services Section (existing) */}
+        {/* Services Section */}
         <section id="services" className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Our Services</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Vet Card */}
+              {/* Each Service Card */}
               <Link to="/vets" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                 <div className="p-6">
                   <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
@@ -78,7 +72,6 @@ const HomePage: React.FC = () => {
                 </div>
               </Link>
 
-              {/* Parks Card */}
               <Link to="/parks" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                 <div className="p-6">
                   <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
@@ -89,7 +82,6 @@ const HomePage: React.FC = () => {
                 </div>
               </Link>
 
-              {/* Nutrition Card */}
               <Link to="/nutrition" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                 <div className="p-6">
                   <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
@@ -100,7 +92,6 @@ const HomePage: React.FC = () => {
                 </div>
               </Link>
 
-              {/* Training Card */}
               <Link to="/training" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                 <div className="p-6">
                   <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4">
@@ -111,7 +102,6 @@ const HomePage: React.FC = () => {
                 </div>
               </Link>
 
-              {/* Grooming Card */}
               <Link to="/grooming" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                 <div className="p-6">
                   <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-4">
@@ -122,7 +112,6 @@ const HomePage: React.FC = () => {
                 </div>
               </Link>
 
-              {/* Places Card */}
               <Link to="/places" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                 <div className="p-6">
                   <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
