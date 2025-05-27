@@ -2,6 +2,7 @@ import React from 'react';
 
 import ChatbotWidget from '../components/common/ChatbotWidget';
 import ListingCard from '../components/listings/ListingCard';
+import HeroSection from '../components/common/HeroSection';
 
 const PlacesPage: React.FC = () => {
   // Sample data for dog-friendly places
@@ -15,7 +16,7 @@ const PlacesPage: React.FC = () => {
       distance: '1.3 km',
       type: 'cafe' as const,
       image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80',
-      featured: true
+      featured: true,
     },
     {
       id: 2,
@@ -36,33 +37,31 @@ const PlacesPage: React.FC = () => {
       distance: '1.7 km',
       type: 'cafe' as const,
       image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
-    }
+    },
   ];
 
   return (
     <div className="min-h-screen flex flex-col">
-    
-      
       <main className="flex-grow">
-        {/* Page Header */}
-        <div className="bg-[#4A90E2] text-white py-12">
-          <div className="container mx-auto px-4">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">Dog-Friendly Places</h1>
-            <p className="text-xl max-w-3xl">Discover restaurants, cafés, pubs, and other venues that welcome you and your furry friend</p>
-          </div>
-        </div>
-        
+        {/* Hero / Banner Section */}
+        <HeroSection
+          title="Dog-Friendly Places"
+          subtitle="Discover restaurants, cafés, pubs, and other venues that welcome you and your furry friend"
+          gradientClass="bg-mesh-gradient-places"
+          pageType="places"
+        />
+
         {/* Dog-Friendly Places Information */}
         <div className="bg-white py-12">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <h2 className="text-2xl font-bold mb-6 text-gray-800">Enjoying Ireland with Your Dog</h2>
-              
+
               <div className="prose max-w-none">
                 <p className="mb-4">
                   Ireland offers many dog-friendly establishments where you can enjoy quality time with your canine companion. From cafés and restaurants to pubs and hotels, there are plenty of places that welcome well-behaved dogs.
                 </p>
-                
+
                 <h3 className="text-xl font-semibold mt-6 mb-3">Dog-Friendly Etiquette</h3>
                 <ul className="list-disc pl-6 mb-6 space-y-2">
                   <li>Always call ahead to confirm the venue's pet policy</li>
@@ -71,7 +70,7 @@ const PlacesPage: React.FC = () => {
                   <li>Keep your dog leashed unless in designated off-leash areas</li>
                   <li>Clean up after your dog and be considerate of other patrons</li>
                 </ul>
-                
+
                 <h3 className="text-xl font-semibold mt-6 mb-3">Types of Dog-Friendly Venues</h3>
                 <p className="mb-4">
                   You'll find various types of dog-friendly establishments across Ireland:
@@ -87,15 +86,15 @@ const PlacesPage: React.FC = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Dog-Friendly Places Listings */}
         <div className="bg-gray-50 py-12">
           <div className="container mx-auto px-4">
             <h2 className="text-2xl font-bold mb-8 text-center text-gray-800">Top Dog-Friendly Venues</h2>
-            
+
             <div className="space-y-6 max-w-4xl mx-auto">
-              {dogFriendlyPlaces.map(place => (
-                <ListingCard 
+              {dogFriendlyPlaces.map((place) => (
+                <ListingCard
                   key={place.id}
                   id={place.id}
                   title={place.title}
@@ -112,8 +111,7 @@ const PlacesPage: React.FC = () => {
           </div>
         </div>
       </main>
-      
-   
+
       <ChatbotWidget />
     </div>
   );

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ChatbotWidget from '../components/common/ChatbotWidget';
+import HeroSection from '../components/common/HeroSection';
 
 const TrainingPage: React.FC = () => {
   // Sample data for training resources
@@ -36,27 +37,25 @@ const TrainingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      
       <main className="flex-grow">
-        {/* Page Header */}
-        <div className="bg-[#4A90E2] text-white py-12">
-          <div className="container mx-auto px-4">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">Dog Training Resources</h1>
-            <p className="text-xl max-w-3xl">Find professional training services and tips to help your dog become a well-behaved companion</p>
-          </div>
-        </div>
-        
+        <HeroSection
+          title="Dog Training Resources"
+          subtitle="Find professional training services and tips to help your dog become a well-behaved companion"
+          gradientClass="bg-mesh-gradient-training"
+          pageType="training"
+        />
+
         {/* Training Information Section */}
         <div className="bg-white py-12">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <h2 className="text-2xl font-bold mb-6 text-gray-800">The Importance of Dog Training</h2>
-              
+
               <div className="prose max-w-none">
                 <p className="mb-4">
                   Proper training is essential for a happy, well-adjusted dog and a harmonious relationship with your pet. Training provides mental stimulation, builds confidence, and ensures your dog's safety in various situations.
                 </p>
-                
+
                 <h3 className="text-xl font-semibold mt-6 mb-3">Basic Training Every Dog Should Have</h3>
                 <ul className="list-disc pl-6 mb-6 space-y-2">
                   <li>Sit, stay, and come commands</li>
@@ -65,7 +64,7 @@ const TrainingPage: React.FC = () => {
                   <li>Leaving items when told</li>
                   <li>Settling down on command</li>
                 </ul>
-                
+
                 <h3 className="text-xl font-semibold mt-6 mb-3">Training Methods</h3>
                 <p className="mb-4">
                   Modern dog training emphasizes positive reinforcement techniques:
@@ -81,25 +80,25 @@ const TrainingPage: React.FC = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Training Resources Listings */}
         <div className="bg-gray-50 py-12">
           <div className="container mx-auto px-4">
             <h2 className="text-2xl font-bold mb-8 text-center text-gray-800">Top Training Resources</h2>
-            
+
             <div className="space-y-8 max-w-4xl mx-auto">
               {trainingResources.map(resource => (
                 <div key={resource.id} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100">
                   <div className="p-6">
                     <h3 className="text-xl font-semibold text-gray-800 mb-2">{resource.title}</h3>
                     <p className="text-gray-600 mb-4">{resource.description}</p>
-                    
+
                     <div className="mb-4">
                       <p className="text-gray-700"><strong>Address:</strong> {resource.address}</p>
                       <p className="text-gray-700"><strong>Phone:</strong> {resource.phone}</p>
                       <p className="text-gray-700"><strong>Website:</strong> {resource.website}</p>
                     </div>
-                    
+
                     <div>
                       <h4 className="font-medium text-gray-800 mb-2">Services Offered:</h4>
                       <ul className="list-disc pl-5 text-gray-700">
@@ -108,7 +107,7 @@ const TrainingPage: React.FC = () => {
                         ))}
                       </ul>
                     </div>
-                    
+
                     <div className="mt-4 flex gap-2">
                       <button className="px-4 py-2 bg-[#4A90E2] text-white rounded-md hover:bg-[#3A80D2] transition-colors duration-300 text-sm">
                         View Details
@@ -124,8 +123,7 @@ const TrainingPage: React.FC = () => {
           </div>
         </div>
       </main>
-      
-     
+
       <ChatbotWidget />
     </div>
   );

@@ -2,6 +2,7 @@ import React from 'react';
 
 import ChatbotWidget from '../components/common/ChatbotWidget';
 import ListingCard from '../components/listings/ListingCard';
+import HeroSection from '../components/common/HeroSection';
 
 const ParksPage: React.FC = () => {
   // Sample data for parks and walks
@@ -19,8 +20,8 @@ const ParksPage: React.FC = () => {
     },
     {
       id: 2,
-      title: 'St. Stephen\'s Green Dog Area',
-      address: 'St. Stephen\'s Green, Dublin 2',
+      title: "St. Stephen's Green Dog Area",
+      address: "St. Stephen's Green, Dublin 2",
       rating: 4.6,
       reviewCount: 78,
       distance: '1.2 km',
@@ -41,28 +42,26 @@ const ParksPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      
-      
       <main className="flex-grow">
-        {/* Page Header */}
-        <div className="bg-[#7ED321] text-white py-12">
-          <div className="container mx-auto px-4">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">Parks & Dog Walks</h1>
-            <p className="text-xl max-w-3xl">Discover the best parks and walking trails for you and your dog across Ireland</p>
-          </div>
-        </div>
-        
+        {/* Updated: Page Header using HeroSection */}
+        <HeroSection
+          title="Parks & Dog Walks"
+          subtitle="Discover the best parks and walking trails for you and your dog across Ireland"
+          gradientClass="bg-mesh-gradient-parks"
+          pageType="parks"
+        />
+
         {/* Parks Information Section */}
         <div className="bg-white py-12">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <h2 className="text-2xl font-bold mb-6 text-gray-800">Exploring the Outdoors with Your Dog</h2>
-              
+
               <div className="prose max-w-none">
                 <p className="mb-4">
                   Regular exercise is essential for your dog's physical and mental health. Ireland offers numerous beautiful parks and walking trails where you and your furry friend can enjoy the outdoors together.
                 </p>
-                
+
                 <h3 className="text-xl font-semibold mt-6 mb-3">Benefits of Regular Walks</h3>
                 <ul className="list-disc pl-6 mb-6 space-y-2">
                   <li>Maintains healthy weight and cardiovascular fitness</li>
@@ -71,7 +70,7 @@ const ParksPage: React.FC = () => {
                   <li>Strengthens the bond between you and your dog</li>
                   <li>Reduces anxiety and destructive behaviors</li>
                 </ul>
-                
+
                 <h3 className="text-xl font-semibold mt-6 mb-3">Park Etiquette</h3>
                 <p className="mb-4">
                   When visiting parks with your dog, remember these important guidelines:
@@ -87,15 +86,15 @@ const ParksPage: React.FC = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Parks Listings */}
         <div className="bg-gray-50 py-12">
           <div className="container mx-auto px-4">
             <h2 className="text-2xl font-bold mb-8 text-center text-gray-800">Top Parks & Walking Trails</h2>
-            
+
             <div className="space-y-6 max-w-4xl mx-auto">
               {parksAndWalks.map(park => (
-                <ListingCard 
+                <ListingCard
                   key={park.id}
                   id={park.id}
                   title={park.title}
@@ -112,8 +111,7 @@ const ParksPage: React.FC = () => {
           </div>
         </div>
       </main>
-      
-      
+
       <ChatbotWidget />
     </div>
   );

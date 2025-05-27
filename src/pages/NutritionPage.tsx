@@ -2,9 +2,9 @@ import React from 'react';
 
 import ChatbotWidget from '../components/common/ChatbotWidget';
 import ListingCard from '../components/listings/ListingCard';
+import HeroSection from '../components/common/HeroSection';
 
 const NutritionPage: React.FC = () => {
-  // Sample data for nutrition resources
   const nutritionResources = [
     {
       id: 1,
@@ -13,7 +13,7 @@ const NutritionPage: React.FC = () => {
       rating: 4.9,
       reviewCount: 87,
       distance: '2.1 km',
-      type: 'vet' as const, // Using vet type for now, can be expanded
+      type: 'vet' as const,
       image: 'https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
       featured: true
     },
@@ -41,28 +41,25 @@ const NutritionPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      
-      
       <main className="flex-grow">
-        {/* Page Header */}
-        <div className="bg-[#4A90E2] text-white py-12">
-          <div className="container mx-auto px-4">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">Dog Nutrition Resources</h1>
-            <p className="text-xl max-w-3xl">Find the best nutrition options and advice for your dog's health and wellbeing</p>
-          </div>
-        </div>
-        
+        <HeroSection
+          title="Dog Nutrition Resources"
+          subtitle="Find the best nutrition options and advice for your dog's health and wellbeing"
+          gradientClass="bg-mesh-gradient-nutrition"
+          pageType="nutrition"
+        />
+
         {/* Nutrition Information Section */}
         <div className="bg-white py-12">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <h2 className="text-2xl font-bold mb-6 text-gray-800">Understanding Dog Nutrition</h2>
-              
+
               <div className="prose max-w-none">
                 <p className="mb-4">
                   Proper nutrition is essential for your dog's overall health and wellbeing. A balanced diet ensures they receive all the necessary nutrients, vitamins, and minerals needed for optimal health.
                 </p>
-                
+
                 <h3 className="text-xl font-semibold mt-6 mb-3">Key Nutrition Tips</h3>
                 <ul className="list-disc pl-6 mb-6 space-y-2">
                   <li>Feed high-quality dog food appropriate for your dog's age, size, and activity level</li>
@@ -71,7 +68,7 @@ const NutritionPage: React.FC = () => {
                   <li>Consult with a veterinarian before making significant changes to your dog's diet</li>
                   <li>Be cautious with treats and human food - many can be harmful to dogs</li>
                 </ul>
-                
+
                 <h3 className="text-xl font-semibold mt-6 mb-3">Common Nutrition Mistakes</h3>
                 <p className="mb-4">
                   Avoid these common mistakes to keep your dog healthy:
@@ -86,15 +83,15 @@ const NutritionPage: React.FC = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Nutrition Resources Listings */}
         <div className="bg-gray-50 py-12">
           <div className="container mx-auto px-4">
             <h2 className="text-2xl font-bold mb-8 text-center text-gray-800">Top Nutrition Resources</h2>
-            
+
             <div className="space-y-6 max-w-4xl mx-auto">
               {nutritionResources.map(resource => (
-                <ListingCard 
+                <ListingCard
                   key={resource.id}
                   id={resource.id}
                   title={resource.title}
@@ -111,8 +108,7 @@ const NutritionPage: React.FC = () => {
           </div>
         </div>
       </main>
-      
-     
+
       <ChatbotWidget />
     </div>
   );

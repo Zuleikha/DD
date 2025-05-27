@@ -2,9 +2,9 @@ import React from 'react';
 
 import ChatbotWidget from '../components/common/ChatbotWidget';
 import ListingCard from '../components/listings/ListingCard';
+import HeroSection from '../components/common/HeroSection';
 
 const GroomingPage: React.FC = () => {
-  // Sample data for grooming resources
   const groomingResources = [
     {
       id: 1,
@@ -41,28 +41,25 @@ const GroomingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-     
-      
       <main className="flex-grow">
-        {/* Page Header */}
-        <div className="bg-[#9B59B6] text-white py-12">
-          <div className="container mx-auto px-4">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">Dog Grooming Services</h1>
-            <p className="text-xl max-w-3xl">Find professional grooming services to keep your dog looking and feeling their best</p>
-          </div>
-        </div>
-        
+        <HeroSection
+          title="Dog Grooming Services"
+          subtitle="Find professional grooming services to keep your dog looking and feeling their best"
+          gradientClass="bg-mesh-gradient-grooming"
+          pageType="grooming"
+        />
+
         {/* Grooming Information Section */}
         <div className="bg-white py-12">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <h2 className="text-2xl font-bold mb-6 text-gray-800">Dog Grooming Essentials</h2>
-              
+
               <div className="prose max-w-none">
                 <p className="mb-4">
                   Regular grooming is essential for your dog's health and comfort. Professional grooming services can help maintain your dog's coat, skin, nails, and overall hygiene.
                 </p>
-                
+
                 <h3 className="text-xl font-semibold mt-6 mb-3">Benefits of Professional Grooming</h3>
                 <ul className="list-disc pl-6 mb-6 space-y-2">
                   <li>Maintains healthy skin and coat</li>
@@ -72,7 +69,7 @@ const GroomingPage: React.FC = () => {
                   <li>Professional cleaning of ears and teeth</li>
                   <li>Reduces allergens in your home</li>
                 </ul>
-                
+
                 <h3 className="text-xl font-semibold mt-6 mb-3">How Often Should You Groom Your Dog?</h3>
                 <p className="mb-4">
                   Grooming frequency depends on your dog's breed, coat type, and lifestyle:
@@ -87,15 +84,15 @@ const GroomingPage: React.FC = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Grooming Resources Listings */}
         <div className="bg-gray-50 py-12">
           <div className="container mx-auto px-4">
             <h2 className="text-2xl font-bold mb-8 text-center text-gray-800">Top Grooming Services</h2>
-            
+
             <div className="space-y-6 max-w-4xl mx-auto">
               {groomingResources.map(resource => (
-                <ListingCard 
+                <ListingCard
                   key={resource.id}
                   id={resource.id}
                   title={resource.title}
@@ -112,8 +109,7 @@ const GroomingPage: React.FC = () => {
           </div>
         </div>
       </main>
-      
-      
+
       <ChatbotWidget />
     </div>
   );
