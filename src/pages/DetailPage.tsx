@@ -4,6 +4,8 @@ import { MapPin, Phone, Globe, Mail, Clock, ArrowLeft, Star } from 'lucide-react
 
 import GoogleMap from '../components/maps/GoogleMap';
 import SEO from '../components/common/SEO';
+import HeroSection from '../components/home/HeroSection';
+
 
 // Define a type for your listing objects for better type safety
 interface Listing {

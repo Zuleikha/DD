@@ -2,7 +2,8 @@ import React from 'react';
 
 import ChatbotWidget from '../components/common/ChatbotWidget';
 import ListingCard from '../components/listings/ListingCard';
-import HeroSection from '../components/common/HeroSection';
+import HeroSection from '../components/home/HeroSection';
+
 
 const ParksPage: React.FC = () => {
   // Sample data for parks and walks

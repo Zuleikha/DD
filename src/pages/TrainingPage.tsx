@@ -1,7 +1,8 @@
 import React from 'react';
 
 import ChatbotWidget from '../components/common/ChatbotWidget';
-import HeroSection from '../components/common/HeroSection';
+import HeroSection from '../components/home/HeroSection';
+
 
 const TrainingPage: React.FC = () => {
   // Sample data for training resources
