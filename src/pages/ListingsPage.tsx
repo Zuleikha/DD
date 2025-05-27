@@ -28,6 +28,7 @@ interface Listing {
   website?: string;
   email?: string;
   hours?: string;
+  county?: string; // Add this line
 }
 
 const ListingsPage: React.FC = () => {
@@ -148,72 +149,84 @@ const ListingsPage: React.FC = () => {
   // Comprehensive listings data with real information
   // In a real app, this data would likely come from an API
   const allListings: Listing[] = [
-    // VET LISTINGS
-    {
-      id: 1, title: 'Village Vets Cabra', address: '2 Quarry Rd, Cabra East, Dublin 7, D07 FX97', rating: 4.8, reviewCount: 124, distance: '1.2 km', type: 'vet',
-      image: 'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80',
-      featured: true, lat: 53.3643, lng: -6.2977, phone: '01 869 2309', website: 'https://villagevets.ie', email: 'cabra@villagevets.ie', hours: 'Mon-Fri: 8am-7pm, Sat: 9am-1pm, Sun: Closed'
-    },
-    {
-      id: 2, title: 'Botanic Veterinary Hospital', address: '183 Botanic Rd, Glasnevin, Dublin 9, D09 R9R2', rating: 4.7, reviewCount: 98, distance: '1.8 km', type: 'vet',
-      image: 'https://images.unsplash.com/photo-1606425271394-c3ca9aa1fc06?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
-      featured: false, lat: 53.3723, lng: -6.2701, phone: '01 837 3745', website: 'https://botanicvets.ie', email: 'info@botanicvets.ie', hours: 'Mon-Fri: 8:30am-6:30pm, Sat: 9am-1pm, Sun: Closed'
-    },
-    {
-      id: 3, title: 'Sandymount Pet Hospital', address: '19 Sandymount Green, Dublin 4, D04 V9Y0', rating: 4.9, reviewCount: 156, distance: '3.5 km', type: 'vet',
-      image: 'https://images.unsplash.com/photo-1584553391301-23a229a443bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
-      featured: true, lat: 53.3344, lng: -6.2183, phone: '01 269 7745', website: 'https://sandymountpethospital.ie', email: 'info@sandymountpethospital.ie', hours: 'Mon-Fri: 8am-7pm, Sat: 9am-2pm, Sun: Emergency Only'
-    },
-    {
-      id: 4, title: 'MyVet Firhouse', address: 'Unit 1, Woodlawn SC, Firhouse Rd, Dublin 24, D24 P7Y2', rating: 4.6, reviewCount: 87, distance: '7.2 km', type: 'vet',
-      image: 'https://images.unsplash.com/photo-1581888227599-779811939961?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1674&q=80',
-      featured: false, lat: 53.2787, lng: -6.3349, phone: '01 451 5395', website: 'https://myvet.ie', email: 'firhouse@myvet.ie', hours: 'Mon-Fri: 8:30am-7pm, Sat: 9am-2pm, Sun: Closed'
-    },
-    {
-      id: 5, title: 'Palmerstown Veterinary Hospital', address: 'Unit 3, Palmerstown SC, Dublin 20, D20 YV61', rating: 4.8, reviewCount: 112, distance: '5.8 km', type: 'vet',
-      image: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1738&q=80',
-      featured: true, lat: 53.3558, lng: -6.3708, phone: '01 623 0911', website: 'https://palmerstownvets.ie', email: 'info@palmerstownvets.ie', hours: 'Mon-Fri: 8am-8pm, Sat: 9am-4pm, Sun: 10am-1pm'
-    },
-    {
-      id: 6, title: 'Raheny Veterinary Hospital', address: '168 Howth Rd, Raheny, Dublin 5, D05 Y9F4', rating: 4.7, reviewCount: 93, distance: '6.3 km', type: 'vet',
-      image: 'https://images.unsplash.com/photo-1599443015574-be5fe8a05783?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
-      featured: false, lat: 53.3782, lng: -6.1791, phone: '01 831 2230', website: 'https://rahenyvets.ie', email: 'info@rahenyvets.ie', hours: 'Mon-Fri: 8:30am-6:30pm, Sat: 9am-1pm, Sun: Closed'
-    },
-    {
-      id: 7, title: 'Blackrock Veterinary Clinic', address: '27 Carysfort Ave, Blackrock, Co. Dublin, A94 X8K4', rating: 4.9, reviewCount: 142, distance: '8.1 km', type: 'vet',
-      image: 'https://images.unsplash.com/photo-1598894000396-bc7e3242c75e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
-      featured: true, lat: 53.3018, lng: -6.1778, phone: '01 288 8443', website: 'https://blackrockvet.ie', email: 'info@blackrockvet.ie', hours: 'Mon-Fri: 8am-7pm, Sat: 9am-3pm, Sun: Emergency Only'
-    },
-    {
-      id: 8, title: 'Clontarf Veterinary Hospital', address: '19 Vernon Ave, Clontarf, Dublin 3, D03 E977', rating: 4.8, reviewCount: 118, distance: '4.2 km', type: 'vet',
-      image: 'https://images.unsplash.com/photo-1603077492137-9d7b98358022?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
-      featured: false, lat: 53.3642, lng: -6.2091, phone: '01 833 2501', website: 'https://clontarfvets.ie', email: 'info@clontarfvets.ie', hours: 'Mon-Fri: 8:30am-7pm, Sat: 9am-2pm, Sun: Closed'
-    },
+  // VET LISTINGS
+  {
+    id: 1, title: 'Village Vets Cabra', address: '2 Quarry Rd, Cabra East, Dublin 7, D07 FX97', rating: 4.8, reviewCount: 124, distance: '1.2 km', type: 'vet',
+    image: 'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80',
+    featured: true, lat: 53.3643, lng: -6.2977, phone: '01 869 2309', website: 'https://villagevets.ie', email: 'cabra@villagevets.ie', hours: 'Mon-Fri: 8am-7pm, Sat: 9am-1pm, Sun: Closed',
+    county: 'dublin'
+  },
+  {
+    id: 2, title: 'Botanic Veterinary Hospital', address: '183 Botanic Rd, Glasnevin, Dublin 9, D09 R9R2', rating: 4.7, reviewCount: 98, distance: '1.8 km', type: 'vet',
+    image: 'https://images.unsplash.com/photo-1606425271394-c3ca9aa1fc06?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
+    featured: false, lat: 53.3723, lng: -6.2701, phone: '01 837 3745', website: 'https://botanicvets.ie', email: 'info@botanicvets.ie', hours: 'Mon-Fri: 8:30am-6:30pm, Sat: 9am-1pm, Sun: Closed',
+    county: 'dublin'
+  },
+  {
+    id: 3, title: 'Sandymount Pet Hospital', address: '19 Sandymount Green, Dublin 4, D04 V9Y0', rating: 4.9, reviewCount: 156, distance: '3.5 km', type: 'vet',
+    image: 'https://images.unsplash.com/photo-1584553391301-23a229a443bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
+    featured: true, lat: 53.3344, lng: -6.2183, phone: '01 269 7745', website: 'https://sandymountpethospital.ie', email: 'info@sandymountpethospital.ie', hours: 'Mon-Fri: 8am-7pm, Sat: 9am-2pm, Sun: Emergency Only',
+    county: 'dublin'
+  },
+  {
+    id: 4, title: 'MyVet Firhouse', address: 'Unit 1, Woodlawn SC, Firhouse Rd, Dublin 24, D24 P7Y2', rating: 4.6, reviewCount: 87, distance: '7.2 km', type: 'vet',
+    image: 'https://images.unsplash.com/photo-1581888227599-779811939961?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1674&q=80',
+    featured: false, lat: 53.2787, lng: -6.3349, phone: '01 451 5395', website: 'https://myvet.ie', email: 'firhouse@myvet.ie', hours: 'Mon-Fri: 8:30am-7pm, Sat: 9am-2pm, Sun: Closed',
+    county: 'dublin'
+  },
+  {
+    id: 5, title: 'Palmerstown Veterinary Hospital', address: 'Unit 3, Palmerstown SC, Dublin 20, D20 YV61', rating: 4.8, reviewCount: 112, distance: '5.8 km', type: 'vet',
+    image: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1738&q=80',
+    featured: true, lat: 53.3558, lng: -6.3708, phone: '01 623 0911', website: 'https://palmerstownvets.ie', email: 'info@palmerstownvets.ie', hours: 'Mon-Fri: 8am-8pm, Sat: 9am-4pm, Sun: 10am-1pm',
+    county: 'dublin'
+  },
+  {
+    id: 6, title: 'Raheny Veterinary Hospital', address: '168 Howth Rd, Raheny, Dublin 5, D05 Y9F4', rating: 4.7, reviewCount: 93, distance: '6.3 km', type: 'vet',
+    image: 'https://images.unsplash.com/photo-1599443015574-be5fe8a05783?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
+    featured: false, lat: 53.3782, lng: -6.1791, phone: '01 831 2230', website: 'https://rahenyvets.ie', email: 'info@rahenyvets.ie', hours: 'Mon-Fri: 8:30am-6:30pm, Sat: 9am-1pm, Sun: Closed',
+    county: 'dublin'
+  },
+  {
+    id: 7, title: 'Blackrock Veterinary Clinic', address: '27 Carysfort Ave, Blackrock, Co. Dublin, A94 X8K4', rating: 4.9, reviewCount: 142, distance: '8.1 km', type: 'vet',
+    image: 'https://images.unsplash.com/photo-1598894000396-bc7e3242c75e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
+    featured: true, lat: 53.3018, lng: -6.1778, phone: '01 288 8443', website: 'https://blackrockvet.ie', email: 'info@blackrockvet.ie', hours: 'Mon-Fri: 8am-7pm, Sat: 9am-3pm, Sun: Emergency Only',
+    county: 'dublin'
+  },
+  {
+    id: 8, title: 'Clontarf Veterinary Hospital', address: '19 Vernon Ave, Clontarf, Dublin 3, D03 E977', rating: 4.8, reviewCount: 118, distance: '4.2 km', type: 'vet',
+    image: 'https://images.unsplash.com/photo-1603077492137-9d7b98358022?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
+    featured: false, lat: 53.3642, lng: -6.2091, phone: '01 833 2501', website: 'https://clontarfvets.ie', email: 'info@clontarfvets.ie', hours: 'Mon-Fri: 8:30am-7pm, Sat: 9am-2pm, Sun: Closed',
+    county: 'dublin'
+  },
 
-    // PARK LISTINGS
-    {
-      id: 9, title: 'Phoenix Park Dog Walking Area', address: 'Phoenix Park, Dublin 8', rating: 4.9, reviewCount: 87, distance: '2.5 km', type: 'park',
-      image: 'https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
-      lat: 53.3558, lng: -6.3308
-    },
-    {
-      id: 10, title: 'St. Stephen\'s Green Dog Area', address: 'St. Stephen\'s Green, Dublin 2', rating: 4.5, reviewCount: 62, distance: '1.1 km', type: 'park',
-      image: 'https://images.unsplash.com/photo-1551651653-c5dcb914d809?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
-      lat: 53.3382, lng: -6.2591
-    },
-    {
-      id: 11, title: 'Marlay Park Dog Trail', address: 'Marlay Park, Rathfarnham, Dublin 16', rating: 4.8, reviewCount: 93, distance: '7.3 km', type: 'park',
-      image: 'https://images.unsplash.com/photo-1568393691622-c7ba131d63b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
-      lat: 53.2987, lng: -6.2649
-    },
+  // PARK LISTINGS
+  {
+    id: 9, title: 'Phoenix Park Dog Walking Area', address: 'Phoenix Park, Dublin 8', rating: 4.9, reviewCount: 87, distance: '2.5 km', type: 'park',
+    image: 'https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
+    lat: 53.3558, lng: -6.3308,
+    county: 'dublin'
+  },
+  {
+    id: 10, title: 'St. Stephen\'s Green Dog Area', address: 'St. Stephen\'s Green, Dublin 2', rating: 4.5, reviewCount: 62, distance: '1.1 km', type: 'park',
+    image: 'https://images.unsplash.com/photo-1551651653-c5dcb914d809?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
+    lat: 53.3382, lng: -6.2591,
+    county: 'dublin'
+  },
+  {
+    id: 11, title: 'Marlay Park Dog Trail', address: 'Marlay Park, Rathfarnham, Dublin 16', rating: 4.8, reviewCount: 93, distance: '7.3 km', type: 'park',
+    image: 'https://images.unsplash.com/photo-1568393691622-c7ba131d63b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
+    lat: 53.2987, lng: -6.2649,
+    county: 'dublin'
+  },
 
-    // GROOMING LISTINGS
-    {
-      id: 12, title: 'Paws & Relax Dog Grooming', address: '45 Grafton Street, Dublin 2', rating: 4.2, reviewCount: 29, distance: '0.8 km', type: 'grooming',
-      image: 'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80',
-      lat: 53.3402, lng: -6.2736
-    }
-  ];
+  // GROOMING LISTINGS
+  {
+    id: 12, title: 'Paws & Relax Dog Grooming', address: '45 Grafton Street, Dublin 2', rating: 4.2, reviewCount: 29, distance: '0.8 km', type: 'grooming',
+    image: 'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80',
+    lat: 53.3402, lng: -6.2736,
+    county: 'dublin'
+  }
+];
 
   // Counties in Ireland for the dropdown
   const counties = [
@@ -248,8 +261,12 @@ const ListingsPage: React.FC = () => {
                                 listing.address.toLowerCase().includes(searchTerm.toLowerCase());
 
       // 3. Filter by selected county (basic check, assumes county in address or add a 'county' property to Listing interface)
-      const matchesCounty = selectedCounty === 'all-counties' ||
+      //const matchesCounty = selectedCounty === 'all-counties' ||
                             listing.address.toLowerCase().includes(selectedCounty);
+		// 3. Filter by selected county
+	  const matchesCounty = selectedCounty === 'all-counties' ||
+                      (listing.county && listing.county.toLowerCase( ) === selectedCounty);
+
 
       return matchesType && matchesSearchTerm && matchesCounty;
     })
