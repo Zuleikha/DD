@@ -260,9 +260,7 @@ const ListingsPage: React.FC = () => {
                                 listing.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                                 listing.address.toLowerCase().includes(searchTerm.toLowerCase());
 
-      // 3. Filter by selected county (basic check, assumes county in address or add a 'county' property to Listing interface)
-      //const matchesCounty = selectedCounty === 'all-counties' ||
-                            listing.address.toLowerCase().includes(selectedCounty);
+      
 		// 3. Filter by selected county
 	  const matchesCounty = selectedCounty === 'all-counties' ||
                       (listing.county && listing.county.toLowerCase( ) === selectedCounty);
