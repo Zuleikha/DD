@@ -30,16 +30,19 @@ import ChatbotWidget from './components/common/ChatbotWidget';
 function App() {
   useEffect(() => {
     const handleExternalLinks = () => {
-      const links = document.querySelectorAll('a[href^="http"]');
+      const links = document.querySelectorAll('a[href^="http"]' );
       links.forEach(link => {
-        if (!link.href.includes(window.location.hostname)) {
-          link.setAttribute('target', '_blank');
-          link.setAttribute('rel', 'noopener noreferrer');
+        // Cast the link to HTMLAnchorElement to access href property
+        const anchor = link as HTMLAnchorElement;
+        if (!anchor.href.includes(window.location.hostname)) {
+          anchor.setAttribute('target', '_blank');
+          anchor.setAttribute('rel', 'noopener noreferrer');
         }
       });
     };
 
     handleExternalLinks();
+
 
     const observer = new MutationObserver(handleExternalLinks);
     observer.observe(document.body, { childList: true, subtree: true });
