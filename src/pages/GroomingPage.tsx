@@ -2,7 +2,8 @@ import React from 'react';
 
 import ChatbotWidget from '../components/common/ChatbotWidget';
 import ListingCard from '../components/listings/ListingCard';
-import HeroSection from import HeroSection from '../components/home/HeroSection';
+import HeroSection from '../components/home/HeroSection';
+
 
 
 const GroomingPage: React.FC = () => {
