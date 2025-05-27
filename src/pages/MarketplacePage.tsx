@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
+
 import ChatbotWidget from '../components/common/ChatbotWidget';
 import SEO from '../components/common/SEO'; // Assuming you have this component
 import { Search, PlusCircle, MapPin, Tag, User, Clock } from 'lucide-react'; // Import Lucide icons
