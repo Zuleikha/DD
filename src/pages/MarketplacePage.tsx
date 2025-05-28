@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Layout from '../components/Layout';
-
+//import Header from '../components/layout/Header';
+//import Footer from '../components/layout/Footer';
 import ChatbotWidget from '../components/common/ChatbotWidget';
 import SEO from '../components/common/SEO'; // Assuming you have this component
 import { Search, PlusCircle, MapPin, Tag, User, Clock } from 'lucide-react'; // Import Lucide icons
@@ -112,7 +112,7 @@ const MarketplacePage: React.FC = () => {
         canonicalUrl="https://www.dogdays.ie/marketplace"
       />
 
-      <Header />
+    
 
       <main className="flex-grow">
         {/* Page Header */}
@@ -250,7 +250,7 @@ const MarketplacePage: React.FC = () => {
         </div>
       </main>
 
-      <Footer />
+    
       <ChatbotWidget />
     </div>
   );

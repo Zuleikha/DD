@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Assuming you have react-router-dom installed
-import Layout from '../components/Layout';
-
+//import Header from '../components/layout/Header';
+//import Footer from '../components/layout/Footer';
 import ChatbotWidget from '../components/common/ChatbotWidget';
 
 const ForumPage: React.FC = () => {
@@ -32,7 +32,7 @@ const ForumPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      
 
       <main className="flex-grow">
         {/* Page Header */}
@@ -194,7 +194,7 @@ const ForumPage: React.FC = () => {
         </div>
       </main>
 
-      <Footer />
+     
       <ChatbotWidget />
     </div>
   );

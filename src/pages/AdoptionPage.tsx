@@ -1,5 +1,6 @@
 import React from 'react';
-import Layout from '../components/Layout';
+//import Header from '../components/layout/Header';
+//import Footer from '../components/layout/Footer';
 import ChatbotWidget from '../components/common/ChatbotWidget';
 
 const AdoptionPage: React.FC = () => {
@@ -49,7 +50,7 @@ const AdoptionPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      
       
       <main className="flex-grow">
         {/* Page Header */}
@@ -157,7 +158,7 @@ const AdoptionPage: React.FC = () => {
         </div>
       </main>
       
-      <Footer />
+    
       <ChatbotWidget />
     </div>
   );
