@@ -4,15 +4,30 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<!-- Add these in the <head> section -->
-	<meta name="description" content="Find dog-friendly services across Ireland including vets, parks, grooming, nutrition, and training resources." />
-	<meta name="keywords" content="dog services ireland, dog friendly, irish dog parks, dog vets ireland, dog grooming ireland" />
-	<meta name="robots" content="index, follow" />
-	<link rel="canonical" href="https://www.dogdays.ie/" />
-
-    <title>DogDays.ie - Dog-Friendly Services Across Ireland</title>
+    <meta name="description" content="Discover the best dog-friendly services across Ireland! Find trusted vets, scenic parks, professional groomers, and more for your canine companion." />
+    <meta name="keywords" content="dog services ireland, dog friendly, irish dog parks, dog vets ireland, dog grooming ireland" />
+    <meta name="robots" content="index, follow" />
+	<meta name="google-site-verification" content="nWkX37IgJ1iHdATiucHrw6soTeOVS_v93Fq5xydzGr4" />
+    <link rel="canonical" href="https://www.dogdays.ie/" />
     
-    <!-- Google tag (gtag.js) - Place at the top of head for better tracking -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "DogDays.ie",
+      "url": "https://www.dogdays.ie",
+      "logo": "https://www.dogdays.ie/logo.png",
+      "description": "Your complete resource for everything dog-related in Ireland",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "Ireland"
+      }
+    }
+    </script>
+
+    <title>Dog-Friendly Services Across Ireland | DogDays.ie</title>
+    
+    <!-- Google tag (gtag.js ) - Place at the top of head for better tracking -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-NR8YWENWS7"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -45,7 +60,12 @@
     </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- If your site uses React or another framework, the H1 might be rendered by your components -->
+      <!-- If not using a framework, you can place the H1 here directly -->
+      <h1>Dog-Friendly Services Across Ireland | DogDays.ie</h1>
+      <!-- Rest of your content will be rendered here -->
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
