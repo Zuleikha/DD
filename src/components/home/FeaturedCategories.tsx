@@ -1,5 +1,7 @@
 import React from 'react';
 import { Compass, Heart, ShoppingBag } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
 
 interface CategoryCardProps {
   icon: 'vet' | 'park' | 'food' | 'training' | 'grooming' | 'cafe' | 'minders' | 'advice';
@@ -31,15 +33,15 @@ const iconMap = {
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ icon, title, link = '#' }) => {
   return (
-    <a 
-      href={link}
+    <Link 
+      to={link}
       className="flex flex-col items-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100 hover:border-[#4A90E2]"
     >
       <div className="mb-4 text-[#4A90E2]">
         {iconMap[icon]}
       </div>
       <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-    </a>
+    </Link>
   );
 };
 
