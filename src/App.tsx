@@ -26,6 +26,9 @@ import EventsCalendarPage from './pages/EventsCalendarPage';
 import DetailPage from './pages/DetailPage';
 import AboutOurMascotPage from './pages/AboutOurMascotPage';
 import ChatbotWidget from './components/common/ChatbotWidget';
+import MindersPage from './pages/MindersPage';
+import AdvicePage from './pages/AdvicePage';
+
 
 function App() {
   useEffect(() => {

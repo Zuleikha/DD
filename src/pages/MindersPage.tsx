@@ -1,10 +1,23 @@
-import React from 'react';
-// Import any components you need
-
-import ChatbotWidget from '../components/common/ChatbotWidget';
+import React, { useState } from 'react';
 import ListingCard from '../components/listings/ListingCard';
+import ChatbotWidget from '../components/common/ChatbotWidget';
 import HeroSection from '../components/home/HeroSection';
-import dogMinders from './dog_minders_data';
+
+// Update the import path to match where you placed the file
+// If it's in the src/pages directory:
+import dogMinders from './dog_minders_data.js';
+// If it's in a data directory, use:
+// import dogMinders from '../data/dog_minders_data.js';
+
+interface DogMinder {
+  id: number;
+  name: string;
+  address: string;
+  rating: number;
+  reviewCount: number;
+  description: string;
+  image: string;
+}
 
 const MindersPage: React.FC = () => {
   // State for search and filters
@@ -12,7 +25,7 @@ const MindersPage: React.FC = () => {
   const [locationFilter, setLocationFilter] = useState('');
   
   // Filter dog minders based on search term and location
-  const filteredMinders = dogMinders.filter(minder => {
+  const filteredMinders = dogMinders.filter((minder: DogMinder) => {
     const matchesSearch = minder.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
                          minder.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesLocation = locationFilter === '' || 
@@ -73,14 +86,14 @@ const MindersPage: React.FC = () => {
       
       {/* List of dog minders */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-        {filteredMinders.map(minder => (
+        {filteredMinders.map((minder: DogMinder) => (
           <ListingCard 
             key={minder.id}
             title={minder.name}
             address={minder.address}
             rating={minder.rating}
             reviewCount={minder.reviewCount}
-            type="minders" // You'll need to update ListingCard to support 'minders' type
+            type="minders"
             image={minder.image}
             id={minder.id}
           />
@@ -112,4 +125,3 @@ const MindersPage: React.FC = () => {
 };
 
 export default MindersPage;
-
