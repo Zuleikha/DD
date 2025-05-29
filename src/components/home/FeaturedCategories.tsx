@@ -1,7 +1,7 @@
 import React from 'react';
 import { Compass, Heart, ShoppingBag } from 'lucide-react';
 
-interface CategoryCardProps { '
+interface CategoryCardProps {
   icon: 'vet' | 'park' | 'food' | 'training' | 'grooming' | 'cafe' | 'minders' | 'advice';
   title: string;
   link?: string;
@@ -13,8 +13,8 @@ const iconMap = {
   food: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-10 h-10"><path d="M18 8h1a4 4 0 0 1 0 8h-1M5 8h11v9a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V8ZM12 8V2"/></svg>,
   training: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-10 h-10"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>,
   grooming: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-10 h-10"><path d="M9 11a4 4 0 0 0 8 0"/><path d="m21 5-5 3 5 3M3 5l5 3-5 3"/></svg>,
-  cafe: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-10 h-10"><path d="M17 8h1a4 4 0 1 1 0 8h-1M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>
-  minders: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-10 h-10"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+  cafe: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-10 h-10"><path d="M17 8h1a4 4 0 1 1 0 8h-1M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>,
+  minders: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-10 h-10"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
   advice: <svg xmlns="http://www.w3.org/2000/svg" 
      viewBox="0 0 24 24" 
      fill="none" 
@@ -56,8 +56,8 @@ const FeaturedCategories: React.FC = () => {
           <CategoryCard icon="training" title="Dog Training" link="/training" />
           <CategoryCard icon="grooming" title="Grooming" link="/grooming" />
           <CategoryCard icon="cafe" title="Dog-Friendly Places" link="/places" />
-		  <CategoryCard icon="minders" title="Find Dog Minders" link="/minders" />
-		  <CategoryCard icon="advice" title="Advice from chat bot" link="/advice" />
+          <CategoryCard icon="minders" title="Find Dog Minders" link="/minders" />
+          <CategoryCard icon="advice" title="Advice from chat bot" link="/advice" />
         </div>
         
         <div className="mt-12 flex justify-center">
