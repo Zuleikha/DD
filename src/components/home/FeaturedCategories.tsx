@@ -1,8 +1,8 @@
 import React from 'react';
 import { Compass, Heart, ShoppingBag } from 'lucide-react';
 
-interface CategoryCardProps {
-  icon: 'vet' | 'park' | 'food' | 'training' | 'grooming' | 'cafe';
+interface CategoryCardProps { '
+  icon: 'vet' | 'park' | 'food' | 'training' | 'grooming' | 'cafe' | 'minders' | 'advice';
   title: string;
   link?: string;
 }
@@ -14,6 +14,19 @@ const iconMap = {
   training: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-10 h-10"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>,
   grooming: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-10 h-10"><path d="M9 11a4 4 0 0 0 8 0"/><path d="m21 5-5 3 5 3M3 5l5 3-5 3"/></svg>,
   cafe: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-10 h-10"><path d="M17 8h1a4 4 0 1 1 0 8h-1M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>
+  minders: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-10 h-10"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+  advice: <svg xmlns="http://www.w3.org/2000/svg" 
+     viewBox="0 0 24 24" 
+     fill="none" 
+     stroke="currentColor" 
+     strokeWidth="2" 
+     strokeLinecap="round" 
+     strokeLinejoin="round" 
+     className="w-10 h-10">
+  <path d="M9 18h6" />
+  <path d="M10 22h4" />
+  <path d="M12 2a7 7 0 0 0-4 12.9V17h8v-2.1A7 7 0 0 0 12 2z" />
+</svg>
 };
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ icon, title, link = '#' }) => {
@@ -36,13 +49,15 @@ const FeaturedCategories: React.FC = () => {
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">Explore Dog-Friendly Ireland</h2>
         
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-8 gap-6">
           <CategoryCard icon="vet" title="Find a Vet" link="/vets" />
           <CategoryCard icon="park" title="Parks & Walks" link="/parks" />
           <CategoryCard icon="food" title="Nutrition" link="/nutrition" />
           <CategoryCard icon="training" title="Dog Training" link="/training" />
           <CategoryCard icon="grooming" title="Grooming" link="/grooming" />
           <CategoryCard icon="cafe" title="Dog-Friendly Places" link="/places" />
+		  <CategoryCard icon="minders" title="Find Dog Minders" link="/minders" />
+		  <CategoryCard icon="advice" title="Advice from chat bot" link="/advice" />
         </div>
         
         <div className="mt-12 flex justify-center">

@@ -7,7 +7,7 @@ interface ListingCardProps {
   rating: number;
   reviewCount: number;
   distance?: string;
-  type: 'vet' | 'park' | 'cafe' | 'grooming';
+  type: 'vet' | 'park' | 'cafe' | 'grooming' | 'minders' | 'advice' ;
   image?: string;
   featured?: boolean;
   id?: number;
@@ -31,7 +31,9 @@ const ListingCard: React.FC<ListingCardProps> = ({
     vet: '#F5A623',
     park: '#7ED321',
     cafe: '#4A90E2',
-    grooming: '#9B59B6'
+	grooming: '#9B59B6',
+	minders: '#FF6B6B' // Add a color for minders
+	advice: '#FF6B6B' // Add a color for minders
   };
   
   // Map type to label
@@ -39,7 +41,9 @@ const ListingCard: React.FC<ListingCardProps> = ({
     vet: 'Veterinarian',
     park: 'Dog Park',
     cafe: 'Dog-Friendly Place',
-    grooming: 'Grooming Service'
+    grooming: 'Grooming Service',
+	minders: 'Dog Minder' // Add label for minders
+	advice: 'Dog Advice' // Add label for minders
   };
 
   // Handle view details click
