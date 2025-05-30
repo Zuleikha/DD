@@ -1,4 +1,4 @@
-const groomingData = [
+export const groomingData = [
   {
     id: 1,
     name: "Fitzsimons Dog Grooming",
@@ -701,4 +701,3 @@ const groomingData = [
   }
 ];
 
-export default groomingData;

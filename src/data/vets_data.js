@@ -1,4 +1,4 @@
-const vetsData = [
+export const vetsData = [
   {
     id: 1,
     name: "Grey Abbey Vets",
@@ -576,4 +576,3 @@ const vetsData = [
   }
 ];
 
-export default vetsData;

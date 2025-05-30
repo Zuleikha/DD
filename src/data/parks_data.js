@@ -1,4 +1,4 @@
-const parksData = [
+export const parksData = [
   {
     id: 1,
     name: "Phoenix Park",
@@ -576,4 +576,3 @@ const parksData = [
   }
 ];
 
-export default parksData;

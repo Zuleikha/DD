@@ -1,4 +1,4 @@
-const nutritionData = [
+export const nutritionData = [
   {
     id: 1,
     name: "Petstop",
@@ -751,4 +751,3 @@ const nutritionData = [
   }
 ];
 
-export default nutritionData;

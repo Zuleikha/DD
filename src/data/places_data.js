@@ -1,4 +1,4 @@
-const placesData = [
+export const placesData = [
   {
     id: 1,
     name: "The Fumbally",
@@ -576,4 +576,3 @@ const placesData = [
   }
 ];
 
-export default placesData;

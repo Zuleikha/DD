@@ -1,4 +1,4 @@
-const trainingData = [
+export const trainingData = [
   {
     id: 1,
     name: "Liberty K9 Training",
@@ -701,4 +701,3 @@ const trainingData = [
   }
 ];
 
-export default trainingData;
