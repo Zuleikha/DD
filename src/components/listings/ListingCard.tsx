@@ -48,12 +48,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
   // Handle view details click
   const handleViewDetails = () => {
-    // Fix for minders type to avoid double 's'
-    if (type === 'minders') {
-      navigate(`/minders/${id}`);
-    } else {
-      navigate(`/${type}s/${id}`);
-    }
+    // Navigate to detail page with both type and id parameters
+    navigate(`/${type}/${id}`);
   };
 
   return (

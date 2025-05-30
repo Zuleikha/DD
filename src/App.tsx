@@ -85,7 +85,9 @@ function App() {
 			  <Route path="/minders" element={<MindersPage />} />
 			  <Route path="/advice" element={<AdvicePage />} />
 			  //<Route path="/minders" element={<MindersPage />} />
-			  <Route path="/minders/:id" element={<DetailPage />} />
+			  //<Route path="/minders/:id" element={<DetailPage />} />
+			  <Route path="/:type/:id" element={<DetailPage />} />
+
 			  <Route path="/advice" element={<AdvicePage />} />
 
 
