@@ -1,5 +1,5 @@
-// Real dog minder data collected from Irish platforms with complete contact information
-const dogMinders = [
+// dog_minders data
+export const dog_mindersData = [
   {
     id: 1,
     name: "Pet Sitters Ireland",
@@ -322,4 +322,3 @@ const dogMinders = [
   }
 ];
 
-export default dogMinders;

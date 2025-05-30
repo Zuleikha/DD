@@ -1,5 +1,5 @@
 // grooming data
-export const groomingData = [
+const groomingData = [
   {
     id: 1,
     name: "Fitzsimons Dog Grooming",
@@ -702,3 +702,5 @@ export const groomingData = [
   }
 ];
 
+
+export default groomingData;

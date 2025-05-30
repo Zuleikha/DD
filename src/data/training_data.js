@@ -1,5 +1,5 @@
 // training data
-export const trainingData = [
+const trainingData = [
   {
     id: 1,
     name: "Liberty K9 Training",
@@ -702,3 +702,5 @@ export const trainingData = [
   }
 ];
 
+
+export default trainingData;

@@ -1,5 +1,5 @@
 // dog_minders data
-export const dog_mindersData = [
+const dog_mindersData = [
   {
     id: 1,
     name: "Pet Sitters Ireland",
@@ -322,3 +322,5 @@ export const dog_mindersData = [
   }
 ];
 
+
+export default dog_mindersData;

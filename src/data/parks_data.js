@@ -1,5 +1,5 @@
 // parks data
-export const parksData = [
+const parksData = [
   {
     id: 1,
     name: "Phoenix Park",
@@ -577,3 +577,5 @@ export const parksData = [
   }
 ];
 
+
+export default parksData;
