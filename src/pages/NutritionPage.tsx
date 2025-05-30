@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Star, Search, Filter } from 'lucide-react';
-import nutritionData from '../data/nutrition_data.js';
+import nutritionData from '../data/nutrition_data';
 
 // Define interface for nutrition objects
 interface Nutrition {

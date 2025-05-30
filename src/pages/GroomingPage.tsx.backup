@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Star, Search, Filter } from 'lucide-react';
-import { groomingData } from '../data/grooming_data.js';
+import groomingData from '../data/grooming_data.js';
 
 // Define interface for grooming objects
 interface Grooming {

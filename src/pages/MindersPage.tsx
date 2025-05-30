@@ -5,9 +5,9 @@ import HeroSection from '../components/home/HeroSection';
 
 // Update the import path to match where you placed the file
 // If it's in the src/pages directory:
-import dogMinders from '../data/dog_minders_data.js';
+import dogMinders from '../data/dog_minders_data';
 // If it's in a data directory, use:
-// import dogMinders from '../data/dog_minders_data.js';
+// import dogMinders from '../data/dog_minders_data';
 
 interface DogMinder {
   id: number;

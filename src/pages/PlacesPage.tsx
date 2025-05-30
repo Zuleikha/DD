@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Star, Search, Filter } from 'lucide-react';
-import placesData from '../data/places_data.js';
+import placesData from '../data/places_data';
 
 // Define interface for place objects
 interface Place {
