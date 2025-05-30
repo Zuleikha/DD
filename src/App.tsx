@@ -84,6 +84,10 @@ function App() {
               <Route path="/places/:id" element={<DetailPage />} />
 			  <Route path="/minders" element={<MindersPage />} />
 			  <Route path="/advice" element={<AdvicePage />} />
+			  //<Route path="/minders" element={<MindersPage />} />
+			  <Route path="/minders/:id" element={<DetailPage />} />
+			  <Route path="/advice" element={<AdvicePage />} />
+
 
               <Route path="*" element={<HomePage />} />
             </Routes>

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Compass, Heart, ShoppingBag } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
+import { Compass, Heart, ShoppingBag } from 'lucide-react';
 
 interface CategoryCardProps {
   icon: 'vet' | 'park' | 'food' | 'training' | 'grooming' | 'cafe' | 'minders' | 'advice';
