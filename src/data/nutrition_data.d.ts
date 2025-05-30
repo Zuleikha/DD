@@ -16,3 +16,8 @@ export interface Nutrition {
   hours: string;
 }
 
+export type Nutritions = Nutrition[];
+
+declare const nutritionData: Nutritions;
+
+export default nutritionData;

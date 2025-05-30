@@ -15,3 +15,8 @@ export interface Grooming {
   hours: string;
 }
 
+export type Groomings = Grooming[];
+
+declare const groomingData: Groomings;
+
+export default groomingData;

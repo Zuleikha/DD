@@ -1,4 +1,4 @@
-interface Park {
+export interface Park {
   id: number;
   name: string;
   address: string;
@@ -10,10 +10,14 @@ interface Park {
   reviewCount: number;
   description: string;
   image: string;
-  amenities: string[];
-  leashRules: string;
-  size: string;
+  amenities?: string[]; // Make optional with ?
+  leashRules?: string; // Make optional with ?
+  size?: string; // Make optional with ?
   hours: string;
 }
 
-export default Park;
+export type Parks = Park[];
+
+declare const parksData: Parks;
+
+export default parksData;

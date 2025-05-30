@@ -1,4 +1,4 @@
-interface Place {
+export interface Place {
   id: number;
   name: string;
   address: string;
@@ -10,9 +10,14 @@ interface Place {
   reviewCount: number;
   description: string;
   image: string;
-  amenities: string[];
-  dogPolicy: string;
+  amenities?: string[]; // Make optional with ?
+  placeType?: string;
+  dogRules?: string;
   hours: string;
 }
 
-export default Place;
+export type Places = Place[];
+
+declare const placesData: Places;
+
+export default placesData;

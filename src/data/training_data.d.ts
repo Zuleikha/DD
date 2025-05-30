@@ -1,4 +1,4 @@
-interface Training {
+export interface Training {
   id: number;
   name: string;
   address: string;
@@ -11,8 +11,13 @@ interface Training {
   description: string;
   image: string;
   services: string[];
-  specialties: string[];
+  specialties?: string[]; // Make optional with ?
+  trainingTypes?: string[];
   hours: string;
 }
 
-export default Training;
+export type Trainings = Training[];
+
+declare const trainingData: Trainings;
+
+export default trainingData;
