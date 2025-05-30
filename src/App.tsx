@@ -1,86 +1,76 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { HelmetProvider } from 'react-helmet-async';
-
-// Import pages
+import Header from './components/common/Header';
+import Footer from './components/common/Footer';
 import HomePage from './pages/HomePage';
-import ListingsPage from './pages/ListingsPage';
-import ParksPage from './pages/ParksPage';
-import NutritionPage from './pages/NutritionPage';
-import TrainingPage from './pages/TrainingPage';
-import GroomingPage from './pages/GroomingPage';
-import PlacesPage from './pages/PlacesPage';
-import CommunityPage from './pages/CommunityPage';
-import ForumPage from './pages/ForumPage';
-import MarketplacePage from './pages/MarketplacePage';
-import AdoptionPage from './pages/AdoptionPage';
-import AdminDashboard from './pages/AdminDashboard';
-import Blog from './pages/Blog';
-import EventsCalendarPage from './pages/EventsCalendarPage';
-import AboutOurMascotPage from './pages/AboutOurMascotPage';
-import DetailPage from './pages/DetailPage';
 import MindersPage from './pages/MindersPage';
-import AdvicePage from './pages/AdvicePage';
 import MinderDetailPage from './pages/MinderDetailPage';
 import VetsPage from './pages/VetsPage';
-import CategoryDetailPage from './pages/CategoryDetailPage';
-
-// Import components
-import Header from './components/layout/Header';
-import Footer from './components/layout/Footer';
-import ScrollToTop from './components/common/ScrollToTop';
+import VetDetailPage from './pages/VetDetailPage';
+import ParksPage from './pages/ParksPage';
+import ParkDetailPage from './pages/ParkDetailPage';
+import NutritionPage from './pages/NutritionPage';
+import NutritionDetailPage from './pages/NutritionDetailPage';
+import TrainingPage from './pages/TrainingPage';
+import TrainingDetailPage from './pages/TrainingDetailPage';
+import GroomingPage from './pages/GroomingPage';
+import GroomingDetailPage from './pages/GroomingDetailPage';
+import PlacesPage from './pages/PlacesPage';
+import PlaceDetailPage from './pages/PlaceDetailPage';
+import AdvicePage from './pages/AdvicePage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
-    <HelmetProvider>
-      <Router>
-        <ScrollToTop />
-        <div className="flex flex-col min-h-screen">
-          <Header />
-          <main className="flex-grow">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/vets" element={<VetsPage />} />
-              <Route path="/parks" element={<ParksPage />} />
-              <Route path="/nutrition" element={<NutritionPage />} />
-              <Route path="/training" element={<TrainingPage />} />
-              <Route path="/grooming" element={<GroomingPage />} />
-              <Route path="/places" element={<PlacesPage />} />
-              <Route path="/community" element={<CommunityPage />} />
-              <Route path="/forum" element={<ForumPage />} />
-              <Route path="/marketplace" element={<MarketplacePage />} />
-              <Route path="/adoption" element={<AdoptionPage />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/events-calendar" element={<EventsCalendarPage />} />
-              <Route path="/our-mascot" element={<AboutOurMascotPage />} />
-              
-              {/* Detail pages for original categories */}
-              <Route path="/vets/:id" element={<DetailPage />} />
-              <Route path="/parks/:id" element={<DetailPage />} />
-              <Route path="/nutrition/:id" element={<DetailPage />} />
-              <Route path="/training/:id" element={<DetailPage />} />
-              <Route path="/grooming/:id" element={<DetailPage />} />
-              <Route path="/places/:id" element={<DetailPage />} />
-              
-              {/* New pages */}
-              <Route path="/minders" element={<MindersPage />} />
-              <Route path="/advice" element={<AdvicePage />} />
-              
-              {/* New dedicated detail pages */}
-              <Route path="/minder-detail/:id" element={<MinderDetailPage />} />
-              <Route path="/vet-detail/:id" element={<CategoryDetailPage />} />
-              <Route path="/park-detail/:id" element={<CategoryDetailPage />} />
-              <Route path="/nutrition-detail/:id" element={<CategoryDetailPage />} />
-              <Route path="/training-detail/:id" element={<CategoryDetailPage />} />
-              <Route path="/grooming-detail/:id" element={<CategoryDetailPage />} />
-              <Route path="/place-detail/:id" element={<CategoryDetailPage />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </Router>
-    </HelmetProvider>
+    <Router>
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            
+            {/* Dog Minders Routes */}
+            <Route path="/minders" element={<MindersPage />} />
+            <Route path="/minders/:id" element={<MinderDetailPage />} />
+            
+            {/* Vets Routes */}
+            <Route path="/vets" element={<VetsPage />} />
+            <Route path="/vets/:id" element={<VetDetailPage />} />
+            
+            {/* Parks Routes */}
+            <Route path="/parks" element={<ParksPage />} />
+            <Route path="/parks/:id" element={<ParkDetailPage />} />
+            
+            {/* Nutrition Routes */}
+            <Route path="/nutrition" element={<NutritionPage />} />
+            <Route path="/nutrition/:id" element={<NutritionDetailPage />} />
+            
+            {/* Training Routes */}
+            <Route path="/training" element={<TrainingPage />} />
+            <Route path="/training/:id" element={<TrainingDetailPage />} />
+            
+            {/* Grooming Routes */}
+            <Route path="/grooming" element={<GroomingPage />} />
+            <Route path="/grooming/:id" element={<GroomingDetailPage />} />
+            
+            {/* Places Routes */}
+            <Route path="/places" element={<PlacesPage />} />
+            <Route path="/places/:id" element={<PlaceDetailPage />} />
+            
+            {/* Other Routes */}
+            <Route path="/advice" element={<AdvicePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            
+            {/* 404 Route */}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 

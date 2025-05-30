@@ -11,12 +11,6 @@ export interface Grooming {
   description: string;
   image: string;
   services: string[];
-  specialties?: string[]; // Make optional with ?
+  specialties?: string[];
   hours: string;
 }
-
-export type Groomings = Grooming[];
-
-declare const groomingData: Groomings;
-
-export default groomingData;

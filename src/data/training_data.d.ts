@@ -11,13 +11,7 @@ export interface Training {
   description: string;
   image: string;
   services: string[];
-  specialties?: string[]; // Make optional with ?
+  specialties?: string[];
   trainingTypes?: string[];
   hours: string;
 }
-
-export type Trainings = Training[];
-
-declare const trainingData: Trainings;
-
-export default trainingData;

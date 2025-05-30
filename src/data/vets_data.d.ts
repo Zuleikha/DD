@@ -12,12 +12,6 @@ export interface Vet {
   description: string;
   image: string;
   services: string[];
-  specialties?: string[]; // Make optional with ?
+  specialties?: string[];
   hours: string;
 }
-
-export type Vets = Vet[];
-
-declare const vetsData: Vets;
-
-export default vetsData;

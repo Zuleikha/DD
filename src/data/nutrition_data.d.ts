@@ -10,14 +10,8 @@ export interface Nutrition {
   reviewCount: number;
   description: string;
   image: string;
+  products?: string[];
   services: string[];
   brands?: string[];
-  products?: string[]; // Make optional with ?
   hours: string;
 }
-
-export type Nutritions = Nutrition[];
-
-declare const nutritionData: Nutritions;
-
-export default nutritionData;

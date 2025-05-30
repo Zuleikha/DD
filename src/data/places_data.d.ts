@@ -10,14 +10,7 @@ export interface Place {
   reviewCount: number;
   description: string;
   image: string;
-  amenities?: string[]; // Make optional with ?
-  placeType?: string;
-  dogRules?: string;
+  amenities?: string[];
+  dogPolicy?: string;
   hours: string;
 }
-
-export type Places = Place[];
-
-declare const placesData: Places;
-
-export default placesData;
