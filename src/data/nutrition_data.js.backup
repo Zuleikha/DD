@@ -1,4 +1,3 @@
-// nutrition data
 export const nutritionData = [
   {
     id: 1,

@@ -1,4 +1,3 @@
-// places data
 export const placesData = [
   {
     id: 1,

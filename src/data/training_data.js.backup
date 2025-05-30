@@ -1,4 +1,3 @@
-// training data
 export const trainingData = [
   {
     id: 1,

@@ -1,4 +1,3 @@
-// parks data
 export const parksData = [
   {
     id: 1,
