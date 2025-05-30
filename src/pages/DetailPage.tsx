@@ -51,17 +51,9 @@ interface DogMinder {
   hours: string;
 }
 
-// Define GoogleMapProps interface to match your component
-interface GoogleMapProps {
-  lat: number;
-  lng: number;
-  zoom: number;
-  apiKey: string;
-}
-
 // Add Google Maps API key variable - leave empty until you have a valid key
 // In a real application, you might load this from environment variables (e.g., process.env.REACT_APP_Maps_API_KEY)
-const Maps_API_KEY = "AIzaSyA9nmAemVv4-rkPRHhs52i0-7sVCb5GEC4"; // Replace with your actual API key when ready
+const Maps_API_KEY = ""; // Replace with your actual API key when ready
 
 // Mock database of all listings (typed)
 const allListings: Listing[] = [
@@ -509,12 +501,9 @@ const DetailPage: React.FC = () => {
                   <div className="bg-white rounded-lg shadow-md overflow-hidden">
                     <div className="h-64">
                       {Maps_API_KEY ? (
-                        <GoogleMap 
-                          lat={listing.lat} 
-                          lng={listing.lng} 
-                          zoom={15} 
-                          apiKey={Maps_API_KEY}
-                        />
+                        <div className="h-full flex items-center justify-center bg-gray-100">
+                          <p className="text-gray-500">Map will be displayed here when API key is provided</p>
+                        </div>
                       ) : (
                         <div className="h-full flex items-center justify-center bg-gray-100">
                           <p className="text-gray-500">Map preview unavailable</p>
