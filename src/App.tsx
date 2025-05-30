@@ -1,20 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import ScrollToTop from './components/common/ScrollToTop';
 
-// Layout
-import Header from './components/layout/Header';
-import Footer from './components/layout/Footer';
-
-// Pages
+// Import pages
 import HomePage from './pages/HomePage';
 import ListingsPage from './pages/ListingsPage';
-import ParksPage from './pages/ParksPage';
-import NutritionPage from './pages/NutritionPage';
-import TrainingPage from './pages/TrainingPage';
-import GroomingPage from './pages/GroomingPage';
-import PlacesPage from './pages/PlacesPage';
+import ParksPage from './ParksPage';
+import NutritionPage from './NutritionPage';
+import TrainingPage from './TrainingPage';
+import GroomingPage from './GroomingPage';
+import PlacesPage from './PlacesPage';
 import CommunityPage from './pages/CommunityPage';
 import ForumPage from './pages/ForumPage';
 import MarketplacePage from './pages/MarketplacePage';
@@ -22,45 +17,30 @@ import AdoptionPage from './pages/AdoptionPage';
 import AdminDashboard from './pages/AdminDashboard';
 import Blog from './pages/Blog';
 import EventsCalendarPage from './pages/EventsCalendarPage';
-import DetailPage from './pages/DetailPage';
 import AboutOurMascotPage from './pages/AboutOurMascotPage';
-import ChatbotWidget from './components/common/ChatbotWidget';
-import MindersPage from './pages/MindersPage';
-import AdvicePage from './pages/AdvicePage';
-import MinderDetailPage from './pages/MinderDetailPage';
+import DetailPage from './fixed_DetailPage_GoogleMap';
+import MindersPage from './updated_MindersPage';
+import AdvicePage from './AdvicePage';
+import MinderDetailPage from './MinderDetailPage';
+import VetsPage from './VetsPage';
+import CategoryDetailPage from './CategoryDetailPage';
+
+// Import components
+import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
+import ScrollToTop from './components/common/ScrollToTop';
 
 function App() {
-  useEffect(() => {
-    const handleExternalLinks = () => {
-      const links = document.querySelectorAll('a[href^="http"]');
-      links.forEach(link => {
-        // Cast the link to HTMLAnchorElement to access href property
-        const anchor = link as HTMLAnchorElement;
-        if (!anchor.href.includes(window.location.hostname)) {
-          anchor.setAttribute('target', '_blank');
-          anchor.setAttribute('rel', 'noopener noreferrer');
-        }
-      });
-    };
-
-    handleExternalLinks();
-
-    const observer = new MutationObserver(handleExternalLinks);
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <HelmetProvider>
       <Router>
         <ScrollToTop />
-        <div className="App flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen">
           <Header />
           <main className="flex-grow">
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="/vets" element={<ListingsPage />} />
+              <Route path="/vets" element={<VetsPage />} />
               <Route path="/parks" element={<ParksPage />} />
               <Route path="/nutrition" element={<NutritionPage />} />
               <Route path="/training" element={<TrainingPage />} />
@@ -87,15 +67,17 @@ function App() {
               <Route path="/minders" element={<MindersPage />} />
               <Route path="/advice" element={<AdvicePage />} />
               
-              {/* New dedicated minder detail page */}
+              {/* New dedicated detail pages */}
               <Route path="/minder-detail/:id" element={<MinderDetailPage />} />
-              
-              {/* Fallback route */}
-              <Route path="*" element={<HomePage />} />
+              <Route path="/vet-detail/:id" element={<CategoryDetailPage />} />
+              <Route path="/park-detail/:id" element={<CategoryDetailPage />} />
+              <Route path="/nutrition-detail/:id" element={<CategoryDetailPage />} />
+              <Route path="/training-detail/:id" element={<CategoryDetailPage />} />
+              <Route path="/grooming-detail/:id" element={<CategoryDetailPage />} />
+              <Route path="/place-detail/:id" element={<CategoryDetailPage />} />
             </Routes>
           </main>
           <Footer />
-          <ChatbotWidget />
         </div>
       </Router>
     </HelmetProvider>

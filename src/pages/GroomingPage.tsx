@@ -1,118 +1,198 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { MapPin, Star, Search, Filter } from 'lucide-react';
+import groomingData from './grooming_data.js';
 
-import ChatbotWidget from '../components/common/ChatbotWidget';
-import ListingCard from '../components/listings/ListingCard';
-import HeroSection from '../components/home/HeroSection';
-
-
+// Define interface for grooming objects
+interface Grooming {
+  id: number;
+  name: string;
+  address: string;
+  county: string;
+  phone: string;
+  email: string;
+  website: string;
+  rating: number;
+  reviewCount: number;
+  description: string;
+  image: string;
+  services: string[];
+  specialties: string[];
+  hours: string;
+}
 
 const GroomingPage: React.FC = () => {
-  const groomingResources = [
-    {
-      id: 1,
-      title: 'Paws & Relax Dog Grooming',
-      address: '45 Grafton Street, Dublin 2',
-      rating: 4.8,
-      reviewCount: 92,
-      distance: '0.8 km',
-      type: 'grooming' as const,
-      image: 'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80',
-      featured: true
-    },
-    {
-      id: 2,
-      title: 'Fluffy Friends Grooming Salon',
-      address: '78 Dawson Street, Dublin 2',
-      rating: 4.6,
-      reviewCount: 67,
-      distance: '1.2 km',
-      type: 'grooming' as const,
-      image: 'https://images.unsplash.com/photo-1581888227599-779811939961?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80',
-    },
-    {
-      id: 3,
-      title: 'Pampered Paws Premium Grooming',
-      address: '123 Baggot Street, Dublin 4',
-      rating: 4.9,
-      reviewCount: 104,
-      distance: '1.5 km',
-      type: 'grooming' as const,
-      image: 'https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80',
+  // State for search and filtering
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [selectedCounty, setSelectedCounty] = useState<string>('');
+  const [filteredGroomers, setFilteredGroomers] = useState<Grooming[]>(groomingData);
+  
+  // Get unique counties for the filter dropdown
+  const counties = Array.from(new Set(groomingData.map(groomer => groomer.county))).sort();
+
+  // Filter groomers when search term or county changes
+  useEffect(() => {
+    let results = groomingData;
+    
+    // Filter by search term
+    if (searchTerm) {
+      const term = searchTerm.toLowerCase();
+      results = results.filter(groomer => 
+        groomer.name.toLowerCase().includes(term) || 
+        groomer.description.toLowerCase().includes(term) ||
+        groomer.services.some(service => service.toLowerCase().includes(term)) ||
+        groomer.specialties.some(specialty => specialty.toLowerCase().includes(term))
+      );
     }
-  ];
+    
+    // Filter by county
+    if (selectedCounty && selectedCounty !== 'All Counties') {
+      results = results.filter(groomer => groomer.county === selectedCounty);
+    }
+    
+    setFilteredGroomers(results);
+  }, [searchTerm, selectedCounty]);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <main className="flex-grow">
-        <HeroSection
-          title="Dog Grooming Services"
-          subtitle="Find professional grooming services to keep your dog looking and feeling their best"
-          gradientClass="bg-mesh-gradient-grooming"
-          pageType="grooming"
-        />
-
-        {/* Grooming Information Section */}
-        <div className="bg-white py-12">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-2xl font-bold mb-6 text-gray-800">Dog Grooming Essentials</h2>
-
-              <div className="prose max-w-none">
-                <p className="mb-4">
-                  Regular grooming is essential for your dog's health and comfort. Professional grooming services can help maintain your dog's coat, skin, nails, and overall hygiene.
-                </p>
-
-                <h3 className="text-xl font-semibold mt-6 mb-3">Benefits of Professional Grooming</h3>
-                <ul className="list-disc pl-6 mb-6 space-y-2">
-                  <li>Maintains healthy skin and coat</li>
-                  <li>Prevents matting and reduces shedding</li>
-                  <li>Early detection of skin issues or parasites</li>
-                  <li>Nail trimming to prevent discomfort and mobility issues</li>
-                  <li>Professional cleaning of ears and teeth</li>
-                  <li>Reduces allergens in your home</li>
-                </ul>
-
-                <h3 className="text-xl font-semibold mt-6 mb-3">How Often Should You Groom Your Dog?</h3>
-                <p className="mb-4">
-                  Grooming frequency depends on your dog's breed, coat type, and lifestyle:
-                </p>
-                <ul className="list-disc pl-6 mb-6 space-y-2">
-                  <li>Long-haired breeds: Every 4-6 weeks</li>
-                  <li>Medium-haired breeds: Every 6-8 weeks</li>
-                  <li>Short-haired breeds: Every 8-12 weeks</li>
-                  <li>Dogs that spend a lot of time outdoors may need more frequent grooming</li>
-                </ul>
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-2">Dog Grooming in Ireland</h1>
+        <p className="text-gray-600">Find top-rated dog groomers and grooming services near you</p>
+      </div>
+      
+      {/* Search and Filter Section */}
+      <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Search Input */}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+              type="text"
+              placeholder="Search by name, service, or specialty..."
+              className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          
+          {/* County Filter */}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Filter className="h-5 w-5 text-gray-400" />
+            </div>
+            <select
+              className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+              value={selectedCounty}
+              onChange={(e) => setSelectedCounty(e.target.value)}
+            >
+              <option value="">All Counties</option>
+              {counties.map((county) => (
+                <option key={county} value={county}>{county}</option>
+              ))}
+            </select>
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <svg className="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Information Section */}
+      <div className="bg-blue-50 rounded-lg p-6 mb-8 border border-blue-100">
+        <h2 className="text-xl font-semibold mb-3 text-blue-800">About Dog Grooming</h2>
+        <p className="text-gray-700 mb-4">
+          Professional dog grooming helps maintain your dog's health, comfort, and appearance. Regular grooming sessions 
+          can prevent matting, skin issues, and other problems while keeping your dog looking and feeling their best.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+          <div className="bg-white p-3 rounded-md shadow-sm">
+            <h3 className="font-semibold text-blue-700">Basic Services</h3>
+            <p className="text-gray-600">Bathing, brushing, nail trimming, ear cleaning, and coat trimming</p>
+          </div>
+          <div className="bg-white p-3 rounded-md shadow-sm">
+            <h3 className="font-semibold text-blue-700">Specialized Care</h3>
+            <p className="text-gray-600">Breed-specific styling, de-shedding treatments, and skin therapies</p>
+          </div>
+          <div className="bg-white p-3 rounded-md shadow-sm">
+            <h3 className="font-semibold text-blue-700">Frequency</h3>
+            <p className="text-gray-600">Grooming needs vary by breed, coat type, and lifestyle; consult with professionals</p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Results Count */}
+      <div className="mb-6">
+        <p className="text-gray-600">
+          Showing {filteredGroomers.length} dog groomers
+          {selectedCounty ? ` in ${selectedCounty}` : ' across Ireland'}
+          {searchTerm ? ` matching "${searchTerm}"` : ''}
+        </p>
+      </div>
+      
+      {/* Dog Groomers Grid */}
+      {filteredGroomers.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredGroomers.map((groomer) => (
+            <div key={groomer.id} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300">
+              <img 
+                src={groomer.image} 
+                alt={groomer.name} 
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-4">
+                <h2 className="text-xl font-bold text-gray-800 mb-1">{groomer.name}</h2>
+                <div className="flex items-center mb-2 text-sm text-gray-600">
+                  <MapPin className="h-4 w-4 mr-1" />
+                  <span>{groomer.address}</span>
+                </div>
+                <div className="flex items-center mb-3">
+                  <Star className="h-5 w-5 text-yellow-400 mr-1" />
+                  <span className="font-semibold">{groomer.rating.toFixed(1)}</span>
+                  <span className="mx-1 text-gray-400">•</span>
+                  <span className="text-gray-600">{groomer.reviewCount} reviews</span>
+                </div>
+                <p className="text-gray-600 mb-4 line-clamp-2">{groomer.description}</p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {groomer.services.slice(0, 3).map((service, index) => (
+                    <span key={index} className="bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded-full">
+                      {service}
+                    </span>
+                  ))}
+                  {groomer.services.length > 3 && (
+                    <span className="bg-gray-50 text-gray-500 text-xs px-2 py-1 rounded-full">
+                      +{groomer.services.length - 3} more
+                    </span>
+                  )}
+                </div>
+                <Link 
+                  to={`/grooming-detail/${groomer.id}`} 
+                  className="block w-full bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700 transition-colors"
+                >
+                  View Details
+                </Link>
               </div>
             </div>
-          </div>
+          ))}
         </div>
-
-        {/* Grooming Resources Listings */}
-        <div className="bg-gray-50 py-12">
-          <div className="container mx-auto px-4">
-            <h2 className="text-2xl font-bold mb-8 text-center text-gray-800">Top Grooming Services</h2>
-
-            <div className="space-y-6 max-w-4xl mx-auto">
-              {groomingResources.map(resource => (
-                <ListingCard
-                  key={resource.id}
-                  id={resource.id}
-                  title={resource.title}
-                  address={resource.address}
-                  rating={resource.rating}
-                  reviewCount={resource.reviewCount}
-                  distance={resource.distance}
-                  type={resource.type}
-                  image={resource.image}
-                  featured={resource.featured}
-                />
-              ))}
-            </div>
-          </div>
+      ) : (
+        <div className="bg-gray-50 p-8 rounded-lg text-center">
+          <h3 className="text-xl font-semibold text-gray-700 mb-2">No dog groomers found</h3>
+          <p className="text-gray-600 mb-4">Try adjusting your search criteria or selecting a different county.</p>
+          <button 
+            onClick={() => {
+              setSearchTerm('');
+              setSelectedCounty('');
+            }}
+            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+          >
+            Reset Filters
+          </button>
         </div>
-      </main>
-
-      <ChatbotWidget />
+      )}
     </div>
   );
 };

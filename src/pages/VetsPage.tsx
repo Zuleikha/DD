@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Star, Search, Filter } from 'lucide-react';
-import trainingData from './training_data.js';
+import vetsData from './vets_data.js';
 
-// Define interface for training objects
-interface Training {
+// Define interface for vet objects
+interface Vet {
   id: number;
   name: string;
   address: string;
@@ -21,43 +21,43 @@ interface Training {
   hours: string;
 }
 
-const TrainingPage: React.FC = () => {
+const VetsPage: React.FC = () => {
   // State for search and filtering
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedCounty, setSelectedCounty] = useState<string>('');
-  const [filteredTrainers, setFilteredTrainers] = useState<Training[]>(trainingData);
+  const [filteredVets, setFilteredVets] = useState<Vet[]>(vetsData);
   
   // Get unique counties for the filter dropdown
-  const counties = Array.from(new Set(trainingData.map(trainer => trainer.county))).sort();
+  const counties = Array.from(new Set(vetsData.map(vet => vet.county))).sort();
 
-  // Filter trainers when search term or county changes
+  // Filter vets when search term or county changes
   useEffect(() => {
-    let results = trainingData;
+    let results = vetsData;
     
     // Filter by search term
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
-      results = results.filter(trainer => 
-        trainer.name.toLowerCase().includes(term) || 
-        trainer.description.toLowerCase().includes(term) ||
-        trainer.services.some(service => service.toLowerCase().includes(term)) ||
-        trainer.specialties.some(specialty => specialty.toLowerCase().includes(term))
+      results = results.filter(vet => 
+        vet.name.toLowerCase().includes(term) || 
+        vet.description.toLowerCase().includes(term) ||
+        vet.services.some(service => service.toLowerCase().includes(term)) ||
+        vet.specialties.some(specialty => specialty.toLowerCase().includes(term))
       );
     }
     
     // Filter by county
     if (selectedCounty && selectedCounty !== 'All Counties') {
-      results = results.filter(trainer => trainer.county === selectedCounty);
+      results = results.filter(vet => vet.county === selectedCounty);
     }
     
-    setFilteredTrainers(results);
+    setFilteredVets(results);
   }, [searchTerm, selectedCounty]);
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Dog Training in Ireland</h1>
-        <p className="text-gray-600">Connect with professional dog trainers and behavior specialists</p>
+        <h1 className="text-3xl font-bold mb-2">Veterinarians in Ireland</h1>
+        <p className="text-gray-600">Find trusted veterinary services across Ireland for your dog</p>
       </div>
       
       {/* Search and Filter Section */}
@@ -103,23 +103,23 @@ const TrainingPage: React.FC = () => {
       
       {/* Information Section */}
       <div className="bg-blue-50 rounded-lg p-6 mb-8 border border-blue-100">
-        <h2 className="text-xl font-semibold mb-3 text-blue-800">About Dog Training</h2>
+        <h2 className="text-xl font-semibold mb-3 text-blue-800">About Veterinary Services</h2>
         <p className="text-gray-700 mb-4">
-          Professional dog training helps build a strong relationship between you and your dog through positive reinforcement techniques. 
-          From basic obedience to specialized behavior modification, trainers can help with a wide range of needs.
+          Veterinarians provide essential healthcare services for your dog, from routine check-ups to emergency care. 
+          Finding the right vet is crucial for maintaining your pet's health and wellbeing throughout their life.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           <div className="bg-white p-3 rounded-md shadow-sm">
-            <h3 className="font-semibold text-blue-700">Training Methods</h3>
-            <p className="text-gray-600">Look for trainers who use positive, reward-based methods rather than punishment</p>
+            <h3 className="font-semibold text-blue-700">Preventative Care</h3>
+            <p className="text-gray-600">Regular check-ups, vaccinations, and parasite prevention to keep your dog healthy</p>
           </div>
           <div className="bg-white p-3 rounded-md shadow-sm">
-            <h3 className="font-semibold text-blue-700">Class Types</h3>
-            <p className="text-gray-600">Options include group classes, private sessions, and specialized behavior consultations</p>
+            <h3 className="font-semibold text-blue-700">Emergency Services</h3>
+            <p className="text-gray-600">Many clinics offer emergency care or can refer you to 24-hour emergency facilities</p>
           </div>
           <div className="bg-white p-3 rounded-md shadow-sm">
-            <h3 className="font-semibold text-blue-700">Consistency</h3>
-            <p className="text-gray-600">Regular practice between sessions is key to successful training outcomes</p>
+            <h3 className="font-semibold text-blue-700">Specialized Care</h3>
+            <p className="text-gray-600">From dental care to surgery, vets offer a range of specialized services for your dog</p>
           </div>
         </div>
       </div>
@@ -127,49 +127,49 @@ const TrainingPage: React.FC = () => {
       {/* Results Count */}
       <div className="mb-6">
         <p className="text-gray-600">
-          Showing {filteredTrainers.length} dog trainers
+          Showing {filteredVets.length} veterinarians
           {selectedCounty ? ` in ${selectedCounty}` : ' across Ireland'}
           {searchTerm ? ` matching "${searchTerm}"` : ''}
         </p>
       </div>
       
-      {/* Dog Trainers Grid */}
-      {filteredTrainers.length > 0 ? (
+      {/* Vets Grid */}
+      {filteredVets.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredTrainers.map((trainer) => (
-            <div key={trainer.id} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300">
+          {filteredVets.map((vet) => (
+            <div key={vet.id} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300">
               <img 
-                src={trainer.image} 
-                alt={trainer.name} 
+                src={vet.image} 
+                alt={vet.name} 
                 className="w-full h-48 object-cover"
               />
               <div className="p-4">
-                <h2 className="text-xl font-bold text-gray-800 mb-1">{trainer.name}</h2>
+                <h2 className="text-xl font-bold text-gray-800 mb-1">{vet.name}</h2>
                 <div className="flex items-center mb-2 text-sm text-gray-600">
                   <MapPin className="h-4 w-4 mr-1" />
-                  <span>{trainer.address}</span>
+                  <span>{vet.address}</span>
                 </div>
                 <div className="flex items-center mb-3">
                   <Star className="h-5 w-5 text-yellow-400 mr-1" />
-                  <span className="font-semibold">{trainer.rating.toFixed(1)}</span>
+                  <span className="font-semibold">{vet.rating.toFixed(1)}</span>
                   <span className="mx-1 text-gray-400">•</span>
-                  <span className="text-gray-600">{trainer.reviewCount} reviews</span>
+                  <span className="text-gray-600">{vet.reviewCount} reviews</span>
                 </div>
-                <p className="text-gray-600 mb-4 line-clamp-2">{trainer.description}</p>
+                <p className="text-gray-600 mb-4 line-clamp-2">{vet.description}</p>
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {trainer.specialties.slice(0, 3).map((specialty, index) => (
+                  {vet.specialties.slice(0, 3).map((specialty, index) => (
                     <span key={index} className="bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded-full">
                       {specialty}
                     </span>
                   ))}
-                  {trainer.specialties.length > 3 && (
+                  {vet.specialties.length > 3 && (
                     <span className="bg-gray-50 text-gray-500 text-xs px-2 py-1 rounded-full">
-                      +{trainer.specialties.length - 3} more
+                      +{vet.specialties.length - 3} more
                     </span>
                   )}
                 </div>
                 <Link 
-                  to={`/training-detail/${trainer.id}`} 
+                  to={`/vet-detail/${vet.id}`} 
                   className="block w-full bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700 transition-colors"
                 >
                   View Details
@@ -180,7 +180,7 @@ const TrainingPage: React.FC = () => {
         </div>
       ) : (
         <div className="bg-gray-50 p-8 rounded-lg text-center">
-          <h3 className="text-xl font-semibold text-gray-700 mb-2">No dog trainers found</h3>
+          <h3 className="text-xl font-semibold text-gray-700 mb-2">No veterinarians found</h3>
           <p className="text-gray-600 mb-4">Try adjusting your search criteria or selecting a different county.</p>
           <button 
             onClick={() => {
@@ -197,4 +197,4 @@ const TrainingPage: React.FC = () => {
   );
 };
 
-export default TrainingPage;
+export default VetsPage;
