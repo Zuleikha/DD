@@ -61,34 +61,39 @@ function App() {
           <Header />
           <main className="flex-grow">
             <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/vets" element={<ListingsPage />} />
-              <Route path="/parks" element={<ParksPage />} />
-              <Route path="/nutrition" element={<NutritionPage />} />
-              <Route path="/training" element={<TrainingPage />} />
-              <Route path="/grooming" element={<GroomingPage />} />
-              <Route path="/places" element={<PlacesPage />} />
-              <Route path="/community" element={<CommunityPage />} />
-              <Route path="/forum" element={<ForumPage />} />
-              <Route path="/marketplace" element={<MarketplacePage />} />
-              <Route path="/adoption" element={<AdoptionPage />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/events-calendar" element={<EventsCalendarPage />} />
-              <Route path="/our-mascot" element={<AboutOurMascotPage />} />
-              <Route path="/vets/:id" element={<DetailPage />} />
-              <Route path="/parks/:id" element={<DetailPage />} />
-              <Route path="/nutrition/:id" element={<DetailPage />} />
-              <Route path="/training/:id" element={<DetailPage />} />
-              <Route path="/grooming/:id" element={<DetailPage />} />
-              <Route path="/places/:id" element={<DetailPage />} />
+			  <Route path="/" element={<HomePage />} />
+			  <Route path="/vets" element={<ListingsPage />} />
+			  <Route path="/parks" element={<ParksPage />} />
+			  <Route path="/nutrition" element={<NutritionPage />} />
+			  <Route path="/training" element={<TrainingPage />} />
+			  <Route path="/grooming" element={<GroomingPage />} />
+			  <Route path="/places" element={<PlacesPage />} />
+			  <Route path="/community" element={<CommunityPage />} />
+			  <Route path="/forum" element={<ForumPage />} />
+			  <Route path="/marketplace" element={<MarketplacePage />} />
+			  <Route path="/adoption" element={<AdoptionPage />} />
+			  <Route path="/admin" element={<AdminDashboard />} />
+			  <Route path="/blog" element={<Blog />} />
+			  <Route path="/events-calendar" element={<EventsCalendarPage />} />
+			  <Route path="/our-mascot" element={<AboutOurMascotPage />} />
+			  
+			  {/* Detail pages for original categories */}
+			  <Route path="/vets/:id" element={<DetailPage />} />
+			  <Route path="/parks/:id" element={<DetailPage />} />
+			  <Route path="/nutrition/:id" element={<DetailPage />} />
+			  <Route path="/training/:id" element={<DetailPage />} />
+			  <Route path="/grooming/:id" element={<DetailPage />} />
+			  <Route path="/places/:id" element={<DetailPage />} />
+			  
+			  {/* New pages */}
 			  <Route path="/minders" element={<MindersPage />} />
 			  <Route path="/advice" element={<AdvicePage />} />
-			  //<Route path="/minders" element={<MindersPage />} />
-			  //<Route path="/minders/:id" element={<DetailPage />} />
-			  <Route path="/:type/:id" element={<DetailPage />} />
+			  
+			{/* New dedicated minder detail page */}
+			 <Route path="/minder-detail/:id" element={<MinderDetailPage />} />
+</Routes>
 
-			  <Route path="/advice" element={<AdvicePage />} />
+
 
 
               <Route path="*" element={<HomePage />} />

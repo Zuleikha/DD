@@ -48,8 +48,13 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
   // Handle view details click
   const handleViewDetails = () => {
-    // Navigate to detail page with both type and id parameters
-    navigate(`/${type}/${id}`);
+    // Special case for minders - use the dedicated minder detail page
+    if (type === 'minders') {
+      navigate(`/minder-detail/${id}`);
+    } else {
+      // For other types, use the original detail page
+      navigate(`/${type}/${id}`);
+    }
   };
 
   return (
