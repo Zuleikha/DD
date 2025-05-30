@@ -4,7 +4,7 @@ import { MapPin, Phone, Globe, Mail, Clock, ArrowLeft, Star } from 'lucide-react
 import SEO from '../components/common/SEO';
 
 // Import the enriched dog minders data
-import dogMinders from './dog_minders_data.js';
+import dogMinders from '../data/dog_minders_data.js';
 
 // Define a type for dog minder objects
 interface DogMinder {

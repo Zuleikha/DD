@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Star, Search, Filter } from 'lucide-react';
-import vetsData from './vets_data.js';
+import vetsData from '../data/vets_data.js';
 
 // Define interface for vet objects
 interface Vet {

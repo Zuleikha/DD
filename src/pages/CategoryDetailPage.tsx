@@ -5,12 +5,12 @@ import { MapPin, Phone, Globe, Mail, Clock, ArrowLeft, Star } from 'lucide-react
 import SEO from '../components/common/SEO';
 
 // Import all data files
-import vetsData from './vets_data.js';
-import parksData from './parks_data.js';
-import nutritionData from './nutrition_data.js';
-import trainingData from './training_data.js';
-import groomingData from './grooming_data.js';
-import placesData from './places_data.js';
+import vetsData from '../data/vets_data.js';
+import parksData from '../data/parks_data.js';
+import nutritionData from '../data/nutrition_data.js';
+import trainingData from '../data/training_data.js';
+import groomingData from '../data/grooming_data.js';
+import placesData from '../data/places_data.js';
 
 // Define interfaces for each category
 interface Vet {

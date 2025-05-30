@@ -5,11 +5,11 @@ import { HelmetProvider } from 'react-helmet-async';
 // Import pages
 import HomePage from './pages/HomePage';
 import ListingsPage from './pages/ListingsPage';
-import ParksPage from './ParksPage';
-import NutritionPage from './NutritionPage';
-import TrainingPage from './TrainingPage';
-import GroomingPage from './GroomingPage';
-import PlacesPage from './PlacesPage';
+import ParksPage from './pages/ParksPage';
+import NutritionPage from './pages/NutritionPage';
+import TrainingPage from './pages/TrainingPage';
+import GroomingPage from './pages/GroomingPage';
+import PlacesPage from './pages/PlacesPage';
 import CommunityPage from './pages/CommunityPage';
 import ForumPage from './pages/ForumPage';
 import MarketplacePage from './pages/MarketplacePage';
@@ -18,12 +18,12 @@ import AdminDashboard from './pages/AdminDashboard';
 import Blog from './pages/Blog';
 import EventsCalendarPage from './pages/EventsCalendarPage';
 import AboutOurMascotPage from './pages/AboutOurMascotPage';
-import DetailPage from './fixed_DetailPage_GoogleMap';
-import MindersPage from './updated_MindersPage';
-import AdvicePage from './AdvicePage';
-import MinderDetailPage from './MinderDetailPage';
-import VetsPage from './VetsPage';
-import CategoryDetailPage from './CategoryDetailPage';
+import DetailPage from './pages/DetailPage';
+import MindersPage from './pages/MindersPage';
+import AdvicePage from './pages/AdvicePage';
+import MinderDetailPage from './pages/MinderDetailPage';
+import VetsPage from './pages/VetsPage';
+import CategoryDetailPage from './pages/CategoryDetailPage';
 
 // Import components
 import Header from './components/layout/Header';

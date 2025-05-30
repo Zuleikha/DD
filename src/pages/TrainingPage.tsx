@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Star, Search, Filter } from 'lucide-react';
-import trainingData from './training_data.js';
+import trainingData from '../data/training_data.js';
 
 // Define interface for training objects
 interface Training {
