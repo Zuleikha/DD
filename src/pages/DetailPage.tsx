@@ -6,7 +6,7 @@ import GoogleMap from '../components/maps/GoogleMap';
 import SEO from '../components/common/SEO';
 
 // Import the enriched dog minders data
-import dogMinders from './enriched_dog_minders_data.js';
+import dogMinders from './dog_minders_data.js';
 
 // Define a type for your listing objects for better type safety
 interface Listing {
