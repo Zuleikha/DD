@@ -15,3 +15,4 @@ export interface Nutrition {
   products?: string[]; // Make optional with ?
   hours: string;
 }
+

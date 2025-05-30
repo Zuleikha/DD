@@ -1,4 +1,4 @@
-interface Grooming {
+export interface Grooming {
   id: number;
   name: string;
   address: string;
@@ -11,8 +11,7 @@ interface Grooming {
   description: string;
   image: string;
   services: string[];
-  specialties: string[];
+  specialties?: string[]; // Make optional with ?
   hours: string;
 }
 
-export default Grooming;
