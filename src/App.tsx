@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/common/Header';
-import Footer from './components/common/Footer';
+import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
 import HomePage from './pages/HomePage';
 import MindersPage from './pages/MindersPage';
 import MinderDetailPage from './pages/MinderDetailPage';
@@ -18,9 +18,6 @@ import GroomingDetailPage from './pages/GroomingDetailPage';
 import PlacesPage from './pages/PlacesPage';
 import PlaceDetailPage from './pages/PlaceDetailPage';
 import AdvicePage from './pages/AdvicePage';
-import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
-import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
@@ -61,11 +58,9 @@ function App() {
             
             {/* Other Routes */}
             <Route path="/advice" element={<AdvicePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/contact" element={<ContactPage />} />
             
-            {/* 404 Route */}
-            <Route path="*" element={<NotFoundPage />} />
+            {/* 404 Route - Use HomePage as fallback */}
+            <Route path="*" element={<HomePage />} />
           </Routes>
         </main>
         <Footer />

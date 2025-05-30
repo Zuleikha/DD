@@ -4,14 +4,16 @@ import { Helmet } from 'react-helmet';
 interface SEOProps {
   title: string;
   description: string;
+  keywords?: string;
   canonicalUrl?: string;
 }
 
-const SEO: React.FC<SEOProps> = ({ title, description, canonicalUrl }) => {
+const SEO: React.FC<SEOProps> = ({ title, description, keywords, canonicalUrl }) => {
   return (
     <Helmet>
       <title>{title}</title>
       <meta name="description" content={description} />
+      {keywords && <meta name="keywords" content={keywords} />}
       {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     </Helmet>
   );
