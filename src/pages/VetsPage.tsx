@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { vetsData } from '../data/vets_data';
+import vetsData from '../data/vets_data';
 import ListingCard from '../components/ListingCard';
 import '../styles/ListingsPage.css';
 
