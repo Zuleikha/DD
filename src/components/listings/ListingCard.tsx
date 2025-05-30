@@ -32,8 +32,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
     park: '#7ED321',
     cafe: '#4A90E2',
     grooming: '#9B59B6',
-    minders: '#FF6B6B', // Added comma here
-    advice: '#FF6B6B' // Last entry doesn't need a comma
+    minders: '#FF6B6B',
+    advice: '#FF6B6B'
   };
   
   // Map type to label
@@ -42,13 +42,18 @@ const ListingCard: React.FC<ListingCardProps> = ({
     park: 'Dog Park',
     cafe: 'Dog-Friendly Place',
     grooming: 'Grooming Service',
-    minders: 'Dog Minder', // Added comma here
-    advice: 'Dog Advice' // Last entry doesn't need a comma
+    minders: 'Dog Minder',
+    advice: 'Dog Advice'
   };
 
   // Handle view details click
   const handleViewDetails = () => {
-    navigate(`/${type}s/${id}`);
+    // Fix for minders type to avoid double 's'
+    if (type === 'minders') {
+      navigate(`/minders/${id}`);
+    } else {
+      navigate(`/${type}s/${id}`);
+    }
   };
 
   return (
