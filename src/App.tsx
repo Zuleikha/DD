@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import ScrollToTop from './components/common/ScrollToTop';
 
-
 // Layout
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
@@ -28,12 +27,12 @@ import AboutOurMascotPage from './pages/AboutOurMascotPage';
 import ChatbotWidget from './components/common/ChatbotWidget';
 import MindersPage from './pages/MindersPage';
 import AdvicePage from './pages/AdvicePage';
-
+import MinderDetailPage from './pages/MinderDetailPage';
 
 function App() {
   useEffect(() => {
     const handleExternalLinks = () => {
-      const links = document.querySelectorAll('a[href^="http"]' );
+      const links = document.querySelectorAll('a[href^="http"]');
       links.forEach(link => {
         // Cast the link to HTMLAnchorElement to access href property
         const anchor = link as HTMLAnchorElement;
@@ -46,7 +45,6 @@ function App() {
 
     handleExternalLinks();
 
-
     const observer = new MutationObserver(handleExternalLinks);
     observer.observe(document.body, { childList: true, subtree: true });
 
@@ -56,46 +54,43 @@ function App() {
   return (
     <HelmetProvider>
       <Router>
-	   <ScrollToTop />
+        <ScrollToTop />
         <div className="App flex flex-col min-h-screen">
           <Header />
           <main className="flex-grow">
             <Routes>
-			  <Route path="/" element={<HomePage />} />
-			  <Route path="/vets" element={<ListingsPage />} />
-			  <Route path="/parks" element={<ParksPage />} />
-			  <Route path="/nutrition" element={<NutritionPage />} />
-			  <Route path="/training" element={<TrainingPage />} />
-			  <Route path="/grooming" element={<GroomingPage />} />
-			  <Route path="/places" element={<PlacesPage />} />
-			  <Route path="/community" element={<CommunityPage />} />
-			  <Route path="/forum" element={<ForumPage />} />
-			  <Route path="/marketplace" element={<MarketplacePage />} />
-			  <Route path="/adoption" element={<AdoptionPage />} />
-			  <Route path="/admin" element={<AdminDashboard />} />
-			  <Route path="/blog" element={<Blog />} />
-			  <Route path="/events-calendar" element={<EventsCalendarPage />} />
-			  <Route path="/our-mascot" element={<AboutOurMascotPage />} />
-			  
-			  {/* Detail pages for original categories */}
-			  <Route path="/vets/:id" element={<DetailPage />} />
-			  <Route path="/parks/:id" element={<DetailPage />} />
-			  <Route path="/nutrition/:id" element={<DetailPage />} />
-			  <Route path="/training/:id" element={<DetailPage />} />
-			  <Route path="/grooming/:id" element={<DetailPage />} />
-			  <Route path="/places/:id" element={<DetailPage />} />
-			  
-			  {/* New pages */}
-			  <Route path="/minders" element={<MindersPage />} />
-			  <Route path="/advice" element={<AdvicePage />} />
-			  
-			{/* New dedicated minder detail page */}
-			 <Route path="/minder-detail/:id" element={<MinderDetailPage />} />
-</Routes>
-
-
-
-
+              <Route path="/" element={<HomePage />} />
+              <Route path="/vets" element={<ListingsPage />} />
+              <Route path="/parks" element={<ParksPage />} />
+              <Route path="/nutrition" element={<NutritionPage />} />
+              <Route path="/training" element={<TrainingPage />} />
+              <Route path="/grooming" element={<GroomingPage />} />
+              <Route path="/places" element={<PlacesPage />} />
+              <Route path="/community" element={<CommunityPage />} />
+              <Route path="/forum" element={<ForumPage />} />
+              <Route path="/marketplace" element={<MarketplacePage />} />
+              <Route path="/adoption" element={<AdoptionPage />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/events-calendar" element={<EventsCalendarPage />} />
+              <Route path="/our-mascot" element={<AboutOurMascotPage />} />
+              
+              {/* Detail pages for original categories */}
+              <Route path="/vets/:id" element={<DetailPage />} />
+              <Route path="/parks/:id" element={<DetailPage />} />
+              <Route path="/nutrition/:id" element={<DetailPage />} />
+              <Route path="/training/:id" element={<DetailPage />} />
+              <Route path="/grooming/:id" element={<DetailPage />} />
+              <Route path="/places/:id" element={<DetailPage />} />
+              
+              {/* New pages */}
+              <Route path="/minders" element={<MindersPage />} />
+              <Route path="/advice" element={<AdvicePage />} />
+              
+              {/* New dedicated minder detail page */}
+              <Route path="/minder-detail/:id" element={<MinderDetailPage />} />
+              
+              {/* Fallback route */}
               <Route path="*" element={<HomePage />} />
             </Routes>
           </main>
