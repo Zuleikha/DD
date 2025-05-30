@@ -1,4 +1,4 @@
-interface Nutrition {
+export interface Nutrition {
   id: number;
   name: string;
   address: string;
@@ -11,8 +11,7 @@ interface Nutrition {
   description: string;
   image: string;
   services: string[];
-  brands: string[];
+  brands?: string[];
+  products?: string[]; // Make optional with ?
   hours: string;
 }
-
-export default Nutrition;

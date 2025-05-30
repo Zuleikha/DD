@@ -1,10 +1,10 @@
-interface Vet {
+export interface Vet {
   id: number;
   name: string;
   address: string;
   county: string;
   phone: string;
-  mobile: string;
+  mobile?: string;
   email: string;
   website: string;
   rating: number;
@@ -12,7 +12,6 @@ interface Vet {
   description: string;
   image: string;
   services: string[];
+  specialties?: string[]; // Make optional with ?
   hours: string;
 }
-
-export default Vet;
