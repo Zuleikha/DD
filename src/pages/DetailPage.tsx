@@ -4,7 +4,6 @@ import { MapPin, Phone, Globe, Mail, Clock, ArrowLeft, Star } from 'lucide-react
 
 import GoogleMap from '../components/maps/GoogleMap';
 import SEO from '../components/common/SEO';
-import HeroSection from '../components/home/HeroSection';
 
 // Import the enriched dog minders data
 import dogMinders from './enriched_dog_minders_data.js';
@@ -52,9 +51,17 @@ interface DogMinder {
   hours: string;
 }
 
+// Define GoogleMapProps interface to match your component
+interface GoogleMapProps {
+  lat: number;
+  lng: number;
+  zoom: number;
+  apiKey: string;
+}
+
 // Add Google Maps API key variable - leave empty until you have a valid key
 // In a real application, you might load this from environment variables (e.g., process.env.REACT_APP_Maps_API_KEY)
-const Maps_API_KEY = ""; // Replace with your actual API key when ready
+const Maps_API_KEY = "AIzaSyA9nmAemVv4-rkPRHhs52i0-7sVCb5GEC4"; // Replace with your actual API key when ready
 
 // Mock database of all listings (typed)
 const allListings: Listing[] = [
@@ -96,7 +103,7 @@ const DetailPage: React.FC = () => {
     // Check if we're looking for a dog minder or a regular listing
     if (type === 'minders' && id) {
       const minderId = parseInt(id, 10);
-      const foundMinder = dogMinders.find(m => m.id === minderId);
+      const foundMinder = dogMinders.find((m: DogMinder) => m.id === minderId);
       
       if (foundMinder) {
         setMinder(foundMinder);
