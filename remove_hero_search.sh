@@ -1,3 +1,18 @@
+#!/bin/bash
+
+# Check if the HeroSection.tsx file exists
+if [ ! -f "src/components/home/HeroSection.tsx" ]; then
+  echo "Error: HeroSection.tsx file not found in src/components/home/"
+  echo "Please make sure you're running this script from your project root directory."
+  exit 1
+fi
+
+# Create a backup of the original file
+cp src/components/home/HeroSection.tsx src/components/home/HeroSection.tsx.bak
+echo "Created backup at src/components/home/HeroSection.tsx.bak"
+
+# Update the HeroSection.tsx file to remove the search form
+cat > src/components/home/HeroSection.tsx << 'EOL'
 import React from 'react';
 
 interface HeroSectionProps {
@@ -14,7 +29,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   gradientClass = "bg-mesh-gradient-home" // Default to home gradient
 }) => {
   return (
-    <section className="relative h-[500px] md:h-[400px] overflow-hidden">
+    <section className="relative h-[600px] md:h-[500px] overflow-hidden">
       {/* Hero Background - Use dynamic gradient class */}
       <div className={`absolute inset-0 ${gradientClass}`}></div>
       
@@ -30,3 +45,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 };
 
 export default HeroSection;
+EOL
+
+echo "Successfully removed the search form from HeroSection.tsx"
+echo "To restore the original file if needed, use: mv src/components/home/HeroSection.tsx.bak src/components/home/HeroSection.tsx"
