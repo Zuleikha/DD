@@ -18,7 +18,7 @@ const ParksPage: React.FC = () => {
     // Filter parks based on search term and county filter
     const filtered = parksData.filter(park => {
       const matchesSearch = park.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           park.description.toLowerCase().includes(searchTerm.toLowerCase());
+                           (park.description && park.description.toLowerCase().includes(searchTerm.toLowerCase()));
       const matchesCounty = countyFilter === '' || park.county === countyFilter;
       return matchesSearch && matchesCounty;
     });
@@ -30,7 +30,7 @@ const ParksPage: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       <SEO
         title="Dog Parks & Walks in Ireland | DogDays.ie"
-        description="Find dog-friendly parks and walks across Ireland. Discover the perfect outdoor space for you and your furry friend."
+        description="Discover dog-friendly parks and walks across Ireland. Find the perfect outdoor space for you and your furry friend."
         canonicalUrl="https://www.dogdays.ie/parks"
       />
 
@@ -39,8 +39,8 @@ const ParksPage: React.FC = () => {
         <div className="container mx-auto px-4">
           <h1 className="text-4xl font-bold mb-4">Parks & Walks</h1>
           <p className="text-xl max-w-3xl">
-            Discover dog-friendly parks and walking trails across Ireland. 
-            Find the perfect outdoor space for you and your furry friend.
+            Discover dog-friendly parks and walks across Ireland. Find the perfect 
+            outdoor space for you and your furry friend.
           </p>
         </div>
       </section>
@@ -93,10 +93,11 @@ const ParksPage: React.FC = () => {
                   key={park.id}
                   id={park.id}
                   name={park.name}
-                  image={park.image}
+                  address={park.address}
                   rating={park.rating}
                   reviewCount={park.reviewCount}
                   description={park.description}
+                  image={park.image}
                   county={park.county}
                   category="parks"
                 />
@@ -106,7 +107,7 @@ const ParksPage: React.FC = () => {
             <div className="bg-gray-100 p-6 rounded-lg text-center">
               <h3 className="text-xl font-semibold mb-2">No parks found</h3>
               <p className="text-gray-600">
-                Try adjusting your search or filter criteria to find dog-friendly parks and walks.
+                Try adjusting your search or filter criteria to find dog-friendly parks.
               </p>
             </div>
           )}

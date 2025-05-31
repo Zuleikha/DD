@@ -9,38 +9,37 @@ import nutritionData from '../data/nutrition_data';
 const NutritionPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [countyFilter, setCountyFilter] = useState('');
-  const [filteredItems, setFilteredItems] = useState(nutritionData);
+  const [filteredNutrition, setFilteredNutrition] = useState(nutritionData);
 
   // Get unique counties for filter dropdown
   const counties = [...new Set(nutritionData.map(item => item.county))].sort();
 
   useEffect(() => {
-    // Filter items based on search term and county filter
+    // Filter nutrition based on search term and county filter
     const filtered = nutritionData.filter(item => {
       const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           item.description.toLowerCase().includes(searchTerm.toLowerCase());
+                           (item.description && item.description.toLowerCase().includes(searchTerm.toLowerCase()));
       const matchesCounty = countyFilter === '' || item.county === countyFilter;
       return matchesSearch && matchesCounty;
     });
     
-    setFilteredItems(filtered);
+    setFilteredNutrition(filtered);
   }, [searchTerm, countyFilter]);
 
   return (
     <div className="min-h-screen bg-gray-50">
       <SEO
         title="Dog Nutrition Services in Ireland | DogDays.ie"
-        description="Find dog nutrition services, pet food stores, and dietary consultants across Ireland. Get expert advice on your dog's dietary needs."
+        description="Find dog nutrition services, pet food stores, and dietary specialists across Ireland."
         canonicalUrl="https://www.dogdays.ie/nutrition"
       />
 
       {/* Hero Section */}
       <section className="bg-blue-600 text-white py-16">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-4">Dog Nutrition Services</h1>
+          <h1 className="text-4xl font-bold mb-4">Dog Nutrition</h1>
           <p className="text-xl max-w-3xl">
-            Find specialized pet food stores, canine nutritionists, and dietary consultants across Ireland. 
-            Get expert advice on your dog's dietary needs.
+            Find dog nutrition services, pet food stores, and dietary specialists across Ireland.
           </p>
         </div>
       </section>
@@ -83,20 +82,21 @@ const NutritionPage: React.FC = () => {
       <section className="py-12">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl font-bold mb-6">
-            {filteredItems.length} {filteredItems.length === 1 ? 'Service' : 'Services'} Found
+            {filteredNutrition.length} {filteredNutrition.length === 1 ? 'Service' : 'Services'} Found
           </h2>
           
-          {filteredItems.length > 0 ? (
+          {filteredNutrition.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredItems.map((item) => (
+              {filteredNutrition.map((item) => (
                 <ListingCard
                   key={item.id}
                   id={item.id}
                   name={item.name}
-                  image={item.image}
+                  address={item.address}
                   rating={item.rating}
                   reviewCount={item.reviewCount}
                   description={item.description}
+                  image={item.image}
                   county={item.county}
                   category="nutrition"
                 />

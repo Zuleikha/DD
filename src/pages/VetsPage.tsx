@@ -18,7 +18,7 @@ const VetsPage: React.FC = () => {
     // Filter vets based on search term and county filter
     const filtered = vetsData.filter(vet => {
       const matchesSearch = vet.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           vet.description.toLowerCase().includes(searchTerm.toLowerCase());
+                           (vet.description && vet.description.toLowerCase().includes(searchTerm.toLowerCase()));
       const matchesCounty = countyFilter === '' || vet.county === countyFilter;
       return matchesSearch && matchesCounty;
     });
@@ -30,17 +30,17 @@ const VetsPage: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       <SEO
         title="Find Veterinarians in Ireland | DogDays.ie"
-        description="Find trusted veterinarians across Ireland. Browse profiles, read reviews, and find the perfect vet for your dog's healthcare needs."
+        description="Find trusted veterinarians across Ireland. Browse profiles, read reviews, and find the perfect vet for your pet."
         canonicalUrl="https://www.dogdays.ie/vets"
       />
 
       {/* Hero Section */}
       <section className="bg-blue-600 text-white py-16">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-4">Find a Veterinarian</h1>
+          <h1 className="text-4xl font-bold mb-4">Find a Vet</h1>
           <p className="text-xl max-w-3xl">
             Browse trusted veterinarians across Ireland. Read reviews, compare services, 
-            and find the perfect vet for your dog's healthcare needs.
+            and find the perfect vet for your pet.
           </p>
         </div>
       </section>
@@ -93,10 +93,11 @@ const VetsPage: React.FC = () => {
                   key={vet.id}
                   id={vet.id}
                   name={vet.name}
-                  image={vet.image}
+                  address={vet.address}
                   rating={vet.rating}
                   reviewCount={vet.reviewCount}
                   description={vet.description}
+                  image={vet.image}
                   county={vet.county}
                   category="vets"
                 />

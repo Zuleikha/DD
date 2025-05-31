@@ -9,38 +9,38 @@ import groomingData from '../data/grooming_data';
 const GroomingPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [countyFilter, setCountyFilter] = useState('');
-  const [filteredGroomers, setFilteredGroomers] = useState(groomingData);
+  const [filteredGrooming, setFilteredGrooming] = useState(groomingData);
 
   // Get unique counties for filter dropdown
-  const counties = [...new Set(groomingData.map(groomer => groomer.county))].sort();
+  const counties = [...new Set(groomingData.map(item => item.county))].sort();
 
   useEffect(() => {
-    // Filter groomers based on search term and county filter
-    const filtered = groomingData.filter(groomer => {
-      const matchesSearch = groomer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           groomer.description.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCounty = countyFilter === '' || groomer.county === countyFilter;
+    // Filter grooming based on search term and county filter
+    const filtered = groomingData.filter(item => {
+      const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           (item.description && item.description.toLowerCase().includes(searchTerm.toLowerCase()));
+      const matchesCounty = countyFilter === '' || item.county === countyFilter;
       return matchesSearch && matchesCounty;
     });
     
-    setFilteredGroomers(filtered);
+    setFilteredGrooming(filtered);
   }, [searchTerm, countyFilter]);
 
   return (
     <div className="min-h-screen bg-gray-50">
       <SEO
         title="Dog Grooming Services in Ireland | DogDays.ie"
-        description="Find professional dog grooming services across Ireland. From basic baths to full styling, find the perfect groomer for your dog."
+        description="Find professional dog groomers across Ireland. Browse profiles, read reviews, and find the perfect groomer for your furry friend."
         canonicalUrl="https://www.dogdays.ie/grooming"
       />
 
       {/* Hero Section */}
       <section className="bg-blue-600 text-white py-16">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-4">Dog Grooming Services</h1>
+          <h1 className="text-4xl font-bold mb-4">Dog Grooming</h1>
           <p className="text-xl max-w-3xl">
-            Find professional dog groomers across Ireland. From basic baths to full styling, 
-            discover the perfect grooming solution for your furry friend.
+            Find professional dog groomers across Ireland. Browse profiles, read reviews, 
+            and find the perfect groomer for your furry friend.
           </p>
         </div>
       </section>
@@ -83,21 +83,22 @@ const GroomingPage: React.FC = () => {
       <section className="py-12">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl font-bold mb-6">
-            {filteredGroomers.length} {filteredGroomers.length === 1 ? 'Groomer' : 'Groomers'} Found
+            {filteredGrooming.length} {filteredGrooming.length === 1 ? 'Groomer' : 'Groomers'} Found
           </h2>
           
-          {filteredGroomers.length > 0 ? (
+          {filteredGrooming.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredGroomers.map((groomer) => (
+              {filteredGrooming.map((item) => (
                 <ListingCard
-                  key={groomer.id}
-                  id={groomer.id}
-                  name={groomer.name}
-                  image={groomer.image}
-                  rating={groomer.rating}
-                  reviewCount={groomer.reviewCount}
-                  description={groomer.description}
-                  county={groomer.county}
+                  key={item.id}
+                  id={item.id}
+                  name={item.name}
+                  address={item.address}
+                  rating={item.rating}
+                  reviewCount={item.reviewCount}
+                  description={item.description}
+                  image={item.image}
+                  county={item.county}
                   category="grooming"
                 />
               ))}

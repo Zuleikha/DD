@@ -18,7 +18,7 @@ const PlacesPage: React.FC = () => {
     // Filter places based on search term and county filter
     const filtered = placesData.filter(place => {
       const matchesSearch = place.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           place.description.toLowerCase().includes(searchTerm.toLowerCase());
+                           (place.description && place.description.toLowerCase().includes(searchTerm.toLowerCase()));
       const matchesCounty = countyFilter === '' || place.county === countyFilter;
       return matchesSearch && matchesCounty;
     });
@@ -30,7 +30,7 @@ const PlacesPage: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       <SEO
         title="Dog-Friendly Places in Ireland | DogDays.ie"
-        description="Discover dog-friendly cafes, restaurants, hotels, and more across Ireland. Find the perfect place to enjoy with your furry friend."
+        description="Discover dog-friendly cafes, restaurants, hotels, and more across Ireland. Find places where your furry friend is welcome."
         canonicalUrl="https://www.dogdays.ie/places"
       />
 
@@ -40,7 +40,7 @@ const PlacesPage: React.FC = () => {
           <h1 className="text-4xl font-bold mb-4">Dog-Friendly Places</h1>
           <p className="text-xl max-w-3xl">
             Discover dog-friendly cafes, restaurants, hotels, and more across Ireland. 
-            Find the perfect place to enjoy with your furry friend.
+            Find places where your furry friend is welcome.
           </p>
         </div>
       </section>
@@ -93,10 +93,11 @@ const PlacesPage: React.FC = () => {
                   key={place.id}
                   id={place.id}
                   name={place.name}
-                  image={place.image}
+                  address={place.address}
                   rating={place.rating}
                   reviewCount={place.reviewCount}
                   description={place.description}
+                  image={place.image}
                   county={place.county}
                   category="places"
                 />
