@@ -14,3 +14,6 @@ export interface Place {
   dogPolicy?: string;
   hours: string;
 }
+
+declare const placesData: Place[];
+export default placesData;

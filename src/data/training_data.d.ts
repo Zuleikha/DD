@@ -15,3 +15,6 @@ export interface Training {
   trainingTypes?: string[];
   hours: string;
 }
+
+declare const trainingData: Training[];
+export default trainingData;

@@ -14,3 +14,6 @@ export interface Grooming {
   specialties?: string[];
   hours: string;
 }
+
+declare const groomingData: Grooming[];
+export default groomingData;

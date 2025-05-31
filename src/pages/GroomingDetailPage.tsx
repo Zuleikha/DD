@@ -26,17 +26,17 @@ interface Grooming {
 
 const GroomingDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [groomer, setGroomer] = useState<Grooming | null>(null);
+  const [grooming, setGrooming] = useState<Grooming | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (id) {
-      const groomerId = parseInt(id, 10);
-      const foundGroomer = groomingData.find((g: Grooming) => g.id === groomerId);
+      const groomingId = parseInt(id, 10);
+      const foundGrooming = groomingData.find((g: Grooming) => g.id === groomingId);
       
-      if (foundGroomer) {
-        setGroomer(foundGroomer);
+      if (foundGrooming) {
+        setGrooming(foundGrooming);
         setLoading(false);
       } else {
         setError('Grooming service not found');
@@ -53,14 +53,14 @@ const GroomingDetailPage: React.FC = () => {
     );
   }
 
-  if (error || !groomer) {
+  if (error || !grooming) {
     return (
       <div className="container mx-auto px-4 py-16">
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
           <h2 className="text-xl font-bold mb-2">Error</h2>
           <p>{error || 'Grooming service not found'}</p>
           <Link to="/grooming" className="mt-4 inline-block text-blue-500 hover:underline">
-            Back to Grooming Services
+            Back to Dog Grooming
           </Link>
         </div>
       </div>
@@ -70,9 +70,9 @@ const GroomingDetailPage: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <SEO
-        title={`${groomer.name} | Dog Grooming Details`}
-        description={`Learn more about ${groomer.name}, a dog grooming service in ${groomer.county}, Ireland.`}
-        canonicalUrl={`https://www.dogdays.ie/grooming/${groomer.id}`}
+        title={`${grooming.name} | Dog Grooming Details`}
+        description={`Learn more about ${grooming.name}, a dog grooming service in ${grooming.county}, Ireland.`}
+        canonicalUrl={`https://www.dogdays.ie/grooming/${grooming.id}`}
       />
 
       <main className="flex-grow">
@@ -81,21 +81,21 @@ const GroomingDetailPage: React.FC = () => {
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold mb-2">{groomer.name}</h1>
+                <h1 className="text-3xl md:text-4xl font-bold mb-2">{grooming.name}</h1>
                 <div className="flex items-center mb-4">
                   <MapPin className="h-5 w-5 mr-1" />
-                  <span>{groomer.address}</span>
+                  <span>{grooming.address}</span>
                 </div>
                 <div className="flex items-center">
                   <Star className="h-5 w-5 text-yellow-300 mr-1" />
-                  <span className="font-semibold">{groomer.rating.toFixed(1)}</span>
+                  <span className="font-semibold">{grooming.rating.toFixed(1)}</span>
                   <span className="mx-1">•</span>
-                  <span>{groomer.reviewCount} reviews</span>
+                  <span>{grooming.reviewCount} reviews</span>
                 </div>
               </div>
               <Link to="/grooming" className="mt-4 md:mt-0 flex items-center text-white hover:text-blue-100 transition-colors">
                 <ArrowLeft className="h-5 w-5 mr-1" />
-                Back to Grooming Services
+                Back to Dog Grooming
               </Link>
             </div>
           </div>
@@ -109,21 +109,21 @@ const GroomingDetailPage: React.FC = () => {
               <div className="md:col-span-2">
                 <div className="mb-8">
                   <img 
-                    src={groomer.image} 
-                    alt={groomer.name} 
+                    src={grooming.image} 
+                    alt={grooming.name} 
                     className="w-full h-64 object-cover rounded-lg shadow-md"
                   />
                 </div>
                 
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold mb-4 text-gray-800">About {groomer.name}</h2>
-                  <p className="text-gray-700 leading-relaxed">{groomer.description}</p>
+                  <h2 className="text-2xl font-bold mb-4 text-gray-800">About {grooming.name}</h2>
+                  <p className="text-gray-700 leading-relaxed">{grooming.description}</p>
                 </div>
 
                 <div className="mb-8">
                   <h2 className="text-2xl font-bold mb-4 text-gray-800">Services Offered</h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {groomer.services.map((service, index) => (
+                    {grooming.services.map((service, index) => (
                       <div key={index} className="flex items-center bg-blue-50 p-3 rounded-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -134,11 +134,11 @@ const GroomingDetailPage: React.FC = () => {
                   </div>
                 </div>
 
-                {groomer.specialties && groomer.specialties.length > 0 && (
+                {grooming.specialties && grooming.specialties.length > 0 && (
                   <div className="mb-8">
                     <h2 className="text-2xl font-bold mb-4 text-gray-800">Specialties</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {groomer.specialties.map((specialty, index) => (
+                      {grooming.specialties.map((specialty, index) => (
                         <div key={index} className="flex items-center bg-blue-50 p-3 rounded-lg">
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -160,8 +160,8 @@ const GroomingDetailPage: React.FC = () => {
                     <MapPin className="h-6 w-6 text-blue-500 mr-3 mt-1" />
                     <div>
                       <h3 className="font-semibold">Address</h3>
-                      <p className="text-gray-700">{groomer.address}</p>
-                      <p className="text-gray-700">County {groomer.county}</p>
+                      <p className="text-gray-700">{grooming.address}</p>
+                      <p className="text-gray-700">County {grooming.county}</p>
                     </div>
                   </div>
 
@@ -169,7 +169,7 @@ const GroomingDetailPage: React.FC = () => {
                     <Phone className="h-6 w-6 text-blue-500 mr-3 mt-1" />
                     <div>
                       <h3 className="font-semibold">Phone</h3>
-                      <p className="text-gray-700">{groomer.phone}</p>
+                      <p className="text-gray-700">{grooming.phone}</p>
                     </div>
                   </div>
 
@@ -177,8 +177,8 @@ const GroomingDetailPage: React.FC = () => {
                     <Mail className="h-6 w-6 text-blue-500 mr-3 mt-1" />
                     <div>
                       <h3 className="font-semibold">Email</h3>
-                      <a href={`mailto:${groomer.email}`} className="text-blue-600 hover:underline">
-                        {groomer.email}
+                      <a href={`mailto:${grooming.email}`} className="text-blue-600 hover:underline">
+                        {grooming.email}
                       </a>
                     </div>
                   </div>
@@ -187,8 +187,8 @@ const GroomingDetailPage: React.FC = () => {
                     <Globe className="h-6 w-6 text-blue-500 mr-3 mt-1" />
                     <div>
                       <h3 className="font-semibold">Website</h3>
-                      <a href={groomer.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                        {groomer.website.replace(/^https?:\/\//, '')}
+                      <a href={grooming.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                        {grooming.website.replace(/^https?:\/\//, '')}
                       </a>
                     </div>
                   </div>
@@ -197,14 +197,14 @@ const GroomingDetailPage: React.FC = () => {
                     <Clock className="h-6 w-6 text-blue-500 mr-3 mt-1" />
                     <div>
                       <h3 className="font-semibold">Business Hours</h3>
-                      <p className="text-gray-700">{groomer.hours}</p>
+                      <p className="text-gray-700">{grooming.hours}</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="mt-6">
                   <a 
-                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(groomer.name + ' ' + groomer.address)}`}
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(grooming.name + ' ' + grooming.address)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block w-full bg-blue-600 text-white text-center py-3 rounded-lg hover:bg-blue-700 transition-colors"

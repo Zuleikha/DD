@@ -15,3 +15,6 @@ export interface Vet {
   specialties?: string[];
   hours: string;
 }
+
+declare const vetsData: Vet[];
+export default vetsData;

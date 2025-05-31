@@ -15,3 +15,6 @@ export interface Park {
   size?: string;
   hours: string;
 }
+
+declare const parksData: Park[];
+export default parksData;

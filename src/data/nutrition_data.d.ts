@@ -15,3 +15,6 @@ export interface Nutrition {
   brands?: string[];
   hours: string;
 }
+
+declare const nutritionData: Nutrition[];
+export default nutritionData;

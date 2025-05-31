@@ -27,20 +27,20 @@ interface Training {
 
 const TrainingDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [trainer, setTrainer] = useState<Training | null>(null);
+  const [training, setTraining] = useState<Training | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (id) {
-      const trainerId = parseInt(id, 10);
-      const foundTrainer = trainingData.find((t: Training) => t.id === trainerId);
+      const trainingId = parseInt(id, 10);
+      const foundTraining = trainingData.find((t: Training) => t.id === trainingId);
       
-      if (foundTrainer) {
-        setTrainer(foundTrainer);
+      if (foundTraining) {
+        setTraining(foundTraining);
         setLoading(false);
       } else {
-        setError('Dog trainer not found');
+        setError('Training service not found');
         setLoading(false);
       }
     }
@@ -54,14 +54,14 @@ const TrainingDetailPage: React.FC = () => {
     );
   }
 
-  if (error || !trainer) {
+  if (error || !training) {
     return (
       <div className="container mx-auto px-4 py-16">
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
           <h2 className="text-xl font-bold mb-2">Error</h2>
-          <p>{error || 'Dog trainer not found'}</p>
+          <p>{error || 'Training service not found'}</p>
           <Link to="/training" className="mt-4 inline-block text-blue-500 hover:underline">
-            Back to Dog Trainers
+            Back to Dog Training
           </Link>
         </div>
       </div>
@@ -71,9 +71,9 @@ const TrainingDetailPage: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <SEO
-        title={`${trainer.name} | Dog Training Details`}
-        description={`Learn more about ${trainer.name}, a dog training service in ${trainer.county}, Ireland.`}
-        canonicalUrl={`https://www.dogdays.ie/training/${trainer.id}`}
+        title={`${training.name} | Dog Training Details`}
+        description={`Learn more about ${training.name}, a dog training service in ${training.county}, Ireland.`}
+        canonicalUrl={`https://www.dogdays.ie/training/${training.id}`}
       />
 
       <main className="flex-grow">
@@ -82,21 +82,21 @@ const TrainingDetailPage: React.FC = () => {
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold mb-2">{trainer.name}</h1>
+                <h1 className="text-3xl md:text-4xl font-bold mb-2">{training.name}</h1>
                 <div className="flex items-center mb-4">
                   <MapPin className="h-5 w-5 mr-1" />
-                  <span>{trainer.address}</span>
+                  <span>{training.address}</span>
                 </div>
                 <div className="flex items-center">
                   <Star className="h-5 w-5 text-yellow-300 mr-1" />
-                  <span className="font-semibold">{trainer.rating.toFixed(1)}</span>
+                  <span className="font-semibold">{training.rating.toFixed(1)}</span>
                   <span className="mx-1">•</span>
-                  <span>{trainer.reviewCount} reviews</span>
+                  <span>{training.reviewCount} reviews</span>
                 </div>
               </div>
               <Link to="/training" className="mt-4 md:mt-0 flex items-center text-white hover:text-blue-100 transition-colors">
                 <ArrowLeft className="h-5 w-5 mr-1" />
-                Back to Dog Trainers
+                Back to Dog Training
               </Link>
             </div>
           </div>
@@ -110,21 +110,21 @@ const TrainingDetailPage: React.FC = () => {
               <div className="md:col-span-2">
                 <div className="mb-8">
                   <img 
-                    src={trainer.image} 
-                    alt={trainer.name} 
+                    src={training.image} 
+                    alt={training.name} 
                     className="w-full h-64 object-cover rounded-lg shadow-md"
                   />
                 </div>
                 
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold mb-4 text-gray-800">About {trainer.name}</h2>
-                  <p className="text-gray-700 leading-relaxed">{trainer.description}</p>
+                  <h2 className="text-2xl font-bold mb-4 text-gray-800">About {training.name}</h2>
+                  <p className="text-gray-700 leading-relaxed">{training.description}</p>
                 </div>
 
                 <div className="mb-8">
                   <h2 className="text-2xl font-bold mb-4 text-gray-800">Services Offered</h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {trainer.services.map((service, index) => (
+                    {training.services.map((service, index) => (
                       <div key={index} className="flex items-center bg-blue-50 p-3 rounded-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -135,11 +135,11 @@ const TrainingDetailPage: React.FC = () => {
                   </div>
                 </div>
 
-                {trainer.specialties && trainer.specialties.length > 0 && (
+                {training.specialties && training.specialties.length > 0 && (
                   <div className="mb-8">
                     <h2 className="text-2xl font-bold mb-4 text-gray-800">Specialties</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {trainer.specialties.map((specialty, index) => (
+                      {training.specialties.map((specialty, index) => (
                         <div key={index} className="flex items-center bg-blue-50 p-3 rounded-lg">
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -151,11 +151,11 @@ const TrainingDetailPage: React.FC = () => {
                   </div>
                 )}
 
-                {trainer.trainingTypes && trainer.trainingTypes.length > 0 && (
+                {training.trainingTypes && training.trainingTypes.length > 0 && (
                   <div className="mb-8">
                     <h2 className="text-2xl font-bold mb-4 text-gray-800">Training Methods</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {trainer.trainingTypes.map((type, index) => (
+                      {training.trainingTypes.map((type, index) => (
                         <div key={index} className="flex items-center bg-blue-50 p-3 rounded-lg">
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -177,8 +177,8 @@ const TrainingDetailPage: React.FC = () => {
                     <MapPin className="h-6 w-6 text-blue-500 mr-3 mt-1" />
                     <div>
                       <h3 className="font-semibold">Address</h3>
-                      <p className="text-gray-700">{trainer.address}</p>
-                      <p className="text-gray-700">County {trainer.county}</p>
+                      <p className="text-gray-700">{training.address}</p>
+                      <p className="text-gray-700">County {training.county}</p>
                     </div>
                   </div>
 
@@ -186,7 +186,7 @@ const TrainingDetailPage: React.FC = () => {
                     <Phone className="h-6 w-6 text-blue-500 mr-3 mt-1" />
                     <div>
                       <h3 className="font-semibold">Phone</h3>
-                      <p className="text-gray-700">{trainer.phone}</p>
+                      <p className="text-gray-700">{training.phone}</p>
                     </div>
                   </div>
 
@@ -194,8 +194,8 @@ const TrainingDetailPage: React.FC = () => {
                     <Mail className="h-6 w-6 text-blue-500 mr-3 mt-1" />
                     <div>
                       <h3 className="font-semibold">Email</h3>
-                      <a href={`mailto:${trainer.email}`} className="text-blue-600 hover:underline">
-                        {trainer.email}
+                      <a href={`mailto:${training.email}`} className="text-blue-600 hover:underline">
+                        {training.email}
                       </a>
                     </div>
                   </div>
@@ -204,8 +204,8 @@ const TrainingDetailPage: React.FC = () => {
                     <Globe className="h-6 w-6 text-blue-500 mr-3 mt-1" />
                     <div>
                       <h3 className="font-semibold">Website</h3>
-                      <a href={trainer.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                        {trainer.website.replace(/^https?:\/\//, '')}
+                      <a href={training.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                        {training.website.replace(/^https?:\/\//, '')}
                       </a>
                     </div>
                   </div>
@@ -214,14 +214,14 @@ const TrainingDetailPage: React.FC = () => {
                     <Clock className="h-6 w-6 text-blue-500 mr-3 mt-1" />
                     <div>
                       <h3 className="font-semibold">Business Hours</h3>
-                      <p className="text-gray-700">{trainer.hours}</p>
+                      <p className="text-gray-700">{training.hours}</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="mt-6">
                   <a 
-                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(trainer.name + ' ' + trainer.address)}`}
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(training.name + ' ' + training.address)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block w-full bg-blue-600 text-white text-center py-3 rounded-lg hover:bg-blue-700 transition-colors"
