@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Coffee, Clock, Smile, CupSoda, MapPin, PawPrint } from 'lucide-react';
+import { Coffee, Clock, Smile, CupSoda, MapPin, PawPrint, Users, MessageCircleQuestion } from 'lucide-react';
 import SEO from '../components/common/SEO';
 
 import dogImage from '../assets/images/dog.jpg';
@@ -24,8 +24,102 @@ const HomePage: React.FC = () => {
         {/* Hero Section */}
         <HeroSection pageType="listings" gradientClass="bg-mesh-gradient-home" />
 
-        {/* Featured Categories */}
-        <FeaturedCategories />
+        {/* Services Section */}
+        <section id="services" className="py-16 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Our Services</h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {/* Find a Vet */}
+              <Link to="/vets" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div className="p-6">
+                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                    <MapPin className="h-8 w-8 text-blue-500" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">Find a Vet</h3>
+                  <p className="text-gray-600 text-sm">Locate trusted veterinary services across Ireland for your dog</p>
+                </div>
+              </Link>
+
+              {/* Parks & Walks */}
+              <Link to="/parks" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div className="p-6">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                    <PawPrint className="h-8 w-8 text-green-500" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">Parks & Walks</h3>
+                  <p className="text-gray-600 text-sm">Discover the best parks and walking trails for you and your dog</p>
+                </div>
+              </Link>
+
+              {/* Nutrition */}
+              <Link to="/nutrition" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div className="p-6">
+                  <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
+                    <Coffee className="h-8 w-8 text-yellow-500" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">Nutrition</h3>
+                  <p className="text-gray-600 text-sm">Find the best food options and dietary advice for your dog</p>
+                </div>
+              </Link>
+
+              {/* Dog Training */}
+              <Link to="/training" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div className="p-6">
+                  <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                    <Clock className="h-8 w-8 text-purple-500" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">Dog Training</h3>
+                  <p className="text-gray-600 text-sm">Connect with professional dog trainers and behavior specialists</p>
+                </div>
+              </Link>
+
+              {/* Grooming */}
+              <Link to="/grooming" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div className="p-6">
+                  <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-4">
+                    <Smile className="h-8 w-8 text-pink-500" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">Grooming</h3>
+                  <p className="text-gray-600 text-sm">Find top-rated dog groomers and grooming services near you</p>
+                </div>
+              </Link>
+
+              {/* Dog-Friendly Places */}
+              <Link to="/places" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div className="p-6">
+                  <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                    <CupSoda className="h-8 w-8 text-red-500" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">Dog-Friendly Places</h3>
+                  <p className="text-gray-600 text-sm">Discover restaurants, cafes, and hotels that welcome dogs</p>
+                </div>
+              </Link>
+
+              {/* Find Dog Minders - NEW */}
+              <Link to="/minders" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div className="p-6">
+                  <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
+                    <Users className="h-8 w-8 text-indigo-500" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">Find Dog Minders</h3>
+                  <p className="text-gray-600 text-sm">Connect with trusted dog minders and sitters across Ireland</p>
+                </div>
+              </Link>
+
+              {/* Advice from Chat Bot - NEW */}
+              <Link to="/advice" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div className="p-6">
+                  <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mb-4">
+                    <MessageCircleQuestion className="h-8 w-8 text-teal-500" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">Advice from Chat Bot</h3>
+                  <p className="text-gray-600 text-sm">Get instant answers to your dog care questions from our AI assistant</p>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </section>
 
         {/* Dog Image Feature Section */}
         <section className="py-12 bg-gray-100">
@@ -51,76 +145,6 @@ const HomePage: React.FC = () => {
                   Learn More About Us
                 </Link>
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Services Section */}
-        <section id="services" className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Our Services</h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Each Service Card */}
-              <Link to="/vets" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <div className="p-6">
-                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                    <MapPin className="h-8 w-8 text-blue-500" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-2">Find a Vet</h3>
-                  <p className="text-gray-600">Locate trusted veterinary services across Ireland for your dog</p>
-                </div>
-              </Link>
-
-              <Link to="/parks" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <div className="p-6">
-                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                    <PawPrint className="h-8 w-8 text-green-500" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-2">Parks & Walks</h3>
-                  <p className="text-gray-600">Discover the best parks and walking trails for you and your dog</p>
-                </div>
-              </Link>
-
-              <Link to="/nutrition" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <div className="p-6">
-                  <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
-                    <Coffee className="h-8 w-8 text-yellow-500" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-2">Nutrition</h3>
-                  <p className="text-gray-600">Find the best food options and dietary advice for your dog</p>
-                </div>
-              </Link>
-
-              <Link to="/training" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <div className="p-6">
-                  <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-                    <Clock className="h-8 w-8 text-purple-500" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-2">Dog Training</h3>
-                  <p className="text-gray-600">Connect with professional dog trainers and behavior specialists</p>
-                </div>
-              </Link>
-
-              <Link to="/grooming" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <div className="p-6">
-                  <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-4">
-                    <Smile className="h-8 w-8 text-pink-500" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-2">Grooming</h3>
-                  <p className="text-gray-600">Find top-rated dog groomers and grooming services near you</p>
-                </div>
-              </Link>
-
-              <Link to="/places" className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <div className="p-6">
-                  <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                    <CupSoda className="h-8 w-8 text-red-500" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-2">Dog-Friendly Places</h3>
-                  <p className="text-gray-600">Discover restaurants, cafes, and hotels that welcome dogs</p>
-                </div>
-              </Link>
             </div>
           </div>
         </section>
