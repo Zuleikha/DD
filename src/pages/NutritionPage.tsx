@@ -1,39 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { MapPin, Star, Search, Filter } from 'lucide-react';
+import { Search, Filter } from 'lucide-react';
 import nutritionData from '../data/nutrition_data.js';
 import ListingCard from '../components/listings/ListingCard';
 
 const NutritionPage: React.FC = () => {
-  // State for search and filtering
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedCounty, setSelectedCounty] = useState<string>('');
   const [filteredNutrition, setFilteredNutrition] = useState(nutritionData);
-  
-  // Get unique counties for the filter dropdown
+
   const counties = Array.from(new Set(nutritionData.map(store => store.county))).sort();
 
-  // Filter nutrition stores when search term or county changes
   useEffect(() => {
     let results = nutritionData;
-    
-    // Filter by search term
+
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
-      results = results.filter(store => 
-        store.name.toLowerCase().includes(term) || 
+      results = results.filter(store =>
+        store.name.toLowerCase().includes(term) ||
         store.description.toLowerCase().includes(term) ||
-        // Use optional chaining for products
         store.products?.some(product => product.toLowerCase().includes(term)) ||
         store.services.some(service => service.toLowerCase().includes(term))
       );
     }
-    
-    // Filter by county
+
     if (selectedCounty && selectedCounty !== 'All Counties') {
       results = results.filter(store => store.county === selectedCounty);
     }
-    
+
     setFilteredNutrition(results);
   }, [searchTerm, selectedCounty]);
 
@@ -43,8 +36,8 @@ const NutritionPage: React.FC = () => {
         <h1 className="text-3xl font-bold mb-2">Dog Nutrition in Ireland</h1>
         <p className="text-gray-600">Find the best food options and dietary advice for your dog</p>
       </div>
-      
-      {/* Search and Filter Section */}
+
+      {/* Search and Filter */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Search Input */}
@@ -60,7 +53,7 @@ const NutritionPage: React.FC = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          
+
           {/* County Filter */}
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -84,8 +77,8 @@ const NutritionPage: React.FC = () => {
           </div>
         </div>
       </div>
-      
-      {/* Information Section */}
+
+      {/* Info Section */}
       <div className="bg-blue-50 rounded-lg p-6 mb-8 border border-blue-100">
         <h2 className="text-xl font-semibold mb-3 text-blue-800">About Dog Nutrition</h2>
         <p className="text-gray-700 mb-4">
@@ -107,8 +100,8 @@ const NutritionPage: React.FC = () => {
           </div>
         </div>
       </div>
-      
-      {/* Results Count */}
+
+      {/* Count */}
       <div className="mb-6">
         <p className="text-gray-600">
           Showing {filteredNutrition.length} nutrition stores
@@ -116,8 +109,8 @@ const NutritionPage: React.FC = () => {
           {searchTerm ? ` matching "${searchTerm}"` : ''}
         </p>
       </div>
-      
-      {/* Nutrition Stores Grid */}
+
+      {/* Store Grid */}
       {filteredNutrition.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredNutrition.map((store) => (
@@ -131,6 +124,7 @@ const NutritionPage: React.FC = () => {
               description={store.description}
               county={store.county}
               category="nutrition"
+              products={store.products} // ✅ Added this line
             />
           ))}
         </div>
@@ -138,7 +132,7 @@ const NutritionPage: React.FC = () => {
         <div className="bg-gray-50 p-8 rounded-lg text-center">
           <h3 className="text-xl font-semibold text-gray-700 mb-2">No nutrition stores found</h3>
           <p className="text-gray-600 mb-4">Try adjusting your search criteria or selecting a different county.</p>
-          <button 
+          <button
             onClick={() => {
               setSearchTerm('');
               setSelectedCounty('');
