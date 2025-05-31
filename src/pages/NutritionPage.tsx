@@ -6,17 +6,36 @@ import ListingCard from '../components/listings/ListingCard';
 // Import nutrition data
 import nutritionData from '../data/nutrition_data';
 
+// Add products property to the type
+interface NutritionItem {
+  id: number;
+  name: string;
+  address: string;
+  county: string;
+  phone: string;
+  email: string;
+  website: string;
+  rating: number;
+  reviewCount: number;
+  description: string;
+  image: string;
+  services: string[];
+  brands: string[];
+  hours: string;
+  products?: string[]; // Make products optional
+}
+
 const NutritionPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [countyFilter, setCountyFilter] = useState('');
-  const [filteredItems, setFilteredItems] = useState(nutritionData);
+  const [filteredItems, setFilteredItems] = useState<NutritionItem[]>(nutritionData as NutritionItem[]);
 
   // Get unique counties for filter dropdown
   const counties = [...new Set(nutritionData.map(item => item.county))].sort();
 
   useEffect(() => {
     // Filter items based on search term and county filter
-    const filtered = nutritionData.filter(item => {
+    const filtered = (nutritionData as NutritionItem[]).filter(item => {
       const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            item.description.toLowerCase().includes(searchTerm.toLowerCase());
       

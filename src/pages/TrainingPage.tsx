@@ -4,18 +4,37 @@ import { MapPin, Star, Search, Filter } from 'lucide-react';
 import trainingData from '../data/training_data';
 import ListingCard from '../components/listings/ListingCard';
 
+// Add trainingTypes property to the type
+interface Training {
+  id: number;
+  name: string;
+  address: string;
+  county: string;
+  phone: string;
+  email: string;
+  website: string;
+  rating: number;
+  reviewCount: number;
+  description: string;
+  image: string;
+  services: string[];
+  specialties: string[];
+  hours: string;
+  trainingTypes?: string[]; // Make trainingTypes optional
+}
+
 const TrainingPage: React.FC = () => {
   // State for search and filtering
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedCounty, setSelectedCounty] = useState<string>('');
-  const [filteredTrainers, setFilteredTrainers] = useState(trainingData);
+  const [filteredTrainers, setFilteredTrainers] = useState<Training[]>(trainingData as Training[]);
   
   // Get unique counties for the filter dropdown
   const counties = Array.from(new Set(trainingData.map(trainer => trainer.county))).sort();
 
   // Filter trainers when search term or county changes
   useEffect(() => {
-    let results = trainingData;
+    let results = trainingData as Training[];
     
     // Filter by search term
     if (searchTerm) {

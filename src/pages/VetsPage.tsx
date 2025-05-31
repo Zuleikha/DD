@@ -6,17 +6,36 @@ import ListingCard from '../components/listings/ListingCard';
 // Import vets data
 import vetsData from '../data/vets_data';
 
+// Add specialties property to the type
+interface Vet {
+  id: number;
+  name: string;
+  address: string;
+  county: string;
+  phone: string;
+  mobile: string;
+  email: string;
+  website: string;
+  rating: number;
+  reviewCount: number;
+  description: string;
+  image: string;
+  services: string[];
+  hours: string;
+  specialties?: string[]; // Make specialties optional
+}
+
 const VetsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [countyFilter, setCountyFilter] = useState('');
-  const [filteredVets, setFilteredVets] = useState(vetsData);
+  const [filteredVets, setFilteredVets] = useState<Vet[]>(vetsData as Vet[]);
 
   // Get unique counties for filter dropdown
   const counties = [...new Set(vetsData.map(vet => vet.county))].sort();
 
   useEffect(() => {
     // Filter vets based on search term and county filter
-    const filtered = vetsData.filter(vet => {
+    const filtered = (vetsData as Vet[]).filter(vet => {
       const matchesSearch = vet.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            vet.description.toLowerCase().includes(searchTerm.toLowerCase());
       
