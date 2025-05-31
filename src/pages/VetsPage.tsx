@@ -3,31 +3,50 @@ import { Search } from 'lucide-react';
 import SEO from '../components/common/SEO';
 import ListingCard from '../components/listings/ListingCard';
 
-// Import vets data and type
+// Import vets data
 import vetsData from '../data/vets_data';
-import { Vet } from '../types/vets_data';
+
+// Define interface for vet objects with optional specialties
+interface Vet {
+  id: number;
+  name: string;
+  address: string;
+  county: string;
+  phone: string;
+  mobile: string;
+  email: string;
+  website: string;
+  rating: number;
+  reviewCount: number;
+  description: string;
+  image: string;
+  services: string[];
+  hours: string;
+  // Make specialties optional
+  specialties?: string[];
+}
 
 const VetsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [countyFilter, setCountyFilter] = useState('');
-  const [filteredVets, setFilteredVets] = useState<Vet[]>(vetsData);
+  const [filteredVets, setFilteredVets] = useState<Vet[]>(vetsData as Vet[]);
 
   // Get unique counties for filter dropdown
   const counties = [...new Set(vetsData.map(vet => vet.county))].sort();
 
   useEffect(() => {
     // Filter vets based on search term and county filter
-    const filtered = vetsData.filter(vet => {
-      const matchesSearch = 
-        vet.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        vet.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        // Safely check specialties with optional chaining
-        (vet.specialties?.some(specialty => 
-          specialty.toLowerCase().includes(searchTerm.toLowerCase())
-        ) ?? false);
+    const filtered = (vetsData as Vet[]).filter(vet => {
+      const matchesSearch = vet.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           vet.description.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      // Safely check if specialties exists and contains the search term
+      const matchesSpecialties = vet.specialties ? 
+        vet.specialties.some((specialty: string) => specialty.toLowerCase().includes(searchTerm.toLowerCase())) : 
+        false;
       
       const matchesCounty = countyFilter === '' || vet.county === countyFilter;
-      return matchesSearch && matchesCounty;
+      return (matchesSearch || matchesSpecialties) && matchesCounty;
     });
     
     setFilteredVets(filtered);
@@ -105,8 +124,6 @@ const VetsPage: React.FC = () => {
                   reviewCount={vet.reviewCount}
                   description={vet.description}
                   county={vet.county}
-                  address={vet.address}
-                  specialties={vet.specialties}
                   category="vets"
                 />
               ))}

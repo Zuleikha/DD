@@ -3,14 +3,13 @@ import { Search } from 'lucide-react';
 import SEO from '../components/common/SEO';
 import ListingCard from '../components/listings/ListingCard';
 
-// Import nutrition data and type
+// Import nutrition data
 import nutritionData from '../data/nutrition_data';
-import { Nutrition } from '../types/nutrition_data';
 
 const NutritionPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [countyFilter, setCountyFilter] = useState('');
-  const [filteredItems, setFilteredItems] = useState<Nutrition[]>(nutritionData);
+  const [filteredItems, setFilteredItems] = useState(nutritionData);
 
   // Get unique counties for filter dropdown
   const counties = [...new Set(nutritionData.map(item => item.county))].sort();
@@ -18,16 +17,16 @@ const NutritionPage: React.FC = () => {
   useEffect(() => {
     // Filter items based on search term and county filter
     const filtered = nutritionData.filter(item => {
-      const matchesSearch = 
-        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        // Safely check products with optional chaining
-        (item.products?.some(product => 
-          product.toLowerCase().includes(searchTerm.toLowerCase())
-        ) ?? false);
+      const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           item.description.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      // Safely check if products exists and contains the search term
+      const matchesProducts = item.products ? 
+        item.products.some((product: string) => product.toLowerCase().includes(searchTerm.toLowerCase())) : 
+        false;
       
       const matchesCounty = countyFilter === '' || item.county === countyFilter;
-      return matchesSearch && matchesCounty;
+      return (matchesSearch || matchesProducts) && matchesCounty;
     });
     
     setFilteredItems(filtered);
@@ -105,8 +104,6 @@ const NutritionPage: React.FC = () => {
                   reviewCount={item.reviewCount}
                   description={item.description}
                   county={item.county}
-                  address={item.address}
-                  products={item.products}
                   category="nutrition"
                 />
               ))}
