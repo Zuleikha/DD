@@ -11,11 +11,11 @@ interface ListingCardProps {
   reviewCount: number;
   description?: string;
   county?: string;
+  category: string; // Add this new prop
   detailPath?: string;
   type?: string;
   address?: string;
 }
-
 const ListingCard: React.FC<ListingCardProps> = ({
   id,
   name,
@@ -25,12 +25,13 @@ const ListingCard: React.FC<ListingCardProps> = ({
   reviewCount,
   description = "",
   county = "",
-  detailPath = `/minders/${id}`,
+  category = "minders", // Default to minders
+  detailPath,
   type,
   address
 }) => {
-  // Use title if provided, otherwise use name
-  const displayName = title || name || "";
+  // Use the category to construct the path if detailPath is not provided
+  const path = detailPath || `/${category}/${id}`;
   
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300">
@@ -53,12 +54,12 @@ const ListingCard: React.FC<ListingCardProps> = ({
         </div>
         {type && <p className="text-blue-600 text-sm mb-2">{type}</p>}
         <p className="text-gray-600 mb-4 line-clamp-2">{description}</p>
-        <Link 
-          to={detailPath} 
-          className="block w-full bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700 transition-colors"
-        >
-          View Details
-        </Link>
+		<Link 
+			to={path} 
+		className="block w-full bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700 transition-colors"
+		>
+      View Details
+		</Link>
       </div>
     </div>
   );
