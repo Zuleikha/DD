@@ -18,6 +18,12 @@ import GroomingDetailPage from './pages/GroomingDetailPage';
 import PlacesPage from './pages/PlacesPage';
 import PlaceDetailPage from './pages/PlaceDetailPage';
 import AdvicePage from './pages/AdvicePage';
+import CommunityPage from './pages/CommunityPage';
+import ForumPage from './pages/ForumPage';
+import MarketplacePage from './pages/MarketplacePage';
+import AdoptionPage from './pages/AdoptionPage';
+import RegisterPage from './pages/RegisterPage';
+import LoginPage from './pages/LoginPage';
 
 function App() {
   return (
@@ -55,6 +61,14 @@ function App() {
             {/* Places Routes */}
             <Route path="/places" element={<PlacesPage />} />
             <Route path="/places/:id" element={<PlaceDetailPage />} />
+            
+            {/* Community Routes */}
+            <Route path="/community" element={<CommunityPage />} />
+            <Route path="/forum" element={<ForumPage />} />
+            <Route path="/marketplace" element={<MarketplacePage />} />
+            <Route path="/adoption" element={<AdoptionPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/login" element={<LoginPage />} />
             
             {/* Other Routes */}
             <Route path="/advice" element={<AdvicePage />} />

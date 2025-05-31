@@ -1,21 +1,21 @@
 import React from 'react';
 import SEO from '../components/common/SEO';
 
-const ForumPage: React.FC = () => {
+const LoginPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <SEO
-        title="Dog Owner Forum | DogDays.ie"
-        description="Connect with other dog owners across Ireland. Share tips, ask questions, and join the conversation."
-        canonicalUrl="https://www.dogdays.ie/forum"
+        title="Sign In | DogDays.ie"
+        description="Sign in to your DogDays.ie account to access all features."
+        canonicalUrl="https://www.dogdays.ie/login"
       />
 
       {/* Hero Section */}
       <section className="bg-[#4A90E2] text-white py-16">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-4">Discussion Forum</h1>
+          <h1 className="text-4xl font-bold mb-4">Sign In</h1>
           <p className="text-xl max-w-3xl">
-            Connect with other dog owners across Ireland. Share tips, ask questions, and join the conversation.
+            Sign in to your DogDays.ie account to access all features.
           </p>
         </div>
       </section>
@@ -26,8 +26,8 @@ const ForumPage: React.FC = () => {
           <div className="bg-white p-8 rounded-lg shadow-md">
             <h2 className="text-2xl font-bold mb-6">Coming Soon!</h2>
             <p className="text-gray-600 mb-4">
-              Our discussion forum is currently under development and will be available soon.
-              Check back later to connect with other dog owners across Ireland.
+              Our login system is currently under development and will be available soon.
+              Check back later to sign in to your account.
             </p>
             <a 
               href="/" 
@@ -42,4 +42,4 @@ const ForumPage: React.FC = () => {
   );
 };
 
-export default ForumPage;
+export default LoginPage;
