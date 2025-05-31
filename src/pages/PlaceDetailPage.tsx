@@ -91,7 +91,7 @@ const PlaceDetailPage: React.FC = () => {
               <div className="mb-8">
                 <h2 className="text-xl font-bold mb-4">Dog-Friendly Amenities</h2>
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {place.amenities.map((amenity, index) => (
+                  {place.amenities.map((amenity: string, index: number) => (
                     <li key={index} className="flex items-center">
                       <div className="h-2 w-2 bg-blue-500 rounded-full mr-2"></div>
                       <span>{amenity}</span>
