@@ -1,139 +1,117 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import ListingCard from '../components/listings/ListingCard';
+import { Search } from 'lucide-react';
 import SEO from '../components/common/SEO';
-import vetsData from '../data/vets_data.js';
+import ListingCard from '../components/listings/ListingCard';
 
-interface Vet {
-  id: number;
-  name: string;
-  address: string;
-  county: string;
-  phone: string;
-  mobile?: string;
-  email: string;
-  website: string;
-  rating: number;
-  reviewCount: number;
-  description: string;
-  image: string;
-  services: string[];
-  specialties?: string[];
-  hours: string;
-}
+// Import vets data
+import vetsData from '../data/vets_data';
 
 const VetsPage: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState<string>('');
-  const [selectedCounty, setSelectedCounty] = useState<string>('');
-  const [selectedSpecialty, setSelectedSpecialty] = useState<string>('');
-  
-  // Extract unique counties and specialties
-  const counties = Array.from(new Set(vetsData.map((item: Vet) => item.county)));
-  
-  // Safely handle specialties which might be undefined
-  const allSpecialties: string[] = [];
-  vetsData.forEach((item: Vet) => {
-    if (item.specialties && Array.isArray(item.specialties)) {
-      item.specialties.forEach((specialty: string) => {
-        if (!allSpecialties.includes(specialty)) {
-          allSpecialties.push(specialty);
-        }
-      });
-    }
-  });
-  
-  // Filter vets based on search and filters
-  const filteredVets = vetsData.filter((item: Vet) => {
-    const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         item.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCounty = selectedCounty ? item.county === selectedCounty : true;
-    const matchesSpecialty = selectedSpecialty ? (item.specialties && item.specialties.includes(selectedSpecialty)) : true;
+  const [searchTerm, setSearchTerm] = useState('');
+  const [countyFilter, setCountyFilter] = useState('');
+  const [filteredVets, setFilteredVets] = useState(vetsData);
+
+  // Get unique counties for filter dropdown
+  const counties = [...new Set(vetsData.map(vet => vet.county))].sort();
+
+  useEffect(() => {
+    // Filter vets based on search term and county filter
+    const filtered = vetsData.filter(vet => {
+      const matchesSearch = vet.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           vet.description.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCounty = countyFilter === '' || vet.county === countyFilter;
+      return matchesSearch && matchesCounty;
+    });
     
-    return matchesSearch && matchesCounty && matchesSpecialty;
-  });
+    setFilteredVets(filtered);
+  }, [searchTerm, countyFilter]);
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <SEO 
-        title="Veterinarians in Ireland | DogDays.ie"
-        description="Find the best veterinarians and animal hospitals across Ireland. Browse by county or specialty to find the right care for your dog."
-        keywords="veterinarians, vets, animal hospitals, dog care, Ireland, pet healthcare"
+      <SEO
+        title="Find Veterinarians in Ireland | DogDays.ie"
+        description="Find trusted veterinarians across Ireland. Browse profiles, read reviews, and find the perfect vet for your dog's healthcare needs."
         canonicalUrl="https://www.dogdays.ie/vets"
       />
-      
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-center mb-8">Veterinarians in Ireland</h1>
-        
-        {/* Search and Filters */}
-        <div className="bg-white p-4 rounded-lg shadow-md mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">Search</label>
+
+      {/* Hero Section */}
+      <section className="bg-blue-600 text-white py-16">
+        <div className="container mx-auto px-4">
+          <h1 className="text-4xl font-bold mb-4">Find a Veterinarian</h1>
+          <p className="text-xl max-w-3xl">
+            Browse trusted veterinarians across Ireland. Read reviews, compare services, 
+            and find the perfect vet for your dog's healthcare needs.
+          </p>
+        </div>
+      </section>
+
+      {/* Search and Filter Section */}
+      <section className="py-8 bg-white shadow">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="relative flex-grow">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="h-5 w-5 text-gray-400" />
+              </div>
               <input
                 type="text"
-                id="search"
-                placeholder="Search by name or description..."
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Search by name or keyword..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            
-            <div>
-              <label htmlFor="county" className="block text-sm font-medium text-gray-700 mb-1">Filter by County</label>
+            <div className="w-full md:w-64">
               <select
-                id="county"
-                className="w-full p-2 border border-gray-300 rounded-md"
-                value={selectedCounty}
-                onChange={(e) => setSelectedCounty(e.target.value)}
+                className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                value={countyFilter}
+                onChange={(e) => setCountyFilter(e.target.value)}
               >
                 <option value="">All Counties</option>
-                {counties.map((county, index) => (
-                  <option key={index} value={county}>{county}</option>
-                ))}
-              </select>
-            </div>
-            
-            <div>
-              <label htmlFor="specialty" className="block text-sm font-medium text-gray-700 mb-1">Filter by Specialty</label>
-              <select
-                id="specialty"
-                className="w-full p-2 border border-gray-300 rounded-md"
-                value={selectedSpecialty}
-                onChange={(e) => setSelectedSpecialty(e.target.value)}
-              >
-                <option value="">All Specialties</option>
-                {allSpecialties.map((specialty, index) => (
-                  <option key={index} value={specialty}>{specialty}</option>
+                {counties.map((county) => (
+                  <option key={county} value={county}>
+                    {county}
+                  </option>
                 ))}
               </select>
             </div>
           </div>
         </div>
-        
-        {/* Results */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredVets.map((vet: Vet) => (
-            <ListingCard
-              key={vet.id}
-              id={vet.id}
-              name={vet.name}
-              image={vet.image}
-              rating={vet.rating}
-              reviewCount={vet.reviewCount}
-              description={vet.description}
-              county={vet.county}
-              detailPath={`/vets/${vet.id}`}
-            />
-          ))}
+      </section>
+
+      {/* Listings Section */}
+      <section className="py-12">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl font-bold mb-6">
+            {filteredVets.length} {filteredVets.length === 1 ? 'Vet' : 'Vets'} Found
+          </h2>
+          
+          {filteredVets.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredVets.map((vet) => (
+                <ListingCard
+                  key={vet.id}
+                  id={vet.id}
+                  name={vet.name}
+                  image={vet.image}
+                  rating={vet.rating}
+                  reviewCount={vet.reviewCount}
+                  description={vet.description}
+                  county={vet.county}
+                  category="vets"
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="bg-gray-100 p-6 rounded-lg text-center">
+              <h3 className="text-xl font-semibold mb-2">No vets found</h3>
+              <p className="text-gray-600">
+                Try adjusting your search or filter criteria to find veterinarians.
+              </p>
+            </div>
+          )}
         </div>
-        
-        {filteredVets.length === 0 && (
-          <div className="text-center py-8">
-            <p className="text-gray-500">No veterinarians found matching your criteria.</p>
-          </div>
-        )}
-      </div>
+      </section>
     </div>
   );
 };

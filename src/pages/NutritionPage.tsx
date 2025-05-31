@@ -1,139 +1,117 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import ListingCard from '../components/listings/ListingCard';
+import { Search } from 'lucide-react';
 import SEO from '../components/common/SEO';
-import nutritionData from '../data/nutrition_data.js';
+import ListingCard from '../components/listings/ListingCard';
 
-interface Nutrition {
-  id: number;
-  name: string;
-  address: string;
-  county: string;
-  phone: string;
-  email: string;
-  website: string;
-  rating: number;
-  reviewCount: number;
-  description: string;
-  image: string;
-  products?: string[];
-  services: string[];
-  brands?: string[];
-  hours: string;
-}
+// Import nutrition data
+import nutritionData from '../data/nutrition_data';
 
 const NutritionPage: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState<string>('');
-  const [selectedCounty, setSelectedCounty] = useState<string>('');
-  const [selectedProduct, setSelectedProduct] = useState<string>('');
-  
-  // Extract unique counties and products
-  const counties = Array.from(new Set(nutritionData.map((item: Nutrition) => item.county)));
-  
-  // Safely handle products which might be undefined
-  const allProducts: string[] = [];
-  nutritionData.forEach((item: Nutrition) => {
-    if (item.products && Array.isArray(item.products)) {
-      item.products.forEach((product: string) => {
-        if (!allProducts.includes(product)) {
-          allProducts.push(product);
-        }
-      });
-    }
-  });
-  
-  // Filter nutrition stores based on search and filters
-  const filteredStores = nutritionData.filter((item: Nutrition) => {
-    const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         item.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCounty = selectedCounty ? item.county === selectedCounty : true;
-    const matchesProduct = selectedProduct ? (item.products && item.products.includes(selectedProduct)) : true;
+  const [searchTerm, setSearchTerm] = useState('');
+  const [countyFilter, setCountyFilter] = useState('');
+  const [filteredItems, setFilteredItems] = useState(nutritionData);
+
+  // Get unique counties for filter dropdown
+  const counties = [...new Set(nutritionData.map(item => item.county))].sort();
+
+  useEffect(() => {
+    // Filter items based on search term and county filter
+    const filtered = nutritionData.filter(item => {
+      const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           item.description.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCounty = countyFilter === '' || item.county === countyFilter;
+      return matchesSearch && matchesCounty;
+    });
     
-    return matchesSearch && matchesCounty && matchesProduct;
-  });
+    setFilteredItems(filtered);
+  }, [searchTerm, countyFilter]);
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <SEO 
-        title="Dog Nutrition Stores in Ireland | DogDays.ie"
-        description="Find the best dog nutrition stores and pet food suppliers across Ireland. Browse by county or product type to find quality food for your furry friend."
-        keywords="dog nutrition, pet food, dog food stores, Ireland, healthy dog food"
+      <SEO
+        title="Dog Nutrition Services in Ireland | DogDays.ie"
+        description="Find dog nutrition services, pet food stores, and dietary consultants across Ireland. Get expert advice on your dog's dietary needs."
         canonicalUrl="https://www.dogdays.ie/nutrition"
       />
-      
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-center mb-8">Dog Nutrition Stores in Ireland</h1>
-        
-        {/* Search and Filters */}
-        <div className="bg-white p-4 rounded-lg shadow-md mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">Search</label>
+
+      {/* Hero Section */}
+      <section className="bg-blue-600 text-white py-16">
+        <div className="container mx-auto px-4">
+          <h1 className="text-4xl font-bold mb-4">Dog Nutrition Services</h1>
+          <p className="text-xl max-w-3xl">
+            Find specialized pet food stores, canine nutritionists, and dietary consultants across Ireland. 
+            Get expert advice on your dog's dietary needs.
+          </p>
+        </div>
+      </section>
+
+      {/* Search and Filter Section */}
+      <section className="py-8 bg-white shadow">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="relative flex-grow">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="h-5 w-5 text-gray-400" />
+              </div>
               <input
                 type="text"
-                id="search"
-                placeholder="Search by name or description..."
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Search by name or keyword..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            
-            <div>
-              <label htmlFor="county" className="block text-sm font-medium text-gray-700 mb-1">Filter by County</label>
+            <div className="w-full md:w-64">
               <select
-                id="county"
-                className="w-full p-2 border border-gray-300 rounded-md"
-                value={selectedCounty}
-                onChange={(e) => setSelectedCounty(e.target.value)}
+                className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                value={countyFilter}
+                onChange={(e) => setCountyFilter(e.target.value)}
               >
                 <option value="">All Counties</option>
-                {counties.map((county, index) => (
-                  <option key={index} value={county}>{county}</option>
-                ))}
-              </select>
-            </div>
-            
-            <div>
-              <label htmlFor="product" className="block text-sm font-medium text-gray-700 mb-1">Filter by Product</label>
-              <select
-                id="product"
-                className="w-full p-2 border border-gray-300 rounded-md"
-                value={selectedProduct}
-                onChange={(e) => setSelectedProduct(e.target.value)}
-              >
-                <option value="">All Products</option>
-                {allProducts.map((product, index) => (
-                  <option key={index} value={product}>{product}</option>
+                {counties.map((county) => (
+                  <option key={county} value={county}>
+                    {county}
+                  </option>
                 ))}
               </select>
             </div>
           </div>
         </div>
-        
-        {/* Results */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredStores.map((store: Nutrition) => (
-            <ListingCard
-              key={store.id}
-              id={store.id}
-              name={store.name}
-              image={store.image}
-              rating={store.rating}
-              reviewCount={store.reviewCount}
-              description={store.description}
-              county={store.county}
-              detailPath={`/nutrition/${store.id}`}
-            />
-          ))}
+      </section>
+
+      {/* Listings Section */}
+      <section className="py-12">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl font-bold mb-6">
+            {filteredItems.length} {filteredItems.length === 1 ? 'Service' : 'Services'} Found
+          </h2>
+          
+          {filteredItems.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredItems.map((item) => (
+                <ListingCard
+                  key={item.id}
+                  id={item.id}
+                  name={item.name}
+                  image={item.image}
+                  rating={item.rating}
+                  reviewCount={item.reviewCount}
+                  description={item.description}
+                  county={item.county}
+                  category="nutrition"
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="bg-gray-100 p-6 rounded-lg text-center">
+              <h3 className="text-xl font-semibold mb-2">No nutrition services found</h3>
+              <p className="text-gray-600">
+                Try adjusting your search or filter criteria to find dog nutrition services.
+              </p>
+            </div>
+          )}
         </div>
-        
-        {filteredStores.length === 0 && (
-          <div className="text-center py-8">
-            <p className="text-gray-500">No nutrition stores found matching your criteria.</p>
-          </div>
-        )}
-      </div>
+      </section>
     </div>
   );
 };
