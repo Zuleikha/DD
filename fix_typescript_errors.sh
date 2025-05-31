@@ -1,3 +1,9 @@
+#!/bin/bash
+
+# Script to fix ListingCard and category prop errors
+
+# Fix ListingCard.tsx
+cat > src/components/listings/ListingCard.tsx << 'EOL'
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Star } from 'lucide-react';
@@ -70,3 +76,28 @@ const ListingCard: React.FC<ListingCardProps> = ({
 };
 
 export default ListingCard;
+EOL
+
+# Fix MindersPage.tsx to include category prop
+sed -i 's/<ListingCard\s\+key={minder\.id}\s\+id={minder\.id}\s\+title={minder\.title}/<ListingCard key={minder.id} id={minder.id} title={minder.title} category="minders"/g' src/pages/MindersPage.tsx
+
+# Fix VetsPage.tsx to include category prop
+sed -i 's/<ListingCard\s\+key={vet\.id}\s\+id={vet\.id}\s\+name={vet\.name}/<ListingCard key={vet.id} id={vet.id} name={vet.name} category="vets"/g' src/pages/VetsPage.tsx
+
+# Fix NutritionPage.tsx to include category prop
+sed -i 's/<ListingCard\s\+key={item\.id}\s\+id={item\.id}\s\+name={item\.name}/<ListingCard key={item.id} id={item.id} name={item.name} category="nutrition"/g' src/pages/NutritionPage.tsx
+
+# Fix ParksPage.tsx to include category prop
+sed -i 's/<ListingCard\s\+key={park\.id}\s\+id={park\.id}\s\+name={park\.name}/<ListingCard key={park.id} id={park.id} name={park.name} category="parks"/g' src/pages/ParksPage.tsx
+
+# Fix TrainingPage.tsx to include category prop
+sed -i 's/<ListingCard\s\+key={training\.id}\s\+id={training\.id}\s\+name={training\.name}/<ListingCard key={training.id} id={training.id} name={training.name} category="training"/g' src/pages/TrainingPage.tsx
+
+# Fix GroomingPage.tsx to include category prop
+sed -i 's/<ListingCard\s\+key={groomer\.id}\s\+id={groomer\.id}\s\+name={groomer\.name}/<ListingCard key={groomer.id} id={groomer.id} name={groomer.name} category="grooming"/g' src/pages/GroomingPage.tsx
+
+# Fix PlacesPage.tsx to include category prop
+sed -i 's/<ListingCard\s\+key={place\.id}\s\+id={place\.id}\s\+name={place\.name}/<ListingCard key={place.id} id={place.id} name={place.name} category="places"/g' src/pages/PlacesPage.tsx
+
+echo "Fixed ListingCard.tsx and added category props to all pages!"
+echo "This should resolve the TypeScript errors in your deployment."
