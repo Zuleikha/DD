@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { MapPin, Star, Search, Filter } from 'lucide-react';
 import trainingData from '../data/training_data';
 import { Training } from '../types/training_data';
+import ListingCard from '../components/listings/ListingCard';
 
 const TrainingPage: React.FC = () => {
   // State for search and filtering
@@ -124,45 +125,20 @@ const TrainingPage: React.FC = () => {
       {filteredTrainers.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredTrainers.map((trainer) => (
-            <div key={trainer.id} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300">
-              <img 
-                src={trainer.image} 
-                alt={trainer.name} 
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4">
-                <h2 className="text-xl font-bold text-gray-800 mb-1">{trainer.name}</h2>
-                <div className="flex items-center mb-2 text-sm text-gray-600">
-                  <MapPin className="h-4 w-4 mr-1" />
-                  <span>{trainer.address}</span>
-                </div>
-                <div className="flex items-center mb-3">
-                  <Star className="h-5 w-5 text-yellow-400 mr-1" />
-                  <span className="font-semibold">{trainer.rating.toFixed(1)}</span>
-                  <span className="mx-1 text-gray-400">•</span>
-                  <span className="text-gray-600">{trainer.reviewCount} reviews</span>
-                </div>
-                <p className="text-gray-600 mb-4 line-clamp-2">{trainer.description}</p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {trainer.specialties.slice(0, 3).map((specialty, index) => (
-                    <span key={index} className="bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded-full">
-                      {specialty}
-                    </span>
-                  ))}
-                  {trainer.specialties.length > 3 && (
-                    <span className="bg-gray-50 text-gray-500 text-xs px-2 py-1 rounded-full">
-                      +{trainer.specialties.length - 3} more
-                    </span>
-                  )}
-                </div>
-                <Link 
-                  to={`/training/${trainer.id}`} 
-                  className="block w-full bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700 transition-colors"
-                >
-                  View Details
-                </Link>
-              </div>
-            </div>
+            <ListingCard
+              key={trainer.id}
+              id={trainer.id}
+              name={trainer.name}
+              image={trainer.image}
+              rating={trainer.rating}
+              reviewCount={trainer.reviewCount}
+              description={trainer.description}
+              county={trainer.county}
+              address={trainer.address}
+              specialties={trainer.specialties}
+              trainingTypes={trainer.trainingTypes}
+              category="training"
+            />
           ))}
         </div>
       ) : (

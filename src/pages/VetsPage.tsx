@@ -105,6 +105,8 @@ const VetsPage: React.FC = () => {
                   reviewCount={vet.reviewCount}
                   description={vet.description}
                   county={vet.county}
+                  address={vet.address}
+                  specialties={vet.specialties}
                   category="vets"
                 />
               ))}

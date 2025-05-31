@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Star, MapPin } from 'lucide-react';
 
-interface ListingCardProps {
+export interface ListingCardProps {
   id: number;
   name: string;
   image: string;
@@ -11,7 +11,10 @@ interface ListingCardProps {
   description: string;
   county: string;
   category: string;
-  products?: string[]; // Optional
+  address?: string;        // Optional - used by MindersPage
+  products?: string[];     // Optional - used by NutritionPage
+  specialties?: string[];  // Optional - used by VetsPage and TrainingPage
+  trainingTypes?: string[]; // Optional - used by TrainingPage
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
@@ -23,7 +26,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
   description,
   county,
   category,
-  products
+  address,
+  products,
+  specialties,
+  trainingTypes
 }) => {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
@@ -36,7 +42,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
         <h3 className="text-xl font-bold mb-1">{name}</h3>
         <div className="flex items-center text-sm text-gray-600 mb-2">
           <MapPin className="h-4 w-4 mr-1" />
-          <span>{county}</span>
+          <span>{address || county}</span>
         </div>
         <div className="flex items-center mb-3">
           <Star className="h-5 w-5 text-yellow-400 mr-1" />
@@ -58,6 +64,24 @@ const ListingCard: React.FC<ListingCardProps> = ({
               {products.length > 3 && (
                 <span className="bg-gray-50 text-gray-500 text-xs px-2 py-1 rounded-full">
                   +{products.length - 3} more
+                </span>
+              )}
+            </div>
+          </div>
+        )}
+        
+        {/* Only render specialties section if specialties exist and have items */}
+        {specialties && specialties.length > 0 && (
+          <div className="mb-4">
+            <div className="flex flex-wrap gap-1">
+              {specialties.slice(0, 3).map((specialty, index) => (
+                <span key={index} className="bg-green-50 text-green-700 text-xs px-2 py-1 rounded-full">
+                  {specialty}
+                </span>
+              ))}
+              {specialties.length > 3 && (
+                <span className="bg-gray-50 text-gray-500 text-xs px-2 py-1 rounded-full">
+                  +{specialties.length - 3} more
                 </span>
               )}
             </div>

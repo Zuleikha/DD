@@ -105,6 +105,8 @@ const NutritionPage: React.FC = () => {
                   reviewCount={item.reviewCount}
                   description={item.description}
                   county={item.county}
+                  address={item.address}
+                  products={item.products}
                   category="nutrition"
                 />
               ))}
