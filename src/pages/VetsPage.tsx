@@ -21,7 +21,10 @@ const VetsPage: React.FC = () => {
       const matchesSearch = 
         vet.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         vet.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (vet.specialties && vet.specialties.some(specialty => specialty.toLowerCase().includes(searchTerm.toLowerCase())));
+        // Safely check specialties with optional chaining
+        (vet.specialties?.some(specialty => 
+          specialty.toLowerCase().includes(searchTerm.toLowerCase())
+        ) ?? false);
       
       const matchesCounty = countyFilter === '' || vet.county === countyFilter;
       return matchesSearch && matchesCounty;

@@ -12,7 +12,7 @@ export interface Training {
   image: string;
   services: string[];
   specialties: string[];
-  trainingTypes: string[];
+  trainingTypes?: string[]; // Optional
   hours: string;
 }
 

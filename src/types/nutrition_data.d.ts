@@ -10,9 +10,9 @@ export interface Nutrition {
   reviewCount: number;
   description: string;
   image: string;
-  products: string[];
   services: string[];
-  brands: string[];
+  products?: string[]; // Optional
+  brands?: string[];   // Optional
   hours: string;
 }
 

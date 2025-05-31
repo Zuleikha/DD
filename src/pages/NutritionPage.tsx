@@ -21,7 +21,10 @@ const NutritionPage: React.FC = () => {
       const matchesSearch = 
         item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (item.products && item.products.some(product => product.toLowerCase().includes(searchTerm.toLowerCase())));
+        // Safely check products with optional chaining
+        (item.products?.some(product => 
+          product.toLowerCase().includes(searchTerm.toLowerCase())
+        ) ?? false);
       
       const matchesCounty = countyFilter === '' || item.county === countyFilter;
       return matchesSearch && matchesCounty;

@@ -12,7 +12,7 @@ export interface Vet {
   description: string;
   image: string;
   services: string[];
-  specialties: string[];
+  specialties?: string[]; // Optional
   hours: string;
 }
 

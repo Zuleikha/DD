@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { MapPin, Star, Search, Filter } from 'lucide-react';
 import trainingData from '../data/training_data';
 import { Training } from '../types/training_data';
-import ListingCard from '../components/listings/ListingCard';
 
 const TrainingPage: React.FC = () => {
   // State for search and filtering
@@ -26,7 +25,10 @@ const TrainingPage: React.FC = () => {
         trainer.description.toLowerCase().includes(term) ||
         trainer.services.some(service => service.toLowerCase().includes(term)) ||
         trainer.specialties.some(specialty => specialty.toLowerCase().includes(term)) ||
-        (trainer.trainingTypes && trainer.trainingTypes.some(type => type.toLowerCase().includes(term)))
+        // Safely check trainingTypes with optional chaining
+        (trainer.trainingTypes?.some(type => 
+          type.toLowerCase().includes(term)
+        ) ?? false)
       );
     }
     
