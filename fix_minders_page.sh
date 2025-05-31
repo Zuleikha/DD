@@ -1,3 +1,9 @@
+#!/bin/bash
+
+# Script to fix MindersPage.tsx to match the dog minders data structure
+
+# Fix MindersPage.tsx
+cat > src/pages/MindersPage.tsx.fixed << 'EOL'
 import React, { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import SEO from '../components/common/SEO';
@@ -118,3 +124,11 @@ const MindersPage: React.FC = () => {
 };
 
 export default MindersPage;
+EOL
+
+# Apply the fix
+mv src/pages/MindersPage.tsx.fixed src/pages/MindersPage.tsx
+
+echo "Fixed MindersPage.tsx to match the dog minders data structure!"
+echo "Changed 'title' to 'name' and removed 'type' property to match your data."
+echo "This should resolve the TypeScript errors in your deployment."
