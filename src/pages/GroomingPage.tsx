@@ -1,198 +1,117 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { MapPin, Star, Search, Filter } from 'lucide-react';
+import { Search } from 'lucide-react';
+import SEO from '../components/common/SEO';
+import ListingCard from '../components/listings/ListingCard';
+
+// Import grooming data
 import groomingData from '../data/grooming_data';
 
-// Define interface for grooming objects
-interface Grooming {
-  id: number;
-  name: string;
-  address: string;
-  county: string;
-  phone: string;
-  email: string;
-  website: string;
-  rating: number;
-  reviewCount: number;
-  description: string;
-  image: string;
-  services: string[];
-  specialties: string[];
-  hours: string;
-}
-
 const GroomingPage: React.FC = () => {
-  // State for search and filtering
-  const [searchTerm, setSearchTerm] = useState<string>('');
-  const [selectedCounty, setSelectedCounty] = useState<string>('');
-  const [filteredGroomers, setFilteredGroomers] = useState<Grooming[]>(groomingData);
-  
-  // Get unique counties for the filter dropdown
-  const counties = Array.from(new Set(groomingData.map(groomer => groomer.county))).sort();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [countyFilter, setCountyFilter] = useState('');
+  const [filteredGroomers, setFilteredGroomers] = useState(groomingData);
 
-  // Filter groomers when search term or county changes
+  // Get unique counties for filter dropdown
+  const counties = [...new Set(groomingData.map(groomer => groomer.county))].sort();
+
   useEffect(() => {
-    let results = groomingData;
+    // Filter groomers based on search term and county filter
+    const filtered = groomingData.filter(groomer => {
+      const matchesSearch = groomer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           groomer.description.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCounty = countyFilter === '' || groomer.county === countyFilter;
+      return matchesSearch && matchesCounty;
+    });
     
-    // Filter by search term
-    if (searchTerm) {
-      const term = searchTerm.toLowerCase();
-      results = results.filter(groomer => 
-        groomer.name.toLowerCase().includes(term) || 
-        groomer.description.toLowerCase().includes(term) ||
-        groomer.services.some(service => service.toLowerCase().includes(term)) ||
-        groomer.specialties.some(specialty => specialty.toLowerCase().includes(term))
-      );
-    }
-    
-    // Filter by county
-    if (selectedCounty && selectedCounty !== 'All Counties') {
-      results = results.filter(groomer => groomer.county === selectedCounty);
-    }
-    
-    setFilteredGroomers(results);
-  }, [searchTerm, selectedCounty]);
+    setFilteredGroomers(filtered);
+  }, [searchTerm, countyFilter]);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Dog Grooming in Ireland</h1>
-        <p className="text-gray-600">Find top-rated dog groomers and grooming services near you</p>
-      </div>
-      
+    <div className="min-h-screen bg-gray-50">
+      <SEO
+        title="Dog Grooming Services in Ireland | DogDays.ie"
+        description="Find professional dog grooming services across Ireland. From basic baths to full styling, find the perfect groomer for your dog."
+        canonicalUrl="https://www.dogdays.ie/grooming"
+      />
+
+      {/* Hero Section */}
+      <section className="bg-blue-600 text-white py-16">
+        <div className="container mx-auto px-4">
+          <h1 className="text-4xl font-bold mb-4">Dog Grooming Services</h1>
+          <p className="text-xl max-w-3xl">
+            Find professional dog groomers across Ireland. From basic baths to full styling, 
+            discover the perfect grooming solution for your furry friend.
+          </p>
+        </div>
+      </section>
+
       {/* Search and Filter Section */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Search Input */}
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-gray-400" />
-            </div>
-            <input
-              type="text"
-              placeholder="Search by name, service, or specialty..."
-              className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          
-          {/* County Filter */}
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Filter className="h-5 w-5 text-gray-400" />
-            </div>
-            <select
-              className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
-              value={selectedCounty}
-              onChange={(e) => setSelectedCounty(e.target.value)}
-            >
-              <option value="">All Counties</option>
-              {counties.map((county) => (
-                <option key={county} value={county}>{county}</option>
-              ))}
-            </select>
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-              <svg className="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      {/* Information Section */}
-      <div className="bg-blue-50 rounded-lg p-6 mb-8 border border-blue-100">
-        <h2 className="text-xl font-semibold mb-3 text-blue-800">About Dog Grooming</h2>
-        <p className="text-gray-700 mb-4">
-          Professional dog grooming helps maintain your dog's health, comfort, and appearance. Regular grooming sessions 
-          can prevent matting, skin issues, and other problems while keeping your dog looking and feeling their best.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-          <div className="bg-white p-3 rounded-md shadow-sm">
-            <h3 className="font-semibold text-blue-700">Basic Services</h3>
-            <p className="text-gray-600">Bathing, brushing, nail trimming, ear cleaning, and coat trimming</p>
-          </div>
-          <div className="bg-white p-3 rounded-md shadow-sm">
-            <h3 className="font-semibold text-blue-700">Specialized Care</h3>
-            <p className="text-gray-600">Breed-specific styling, de-shedding treatments, and skin therapies</p>
-          </div>
-          <div className="bg-white p-3 rounded-md shadow-sm">
-            <h3 className="font-semibold text-blue-700">Frequency</h3>
-            <p className="text-gray-600">Grooming needs vary by breed, coat type, and lifestyle; consult with professionals</p>
-          </div>
-        </div>
-      </div>
-      
-      {/* Results Count */}
-      <div className="mb-6">
-        <p className="text-gray-600">
-          Showing {filteredGroomers.length} dog groomers
-          {selectedCounty ? ` in ${selectedCounty}` : ' across Ireland'}
-          {searchTerm ? ` matching "${searchTerm}"` : ''}
-        </p>
-      </div>
-      
-      {/* Dog Groomers Grid */}
-      {filteredGroomers.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredGroomers.map((groomer) => (
-            <div key={groomer.id} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300">
-              <img 
-                src={groomer.image} 
-                alt={groomer.name} 
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4">
-                <h2 className="text-xl font-bold text-gray-800 mb-1">{groomer.name}</h2>
-                <div className="flex items-center mb-2 text-sm text-gray-600">
-                  <MapPin className="h-4 w-4 mr-1" />
-                  <span>{groomer.address}</span>
-                </div>
-                <div className="flex items-center mb-3">
-                  <Star className="h-5 w-5 text-yellow-400 mr-1" />
-                  <span className="font-semibold">{groomer.rating.toFixed(1)}</span>
-                  <span className="mx-1 text-gray-400">•</span>
-                  <span className="text-gray-600">{groomer.reviewCount} reviews</span>
-                </div>
-                <p className="text-gray-600 mb-4 line-clamp-2">{groomer.description}</p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {groomer.services.slice(0, 3).map((service, index) => (
-                    <span key={index} className="bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded-full">
-                      {service}
-                    </span>
-                  ))}
-                  {groomer.services.length > 3 && (
-                    <span className="bg-gray-50 text-gray-500 text-xs px-2 py-1 rounded-full">
-                      +{groomer.services.length - 3} more
-                    </span>
-                  )}
-                </div>
-                <Link 
-                  to={`/grooming-detail/${groomer.id}`} 
-                  className="block w-full bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700 transition-colors"
-                >
-                  View Details
-                </Link>
+      <section className="py-8 bg-white shadow">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="relative flex-grow">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="h-5 w-5 text-gray-400" />
               </div>
+              <input
+                type="text"
+                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Search by name or keyword..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
-          ))}
+            <div className="w-full md:w-64">
+              <select
+                className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                value={countyFilter}
+                onChange={(e) => setCountyFilter(e.target.value)}
+              >
+                <option value="">All Counties</option>
+                {counties.map((county) => (
+                  <option key={county} value={county}>
+                    {county}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
-      ) : (
-        <div className="bg-gray-50 p-8 rounded-lg text-center">
-          <h3 className="text-xl font-semibold text-gray-700 mb-2">No dog groomers found</h3>
-          <p className="text-gray-600 mb-4">Try adjusting your search criteria or selecting a different county.</p>
-          <button 
-            onClick={() => {
-              setSearchTerm('');
-              setSelectedCounty('');
-            }}
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-          >
-            Reset Filters
-          </button>
+      </section>
+
+      {/* Listings Section */}
+      <section className="py-12">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl font-bold mb-6">
+            {filteredGroomers.length} {filteredGroomers.length === 1 ? 'Groomer' : 'Groomers'} Found
+          </h2>
+          
+          {filteredGroomers.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredGroomers.map((groomer) => (
+                <ListingCard
+                  key={groomer.id}
+                  id={groomer.id}
+                  name={groomer.name}
+                  image={groomer.image}
+                  rating={groomer.rating}
+                  reviewCount={groomer.reviewCount}
+                  description={groomer.description}
+                  county={groomer.county}
+                  category="grooming"
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="bg-gray-100 p-6 rounded-lg text-center">
+              <h3 className="text-xl font-semibold mb-2">No groomers found</h3>
+              <p className="text-gray-600">
+                Try adjusting your search or filter criteria to find dog groomers.
+              </p>
+            </div>
+          )}
         </div>
-      )}
+      </section>
     </div>
   );
 };

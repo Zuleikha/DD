@@ -1,222 +1,152 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { MapPin, Phone, Globe, Mail, Clock, ArrowLeft, Star } from 'lucide-react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { ArrowLeft, MapPin, Phone, Mail, Globe, Clock, Star } from 'lucide-react';
 import SEO from '../components/common/SEO';
 
-// Import the grooming data
-import groomingData from '../data/grooming_data.js';
-
-// Define a type for grooming objects
-interface Grooming {
-  id: number;
-  name: string;
-  address: string;
-  county: string;
-  phone: string;
-  email: string;
-  website: string;
-  rating: number;
-  reviewCount: number;
-  description: string;
-  image: string;
-  services: string[];
-  specialties?: string[];
-  hours: string;
-}
+// Import grooming data
+import groomingData from '../data/grooming_data';
 
 const GroomingDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [grooming, setGrooming] = useState<Grooming | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const [groomer, setGroomer] = useState<any | null>(null);
 
   useEffect(() => {
-    if (id) {
-      const groomingId = parseInt(id, 10);
-      const foundGrooming = groomingData.find((g: Grooming) => g.id === groomingId);
-      
-      if (foundGrooming) {
-        setGrooming(foundGrooming);
-        setLoading(false);
-      } else {
-        setError('Grooming service not found');
-        setLoading(false);
-      }
+    // Find the groomer with the matching ID
+    const groomerId = parseInt(id || '0');
+    const foundGroomer = groomingData.find(g => g.id === groomerId);
+    
+    if (foundGroomer) {
+      setGroomer(foundGroomer);
+    } else {
+      // Redirect to grooming page if groomer not found
+      navigate('/grooming');
     }
-  }, [id]);
+  }, [id, navigate]);
 
-  if (loading) {
+  if (!groomer) {
     return (
-      <div className="container mx-auto px-4 py-16 flex justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     );
   }
 
-  if (error || !grooming) {
-    return (
-      <div className="container mx-auto px-4 py-16">
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-          <h2 className="text-xl font-bold mb-2">Error</h2>
-          <p>{error || 'Grooming service not found'}</p>
-          <Link to="/grooming" className="mt-4 inline-block text-blue-500 hover:underline">
-            Back to Dog Grooming
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen bg-gray-50">
       <SEO
-        title={`${grooming.name} | Dog Grooming Details`}
-        description={`Learn more about ${grooming.name}, a dog grooming service in ${grooming.county}, Ireland.`}
-        canonicalUrl={`https://www.dogdays.ie/grooming/${grooming.id}`}
+        title={`${groomer.name} | Dog Grooming | DogDays.ie`}
+        description={`Visit ${groomer.name} in ${groomer.county}. ${groomer.description}`}
+        canonicalUrl={`https://www.dogdays.ie/grooming/${groomer.id}`}
       />
 
-      <main className="flex-grow">
-        {/* Hero Section with gradient background */}
-        <section className="relative py-16 bg-gradient-to-r from-blue-600 to-blue-400 text-white">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-              <div>
-                <h1 className="text-3xl md:text-4xl font-bold mb-2">{grooming.name}</h1>
-                <div className="flex items-center mb-4">
-                  <MapPin className="h-5 w-5 mr-1" />
-                  <span>{grooming.address}</span>
-                </div>
-                <div className="flex items-center">
-                  <Star className="h-5 w-5 text-yellow-300 mr-1" />
-                  <span className="font-semibold">{grooming.rating.toFixed(1)}</span>
-                  <span className="mx-1">•</span>
-                  <span>{grooming.reviewCount} reviews</span>
-                </div>
-              </div>
-              <Link to="/grooming" className="mt-4 md:mt-0 flex items-center text-white hover:text-blue-100 transition-colors">
-                <ArrowLeft className="h-5 w-5 mr-1" />
-                Back to Dog Grooming
-              </Link>
+      {/* Hero Section */}
+      <div className="relative h-64 md:h-96 bg-gray-800">
+        <img
+          src={groomer.image}
+          alt={groomer.name}
+          className="w-full h-full object-cover opacity-80"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+          <div className="container mx-auto">
+            <button
+              onClick={() => navigate('/grooming')}
+              className="flex items-center text-white mb-4 hover:underline"
+            >
+              <ArrowLeft className="h-4 w-4 mr-1" />
+              Back to Grooming Services
+            </button>
+            <h1 className="text-3xl md:text-4xl font-bold">{groomer.name}</h1>
+            <div className="flex items-center mt-2">
+              <MapPin className="h-5 w-5 mr-1" />
+              <span>{groomer.address}, {groomer.county}</span>
             </div>
           </div>
-        </section>
+        </div>
+      </div>
 
-        {/* Main Content */}
-        <section className="py-12">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Left Column - Image and Description */}
-              <div className="md:col-span-2">
-                <div className="mb-8">
-                  <img 
-                    src={grooming.image} 
-                    alt={grooming.name} 
-                    className="w-full h-64 object-cover rounded-lg shadow-md"
-                  />
-                </div>
-                
-                <div className="mb-8">
-                  <h2 className="text-2xl font-bold mb-4 text-gray-800">About {grooming.name}</h2>
-                  <p className="text-gray-700 leading-relaxed">{grooming.description}</p>
-                </div>
+      {/* Main Content */}
+      <div className="container mx-auto py-8 px-4">
+        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="p-6">
+            {/* Rating Section */}
+            <div className="flex items-center mb-6">
+              <div className="flex items-center">
+                <Star className="h-6 w-6 text-yellow-400" />
+                <span className="text-xl font-bold ml-1">{groomer.rating.toFixed(1)}</span>
+              </div>
+              <span className="mx-2 text-gray-400">•</span>
+              <span className="text-gray-600">{groomer.reviewCount} reviews</span>
+            </div>
 
-                <div className="mb-8">
-                  <h2 className="text-2xl font-bold mb-4 text-gray-800">Services Offered</h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {grooming.services.map((service, index) => (
-                      <div key={index} className="flex items-center bg-blue-50 p-3 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                        <span>{service}</span>
-                      </div>
-                    ))}
+            {/* Description */}
+            <div className="mb-8">
+              <h2 className="text-xl font-bold mb-4">About {groomer.name}</h2>
+              <p className="text-gray-700 leading-relaxed">{groomer.description}</p>
+            </div>
+
+            {/* Services */}
+            {groomer.services && groomer.services.length > 0 && (
+              <div className="mb-8">
+                <h2 className="text-xl font-bold mb-4">Services</h2>
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {groomer.services.map((service, index) => (
+                    <li key={index} className="flex items-center">
+                      <div className="h-2 w-2 bg-blue-500 rounded-full mr-2"></div>
+                      <span>{service}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Contact Information */}
+            <div className="mb-8">
+              <h2 className="text-xl font-bold mb-4">Contact Information</h2>
+              <div className="space-y-3">
+                <div className="flex items-center">
+                  <MapPin className="h-5 w-5 text-gray-500 mr-2" />
+                  <span>{groomer.address}, {groomer.county}</span>
+                </div>
+                {groomer.phone && (
+                  <div className="flex items-center">
+                    <Phone className="h-5 w-5 text-gray-500 mr-2" />
+                    <a href={`tel:${groomer.phone}`} className="text-blue-600 hover:underline">{groomer.phone}</a>
                   </div>
-                </div>
-
-                {grooming.specialties && grooming.specialties.length > 0 && (
-                  <div className="mb-8">
-                    <h2 className="text-2xl font-bold mb-4 text-gray-800">Specialties</h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {grooming.specialties.map((specialty, index) => (
-                        <div key={index} className="flex items-center bg-blue-50 p-3 rounded-lg">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                          </svg>
-                          <span>{specialty}</span>
-                        </div>
-                      ))}
-                    </div>
+                )}
+                {groomer.email && (
+                  <div className="flex items-center">
+                    <Mail className="h-5 w-5 text-gray-500 mr-2" />
+                    <a href={`mailto:${groomer.email}`} className="text-blue-600 hover:underline">{groomer.email}</a>
+                  </div>
+                )}
+                {groomer.website && (
+                  <div className="flex items-center">
+                    <Globe className="h-5 w-5 text-gray-500 mr-2" />
+                    <a href={groomer.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                      {groomer.website.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                    </a>
                   </div>
                 )}
               </div>
+            </div>
 
-              {/* Right Column - Contact Information */}
-              <div className="bg-gray-50 p-6 rounded-lg shadow-md h-fit">
-                <h2 className="text-2xl font-bold mb-4 text-gray-800">Contact Information</h2>
-                
-                <div className="space-y-4">
-                  <div className="flex items-start">
-                    <MapPin className="h-6 w-6 text-blue-500 mr-3 mt-1" />
-                    <div>
-                      <h3 className="font-semibold">Address</h3>
-                      <p className="text-gray-700">{grooming.address}</p>
-                      <p className="text-gray-700">County {grooming.county}</p>
-                    </div>
+            {/* Hours */}
+            {groomer.hours && (
+              <div>
+                <h2 className="text-xl font-bold mb-4">Opening Hours</h2>
+                <div className="flex items-start">
+                  <Clock className="h-5 w-5 text-gray-500 mr-2 mt-0.5" />
+                  <div>
+                    <p className="whitespace-pre-line">{groomer.hours}</p>
                   </div>
-
-                  <div className="flex items-start">
-                    <Phone className="h-6 w-6 text-blue-500 mr-3 mt-1" />
-                    <div>
-                      <h3 className="font-semibold">Phone</h3>
-                      <p className="text-gray-700">{grooming.phone}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start">
-                    <Mail className="h-6 w-6 text-blue-500 mr-3 mt-1" />
-                    <div>
-                      <h3 className="font-semibold">Email</h3>
-                      <a href={`mailto:${grooming.email}`} className="text-blue-600 hover:underline">
-                        {grooming.email}
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start">
-                    <Globe className="h-6 w-6 text-blue-500 mr-3 mt-1" />
-                    <div>
-                      <h3 className="font-semibold">Website</h3>
-                      <a href={grooming.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                        {grooming.website.replace(/^https?:\/\//, '')}
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start">
-                    <Clock className="h-6 w-6 text-blue-500 mr-3 mt-1" />
-                    <div>
-                      <h3 className="font-semibold">Business Hours</h3>
-                      <p className="text-gray-700">{grooming.hours}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-6">
-                  <a 
-                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(grooming.name + ' ' + grooming.address)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full bg-blue-600 text-white text-center py-3 rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    View on Map
-                  </a>
                 </div>
               </div>
-            </div>
+            )}
           </div>
-        </section>
-      </main>
+        </div>
+      </div>
     </div>
   );
 };
