@@ -10,8 +10,10 @@ export interface Place {
   reviewCount: number;
   description: string;
   image: string;
-  amenities?: string[];
+  //amenities?: string[];
   dogPolicy?: string;
+  dogMenu: string[];
+  dogAmenities: string[]; // This should be explicitly typed
   hours: string;
 }
 

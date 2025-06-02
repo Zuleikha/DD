@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { MapPin, Star, Search, Filter } from 'lucide-react';
+import { Search, Filter } from 'lucide-react';
 import trainingData from '../data/training_data';
 import ListingCard from '../components/listings/ListingCard';
 
-// Add trainingTypes property to the type
 interface Training {
   id: number;
   name: string;
@@ -18,44 +16,36 @@ interface Training {
   description: string;
   image: string;
   services: string[];
-  specialties: string[];
+  specialties?: string[];
   hours: string;
-  trainingTypes?: string[]; // Make trainingTypes optional
+  trainingTypes?: string[];
 }
 
 const TrainingPage: React.FC = () => {
-  // State for search and filtering
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedCounty, setSelectedCounty] = useState<string>('');
   const [filteredTrainers, setFilteredTrainers] = useState<Training[]>(trainingData as Training[]);
-  
-  // Get unique counties for the filter dropdown
+
   const counties = Array.from(new Set(trainingData.map(trainer => trainer.county))).sort();
 
-  // Filter trainers when search term or county changes
   useEffect(() => {
     let results = trainingData as Training[];
-    
-    // Filter by search term
+
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
-      results = results.filter(trainer => 
-        trainer.name.toLowerCase().includes(term) || 
+      results = results.filter(trainer =>
+        trainer.name.toLowerCase().includes(term) ||
         trainer.description.toLowerCase().includes(term) ||
         trainer.services.some(service => service.toLowerCase().includes(term)) ||
-        trainer.specialties.some(specialty => specialty.toLowerCase().includes(term)) ||
-        // Safely check trainingTypes with optional chaining
-        (trainer.trainingTypes ? 
-          trainer.trainingTypes.some((type: string) => type.toLowerCase().includes(term)) : 
-          false)
+        trainer.specialties?.some(specialty => specialty.toLowerCase().includes(term)) ||
+        trainer.trainingTypes?.some(type => type.toLowerCase().includes(term))
       );
     }
-    
-    // Filter by county
+
     if (selectedCounty && selectedCounty !== 'All Counties') {
       results = results.filter(trainer => trainer.county === selectedCounty);
     }
-    
+
     setFilteredTrainers(results);
   }, [searchTerm, selectedCounty]);
 
@@ -65,11 +55,10 @@ const TrainingPage: React.FC = () => {
         <h1 className="text-3xl font-bold mb-2">Dog Training in Ireland</h1>
         <p className="text-gray-600">Connect with professional dog trainers and behavior specialists</p>
       </div>
-      
+
       {/* Search and Filter Section */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Search Input */}
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Search className="h-5 w-5 text-gray-400" />
@@ -82,8 +71,7 @@ const TrainingPage: React.FC = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          
-          {/* County Filter */}
+
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Filter className="h-5 w-5 text-gray-400" />
@@ -106,8 +94,8 @@ const TrainingPage: React.FC = () => {
           </div>
         </div>
       </div>
-      
-      {/* Information Section */}
+
+      {/* Info Section */}
       <div className="bg-blue-50 rounded-lg p-6 mb-8 border border-blue-100">
         <h2 className="text-xl font-semibold mb-3 text-blue-800">About Dog Training</h2>
         <p className="text-gray-700 mb-4">
@@ -129,7 +117,7 @@ const TrainingPage: React.FC = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Results Count */}
       <div className="mb-6">
         <p className="text-gray-600">
@@ -138,8 +126,8 @@ const TrainingPage: React.FC = () => {
           {searchTerm ? ` matching "${searchTerm}"` : ''}
         </p>
       </div>
-      
-      {/* Dog Trainers Grid */}
+
+      {/* Listing Grid */}
       {filteredTrainers.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredTrainers.map((trainer) => (
@@ -153,6 +141,9 @@ const TrainingPage: React.FC = () => {
               description={trainer.description}
               county={trainer.county}
               category="training"
+              address={trainer.address}
+              specialties={trainer.specialties}
+              trainingTypes={trainer.trainingTypes}
             />
           ))}
         </div>

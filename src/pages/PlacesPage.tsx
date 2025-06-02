@@ -24,7 +24,7 @@ const PlacesPage: React.FC = () => {
         place.name.toLowerCase().includes(term) || 
         place.description.toLowerCase().includes(term) ||
         // Use optional chaining for amenities
-        place.amenities?.some(amenity => amenity.toLowerCase().includes(term))
+        place.dogAmenities?.some((amenity: string) => amenity.toLowerCase().includes(term))
       );
     }
     

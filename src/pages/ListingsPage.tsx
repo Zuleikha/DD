@@ -29,6 +29,7 @@ interface Listing {
   email?: string;
   hours?: string;
   county?: string; // Add this line
+  specialties?: string[]; // add specialties prop
 }
 
 const ListingsPage: React.FC = () => {

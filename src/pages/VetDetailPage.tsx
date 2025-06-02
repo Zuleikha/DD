@@ -4,7 +4,7 @@ import { MapPin, Phone, Globe, Mail, Clock, ArrowLeft, Star } from 'lucide-react
 import SEO from '../components/common/SEO';
 
 // Import the vets data
-import vetsData from '../data/vets_data.ts';
+import vetsData from '../data/vets_data';
 
 // Define a type for vet objects
 interface Vet {
