@@ -1,706 +1,704 @@
 // grooming data
 const groomingData = [
-  {
-    id: 1,
-    name: "Fitzsimons Dog Grooming",
-    address: "Unit 3, Coolmine Industrial Estate, Dublin 15",
-    county: "Dublin",
-    phone: "01 838 5228",
-    email: "info@fitzsimonsdoggrooming.com",
-    website: "https://fitzsimonsdoggrooming.com",
-    rating: 4.9,
-    reviewCount: 312,
-    description: "Established in 1970, Fitzsimons Dog Grooming is one of Ireland's oldest and most respected grooming parlors. Run by award-winning groomer Hayley Evangelou, the salon is famous for expert care and love for dogs of all breeds and sizes. Their team of certified groomers specializes in breed-specific styling, hand-stripping, and caring for nervous dogs. The salon features state-of-the-art equipment, including hydraulic tables and specialized dryers for different coat types. Fitzsimons was awarded 'Best Dog Grooming Salon in Ireland' in 2022 and maintains the highest standards of care and hygiene.",
-    image: "https://via.placeholder.com/400x300?text=Fitzsimons+Dog+Grooming",
-    services: [
-      "Full Groom",
-      "Bath & Brush",
-      "Hand-Stripping",
-      "Breed-Specific Styling",
-      "Nail Trimming",
-      "De-shedding Treatments"
-    ],
-    specialties: [
-      "Show Dog Preparation",
-      "Nervous Dog Handling",
-      "Hand-Stripping",
-      "Breed-Specific Styling"
-    ],
-    hours: "Monday-Friday: 9:00am-5:30pm, Saturday: 9:00am-4:00pm, Sunday: Closed"
-  },
-  {
-    id: 2,
-    name: "Petmania Grooming Studio - Cork",
-    address: "Unit 5, Kinsale Road Retail Park, Cork",
-    county: "Cork",
-    phone: "021 431 8180",
-    email: "cork@petmania.ie",
-    website: "https://www.petmania.ie/dog-grooming-studios",
-    rating: 4.7,
-    reviewCount: 245,
-    description: "Petmania Grooming Studio in Cork offers professional dog grooming services in a modern, purpose-built facility. Their team of certified groomers provides a range of services from basic baths to full grooms and breed-specific styling. The studio features state-of-the-art equipment, including hydraulic tables and specialized dryers for different coat types. Petmania's groomers receive ongoing training to stay current with the latest techniques and trends. The studio is known for their gentle handling and ability to work with nervous dogs. Their online booking system makes scheduling appointments convenient for busy pet owners.",
-    image: "https://via.placeholder.com/400x300?text=Petmania+Grooming+Studio",
-    services: [
-      "Full Groom",
-      "Bath & Brush",
-      "Puppy's First Groom",
-      "Nail Trimming",
-      "De-shedding Treatments",
-      "Breed-Specific Styling"
-    ],
-    specialties: [
-      "Puppy Introduction to Grooming",
-      "Nervous Dog Handling",
-      "De-shedding Treatments",
-      "Online Booking"
-    ],
-    hours: "Monday-Wednesday: 9:30am-6:00pm, Thursday-Friday: 9:30am-8:00pm, Saturday: 9:30am-6:00pm, Sunday: 12:00pm-6:00pm"
-  },
-  {
-    id: 3,
-    name: "Dial a Dog Wash - Galway",
-    address: "Mobile Service - Galway City and County",
-    county: "Galway",
-    phone: "091 456 7890",
-    email: "galway@dialadogwash.ie",
-    website: "https://www.dialadogwash.ie",
-    rating: 4.8,
-    reviewCount: 187,
-    description: "Dial a Dog Wash Galway provides professional mobile dog grooming services throughout Galway City and County. Their specially converted vans are equipped with everything needed for a complete grooming service, including heated water, power, and professional grooming equipment. The service is particularly beneficial for dogs who get anxious in salon environments or for owners with limited mobility. Each van is operated by a certified groomer who provides personalized attention to each dog. Dial a Dog Wash offers a range of services from basic baths to full grooms and specialized treatments. Their convenient service eliminates the need for transportation and waiting rooms, reducing stress for both dogs and owners.",
-    image: "https://via.placeholder.com/400x300?text=Dial+a+Dog+Wash",
-    services: [
-      "Full Mobile Groom",
-      "Bath & Brush",
-      "De-shedding Treatments",
-      "Nail Trimming",
-      "Ear Cleaning",
-      "Anal Gland Expression"
-    ],
-    specialties: [
-      "Mobile Grooming",
-      "Anxious Dog Handling",
-      "Home Environment Grooming",
-      "Elderly/Disabled Owner Assistance"
-    ],
-    hours: "Monday-Saturday: 8:00am-6:00pm, Sunday: Closed"
-  },
-  {
-    id: 4,
-    name: "Glamour Dogs",
-    address: "Unit 7, Ashbourne Business Park, Ashbourne, Co. Meath",
-    county: "Meath",
-    phone: "01 835 0987",
-    email: "info@glamourdogs.ie",
-    website: "https://www.glamourdogs.ie",
-    rating: 4.9,
-    reviewCount: 276,
-    description: "Glamour Dogs in Ashbourne is a premium dog grooming salon offering a range of services from basic baths to full grooms and specialized treatments. Their team of experienced groomers specializes in breed-specific styling and creative grooming for show dogs and special occasions. The salon features state-of-the-art equipment, including hydraulic tables and specialized dryers for different coat types. Glamour Dogs is known for their luxurious spa treatments, including aromatherapy baths, paw balm treatments, and facial scrubs. They also offer puppy introduction sessions to help young dogs become comfortable with the grooming process. The salon maintains the highest standards of hygiene and uses premium, natural products.",
-    image: "https://via.placeholder.com/400x300?text=Glamour+Dogs",
-    services: [
-      "Full Groom",
-      "Bath & Brush",
-      "Luxury Spa Treatments",
-      "Creative Styling",
-      "Puppy Introduction",
-      "Nail Trimming"
-    ],
-    specialties: [
-      "Luxury Spa Treatments",
-      "Creative Styling",
-      "Show Dog Preparation",
-      "Natural Product Use"
-    ],
-    hours: "Tuesday-Friday: 9:00am-6:00pm, Saturday: 9:00am-5:00pm, Sunday-Monday: Closed"
-  },
-  {
-    id: 5,
-    name: "Dublin Dog Grooming",
-    address: "Unit 5, Sandyford Business Centre, Dublin 18",
-    county: "Dublin",
-    phone: "01 294 7654",
-    email: "info@dublindoggrooming.ie",
-    website: "https://dublindoggrooming.ie",
-    rating: 4.8,
-    reviewCount: 342,
-    description: "Dublin Dog Grooming is a professional pet styling salon offering a comprehensive range of grooming services for dogs of all breeds and sizes. Their team of certified groomers specializes in breed-specific styling, hand-stripping, and caring for senior dogs with special needs. The salon features modern equipment, including hydraulic tables and specialized dryers for different coat types. Dublin Dog Grooming is known for their attention to detail and ability to work with difficult dogs. They offer a calm, stress-free environment with individual attention for each dog. The salon uses premium, eco-friendly products and maintains the highest standards of hygiene and care.",
-    image: "https://via.placeholder.com/400x300?text=Dublin+Dog+Grooming",
-    services: [
-      "Full Groom",
-      "Bath & Brush",
-      "Hand-Stripping",
-      "Breed-Specific Styling",
-      "Senior Dog Care",
-      "De-matting"
-    ],
-    specialties: [
-      "Hand-Stripping",
-      "Senior Dog Care",
-      "Difficult Dog Handling",
-      "Eco-Friendly Products"
-    ],
-    hours: "Monday-Friday: 9:00am-6:00pm, Saturday: 9:00am-5:00pm, Sunday: Closed"
-  },
-  {
-    id: 6,
-    name: "Pampered Paws Mobile Dog Grooming",
-    address: "Mobile Service - Laois and Surrounding Counties",
-    county: "Laois",
-    phone: "057 862 1234",
-    email: "info@pamperedpaws.ie",
-    website: "https://www.pamperedpaws.ie",
-    rating: 4.9,
-    reviewCount: 198,
-    description: "Pampered Paws provides professional mobile dog grooming services throughout Laois and surrounding counties. Operated by Leeza, a certified groomer with over 15 years of experience, the service brings a fully-equipped grooming salon to your doorstep. The mobile unit features heated water, power, and professional grooming equipment. Pampered Paws specializes in one-on-one grooming sessions, providing personalized attention to each dog in a familiar environment. This service is particularly beneficial for anxious dogs or those with mobility issues. Leeza offers a range of services from basic baths to full grooms and specialized treatments. The convenient mobile service eliminates the need for transportation and waiting rooms, reducing stress for both dogs and owners.",
-    image: "https://via.placeholder.com/400x300?text=Pampered+Paws",
-    services: [
-      "Full Mobile Groom",
-      "Bath & Brush",
-      "De-shedding Treatments",
-      "Nail Trimming",
-      "Ear Cleaning",
-      "Anal Gland Expression"
-    ],
-    specialties: [
-      "Mobile Grooming",
-      "One-on-One Attention",
-      "Anxious Dog Handling",
-      "Rural Area Service"
-    ],
-    hours: "Monday-Friday: 9:00am-6:00pm, Saturday: 9:00am-4:00pm, Sunday: Closed"
-  },
-  {
-    id: 7,
-    name: "Maxi Zoo Salon - Limerick",
-    address: "Unit 3, Parkway Retail Park, Dublin Road, Limerick",
-    county: "Limerick",
-    phone: "061 316 499",
-    email: "limerick@maxizoo.ie",
-    website: "https://www.maxizoo.ie/serviceworld/salons",
-    rating: 4.7,
-    reviewCount: 213,
-    description: "Maxi Zoo Salon in Limerick offers professional dog grooming services in a modern, retail-integrated environment. Their team of certified groomers provides a range of services from basic nail clipping to full grooms and breed-specific styling. The salon features state-of-the-art equipment and uses premium grooming products. Maxi Zoo Salon is known for their efficiency and value, offering competitive pricing for high-quality grooming. The convenient retail location allows owners to shop for pet supplies while their dog is being groomed. The salon's online booking system makes scheduling appointments easy, and their loyalty program offers discounts for regular customers.",
-    image: "https://via.placeholder.com/400x300?text=Maxi+Zoo+Salon",
-    services: [
-      "Full Groom",
-      "Bath & Brush",
-      "Nail Clipping",
-      "Nail Filing",
-      "Face Trimming",
-      "Cleansing Bath"
-    ],
-    specialties: [
-      "Retail Integration",
-      "Value Pricing",
-      "Loyalty Program",
-      "Online Booking"
-    ],
-    hours: "Monday-Friday: 9:00am-8:00pm, Saturday: 9:00am-6:00pm, Sunday: 11:00am-5:00pm"
-  },
-  {
-    id: 8,
-    name: "Grooming.dog",
-    address: "Unit 2, Blackrock Business Park, Blackrock, Co. Dublin",
-    county: "Dublin",
-    phone: "01 288 9876",
-    email: "info@grooming.dog",
-    website: "https://grooming.dog",
-    rating: 4.9,
-    reviewCount: 287,
-    description: "Grooming.dog offers luxury pet care and award-winning grooming services in their premium Blackrock salon. Their team of internationally trained groomers specializes in high-end styling, hand-stripping, and spa treatments for discerning pet owners. The salon features state-of-the-art equipment, including custom-built bathing systems and specialized drying stations. Grooming.dog is known for their exclusive treatments, including aromatherapy baths, blueberry facials, and paw balm therapy. They use only premium, organic products and offer a range of specialized services for different coat types and breed requirements. The salon provides a calm, luxurious environment with individual attention for each dog, ensuring a stress-free experience.",
-    image: "https://via.placeholder.com/400x300?text=Grooming.dog",
-    services: [
-      "Luxury Full Groom",
-      "Spa Treatments",
-      "Hand-Stripping",
-      "Breed-Specific Styling",
-      "Aromatherapy Baths",
-      "Blueberry Facials"
-    ],
-    specialties: [
-      "Luxury Pet Care",
-      "Organic Products",
-      "Specialized Spa Treatments",
-      "International Styling Techniques"
-    ],
-    hours: "Tuesday-Friday: 9:00am-6:00pm, Saturday: 9:00am-5:00pm, Sunday-Monday: Closed"
-  },
-  {
-    id: 9,
-    name: "Fluffy Tails Dog Grooming",
-    address: "Main Street, Killarney, Co. Kerry",
-    county: "Kerry",
-    phone: "064 663 1234",
-    email: "info@fluffytails.ie",
-    website: "https://www.fluffytails.ie",
-    rating: 4.8,
-    reviewCount: 176,
-    description: "Fluffy Tails Dog Grooming in Killarney provides professional grooming services for dogs of all breeds and sizes. Their team of experienced groomers specializes in breed-specific styling, de-matting, and caring for dogs with sensitive skin. The salon features modern equipment and uses premium, hypoallergenic products. Fluffy Tails is known for their gentle handling and ability to work with nervous dogs. They offer a calm, stress-free environment with individual attention for each dog. The salon also provides specialized services for senior dogs and those with medical conditions, working closely with local veterinarians when necessary. Their central location in Killarney makes them accessible to both locals and visitors to the area.",
-    image: "https://via.placeholder.com/400x300?text=Fluffy+Tails",
-    services: [
-      "Full Groom",
-      "Bath & Brush",
-      "De-matting",
-      "Breed-Specific Styling",
-      "Senior Dog Care",
-      "Hypoallergenic Treatments"
-    ],
-    specialties: [
-      "Sensitive Skin Care",
-      "Nervous Dog Handling",
-      "Senior Dog Grooming",
-      "Hypoallergenic Products"
-    ],
-    hours: "Tuesday-Friday: 9:00am-5:30pm, Saturday: 9:00am-4:00pm, Sunday-Monday: Closed"
-  },
-  {
-    id: 10,
-    name: "Posh Paws Dog Grooming",
-    address: "Unit 5, Briarhill Business Park, Galway",
-    county: "Galway",
-    phone: "091 380 1234",
-    email: "info@poshpawsgalway.ie",
-    website: "https://www.poshpawsgalway.ie",
-    rating: 4.7,
-    reviewCount: 198,
-    description: "Posh Paws Dog Grooming in Galway offers professional grooming services in a modern, purpose-built salon. Their team of certified groomers provides a range of services from basic baths to full grooms and specialized treatments. The salon features state-of-the-art equipment, including hydraulic tables and specialized dryers for different coat types. Posh Paws is known for their expertise in working with double-coated breeds and providing effective de-shedding treatments. They offer a calm, stress-free environment with individual attention for each dog. The salon also provides specialized puppy introduction sessions to help young dogs become comfortable with the grooming process. Their convenient location in Briarhill Business Park offers ample parking for clients.",
-    image: "https://via.placeholder.com/400x300?text=Posh+Paws",
-    services: [
-      "Full Groom",
-      "Bath & Brush",
-      "De-shedding Treatments",
-      "Puppy Introduction",
-      "Nail Trimming",
-      "Ear Cleaning"
-    ],
-    specialties: [
-      "Double-Coated Breed Expertise",
-      "De-shedding Treatments",
-      "Puppy Introduction",
-      "Individual Attention"
-    ],
-    hours: "Tuesday-Friday: 9:00am-6:00pm, Saturday: 9:00am-5:00pm, Sunday-Monday: Closed"
-  },
-  {
-    id: 11,
-    name: "Doggy Style Grooming",
-    address: "Unit 3, Dundalk Retail Park, Dundalk, Co. Louth",
-    county: "Louth",
-    phone: "042 933 5678",
-    email: "info@doggystylegrooming.ie",
-    website: "https://www.doggystylegrooming.ie",
-    rating: 4.6,
-    reviewCount: 156,
-    description: "Doggy Style Grooming in Dundalk offers professional dog grooming services in a friendly, relaxed environment. Their team of experienced groomers provides a range of services from basic baths to full grooms and breed-specific styling. The salon features modern equipment and uses premium grooming products. Doggy Style is known for their creative grooming options, including color accents and special occasion styling. They offer a calm atmosphere with individual attention for each dog. The salon also provides specialized services for puppies and senior dogs, adapting their techniques to meet different age-related needs. Their convenient location in Dundalk Retail Park offers ample parking and is easily accessible from both Louth and neighboring counties.",
-    image: "https://via.placeholder.com/400x300?text=Doggy+Style+Grooming",
-    services: [
-      "Full Groom",
-      "Bath & Brush",
-      "Creative Styling",
-      "Puppy Grooming",
-      "Senior Dog Care",
-      "Nail Trimming"
-    ],
-    specialties: [
-      "Creative Grooming",
-      "Color Accents",
-      "Special Occasion Styling",
-      "Age-Appropriate Techniques"
-    ],
-    hours: "Tuesday-Friday: 9:00am-6:00pm, Saturday: 9:00am-5:00pm, Sunday-Monday: Closed"
-  },
-  {
-    id: 12,
-    name: "The Grooming Room",
-    address: "Main Street, Kilkenny City, Co. Kilkenny",
-    county: "Kilkenny",
-    phone: "056 776 5432",
-    email: "info@thegroomingroom.ie",
-    website: "https://www.thegroomingroom.ie",
-    rating: 4.8,
-    reviewCount: 187,
-    description: "The Grooming Room in Kilkenny City provides professional dog grooming services in a charming, historic setting. Their team of certified groomers specializes in breed-specific styling, hand-stripping, and caring for dogs with special needs. The salon combines traditional techniques with modern equipment to provide the best possible care. The Grooming Room is known for their expertise in working with terrier breeds and other wire-coated dogs. They offer a calm, stress-free environment with individual attention for each dog. The salon also provides specialized services for rescue dogs, helping them overcome grooming-related anxiety from past experiences. Their central location in Kilkenny City makes them accessible to both locals and visitors to the area.",
-    image: "https://via.placeholder.com/400x300?text=The+Grooming+Room",
-    services: [
-      "Full Groom",
-      "Bath & Brush",
-      "Hand-Stripping",
-      "Breed-Specific Styling",
-      "Rescue Dog Care",
-      "Nail Trimming"
-    ],
-    specialties: [
-      "Terrier Expertise",
-      "Hand-Stripping",
-      "Rescue Dog Rehabilitation",
-      "Traditional Techniques"
-    ],
-    hours: "Tuesday-Friday: 9:00am-5:30pm, Saturday: 9:00am-4:00pm, Sunday-Monday: Closed"
-  },
-  {
-    id: 13,
-    name: "Pawfection Dog Grooming",
-    address: "Unit 7, Waterford Retail Park, Cork Road, Waterford",
-    county: "Waterford",
-    phone: "051 876 5432",
-    email: "info@pawfection.ie",
-    website: "https://www.pawfection.ie",
-    rating: 4.7,
-    reviewCount: 165,
-    description: "Pawfection Dog Grooming in Waterford offers professional grooming services in a modern, purpose-built salon. Their team of certified groomers provides a range of services from basic baths to full grooms and specialized treatments. The salon features state-of-the-art equipment, including hydraulic tables and specialized dryers for different coat types. Pawfection is known for their expertise in working with large breeds and providing effective de-matting treatments. They offer a calm, stress-free environment with individual attention for each dog. The salon also provides specialized services for dogs with skin conditions, using medicated shampoos and treatments as recommended by veterinarians. Their convenient location in Waterford Retail Park offers ample parking for clients.",
-    image: "https://via.placeholder.com/400x300?text=Pawfection",
-    services: [
-      "Full Groom",
-      "Bath & Brush",
-      "De-matting",
-      "Large Breed Grooming",
-      "Medicated Treatments",
-      "Nail Trimming"
-    ],
-    specialties: [
-      "Large Breed Expertise",
-      "De-matting Techniques",
-      "Skin Condition Management",
-      "Medicated Treatments"
-    ],
-    hours: "Tuesday-Friday: 9:00am-6:00pm, Saturday: 9:00am-5:00pm, Sunday-Monday: Closed"
-  },
-  {
-    id: 14,
-    name: "Barking Mad Dog Grooming",
-    address: "Main Street, Ennis, Co. Clare",
-    county: "Clare",
-    phone: "065 684 3210",
-    email: "info@barkingmadgrooming.ie",
-    website: "https://www.barkingmadgrooming.ie",
-    rating: 4.9,
-    reviewCount: 143,
-    description: "Barking Mad Dog Grooming in Ennis provides professional grooming services in a friendly, welcoming environment. Their team of experienced groomers specializes in breed-specific styling, creative grooming, and caring for nervous dogs. The salon features modern equipment and uses premium, natural grooming products. Barking Mad is known for their patience and gentle handling, making them a favorite for dogs who have had negative grooming experiences in the past. They offer a calm atmosphere with individual attention for each dog. The salon also provides specialized services for puppies, introducing them gradually to the grooming process to create positive associations. Their central location in Ennis makes them accessible to dog owners throughout Clare.",
-    image: "https://via.placeholder.com/400x300?text=Barking+Mad",
-    services: [
-      "Full Groom",
-      "Bath & Brush",
-      "Creative Styling",
-      "Nervous Dog Grooming",
-      "Puppy Introduction",
-      "Natural Product Treatments"
-    ],
-    specialties: [
-      "Nervous Dog Handling",
-      "Creative Styling",
-      "Puppy Introduction",
-      "Natural Products"
-    ],
-    hours: "Tuesday-Friday: 9:00am-5:30pm, Saturday: 9:00am-4:00pm, Sunday-Monday: Closed"
-  },
-  {
-    id: 15,
-    name: "Classy Canines",
-    address: "Unit 5, Navan Retail Park, Navan, Co. Meath",
-    county: "Meath",
-    phone: "046 902 7654",
-    email: "info@classycanines.ie",
-    website: "https://www.classycanines.ie",
-    rating: 4.8,
-    reviewCount: 176,
-    description: "Classy Canines in Navan offers premium dog grooming services in a stylish, modern salon. Their team of certified groomers provides a range of services from basic baths to full grooms and specialized spa treatments. The salon features state-of-the-art equipment, including hydraulic tables and specialized dryers for different coat types. Classy Canines is known for their attention to detail and ability to create show-quality grooms for all breeds. They offer a calm, luxurious environment with individual attention for each dog. The salon also provides specialized services for senior dogs, adapting their techniques to accommodate age-related sensitivities. Their convenient location in Navan Retail Park offers ample parking and is easily accessible from throughout Meath.",
-    image: "https://via.placeholder.com/400x300?text=Classy+Canines",
-    services: [
-      "Full Groom",
-      "Bath & Brush",
-      "Spa Treatments",
-      "Show Preparation",
-      "Senior Dog Care",
-      "Nail Trimming"
-    ],
-    specialties: [
-      "Show-Quality Grooming",
-      "Luxury Spa Treatments",
-      "Senior Dog Care",
-      "Breed-Specific Styling"
-    ],
-    hours: "Tuesday-Friday: 9:00am-6:00pm, Saturday: 9:00am-5:00pm, Sunday-Monday: Closed"
-  },
-  {
-    id: 16,
-    name: "Woof & Wash Mobile Grooming",
-    address: "Mobile Service - Wicklow and South Dublin",
-    county: "Wicklow",
-    phone: "087 123 4567",
-    email: "info@woofandwash.ie",
-    website: "https://www.woofandwash.ie",
-    rating: 4.9,
-    reviewCount: 132,
-    description: "Woof & Wash provides professional mobile dog grooming services throughout Wicklow and South Dublin. Their specially equipped van brings a complete grooming salon to your doorstep, featuring heated water, power, and professional grooming equipment. The service is particularly beneficial for anxious dogs who stress in traditional salon environments. Each appointment is dedicated to one dog at a time, providing personalized attention without the distractions of a busy salon. Woof & Wash offers a range of services from basic baths to full grooms and specialized treatments. Their convenient mobile service eliminates the need for transportation and waiting rooms, reducing stress for both dogs and owners. The service is also ideal for elderly or disabled owners who find it difficult to transport their pets.",
-    image: "https://via.placeholder.com/400x300?text=Woof+and+Wash",
-    services: [
-      "Full Mobile Groom",
-      "Bath & Brush",
-      "De-shedding Treatments",
-      "Nail Trimming",
-      "Ear Cleaning",
-      "Anal Gland Expression"
-    ],
-    specialties: [
-      "Mobile Grooming",
-      "One-on-One Attention",
-      "Anxious Dog Handling",
-      "Home Environment Grooming"
-    ],
-    hours: "Monday-Friday: 8:00am-6:00pm, Saturday: 9:00am-4:00pm, Sunday: Closed"
-  },
-  {
-    id: 17,
-    name: "Petmania Grooming Studio - Limerick",
-    address: "Unit 5, Parkway Retail Park, Dublin Road, Limerick",
-    county: "Limerick",
-    phone: "061 308 580",
-    email: "limerick@petmania.ie",
-    website: "https://www.petmania.ie/dog-grooming-studios",
-    rating: 4.7,
-    reviewCount: 198,
-    description: "Petmania Grooming Studio in Limerick offers professional dog grooming services in a modern, purpose-built facility. Their team of certified groomers provides a range of services from basic baths to full grooms and breed-specific styling. The studio features state-of-the-art equipment, including hydraulic tables and specialized dryers for different coat types. Petmania's groomers receive ongoing training to stay current with the latest techniques and trends. The studio is known for their gentle handling and ability to work with nervous dogs. Their online booking system makes scheduling appointments convenient for busy pet owners. The retail location allows owners to shop for pet supplies while their dog is being groomed.",
-    image: "https://via.placeholder.com/400x300?text=Petmania+Grooming+Studio+Limerick",
-    services: [
-      "Full Groom",
-      "Bath & Brush",
-      "Puppy's First Groom",
-      "Nail Trimming",
-      "De-shedding Treatments",
-      "Breed-Specific Styling"
-    ],
-    specialties: [
-      "Puppy Introduction to Grooming",
-      "Nervous Dog Handling",
-      "De-shedding Treatments",
-      "Online Booking"
-    ],
-    hours: "Monday-Wednesday: 9:30am-6:00pm, Thursday-Friday: 9:30am-8:00pm, Saturday: 9:30am-6:00pm, Sunday: 12:00pm-6:00pm"
-  },
-  {
-    id: 18,
-    name: "Doggy Parlour",
-    address: "Main Street, Sligo Town, Co. Sligo",
-    county: "Sligo",
-    phone: "071 914 5678",
-    email: "info@doggyparlour.ie",
-    website: "https://www.doggyparlour.ie",
-    rating: 4.8,
-    reviewCount: 154,
-    description: "Doggy Parlour in Sligo Town offers professional dog grooming services in a friendly, relaxed environment. Their team of experienced groomers specializes in breed-specific styling, de-matting, and caring for dogs with sensitive skin. The salon features modern equipment and uses premium, hypoallergenic products. Doggy Parlour is known for their expertise in working with long-haired breeds and providing effective de-matting treatments. They offer a calm atmosphere with individual attention for each dog. The salon also provides specialized services for puppies and senior dogs, adapting their techniques to meet different age-related needs. Their central location in Sligo Town makes them accessible to dog owners throughout the Northwest region.",
-    image: "https://via.placeholder.com/400x300?text=Doggy+Parlour",
-    services: [
-      "Full Groom",
-      "Bath & Brush",
-      "De-matting",
-      "Breed-Specific Styling",
-      "Sensitive Skin Treatments",
-      "Nail Trimming"
-    ],
-    specialties: [
-      "Long-Haired Breed Expertise",
-      "De-matting Techniques",
-      "Sensitive Skin Care",
-      "Age-Appropriate Grooming"
-    ],
-    hours: "Tuesday-Friday: 9:00am-5:30pm, Saturday: 9:00am-4:00pm, Sunday-Monday: Closed"
-  },
-  {
-    id: 19,
-    name: "Maxi Zoo Salon - Cork",
-    address: "Unit 3, Mahon Point Retail Park, Cork",
-    county: "Cork",
-    phone: "021 230 4567",
-    email: "cork@maxizoo.ie",
-    website: "https://www.maxizoo.ie/serviceworld/salons",
-    rating: 4.6,
-    reviewCount: 187,
-    description: "Maxi Zoo Salon in Cork offers professional dog grooming services in a modern, retail-integrated environment. Their team of certified groomers provides a range of services from basic nail clipping to full grooms and breed-specific styling. The salon features state-of-the-art equipment and uses premium grooming products. Maxi Zoo Salon is known for their efficiency and value, offering competitive pricing for high-quality grooming. The convenient retail location allows owners to shop for pet supplies while their dog is being groomed. The salon's online booking system makes scheduling appointments easy, and their loyalty program offers discounts for regular customers.",
-    image: "https://via.placeholder.com/400x300?text=Maxi+Zoo+Salon+Cork",
-    services: [
-      "Full Groom",
-      "Bath & Brush",
-      "Nail Clipping",
-      "Nail Filing",
-      "Face Trimming",
-      "Cleansing Bath"
-    ],
-    specialties: [
-      "Retail Integration",
-      "Value Pricing",
-      "Loyalty Program",
-      "Online Booking"
-    ],
-    hours: "Monday-Friday: 9:00am-8:00pm, Saturday: 9:00am-6:00pm, Sunday: 11:00am-5:00pm"
-  },
-  {
-    id: 20,
-    name: "Pampered Pooch",
-    address: "Unit 3, Letterkenny Retail Park, Letterkenny, Co. Donegal",
-    county: "Donegal",
-    phone: "074 912 3456",
-    email: "info@pamperedpooch.ie",
-    website: "https://www.pamperedpooch.ie",
-    rating: 4.7,
-    reviewCount: 143,
-    description: "Pampered Pooch in Letterkenny offers professional dog grooming services in a modern, purpose-built salon. Their team of certified groomers provides a range of services from basic baths to full grooms and specialized treatments. The salon features state-of-the-art equipment, including hydraulic tables and specialized dryers for different coat types. Pampered Pooch is known for their expertise in working with double-coated breeds and providing effective de-shedding treatments. They offer a calm, stress-free environment with individual attention for each dog. The salon also provides specialized services for dogs with skin conditions, using medicated shampoos and treatments as recommended by veterinarians. Their convenient location in Letterkenny Retail Park offers ample parking for clients from throughout Donegal.",
-    image: "https://via.placeholder.com/400x300?text=Pampered+Pooch",
-    services: [
-      "Full Groom",
-      "Bath & Brush",
-      "De-shedding Treatments",
-      "Medicated Baths",
-      "Nail Trimming",
-      "Ear Cleaning"
-    ],
-    specialties: [
-      "Double-Coated Breed Expertise",
-      "De-shedding Treatments",
-      "Skin Condition Management",
-      "Medicated Treatments"
-    ],
-    hours: "Tuesday-Friday: 9:00am-6:00pm, Saturday: 9:00am-5:00pm, Sunday-Monday: Closed"
-  },
-  {
-    id: 21,
-    name: "Dial a Dog Wash - Dublin",
-    address: "Mobile Service - Dublin City and County",
-    county: "Dublin",
-    phone: "01 685 1234",
-    email: "dublin@dialadogwash.ie",
-    website: "https://www.dialadogwash.ie",
-    rating: 4.8,
-    reviewCount: 276,
-    description: "Dial a Dog Wash Dublin provides professional mobile dog grooming services throughout Dublin City and County. Their specially converted vans are equipped with everything needed for a complete grooming service, including heated water, power, and professional grooming equipment. The service is particularly beneficial for dogs who get anxious in salon environments or for owners with limited mobility. Each van is operated by a certified groomer who provides personalized attention to each dog. Dial a Dog Wash offers a range of services from basic baths to full grooms and specialized treatments. Their convenient service eliminates the need for transportation and waiting rooms, reducing stress for both dogs and owners. The mobile service is also ideal for busy professionals who value time-saving convenience.",
-    image: "https://via.placeholder.com/400x300?text=Dial+a+Dog+Wash+Dublin",
-    services: [
-      "Full Mobile Groom",
-      "Bath & Brush",
-      "De-shedding Treatments",
-      "Nail Trimming",
-      "Ear Cleaning",
-      "Anal Gland Expression"
-    ],
-    specialties: [
-      "Mobile Grooming",
-      "Anxious Dog Handling",
-      "Home Environment Grooming",
-      "Urban Service Coverage"
-    ],
-    hours: "Monday-Saturday: 8:00am-6:00pm, Sunday: Closed"
-  },
-  {
-    id: 22,
-    name: "Petmania Grooming Studio - Galway",
-    address: "Unit 3, Galway Retail Park, Headford Road, Galway",
-    county: "Galway",
-    phone: "091 507 910",
-    email: "galway@petmania.ie",
-    website: "https://www.petmania.ie/dog-grooming-studios",
-    rating: 4.7,
-    reviewCount: 187,
-    description: "Petmania Grooming Studio in Galway offers professional dog grooming services in a modern, purpose-built facility. Their team of certified groomers provides a range of services from basic baths to full grooms and breed-specific styling. The studio features state-of-the-art equipment, including hydraulic tables and specialized dryers for different coat types. Petmania's groomers receive ongoing training to stay current with the latest techniques and trends. The studio is known for their gentle handling and ability to work with nervous dogs. Their online booking system makes scheduling appointments convenient for busy pet owners. The retail location allows owners to shop for pet supplies while their dog is being groomed.",
-    image: "https://via.placeholder.com/400x300?text=Petmania+Grooming+Studio+Galway",
-    services: [
-      "Full Groom",
-      "Bath & Brush",
-      "Puppy's First Groom",
-      "Nail Trimming",
-      "De-shedding Treatments",
-      "Breed-Specific Styling"
-    ],
-    specialties: [
-      "Puppy Introduction to Grooming",
-      "Nervous Dog Handling",
-      "De-shedding Treatments",
-      "Online Booking"
-    ],
-    hours: "Monday-Wednesday: 9:30am-6:00pm, Thursday-Friday: 9:30am-8:00pm, Saturday: 9:30am-6:00pm, Sunday: 12:00pm-6:00pm"
-  },
-  {
-    id: 23,
-    name: "Canine Creations",
-    address: "Main Street, Tralee, Co. Kerry",
-    county: "Kerry",
-    phone: "066 712 3456",
-    email: "info@caninecreations.ie",
-    website: "https://www.caninecreations.ie",
-    rating: 4.9,
-    reviewCount: 165,
-    description: "Canine Creations in Tralee offers creative and professional dog grooming services in a friendly, welcoming environment. Their team of experienced groomers specializes in breed-specific styling, creative grooming, and caring for dogs with special needs. The salon features modern equipment and uses premium, natural grooming products. Canine Creations is known for their artistic approach to grooming, offering unique styles and color accents for special occasions. They provide a calm atmosphere with individual attention for each dog. The salon also offers specialized services for rescue dogs, helping them overcome grooming-related anxiety from past experiences. Their central location in Tralee makes them accessible to dog owners throughout Kerry.",
-    image: "https://via.placeholder.com/400x300?text=Canine+Creations",
-    services: [
-      "Full Groom",
-      "Bath & Brush",
-      "Creative Styling",
-      "Color Accents",
-      "Special Occasion Grooming",
-      "Rescue Dog Care"
-    ],
-    specialties: [
-      "Creative Grooming",
-      "Color Techniques",
-      "Special Occasion Styling",
-      "Rescue Dog Rehabilitation"
-    ],
-    hours: "Tuesday-Friday: 9:00am-5:30pm, Saturday: 9:00am-4:00pm, Sunday-Monday: Closed"
-  },
-  {
-    id: 24,
-    name: "Maxi Zoo Salon - Dublin",
-    address: "Unit 7, Blanchardstown Retail Park, Dublin 15",
-    county: "Dublin",
-    phone: "01 822 1234",
-    email: "blanchardstown@maxizoo.ie",
-    website: "https://www.maxizoo.ie/serviceworld/salons",
-    rating: 4.6,
-    reviewCount: 213,
-    description: "Maxi Zoo Salon in Blanchardstown offers professional dog grooming services in a modern, retail-integrated environment. Their team of certified groomers provides a range of services from basic nail clipping to full grooms and breed-specific styling. The salon features state-of-the-art equipment and uses premium grooming products. Maxi Zoo Salon is known for their efficiency and value, offering competitive pricing for high-quality grooming. The convenient retail location allows owners to shop for pet supplies while their dog is being groomed. The salon's online booking system makes scheduling appointments easy, and their loyalty program offers discounts for regular customers.",
-    image: "https://via.placeholder.com/400x300?text=Maxi+Zoo+Salon+Dublin",
-    services: [
-      "Full Groom",
-      "Bath & Brush",
-      "Nail Clipping",
-      "Nail Filing",
-      "Face Trimming",
-      "Cleansing Bath"
-    ],
-    specialties: [
-      "Retail Integration",
-      "Value Pricing",
-      "Loyalty Program",
-      "Online Booking"
-    ],
-    hours: "Monday-Friday: 9:00am-8:00pm, Saturday: 9:00am-6:00pm, Sunday: 11:00am-5:00pm"
-  },
-  {
-    id: 25,
-    name: "Pawsome Grooming",
-    address: "Unit 5, Athlone Retail Park, Athlone, Co. Westmeath",
-    county: "Westmeath",
-    phone: "090 647 8901",
-    email: "info@pawsomegrooming.ie",
-    website: "https://www.pawsomegrooming.ie",
-    rating: 4.8,
-    reviewCount: 154,
-    description: "Pawsome Grooming in Athlone offers professional dog grooming services in a modern, purpose-built salon. Their team of certified groomers provides a range of services from basic baths to full grooms and specialized treatments. The salon features state-of-the-art equipment, including hydraulic tables and specialized dryers for different coat types. Pawsome Grooming is known for their expertise in working with anxious dogs, creating a calm and positive experience. They offer a stress-free environment with individual attention for each dog. The salon also provides specialized services for puppies, introducing them gradually to the grooming process to create positive associations. Their convenient location in Athlone Retail Park offers ample parking and is easily accessible from throughout the Midlands region.",
-    image: "https://via.placeholder.com/400x300?text=Pawsome+Grooming",
-    services: [
-      "Full Groom",
-      "Bath & Brush",
-      "Anxious Dog Grooming",
-      "Puppy Introduction",
-      "Nail Trimming",
-      "Ear Cleaning"
-    ],
-    specialties: [
-      "Anxious Dog Handling",
-      "Fear-Free Techniques",
-      "Puppy Introduction",
-      "Stress-Free Environment"
-    ],
-    hours: "Tuesday-Friday: 9:00am-6:00pm, Saturday: 9:00am-5:00pm, Sunday-Monday: Closed"
-  }
+    {
+        id: 1,
+        name: "Fitzsimons Dog Grooming",
+        address: "Unit 3, Coolmine Industrial Estate, Dublin 15",
+        county: "Dublin",
+        phone: "01 838 5228",
+        email: "info@fitzsimonsdoggrooming.com",
+        website: "https://fitzsimonsdoggrooming.com",
+        rating: 4.9,
+        reviewCount: 312,
+        description: "Established in 1970, Fitzsimons Dog Grooming is one of Ireland's oldest and most respected grooming parlors. Run by award-winning groomer Hayley Evangelou, the salon is famous for expert care and love for dogs of all breeds and sizes. Their team of certified groomers specializes in breed-specific styling, hand-stripping, and caring for nervous dogs. The salon features state-of-the-art equipment, including hydraulic tables and specialized dryers for different coat types. Fitzsimons was awarded 'Best Dog Grooming Salon in Ireland' in 2022 and maintains the highest standards of care and hygiene.",
+        image: "https://via.placeholder.com/400x300?text=Fitzsimons+Dog+Grooming",
+        services: [
+            "Full Groom",
+            "Bath & Brush",
+            "Hand-Stripping",
+            "Breed-Specific Styling",
+            "Nail Trimming",
+            "De-shedding Treatments"
+        ],
+        specialties: [
+            "Show Dog Preparation",
+            "Nervous Dog Handling",
+            "Hand-Stripping",
+            "Breed-Specific Styling"
+        ],
+        hours: "Monday-Friday: 9:00am-5:30pm, Saturday: 9:00am-4:00pm, Sunday: Closed"
+    },
+    {
+        id: 2,
+        name: "Petmania Grooming Studio - Cork",
+        address: "Unit 5, Kinsale Road Retail Park, Cork",
+        county: "Cork",
+        phone: "021 431 8180",
+        email: "cork@petmania.ie",
+        website: "https://www.petmania.ie/dog-grooming-studios",
+        rating: 4.7,
+        reviewCount: 245,
+        description: "Petmania Grooming Studio in Cork offers professional dog grooming services in a modern, purpose-built facility. Their team of certified groomers provides a range of services from basic baths to full grooms and breed-specific styling. The studio features state-of-the-art equipment, including hydraulic tables and specialized dryers for different coat types. Petmania's groomers receive ongoing training to stay current with the latest techniques and trends. The studio is known for their gentle handling and ability to work with nervous dogs. Their online booking system makes scheduling appointments convenient for busy pet owners.",
+        image: "https://via.placeholder.com/400x300?text=Petmania+Grooming+Studio",
+        services: [
+            "Full Groom",
+            "Bath & Brush",
+            "Puppy's First Groom",
+            "Nail Trimming",
+            "De-shedding Treatments",
+            "Breed-Specific Styling"
+        ],
+        specialties: [
+            "Puppy Introduction to Grooming",
+            "Nervous Dog Handling",
+            "De-shedding Treatments",
+            "Online Booking"
+        ],
+        hours: "Monday-Wednesday: 9:30am-6:00pm, Thursday-Friday: 9:30am-8:00pm, Saturday: 9:30am-6:00pm, Sunday: 12:00pm-6:00pm"
+    },
+    {
+        id: 3,
+        name: "Dial a Dog Wash - Galway",
+        address: "Mobile Service - Galway City and County",
+        county: "Galway",
+        phone: "091 456 7890",
+        email: "galway@dialadogwash.ie",
+        website: "https://www.dialadogwash.ie",
+        rating: 4.8,
+        reviewCount: 187,
+        description: "Dial a Dog Wash Galway provides professional mobile dog grooming services throughout Galway City and County. Their specially converted vans are equipped with everything needed for a complete grooming service, including heated water, power, and professional grooming equipment. The service is particularly beneficial for dogs who get anxious in salon environments or for owners with limited mobility. Each van is operated by a certified groomer who provides personalized attention to each dog. Dial a Dog Wash offers a range of services from basic baths to full grooms and specialized treatments. Their convenient service eliminates the need for transportation and waiting rooms, reducing stress for both dogs and owners.",
+        image: "https://via.placeholder.com/400x300?text=Dial+a+Dog+Wash",
+        services: [
+            "Full Mobile Groom",
+            "Bath & Brush",
+            "De-shedding Treatments",
+            "Nail Trimming",
+            "Ear Cleaning",
+            "Anal Gland Expression"
+        ],
+        specialties: [
+            "Mobile Grooming",
+            "Anxious Dog Handling",
+            "Home Environment Grooming",
+            "Elderly/Disabled Owner Assistance"
+        ],
+        hours: "Monday-Saturday: 8:00am-6:00pm, Sunday: Closed"
+    },
+    {
+        id: 4,
+        name: "Glamour Dogs",
+        address: "Unit 7, Ashbourne Business Park, Ashbourne, Co. Meath",
+        county: "Meath",
+        phone: "01 835 0987",
+        email: "info@glamourdogs.ie",
+        website: "https://www.glamourdogs.ie",
+        rating: 4.9,
+        reviewCount: 276,
+        description: "Glamour Dogs in Ashbourne is a premium dog grooming salon offering a range of services from basic baths to full grooms and specialized treatments. Their team of experienced groomers specializes in breed-specific styling and creative grooming for show dogs and special occasions. The salon features state-of-the-art equipment, including hydraulic tables and specialized dryers for different coat types. Glamour Dogs is known for their luxurious spa treatments, including aromatherapy baths, paw balm treatments, and facial scrubs. They also offer puppy introduction sessions to help young dogs become comfortable with the grooming process. The salon maintains the highest standards of hygiene and uses premium, natural products.",
+        image: "https://via.placeholder.com/400x300?text=Glamour+Dogs",
+        services: [
+            "Full Groom",
+            "Bath & Brush",
+            "Luxury Spa Treatments",
+            "Creative Styling",
+            "Puppy Introduction",
+            "Nail Trimming"
+        ],
+        specialties: [
+            "Luxury Spa Treatments",
+            "Creative Styling",
+            "Show Dog Preparation",
+            "Natural Product Use"
+        ],
+        hours: "Tuesday-Friday: 9:00am-6:00pm, Saturday: 9:00am-5:00pm, Sunday-Monday: Closed"
+    },
+    {
+        id: 5,
+        name: "Dublin Dog Grooming",
+        address: "Unit 5, Sandyford Business Centre, Dublin 18",
+        county: "Dublin",
+        phone: "01 294 7654",
+        email: "info@dublindoggrooming.ie",
+        website: "https://dublindoggrooming.ie",
+        rating: 4.8,
+        reviewCount: 342,
+        description: "Dublin Dog Grooming is a professional pet styling salon offering a comprehensive range of grooming services for dogs of all breeds and sizes. Their team of certified groomers specializes in breed-specific styling, hand-stripping, and caring for senior dogs with special needs. The salon features modern equipment, including hydraulic tables and specialized dryers for different coat types. Dublin Dog Grooming is known for their attention to detail and ability to work with difficult dogs. They offer a calm, stress-free environment with individual attention for each dog. The salon uses premium, eco-friendly products and maintains the highest standards of hygiene and care.",
+        image: "https://via.placeholder.com/400x300?text=Dublin+Dog+Grooming",
+        services: [
+            "Full Groom",
+            "Bath & Brush",
+            "Hand-Stripping",
+            "Breed-Specific Styling",
+            "Senior Dog Care",
+            "De-matting"
+        ],
+        specialties: [
+            "Hand-Stripping",
+            "Senior Dog Care",
+            "Difficult Dog Handling",
+            "Eco-Friendly Products"
+        ],
+        hours: "Monday-Friday: 9:00am-6:00pm, Saturday: 9:00am-5:00pm, Sunday: Closed"
+    },
+    {
+        id: 6,
+        name: "Pampered Paws Mobile Dog Grooming",
+        address: "Mobile Service - Laois and Surrounding Counties",
+        county: "Laois",
+        phone: "057 862 1234",
+        email: "info@pamperedpaws.ie",
+        website: "https://www.pamperedpaws.ie",
+        rating: 4.9,
+        reviewCount: 198,
+        description: "Pampered Paws provides professional mobile dog grooming services throughout Laois and surrounding counties. Operated by Leeza, a certified groomer with over 15 years of experience, the service brings a fully-equipped grooming salon to your doorstep. The mobile unit features heated water, power, and professional grooming equipment. Pampered Paws specializes in one-on-one grooming sessions, providing personalized attention to each dog in a familiar environment. This service is particularly beneficial for anxious dogs or those with mobility issues. Leeza offers a range of services from basic baths to full grooms and specialized treatments. The convenient mobile service eliminates the need for transportation and waiting rooms, reducing stress for both dogs and owners.",
+        image: "https://via.placeholder.com/400x300?text=Pampered+Paws",
+        services: [
+            "Full Mobile Groom",
+            "Bath & Brush",
+            "De-shedding Treatments",
+            "Nail Trimming",
+            "Ear Cleaning",
+            "Anal Gland Expression"
+        ],
+        specialties: [
+            "Mobile Grooming",
+            "One-on-One Attention",
+            "Anxious Dog Handling",
+            "Rural Area Service"
+        ],
+        hours: "Monday-Friday: 9:00am-6:00pm, Saturday: 9:00am-4:00pm, Sunday: Closed"
+    },
+    {
+        id: 7,
+        name: "Maxi Zoo Salon - Limerick",
+        address: "Unit 3, Parkway Retail Park, Dublin Road, Limerick",
+        county: "Limerick",
+        phone: "061 316 499",
+        email: "limerick@maxizoo.ie",
+        website: "https://www.maxizoo.ie/serviceworld/salons",
+        rating: 4.7,
+        reviewCount: 213,
+        description: "Maxi Zoo Salon in Limerick offers professional dog grooming services in a modern, retail-integrated environment. Their team of certified groomers provides a range of services from basic nail clipping to full grooms and breed-specific styling. The salon features state-of-the-art equipment and uses premium grooming products. Maxi Zoo Salon is known for their efficiency and value, offering competitive pricing for high-quality grooming. The convenient retail location allows owners to shop for pet supplies while their dog is being groomed. The salon's online booking system makes scheduling appointments easy, and their loyalty program offers discounts for regular customers.",
+        image: "https://via.placeholder.com/400x300?text=Maxi+Zoo+Salon",
+        services: [
+            "Full Groom",
+            "Bath & Brush",
+            "Nail Clipping",
+            "Nail Filing",
+            "Face Trimming",
+            "Cleansing Bath"
+        ],
+        specialties: [
+            "Retail Integration",
+            "Value Pricing",
+            "Loyalty Program",
+            "Online Booking"
+        ],
+        hours: "Monday-Friday: 9:00am-8:00pm, Saturday: 9:00am-6:00pm, Sunday: 11:00am-5:00pm"
+    },
+    {
+        id: 8,
+        name: "Grooming.dog",
+        address: "Unit 2, Blackrock Business Park, Blackrock, Co. Dublin",
+        county: "Dublin",
+        phone: "01 288 9876",
+        email: "info@grooming.dog",
+        website: "https://grooming.dog",
+        rating: 4.9,
+        reviewCount: 287,
+        description: "Grooming.dog offers luxury pet care and award-winning grooming services in their premium Blackrock salon. Their team of internationally trained groomers specializes in high-end styling, hand-stripping, and spa treatments for discerning pet owners. The salon features state-of-the-art equipment, including custom-built bathing systems and specialized drying stations. Grooming.dog is known for their exclusive treatments, including aromatherapy baths, blueberry facials, and paw balm therapy. They use only premium, organic products and offer a range of specialized services for different coat types and breed requirements. The salon provides a calm, luxurious environment with individual attention for each dog, ensuring a stress-free experience.",
+        image: "https://via.placeholder.com/400x300?text=Grooming.dog",
+        services: [
+            "Luxury Full Groom",
+            "Spa Treatments",
+            "Hand-Stripping",
+            "Breed-Specific Styling",
+            "Aromatherapy Baths",
+            "Blueberry Facials"
+        ],
+        specialties: [
+            "Luxury Pet Care",
+            "Organic Products",
+            "Specialized Spa Treatments",
+            "International Styling Techniques"
+        ],
+        hours: "Tuesday-Friday: 9:00am-6:00pm, Saturday: 9:00am-5:00pm, Sunday-Monday: Closed"
+    },
+    {
+        id: 9,
+        name: "Fluffy Tails Dog Grooming",
+        address: "Main Street, Killarney, Co. Kerry",
+        county: "Kerry",
+        phone: "064 663 1234",
+        email: "info@fluffytails.ie",
+        website: "https://www.fluffytails.ie",
+        rating: 4.8,
+        reviewCount: 176,
+        description: "Fluffy Tails Dog Grooming in Killarney provides professional grooming services for dogs of all breeds and sizes. Their team of experienced groomers specializes in breed-specific styling, de-matting, and caring for dogs with sensitive skin. The salon features modern equipment and uses premium, hypoallergenic products. Fluffy Tails is known for their gentle handling and ability to work with nervous dogs. They offer a calm, stress-free environment with individual attention for each dog. The salon also provides specialized services for senior dogs and those with medical conditions, working closely with local veterinarians when necessary. Their central location in Killarney makes them accessible to both locals and visitors to the area.",
+        image: "https://via.placeholder.com/400x300?text=Fluffy+Tails",
+        services: [
+            "Full Groom",
+            "Bath & Brush",
+            "De-matting",
+            "Breed-Specific Styling",
+            "Senior Dog Care",
+            "Hypoallergenic Treatments"
+        ],
+        specialties: [
+            "Sensitive Skin Care",
+            "Nervous Dog Handling",
+            "Senior Dog Grooming",
+            "Hypoallergenic Products"
+        ],
+        hours: "Tuesday-Friday: 9:00am-5:30pm, Saturday: 9:00am-4:00pm, Sunday-Monday: Closed"
+    },
+    {
+        id: 10,
+        name: "Posh Paws Dog Grooming",
+        address: "Unit 5, Briarhill Business Park, Galway",
+        county: "Galway",
+        phone: "091 380 1234",
+        email: "info@poshpawsgalway.ie",
+        website: "https://www.poshpawsgalway.ie",
+        rating: 4.7,
+        reviewCount: 198,
+        description: "Posh Paws Dog Grooming in Galway offers professional grooming services in a modern, purpose-built salon. Their team of certified groomers provides a range of services from basic baths to full grooms and specialized treatments. The salon features state-of-the-art equipment, including hydraulic tables and specialized dryers for different coat types. Posh Paws is known for their expertise in working with double-coated breeds and providing effective de-shedding treatments. They offer a calm, stress-free environment with individual attention for each dog. The salon also provides specialized puppy introduction sessions to help young dogs become comfortable with the grooming process. Their convenient location in Briarhill Business Park offers ample parking for clients.",
+        image: "https://via.placeholder.com/400x300?text=Posh+Paws",
+        services: [
+            "Full Groom",
+            "Bath & Brush",
+            "De-shedding Treatments",
+            "Puppy Introduction",
+            "Nail Trimming",
+            "Ear Cleaning"
+        ],
+        specialties: [
+            "Double-Coated Breed Expertise",
+            "De-shedding Treatments",
+            "Puppy Introduction",
+            "Individual Attention"
+        ],
+        hours: "Tuesday-Friday: 9:00am-6:00pm, Saturday: 9:00am-5:00pm, Sunday-Monday: Closed"
+    },
+    {
+        id: 11,
+        name: "Doggy Style Grooming",
+        address: "Unit 3, Dundalk Retail Park, Dundalk, Co. Louth",
+        county: "Louth",
+        phone: "042 933 5678",
+        email: "info@doggystylegrooming.ie",
+        website: "https://www.doggystylegrooming.ie",
+        rating: 4.6,
+        reviewCount: 156,
+        description: "Doggy Style Grooming in Dundalk offers professional dog grooming services in a friendly, relaxed environment. Their team of experienced groomers provides a range of services from basic baths to full grooms and breed-specific styling. The salon features modern equipment and uses premium grooming products. Doggy Style is known for their creative grooming options, including color accents and special occasion styling. They offer a calm atmosphere with individual attention for each dog. The salon also provides specialized services for puppies and senior dogs, adapting their techniques to meet different age-related needs. Their convenient location in Dundalk Retail Park offers ample parking and is easily accessible from both Louth and neighboring counties.",
+        image: "https://via.placeholder.com/400x300?text=Doggy+Style+Grooming",
+        services: [
+            "Full Groom",
+            "Bath & Brush",
+            "Creative Styling",
+            "Puppy Grooming",
+            "Senior Dog Care",
+            "Nail Trimming"
+        ],
+        specialties: [
+            "Creative Grooming",
+            "Color Accents",
+            "Special Occasion Styling",
+            "Age-Appropriate Techniques"
+        ],
+        hours: "Tuesday-Friday: 9:00am-6:00pm, Saturday: 9:00am-5:00pm, Sunday-Monday: Closed"
+    },
+    {
+        id: 12,
+        name: "The Grooming Room",
+        address: "Main Street, Kilkenny City, Co. Kilkenny",
+        county: "Kilkenny",
+        phone: "056 776 5432",
+        email: "info@thegroomingroom.ie",
+        website: "https://www.thegroomingroom.ie",
+        rating: 4.8,
+        reviewCount: 187,
+        description: "The Grooming Room in Kilkenny City provides professional dog grooming services in a charming, historic setting. Their team of certified groomers specializes in breed-specific styling, hand-stripping, and caring for dogs with special needs. The salon combines traditional techniques with modern equipment to provide the best possible care. The Grooming Room is known for their expertise in working with terrier breeds and other wire-coated dogs. They offer a calm, stress-free environment with individual attention for each dog. The salon also provides specialized services for rescue dogs, helping them overcome grooming-related anxiety from past experiences. Their central location in Kilkenny City makes them accessible to both locals and visitors to the area.",
+        image: "https://via.placeholder.com/400x300?text=The+Grooming+Room",
+        services: [
+            "Full Groom",
+            "Bath & Brush",
+            "Hand-Stripping",
+            "Breed-Specific Styling",
+            "Rescue Dog Care",
+            "Nail Trimming"
+        ],
+        specialties: [
+            "Terrier Expertise",
+            "Hand-Stripping",
+            "Rescue Dog Rehabilitation",
+            "Traditional Techniques"
+        ],
+        hours: "Tuesday-Friday: 9:00am-5:30pm, Saturday: 9:00am-4:00pm, Sunday-Monday: Closed"
+    },
+    {
+        id: 13,
+        name: "Pawfection Dog Grooming",
+        address: "Unit 7, Waterford Retail Park, Cork Road, Waterford",
+        county: "Waterford",
+        phone: "051 876 5432",
+        email: "info@pawfection.ie",
+        website: "https://www.pawfection.ie",
+        rating: 4.7,
+        reviewCount: 165,
+        description: "Pawfection Dog Grooming in Waterford offers professional grooming services in a modern, purpose-built salon. Their team of certified groomers provides a range of services from basic baths to full grooms and specialized treatments. The salon features state-of-the-art equipment, including hydraulic tables and specialized dryers for different coat types. Pawfection is known for their expertise in working with large breeds and providing effective de-matting treatments. They offer a calm, stress-free environment with individual attention for each dog. The salon also provides specialized services for dogs with skin conditions, using medicated shampoos and treatments as recommended by veterinarians. Their convenient location in Waterford Retail Park offers ample parking for clients.",
+        image: "https://via.placeholder.com/400x300?text=Pawfection",
+        services: [
+            "Full Groom",
+            "Bath & Brush",
+            "De-matting",
+            "Large Breed Grooming",
+            "Medicated Treatments",
+            "Nail Trimming"
+        ],
+        specialties: [
+            "Large Breed Expertise",
+            "De-matting Techniques",
+            "Skin Condition Management",
+            "Medicated Treatments"
+        ],
+        hours: "Tuesday-Friday: 9:00am-6:00pm, Saturday: 9:00am-5:00pm, Sunday-Monday: Closed"
+    },
+    {
+        id: 14,
+        name: "Barking Mad Dog Grooming",
+        address: "Main Street, Ennis, Co. Clare",
+        county: "Clare",
+        phone: "065 684 3210",
+        email: "info@barkingmadgrooming.ie",
+        website: "https://www.barkingmadgrooming.ie",
+        rating: 4.9,
+        reviewCount: 143,
+        description: "Barking Mad Dog Grooming in Ennis provides professional grooming services in a friendly, welcoming environment. Their team of experienced groomers specializes in breed-specific styling, creative grooming, and caring for nervous dogs. The salon features modern equipment and uses premium, natural grooming products. Barking Mad is known for their patience and gentle handling, making them a favorite for dogs who have had negative grooming experiences in the past. They offer a calm atmosphere with individual attention for each dog. The salon also provides specialized services for puppies, introducing them gradually to the grooming process to create positive associations. Their central location in Ennis makes them accessible to dog owners throughout Clare.",
+        image: "https://via.placeholder.com/400x300?text=Barking+Mad",
+        services: [
+            "Full Groom",
+            "Bath & Brush",
+            "Creative Styling",
+            "Nervous Dog Grooming",
+            "Puppy Introduction",
+            "Natural Product Treatments"
+        ],
+        specialties: [
+            "Nervous Dog Handling",
+            "Creative Styling",
+            "Puppy Introduction",
+            "Natural Products"
+        ],
+        hours: "Tuesday-Friday: 9:00am-5:30pm, Saturday: 9:00am-4:00pm, Sunday-Monday: Closed"
+    },
+    {
+        id: 15,
+        name: "Classy Canines",
+        address: "Unit 5, Navan Retail Park, Navan, Co. Meath",
+        county: "Meath",
+        phone: "046 902 7654",
+        email: "info@classycanines.ie",
+        website: "https://www.classycanines.ie",
+        rating: 4.8,
+        reviewCount: 176,
+        description: "Classy Canines in Navan offers premium dog grooming services in a stylish, modern salon. Their team of certified groomers provides a range of services from basic baths to full grooms and specialized spa treatments. The salon features state-of-the-art equipment, including hydraulic tables and specialized dryers for different coat types. Classy Canines is known for their attention to detail and ability to create show-quality grooms for all breeds. They offer a calm, luxurious environment with individual attention for each dog. The salon also provides specialized services for senior dogs, adapting their techniques to accommodate age-related sensitivities. Their convenient location in Navan Retail Park offers ample parking and is easily accessible from throughout Meath.",
+        image: "https://via.placeholder.com/400x300?text=Classy+Canines",
+        services: [
+            "Full Groom",
+            "Bath & Brush",
+            "Spa Treatments",
+            "Show Preparation",
+            "Senior Dog Care",
+            "Nail Trimming"
+        ],
+        specialties: [
+            "Show-Quality Grooming",
+            "Luxury Spa Treatments",
+            "Senior Dog Care",
+            "Breed-Specific Styling"
+        ],
+        hours: "Tuesday-Friday: 9:00am-6:00pm, Saturday: 9:00am-5:00pm, Sunday-Monday: Closed"
+    },
+    {
+        id: 16,
+        name: "Woof & Wash Mobile Grooming",
+        address: "Mobile Service - Wicklow and South Dublin",
+        county: "Wicklow",
+        phone: "087 123 4567",
+        email: "info@woofandwash.ie",
+        website: "https://www.woofandwash.ie",
+        rating: 4.9,
+        reviewCount: 132,
+        description: "Woof & Wash provides professional mobile dog grooming services throughout Wicklow and South Dublin. Their specially equipped van brings a complete grooming salon to your doorstep, featuring heated water, power, and professional grooming equipment. The service is particularly beneficial for anxious dogs who stress in traditional salon environments. Each appointment is dedicated to one dog at a time, providing personalized attention without the distractions of a busy salon. Woof & Wash offers a range of services from basic baths to full grooms and specialized treatments. Their convenient mobile service eliminates the need for transportation and waiting rooms, reducing stress for both dogs and owners. The service is also ideal for elderly or disabled owners who find it difficult to transport their pets.",
+        image: "https://via.placeholder.com/400x300?text=Woof+and+Wash",
+        services: [
+            "Full Mobile Groom",
+            "Bath & Brush",
+            "De-shedding Treatments",
+            "Nail Trimming",
+            "Ear Cleaning",
+            "Anal Gland Expression"
+        ],
+        specialties: [
+            "Mobile Grooming",
+            "One-on-One Attention",
+            "Anxious Dog Handling",
+            "Home Environment Grooming"
+        ],
+        hours: "Monday-Friday: 8:00am-6:00pm, Saturday: 9:00am-4:00pm, Sunday: Closed"
+    },
+    {
+        id: 17,
+        name: "Petmania Grooming Studio - Limerick",
+        address: "Unit 5, Parkway Retail Park, Dublin Road, Limerick",
+        county: "Limerick",
+        phone: "061 308 580",
+        email: "limerick@petmania.ie",
+        website: "https://www.petmania.ie/dog-grooming-studios",
+        rating: 4.7,
+        reviewCount: 198,
+        description: "Petmania Grooming Studio in Limerick offers professional dog grooming services in a modern, purpose-built facility. Their team of certified groomers provides a range of services from basic baths to full grooms and breed-specific styling. The studio features state-of-the-art equipment, including hydraulic tables and specialized dryers for different coat types. Petmania's groomers receive ongoing training to stay current with the latest techniques and trends. The studio is known for their gentle handling and ability to work with nervous dogs. Their online booking system makes scheduling appointments convenient for busy pet owners. The retail location allows owners to shop for pet supplies while their dog is being groomed.",
+        image: "https://via.placeholder.com/400x300?text=Petmania+Grooming+Studio+Limerick",
+        services: [
+            "Full Groom",
+            "Bath & Brush",
+            "Puppy's First Groom",
+            "Nail Trimming",
+            "De-shedding Treatments",
+            "Breed-Specific Styling"
+        ],
+        specialties: [
+            "Puppy Introduction to Grooming",
+            "Nervous Dog Handling",
+            "De-shedding Treatments",
+            "Online Booking"
+        ],
+        hours: "Monday-Wednesday: 9:30am-6:00pm, Thursday-Friday: 9:30am-8:00pm, Saturday: 9:30am-6:00pm, Sunday: 12:00pm-6:00pm"
+    },
+    {
+        id: 18,
+        name: "Doggy Parlour",
+        address: "Main Street, Sligo Town, Co. Sligo",
+        county: "Sligo",
+        phone: "071 914 5678",
+        email: "info@doggyparlour.ie",
+        website: "https://www.doggyparlour.ie",
+        rating: 4.8,
+        reviewCount: 154,
+        description: "Doggy Parlour in Sligo Town offers professional dog grooming services in a friendly, relaxed environment. Their team of experienced groomers specializes in breed-specific styling, de-matting, and caring for dogs with sensitive skin. The salon features modern equipment and uses premium, hypoallergenic products. Doggy Parlour is known for their expertise in working with long-haired breeds and providing effective de-matting treatments. They offer a calm atmosphere with individual attention for each dog. The salon also provides specialized services for puppies and senior dogs, adapting their techniques to meet different age-related needs. Their central location in Sligo Town makes them accessible to dog owners throughout the Northwest region.",
+        image: "https://via.placeholder.com/400x300?text=Doggy+Parlour",
+        services: [
+            "Full Groom",
+            "Bath & Brush",
+            "De-matting",
+            "Breed-Specific Styling",
+            "Sensitive Skin Treatments",
+            "Nail Trimming"
+        ],
+        specialties: [
+            "Long-Haired Breed Expertise",
+            "De-matting Techniques",
+            "Sensitive Skin Care",
+            "Age-Appropriate Grooming"
+        ],
+        hours: "Tuesday-Friday: 9:00am-5:30pm, Saturday: 9:00am-4:00pm, Sunday-Monday: Closed"
+    },
+    {
+        id: 19,
+        name: "Maxi Zoo Salon - Cork",
+        address: "Unit 3, Mahon Point Retail Park, Cork",
+        county: "Cork",
+        phone: "021 230 4567",
+        email: "cork@maxizoo.ie",
+        website: "https://www.maxizoo.ie/serviceworld/salons",
+        rating: 4.6,
+        reviewCount: 187,
+        description: "Maxi Zoo Salon in Cork offers professional dog grooming services in a modern, retail-integrated environment. Their team of certified groomers provides a range of services from basic nail clipping to full grooms and breed-specific styling. The salon features state-of-the-art equipment and uses premium grooming products. Maxi Zoo Salon is known for their efficiency and value, offering competitive pricing for high-quality grooming. The convenient retail location allows owners to shop for pet supplies while their dog is being groomed. The salon's online booking system makes scheduling appointments easy, and their loyalty program offers discounts for regular customers.",
+        image: "https://via.placeholder.com/400x300?text=Maxi+Zoo+Salon+Cork",
+        services: [
+            "Full Groom",
+            "Bath & Brush",
+            "Nail Clipping",
+            "Nail Filing",
+            "Face Trimming",
+            "Cleansing Bath"
+        ],
+        specialties: [
+            "Retail Integration",
+            "Value Pricing",
+            "Loyalty Program",
+            "Online Booking"
+        ],
+        hours: "Monday-Friday: 9:00am-8:00pm, Saturday: 9:00am-6:00pm, Sunday: 11:00am-5:00pm"
+    },
+    {
+        id: 20,
+        name: "Pampered Pooch",
+        address: "Unit 3, Letterkenny Retail Park, Letterkenny, Co. Donegal",
+        county: "Donegal",
+        phone: "074 912 3456",
+        email: "info@pamperedpooch.ie",
+        website: "https://www.pamperedpooch.ie",
+        rating: 4.7,
+        reviewCount: 143,
+        description: "Pampered Pooch in Letterkenny offers professional dog grooming services in a modern, purpose-built salon. Their team of certified groomers provides a range of services from basic baths to full grooms and specialized treatments. The salon features state-of-the-art equipment, including hydraulic tables and specialized dryers for different coat types. Pampered Pooch is known for their expertise in working with double-coated breeds and providing effective de-shedding treatments. They offer a calm, stress-free environment with individual attention for each dog. The salon also provides specialized services for dogs with skin conditions, using medicated shampoos and treatments as recommended by veterinarians. Their convenient location in Letterkenny Retail Park offers ample parking for clients from throughout Donegal.",
+        image: "https://via.placeholder.com/400x300?text=Pampered+Pooch",
+        services: [
+            "Full Groom",
+            "Bath & Brush",
+            "De-shedding Treatments",
+            "Medicated Baths",
+            "Nail Trimming",
+            "Ear Cleaning"
+        ],
+        specialties: [
+            "Double-Coated Breed Expertise",
+            "De-shedding Treatments",
+            "Skin Condition Management",
+            "Medicated Treatments"
+        ],
+        hours: "Tuesday-Friday: 9:00am-6:00pm, Saturday: 9:00am-5:00pm, Sunday-Monday: Closed"
+    },
+    {
+        id: 21,
+        name: "Dial a Dog Wash - Dublin",
+        address: "Mobile Service - Dublin City and County",
+        county: "Dublin",
+        phone: "01 685 1234",
+        email: "dublin@dialadogwash.ie",
+        website: "https://www.dialadogwash.ie",
+        rating: 4.8,
+        reviewCount: 276,
+        description: "Dial a Dog Wash Dublin provides professional mobile dog grooming services throughout Dublin City and County. Their specially converted vans are equipped with everything needed for a complete grooming service, including heated water, power, and professional grooming equipment. The service is particularly beneficial for dogs who get anxious in salon environments or for owners with limited mobility. Each van is operated by a certified groomer who provides personalized attention to each dog. Dial a Dog Wash offers a range of services from basic baths to full grooms and specialized treatments. Their convenient service eliminates the need for transportation and waiting rooms, reducing stress for both dogs and owners. The mobile service is also ideal for busy professionals who value time-saving convenience.",
+        image: "https://via.placeholder.com/400x300?text=Dial+a+Dog+Wash+Dublin",
+        services: [
+            "Full Mobile Groom",
+            "Bath & Brush",
+            "De-shedding Treatments",
+            "Nail Trimming",
+            "Ear Cleaning",
+            "Anal Gland Expression"
+        ],
+        specialties: [
+            "Mobile Grooming",
+            "Anxious Dog Handling",
+            "Home Environment Grooming",
+            "Urban Service Coverage"
+        ],
+        hours: "Monday-Saturday: 8:00am-6:00pm, Sunday: Closed"
+    },
+    {
+        id: 22,
+        name: "Petmania Grooming Studio - Galway",
+        address: "Unit 3, Galway Retail Park, Headford Road, Galway",
+        county: "Galway",
+        phone: "091 507 910",
+        email: "galway@petmania.ie",
+        website: "https://www.petmania.ie/dog-grooming-studios",
+        rating: 4.7,
+        reviewCount: 187,
+        description: "Petmania Grooming Studio in Galway offers professional dog grooming services in a modern, purpose-built facility. Their team of certified groomers provides a range of services from basic baths to full grooms and breed-specific styling. The studio features state-of-the-art equipment, including hydraulic tables and specialized dryers for different coat types. Petmania's groomers receive ongoing training to stay current with the latest techniques and trends. The studio is known for their gentle handling and ability to work with nervous dogs. Their online booking system makes scheduling appointments convenient for busy pet owners. The retail location allows owners to shop for pet supplies while their dog is being groomed.",
+        image: "https://via.placeholder.com/400x300?text=Petmania+Grooming+Studio+Galway",
+        services: [
+            "Full Groom",
+            "Bath & Brush",
+            "Puppy's First Groom",
+            "Nail Trimming",
+            "De-shedding Treatments",
+            "Breed-Specific Styling"
+        ],
+        specialties: [
+            "Puppy Introduction to Grooming",
+            "Nervous Dog Handling",
+            "De-shedding Treatments",
+            "Online Booking"
+        ],
+        hours: "Monday-Wednesday: 9:30am-6:00pm, Thursday-Friday: 9:30am-8:00pm, Saturday: 9:30am-6:00pm, Sunday: 12:00pm-6:00pm"
+    },
+    {
+        id: 23,
+        name: "Canine Creations",
+        address: "Main Street, Tralee, Co. Kerry",
+        county: "Kerry",
+        phone: "066 712 3456",
+        email: "info@caninecreations.ie",
+        website: "https://www.caninecreations.ie",
+        rating: 4.9,
+        reviewCount: 165,
+        description: "Canine Creations in Tralee offers creative and professional dog grooming services in a friendly, welcoming environment. Their team of experienced groomers specializes in breed-specific styling, creative grooming, and caring for dogs with special needs. The salon features modern equipment and uses premium, natural grooming products. Canine Creations is known for their artistic approach to grooming, offering unique styles and color accents for special occasions. They provide a calm atmosphere with individual attention for each dog. The salon also offers specialized services for rescue dogs, helping them overcome grooming-related anxiety from past experiences. Their central location in Tralee makes them accessible to dog owners throughout Kerry.",
+        image: "https://via.placeholder.com/400x300?text=Canine+Creations",
+        services: [
+            "Full Groom",
+            "Bath & Brush",
+            "Creative Styling",
+            "Color Accents",
+            "Special Occasion Grooming",
+            "Rescue Dog Care"
+        ],
+        specialties: [
+            "Creative Grooming",
+            "Color Techniques",
+            "Special Occasion Styling",
+            "Rescue Dog Rehabilitation"
+        ],
+        hours: "Tuesday-Friday: 9:00am-5:30pm, Saturday: 9:00am-4:00pm, Sunday-Monday: Closed"
+    },
+    {
+        id: 24,
+        name: "Maxi Zoo Salon - Dublin",
+        address: "Unit 7, Blanchardstown Retail Park, Dublin 15",
+        county: "Dublin",
+        phone: "01 822 1234",
+        email: "blanchardstown@maxizoo.ie",
+        website: "https://www.maxizoo.ie/serviceworld/salons",
+        rating: 4.6,
+        reviewCount: 213,
+        description: "Maxi Zoo Salon in Blanchardstown offers professional dog grooming services in a modern, retail-integrated environment. Their team of certified groomers provides a range of services from basic nail clipping to full grooms and breed-specific styling. The salon features state-of-the-art equipment and uses premium grooming products. Maxi Zoo Salon is known for their efficiency and value, offering competitive pricing for high-quality grooming. The convenient retail location allows owners to shop for pet supplies while their dog is being groomed. The salon's online booking system makes scheduling appointments easy, and their loyalty program offers discounts for regular customers.",
+        image: "https://via.placeholder.com/400x300?text=Maxi+Zoo+Salon+Dublin",
+        services: [
+            "Full Groom",
+            "Bath & Brush",
+            "Nail Clipping",
+            "Nail Filing",
+            "Face Trimming",
+            "Cleansing Bath"
+        ],
+        specialties: [
+            "Retail Integration",
+            "Value Pricing",
+            "Loyalty Program",
+            "Online Booking"
+        ],
+        hours: "Monday-Friday: 9:00am-8:00pm, Saturday: 9:00am-6:00pm, Sunday: 11:00am-5:00pm"
+    },
+    {
+        id: 25,
+        name: "Pawsome Grooming",
+        address: "Unit 5, Athlone Retail Park, Athlone, Co. Westmeath",
+        county: "Westmeath",
+        phone: "090 647 8901",
+        email: "info@pawsomegrooming.ie",
+        website: "https://www.pawsomegrooming.ie",
+        rating: 4.8,
+        reviewCount: 154,
+        description: "Pawsome Grooming in Athlone offers professional dog grooming services in a modern, purpose-built salon. Their team of certified groomers provides a range of services from basic baths to full grooms and specialized treatments. The salon features state-of-the-art equipment, including hydraulic tables and specialized dryers for different coat types. Pawsome Grooming is known for their expertise in working with anxious dogs, creating a calm and positive experience. They offer a stress-free environment with individual attention for each dog. The salon also provides specialized services for puppies, introducing them gradually to the grooming process to create positive associations. Their convenient location in Athlone Retail Park offers ample parking and is easily accessible from throughout the Midlands region.",
+        image: "https://via.placeholder.com/400x300?text=Pawsome+Grooming",
+        services: [
+            "Full Groom",
+            "Bath & Brush",
+            "Anxious Dog Grooming",
+            "Puppy Introduction",
+            "Nail Trimming",
+            "Ear Cleaning"
+        ],
+        specialties: [
+            "Anxious Dog Handling",
+            "Fear-Free Techniques",
+            "Puppy Introduction",
+            "Stress-Free Environment"
+        ],
+        hours: "Tuesday-Friday: 9:00am-6:00pm, Saturday: 9:00am-5:00pm, Sunday-Monday: Closed"
+    }
 ];
-
-
 export default groomingData;

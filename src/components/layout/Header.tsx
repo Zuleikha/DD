@@ -56,7 +56,6 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              
               <span className="text-2xl font-bold text-gray-800">DogDays.ie</span>
             </Link>
           </div>
@@ -109,6 +108,14 @@ const Header: React.FC = () => {
                   <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
                 Dog-Friendly Places
+              </span>
+            </StableNavLink>
+            <StableNavLink to="/petshops">
+              <span className="flex items-center">
+                <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3 3h18v18H3V3zm4 4h10v10H7V7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                Pet Shops
               </span>
             </StableNavLink>
             <StableNavLink to="/community">
@@ -180,6 +187,14 @@ const Header: React.FC = () => {
                     <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                   Training
+                </span>
+              </StableNavLink>
+              <StableNavLink to="/petshops" className="block">
+                <span className="flex items-center">
+                  <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 3h18v18H3V3zm4 4h10v10H7V7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  Pet Shops
                 </span>
               </StableNavLink>
               <StableNavLink to="/grooming" className="block">

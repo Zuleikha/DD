@@ -24,6 +24,8 @@ import MarketplacePage from './pages/MarketplacePage';
 import AdoptionPage from './pages/AdoptionPage';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
+import PetShopsPage from './pages/PetShopsPage';
+import PetShopDetailPage from './pages/PetShopDetailPage';
 
 function App() {
   return (
@@ -33,6 +35,10 @@ function App() {
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<HomePage />} />
+            
+            {/* Pet Shops Routes */}
+            <Route path="/petshops" element={<PetShopsPage />} />
+            <Route path="/petshops/:id" element={<PetShopDetailPage />} />
             
             {/* Dog Minders Routes */}
             <Route path="/minders" element={<MindersPage />} />
