@@ -6,23 +6,23 @@ import SEO from '../components/common/SEO';
 // Import the vets data
 import vetsData from '../data/vets_data';
 
-// Define a type for vet objects
+// Define a type for vet objects - made address optional to fix deploy error
 interface Vet {
   id: number;
   name: string;
-  address: string;
-  county: string;
-  phone: string;
+  address?: string; // Made optional
+  county?: string; // Made optional
+  phone?: string; // Made optional
   mobile?: string;
-  email: string;
+  email?: string; // Made optional
   website: string;
-  rating: number;
-  reviewCount: number;
+  rating?: number; // Made optional
+  reviewCount?: number; // Made optional
   description: string;
   image: string;
-  services: string[];
+  services?: string[]; // Made optional
   specialties?: string[];
-  hours: string;
+  hours?: string; // Made optional
 }
 
 const VetDetailPage: React.FC = () => {
@@ -34,7 +34,7 @@ const VetDetailPage: React.FC = () => {
   useEffect(() => {
     if (id) {
       const vetId = parseInt(id, 10);
-      const foundVet = vetsData.find((v: Vet) => v.id === vetId);
+      const foundVet = vetsData.find((v: any) => v.id === vetId); // Changed to any to avoid type conflicts
       
       if (foundVet) {
         setVet(foundVet);
@@ -72,7 +72,7 @@ const VetDetailPage: React.FC = () => {
     <div className="min-h-screen flex flex-col">
       <SEO
         title={`${vet.name} | Veterinarian Details`}
-        description={`Learn more about ${vet.name}, a veterinary service in ${vet.county}, Ireland.`}
+        description={`Learn more about ${vet.name}, a veterinary service in ${vet.county || 'Ireland'}.`}
         canonicalUrl={`https://www.dogdays.ie/vets/${vet.id}`}
       />
 
@@ -83,15 +83,17 @@ const VetDetailPage: React.FC = () => {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
               <div>
                 <h1 className="text-3xl md:text-4xl font-bold mb-2">{vet.name}</h1>
-                <div className="flex items-center mb-4">
-                  <MapPin className="h-5 w-5 mr-1" />
-                  <span>{vet.address}</span>
-                </div>
+                {vet.address && (
+                  <div className="flex items-center mb-4">
+                    <MapPin className="h-5 w-5 mr-1" />
+                    <span>{vet.address}</span>
+                  </div>
+                )}
                 <div className="flex items-center">
                   <Star className="h-5 w-5 text-yellow-300 mr-1" />
-                  <span className="font-semibold">{vet.rating.toFixed(1)}</span>
+                  <span className="font-semibold">{(vet.rating || 0).toFixed(1)}</span>
                   <span className="mx-1">•</span>
-                  <span>{vet.reviewCount} reviews</span>
+                  <span>{vet.reviewCount || 0} reviews</span>
                 </div>
               </div>
               <Link to="/vets" className="mt-4 md:mt-0 flex items-center text-white hover:text-blue-100 transition-colors">
@@ -121,19 +123,21 @@ const VetDetailPage: React.FC = () => {
                   <p className="text-gray-700 leading-relaxed">{vet.description}</p>
                 </div>
 
-                <div className="mb-8">
-                  <h2 className="text-2xl font-bold mb-4 text-gray-800">Services Offered</h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {vet.services.map((service, index) => (
-                      <div key={index} className="flex items-center bg-blue-50 p-3 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                        <span>{service}</span>
-                      </div>
-                    ))}
+                {vet.services && vet.services.length > 0 && (
+                  <div className="mb-8">
+                    <h2 className="text-2xl font-bold mb-4 text-gray-800">Services Offered</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {vet.services.map((service, index) => (
+                        <div key={index} className="flex items-center bg-blue-50 p-3 rounded-lg">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                          </svg>
+                          <span>{service}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {vet.specialties && vet.specialties.length > 0 && (
                   <div className="mb-8">
@@ -157,35 +161,41 @@ const VetDetailPage: React.FC = () => {
                 <h2 className="text-2xl font-bold mb-4 text-gray-800">Contact Information</h2>
                 
                 <div className="space-y-4">
-                  <div className="flex items-start">
-                    <MapPin className="h-6 w-6 text-blue-500 mr-3 mt-1" />
-                    <div>
-                      <h3 className="font-semibold">Address</h3>
-                      <p className="text-gray-700">{vet.address}</p>
-                      <p className="text-gray-700">County {vet.county}</p>
+                  {vet.address && (
+                    <div className="flex items-start">
+                      <MapPin className="h-6 w-6 text-blue-500 mr-3 mt-1" />
+                      <div>
+                        <h3 className="font-semibold">Address</h3>
+                        <p className="text-gray-700">{vet.address}</p>
+                        {vet.county && <p className="text-gray-700">County {vet.county}</p>}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
-                  <div className="flex items-start">
-                    <Phone className="h-6 w-6 text-blue-500 mr-3 mt-1" />
-                    <div>
-                      <h3 className="font-semibold">Phone</h3>
-                      <p className="text-gray-700">{vet.phone}</p>
-                      {vet.mobile && vet.mobile !== vet.phone && (
-                        <p className="text-gray-700">Mobile: {vet.mobile}</p>
-                      )}
+                  {vet.phone && (
+                    <div className="flex items-start">
+                      <Phone className="h-6 w-6 text-blue-500 mr-3 mt-1" />
+                      <div>
+                        <h3 className="font-semibold">Phone</h3>
+                        <p className="text-gray-700">{vet.phone}</p>
+                        {vet.mobile && vet.mobile !== vet.phone && (
+                          <p className="text-gray-700">Mobile: {vet.mobile}</p>
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
-                  <div className="flex items-start">
-                    <Mail className="h-6 w-6 text-blue-500 mr-3 mt-1" />
-                    <div>
-                      <h3 className="font-semibold">Email</h3>
-                      <a href={`mailto:${vet.email}`} className="text-blue-600 hover:underline">
-                        {vet.email}
-                      </a>
+                  {vet.email && (
+                    <div className="flex items-start">
+                      <Mail className="h-6 w-6 text-blue-500 mr-3 mt-1" />
+                      <div>
+                        <h3 className="font-semibold">Email</h3>
+                        <a href={`mailto:${vet.email}`} className="text-blue-600 hover:underline">
+                          {vet.email}
+                        </a>
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   <div className="flex items-start">
                     <Globe className="h-6 w-6 text-blue-500 mr-3 mt-1" />
@@ -197,25 +207,29 @@ const VetDetailPage: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-start">
-                    <Clock className="h-6 w-6 text-blue-500 mr-3 mt-1" />
-                    <div>
-                      <h3 className="font-semibold">Business Hours</h3>
-                      <p className="text-gray-700">{vet.hours}</p>
+                  {vet.hours && (
+                    <div className="flex items-start">
+                      <Clock className="h-6 w-6 text-blue-500 mr-3 mt-1" />
+                      <div>
+                        <h3 className="font-semibold">Business Hours</h3>
+                        <p className="text-gray-700">{vet.hours}</p>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
 
-                <div className="mt-6">
-                  <a 
-                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(vet.name + ' ' + vet.address)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full bg-blue-600 text-white text-center py-3 rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    View on Map
-                  </a>
-                </div>
+                {vet.address && (
+                  <div className="mt-6">
+                    <a 
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(vet.name + ' ' + vet.address)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block w-full bg-blue-600 text-white text-center py-3 rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      View on Map
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -226,3 +240,4 @@ const VetDetailPage: React.FC = () => {
 };
 
 export default VetDetailPage;
+
