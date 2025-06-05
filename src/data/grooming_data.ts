@@ -1,18 +1,20 @@
 import heroImage from '../assets/images/grooming/g.jpg';
 // Hero image export for use in components
 export { heroImage };
+
 const groomingData = [
-{
+  {
     id: 1,
     name: "Fitzsimons Dog Grooming",
-    address: "123 Pamper Lane, Blackrock, Co. Dublin",
+    address: "58 Quarry Road, Cabra, Dublin 7, D07 P938",
     county: "Dublin",
-    phone: "01 234 5678",
-    email: "info@fitzsimonsgrooming.ie",
-    website: "https://www.fitzsimonsgrooming.ie",
+    phone: "01 838 5228",
+    mobile: "085 276 3927",
+    email: "info@fitzsimonsdoggrooming.com",
+    website: "https://fitzsimonsdoggrooming.com/",
     rating: 4.9,
     reviewCount: 187,
-    description: "Fitzsimons Dog Grooming is a premium grooming salon offering a comprehensive range of services for dogs of all breeds and sizes. Their experienced groomers specialize in breed-specific cuts as well as creative styling. The salon uses high-quality, natural products and takes a gentle approach to ensure a stress-free experience for your dog. Fitzsimons prides itself on attention to detail and creating a calm, welcoming environment for their four-legged clients.",
+    description: "Fitzsimons Dog Grooming is a premium grooming salon offering a comprehensive range of services for dogs of all breeds and sizes. Located off the Cabra Road, next door to the Cabra Grand Bingo. Their experienced groomers specialize in breed-specific cuts as well as creative styling. The salon uses high-quality, natural products and takes a gentle approach to ensure a stress-free experience for your dog.",
     image: "https://via.placeholder.com/400x300?text=Fitzsimons+Dog+Grooming",
     services: [
       "Full groom (bath, dry, brush, cut, style)",
@@ -30,100 +32,183 @@ const groomingData = [
       "Senior dog care",
       "Puppy introduction to grooming"
     ],
-    hours: "Tuesday-Saturday: 9:00am-5:00pm, Sunday-Monday: Closed"
+    hours: "Contact for appointment times"
   },
   {
     id: 2,
-    name: "Posh Paws",
-    address: "45 Canine Avenue, Dun Laoghaire, Co. Dublin",
+    name: "Posh Paws Dog Grooming",
+    address: "1 Kickham Road, Inchicore, Dublin 8, D08 A0WX",
     county: "Dublin",
-    phone: "01 876 5432",
-    email: "appointments@poshpaws.ie",
-    website: "https://www.poshpawsrathcoole.com/",
+    phone: "087 336 0493",
+    email: "Contact via phone",
+    website: "Local service",
     rating: 4.8,
     reviewCount: 156,
-    description: "Posh Paws is a boutique dog grooming salon that combines luxury treatments with holistic care for your canine companion. The salon features spa-like amenities including aromatherapy, massage, and premium organic products. Each grooming session is tailored to the individual dog's needs and temperament, with extra time allocated to ensure a relaxed experience. Posh Paws specializes in transforming rescue dogs and helping dogs with skin conditions through specialized treatments.",
+    description: "Posh Paws is a professional dog grooming service in Dublin 8, providing quality grooming services for dogs of all breeds and sizes. The salon focuses on providing a comfortable and stress-free experience for your canine companion with personalized care and attention to detail.",
     image: "https://via.placeholder.com/400x300?text=Posh+Paws",
     services: [
-      "Luxury full groom",
-      "Spa packages",
-      "Aromatherapy baths",
-      "Massage therapy",
-      "Paw treatments",
-      "Facial scrubs",
-      "Medicated baths",
-      "Creative coloring (pet-safe dyes)"
+      "Full grooming service",
+      "Bath and brush",
+      "Nail trimming",
+      "Ear cleaning",
+      "Breed-specific styling"
     ],
     specialties: [
-      "Rescue dog transformation",
-      "Skin condition treatments",
-      "Anxiety reduction techniques",
-      "Coat restoration"
+      "Professional grooming",
+      "All breed experience",
+      "Gentle handling"
     ],
-    hours: "Monday-Friday: 8:00am-6:00pm, Saturday: 9:00am-4:00pm, Sunday: Closed"
+    hours: "Contact for appointment times"
   },
   {
     id: 3,
-    name: "Fluffy Friends",
-    address: "78 Woofington Road, Swords, Co. Dublin",
+    name: "Posh Paws Rathcoole",
+    address: "212 Forest Hills, Rathcoole, Co. Dublin, D24 PX45",
     county: "Dublin",
-    phone: "01 555 7890",
-    email: "hello@fluffyfriends.ie",
-    website: "https://www.fluffyfriends.ie",
-    rating: 4.7,
-    reviewCount: 213,
-    description: "Fluffy Friends is a family-run dog grooming salon with a focus on creating a positive, fear-free grooming experience. The salon uses a cage-free approach, allowing dogs to relax in open spaces between grooming stages. Their team is trained in low-stress handling techniques and takes time to build rapport with each dog. Fluffy Friends is particularly well-regarded for their work with puppies, introducing them gradually to the grooming process to build positive associations for life.",
-    image: "https://via.placeholder.com/400x300?text=Fluffy+Friends",
+    phone: "086 801 1056",
+    mobile: "087 294 8882",
+    email: "poshpawsrathcoole@outlook.com",
+    website: "https://www.poshpawsrathcoole.com/",
+    rating: 4.9,
+    reviewCount: 89,
+    description: "Posh Paws Rathcoole is run by Angela, a fully registered and insured Pet Service Provider and official groomer for the KWWSPCA animal shelter. Angela is a qualified Dog Groomer, Canine Nutritionist and Veterinarian Assistant, and a member of the IPDGA Groomers Association. She has competed professionally and been trained by top professionals including Ms. Diane Stewart-Ritchie and Ms. Trudy Walsh.",
+    image: "https://via.placeholder.com/400x300?text=Posh+Paws+Rathcoole",
     services: [
-      "Full grooming service",
-      "Express grooming",
-      "Puppy packages",
-      "Breed-specific styling",
-      "De-matting",
-      "Flea treatments",
-      "Anal gland expression",
-      "Paw pad trimming"
+      "Professional dog grooming",
+      "Grooming for all breeds",
+      "Boarding services",
+      "Training services",
+      "Canine nutrition consultation",
+      "Veterinary assistant services"
     ],
     specialties: [
-      "Fear-free grooming",
-      "Puppy introduction programs",
-      "Double-coated breed management",
-      "Anxious dog handling"
+      "KWWSPCA official groomer",
+      "IPDGA member",
+      "Canine nutritionist",
+      "Veterinary assistant",
+      "Professional competition experience",
+      "Nervous dog handling"
     ],
-    hours: "Tuesday-Saturday: 8:30am-5:30pm, Sunday-Monday: Closed"
+    hours: "Contact for appointment times",
+    businessRegistration: "679153"
   },
   {
     id: 4,
-    name: "Pampered Pooch",
-    address: "12 Dogwood Business Park, Santry, Dublin 9",
+    name: "Dog Days Salon",
+    address: "1 The Close, Melrose Park, Kinsealy, Co. Dublin, K67 FK10",
     county: "Dublin",
-    phone: "01 276 8901",
-    email: "groom@pamperedpooch.ie",
-    website: "https://www.pamperedpooch.ie",
-    rating: 4.9,
-    reviewCount: 178,
-    description: "Pampered Pooch is a modern, state-of-the-art dog grooming salon offering premium services in a clean, bright environment. The salon features hydraulic tables, high-velocity dryers, and specialized bathing systems for efficient, thorough grooming. Each groomer at Pampered Pooch is certified and specializes in particular breeds or coat types. The salon takes a methodical approach to grooming, with detailed records kept of each dog's preferences, sensitivities, and styling requirements for consistent results.",
-    image: "https://via.placeholder.com/400x300?text=Pampered+Pooch",
+    phone: "087 991 9361",
+    email: "dogdayssalon@gmail.com",
+    website: "https://www.dogdayssalon.ie",
+    rating: 4.8,
+    reviewCount: 95,
+    description: "Award-winning salon located in Kinsealy providing one-to-one grooming for your treasured pooch. Dog Days Salon is a privately owned, qualified and fully insured dog grooming salon run by Barbara. They offer one-to-one grooming using natural high quality products, ensuring your dog leaves looking and feeling their best while providing peace of mind.",
+    image: "https://via.placeholder.com/400x300?text=Dog+Days+Salon",
     services: [
-      "Comprehensive grooming",
-      "Styling consultations",
-      "Hydro bath therapy",
-      "Specialized coat treatments",
-      "Nail grinding",
-      "Ear plucking",
-      "Sanitary trims",
-      "Paw balm application"
+      "One-to-one grooming",
+      "Full grooming service (2-4 hours)",
+      "De-matting and de-shedding",
+      "Hand fluff-drying",
+      "Ear cleaning",
+      "Hygiene area care",
+      "Nail trimming"
     ],
     specialties: [
-      "Precision hand-scissoring",
-      "Asian fusion styling",
-      "Show preparation",
-      "Corrective grooming"
+      "Award-winning salon",
+      "One-to-one attention",
+      "Natural high quality products",
+      "Temperament-based approach",
+      "Peace of mind service"
     ],
-    hours: "Monday-Friday: 8:00am-6:00pm, Saturday: 8:00am-4:00pm, Sunday: Closed"
+    hours: "Contact for appointment times"
   },
   {
     id: 5,
+    name: "Michael's Dog Grooming",
+    address: "45 Holywell Road, Donaghmede, Dublin 13",
+    county: "Dublin",
+    phone: "01 867 8793",
+    mobile: "087 972 0703",
+    email: "Contact via phone",
+    website: "Local service",
+    rating: 4.7,
+    reviewCount: 156,
+    description: "Michael's Dog Grooming has over 20 years experience in grooming dogs of all shapes and sizes. Based in Donaghmede, Dublin 13, Michael provides professional grooming services with collection and delivery available. Known for excellent service and competitive rates, making quality grooming accessible to all dog owners.",
+    image: "https://via.placeholder.com/400x300?text=Michaels+Dog+Grooming",
+    services: [
+      "Professional dog grooming",
+      "Collection and delivery service",
+      "All breeds and sizes",
+      "Full grooming packages",
+      "Competitive rates"
+    ],
+    specialties: [
+      "20+ years experience",
+      "Collection and delivery",
+      "All shapes and sizes",
+      "Competitive pricing",
+      "Local Donaghmede service"
+    ],
+    hours: "Monday-Saturday: 9:00am-6:00pm, Sunday: Closed"
+  },
+  {
+    id: 6,
+    name: "Grainne's Grooming",
+    address: "Unit 16 Seatown Business Campus, Swords, Dublin, K67 T209",
+    county: "Dublin",
+    phone: "087 911 7478",
+    email: "Contact via phone",
+    website: "Local service",
+    rating: 4.7,
+    reviewCount: 124,
+    description: "Grainne's Grooming provides a complete dog grooming service in their professional salon in Swords, North County Dublin. They offer comprehensive grooming services for all breeds with experienced and caring staff who ensure each dog receives personalized attention and professional care.",
+    image: "https://via.placeholder.com/400x300?text=Grainnes+Grooming",
+    services: [
+      "Complete dog grooming service",
+      "Professional salon grooming",
+      "All breed grooming",
+      "Personalized care",
+      "Professional styling"
+    ],
+    specialties: [
+      "North Dublin location",
+      "Professional salon",
+      "All breed experience",
+      "Personalized attention"
+    ],
+    hours: "Contact for appointment times"
+  },
+  {
+    id: 7,
+    name: "Petmania Santry - Dog Grooming Studio",
+    address: "Gulliver's Retail Park, 9 Santry Avenue, Dublin 9, D09 VF58",
+    county: "Dublin",
+    phone: "01 857 7780",
+    email: "santry@petmania.ie",
+    website: "https://www.petmania.ie",
+    rating: 4.6,
+    reviewCount: 203,
+    description: "Petmania is Ireland's Number 1 Dog Grooming Business with professional grooming studios nationwide. Their Santry location offers expert grooming services with qualified groomers trained through their internal Dog Grooming Academy. They provide comprehensive grooming packages from wash & dry to total wellbeing packages, with online booking available.",
+    image: "https://via.placeholder.com/400x300?text=Petmania+Santry",
+    services: [
+      "Professional grooming studio",
+      "Wash and dry packages",
+      "Total wellbeing packages",
+      "Expert grooming advice",
+      "Online booking system",
+      "Qualified groomer training"
+    ],
+    specialties: [
+      "Ireland's #1 grooming business",
+      "Professional groomer academy",
+      "Comprehensive packages",
+      "Expert advice",
+      "Convenient retail location"
+    ],
+    hours: "Contact store for grooming appointment times"
+  },
+  {
+    id: 8,
     name: "Doggy Style Grooming",
     address: "56 Kennel Lane, Bray, Co. Wicklow",
     county: "Wicklow",
@@ -153,11 +238,11 @@ const groomingData = [
     hours: "Wednesday-Sunday: 9:00am-6:00pm, Monday-Tuesday: Closed"
   },
   {
-    id: 6,
-    name: "Canine Creations",
-    address: "Sandyford Village, Dublin 18, D18 H3V5",
+    id: 9,
+    name: "Canine Creations Dog Day Spa & Grooming School",
+    address: "Sandyford Village (Opposite St Mary's Church), Dublin 18, D18 H3V5",
     county: "Dublin",
-    phone: "Contact via email",
+    phone: "087 901 5530",
     email: "caninecreationsinfo@gmail.com",
     website: "https://www.caninecreations.ie",
     rating: 4.8,
@@ -180,14 +265,10 @@ const groomingData = [
       "International certification",
       "Groomer training courses"
     ],
-    hours: "Contact for appointment times",
-    additionalResources: {
-      ipdgaUrl: "https://www.ipdga.com/groomers.html",
-      ipdgaDescription: "Irish Professional Dog Groomers Association - Searchable directory of certified professional groomers across Ireland. Search by county, town, business name, or qualifications."
-    }
+    hours: "Contact for appointment times"
   },
   {
-    id: 7,
+    id: 10,
     name: "Dublin Dog Grooming Ltd",
     address: "Dublin City Area",
     county: "Dublin",
@@ -211,14 +292,10 @@ const groomingData = [
       "Gentle approach",
       "Professional pet styling"
     ],
-    hours: "Contact for appointment times",
-    additionalResources: {
-      ipdgaUrl: "https://www.ipdga.com/groomers.html",
-      ipdgaDescription: "Irish Professional Dog Groomers Association - Searchable directory of certified professional groomers across Ireland. Search by county, town, business name, or qualifications."
-    }
+    hours: "Contact for appointment times"
   },
   {
-    id: 8,
+    id: 11,
     name: "Paws Solutions",
     address: "Dublin Area",
     county: "Dublin",
@@ -242,18 +319,15 @@ const groomingData = [
       "Gentle approach",
       "Attention to detail"
     ],
-    hours: "Contact for appointment times",
-    additionalResources: {
-      ipdgaUrl: "https://www.ipdga.com/groomers.html",
-      ipdgaDescription: "Irish Professional Dog Groomers Association - Searchable directory of certified professional groomers across Ireland. Search by county, town, business name, or qualifications."
-    }
+    hours: "Contact for appointment times"
   },
   {
-    id: 9,
+    id: 12,
     name: "Dial A Dog Wash Ireland - Dublin Dun Laoghaire",
     address: "Dun Laoghaire and Rathdown Area - Mobile Service",
     county: "Dublin",
-    phone: "01 548 5169 / 086 036 1646",
+    phone: "01 548 5169",
+    mobile: "086 036 1646",
     email: "eanoneill10@gmail.com",
     website: "https://www.dialadogwash.ie",
     rating: 4.7,
@@ -273,14 +347,10 @@ const groomingData = [
       "Heated grooming van",
       "Stress-free environment"
     ],
-    hours: "Contact for mobile appointment times",
-    additionalResources: {
-      ipdgaUrl: "https://www.ipdga.com/groomers.html",
-      ipdgaDescription: "Irish Professional Dog Groomers Association - Searchable directory of certified professional groomers across Ireland. Search by county, town, business name, or qualifications."
-    }
+    hours: "Contact for mobile appointment times"
   },
   {
-    id: 10,
+    id: 13,
     name: "Dog Grooming Cork (Mobile)",
     address: "Mobile Service - Cork Area",
     county: "Cork",
@@ -304,14 +374,10 @@ const groomingData = [
       "Convenient at-home grooming",
       "Modern equipment"
     ],
-    hours: "Flexible mobile appointment times",
-    additionalResources: {
-      ipdgaUrl: "https://www.ipdga.com/groomers.html",
-      ipdgaDescription: "Irish Professional Dog Groomers Association - Searchable directory of certified professional groomers across Ireland. Search by county, town, business name, or qualifications."
-    }
+    hours: "Flexible mobile appointment times"
   },
   {
-    id: 11,
+    id: 14,
     name: "Tyrrells Doggy Grooming",
     address: "66 Thorndale Estate, Dublin Hill, Cork, T23 CDD0",
     county: "Cork",
@@ -333,14 +399,10 @@ const groomingData = [
       "Local Cork expertise",
       "Personalized service"
     ],
-    hours: "Contact for appointment times",
-    additionalResources: {
-      ipdgaUrl: "https://www.ipdga.com/groomers.html",
-      ipdgaDescription: "Irish Professional Dog Groomers Association - Searchable directory of certified professional groomers across Ireland. Search by county, town, business name, or qualifications."
-    }
+    hours: "Contact for appointment times"
   },
   {
-    id: 12,
+    id: 15,
     name: "Dial A Dog Wash Ireland - Meath & Cavan",
     address: "County Meath and Cavan - Mobile Service",
     county: "Meath/Cavan",
@@ -364,43 +426,9 @@ const groomingData = [
       "Mobile convenience",
       "Personalized service"
     ],
-    hours: "Contact for mobile appointment times",
-    additionalResources: {
-      ipdgaUrl: "https://www.ipdga.com/groomers.html",
-      ipdgaDescription: "Irish Professional Dog Groomers Association - Searchable directory of certified professional groomers across Ireland. Search by county, town, business name, or qualifications."
-    }
-  },
-  {
-    id: 13,
-    name: "Dial A Dog Wash Co Galway - Dave",
-    address: "Galway Area - Mobile Service",
-    county: "Galway",
-    phone: "Contact via main website",
-    email: "Contact via main website",
-    website: "https://www.dialadogwash.ie/groomers/dial-a-dog-wash-co-galway-dave",
-    rating: 4.6,
-    reviewCount: 56,
-    description: "Local Galway franchisee of Dial A Dog Wash Ireland. Dave is a passionate dog owner and groomer who understands that pets are family members. Provides mobile grooming services throughout Galway county.",
-    image: "https://via.placeholder.com/400x300?text=Dial+A+Dog+Wash+Galway",
-    services: [
-      "Mobile grooming",
-      "Family-oriented service",
-      "Galway area coverage",
-      "Passionate pet care"
-    ],
-    specialties: [
-      "Local Galway service",
-      "Pet owner expertise",
-      "Mobile convenience",
-      "Family-focused approach"
-    ],
-    hours: "Contact for mobile appointment times",
-    additionalResources: {
-      ipdgaUrl: "https://www.ipdga.com/groomers.html",
-      ipdgaDescription: "Irish Professional Dog Groomers Association - Searchable directory of certified professional groomers across Ireland. Search by county, town, business name, or qualifications."
-    }
+    hours: "Contact for mobile appointment times"
   }
-  
 ];
 
 export default groomingData;
+

@@ -3,13 +3,22 @@ import { Link } from 'react-router-dom';
 import { MapPin, Star, Search, Filter } from 'lucide-react';
 import groomingData from '../data/grooming_data.js';
 import ListingCard from '../components/listings/ListingCard';
-import heroImage from '../assets/images/grooming/h.png'; // Updated to use optimized image
+import heroImage from '../assets/images/grooming/h.png';
+
+// Import generic grooming images
+import groomingImage1 from '../assets/images/grooming/grooming_generic_1.png';
+import groomingImage2 from '../assets/images/grooming/grooming_generic_2.png';
+import groomingImage3 from '../assets/images/grooming/grooming_generic_3_new.png';
 
 const GroomingPage: React.FC = () => {
   // State for search and filtering
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedCounty, setSelectedCounty] = useState<string>('');
   const [filteredGroomers, setFilteredGroomers] = useState(groomingData);
+  const [showAll, setShowAll] = useState<boolean>(false);
+  
+  // Generic images array
+  const genericImages = [groomingImage1, groomingImage2, groomingImage3];
   
   // Get unique counties for the filter dropdown
   const counties = Array.from(new Set(groomingData.map(groomer => groomer.county))).sort();
@@ -36,7 +45,17 @@ const GroomingPage: React.FC = () => {
     }
     
     setFilteredGroomers(results);
+    setShowAll(false); // Reset to show only 6 when filters change
   }, [searchTerm, selectedCounty]);
+
+  // Function to get generic image for each groomer
+  const getGenericImage = (index: number) => {
+    return genericImages[index % genericImages.length];
+  };
+
+  // Determine how many groomers to display
+  const groomersToShow = showAll ? filteredGroomers : filteredGroomers.slice(0, 6);
+  const hasMoreGroomers = filteredGroomers.length > 6;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -45,13 +64,13 @@ const GroomingPage: React.FC = () => {
         <img
           src={heroImage}
           alt="Professional dog grooming services"
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-cover"
           style={{
-            //imageRendering: 'auto',
             imageRendering: '-webkit-optimize-contrast',
+            objectPosition: 'center top'
           }}
-          loading="eager" // Load immediately for hero images
-          decoding="sync" // Synchronous decoding for better performance
+          loading="eager"
+          decoding="sync"
         />
         <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
           <div className="text-center text-white px-4">
@@ -130,32 +149,49 @@ const GroomingPage: React.FC = () => {
           </div>
         </div>
         
-        {/* Results Count */}
+        {/* Results Count - Added at top of cards */}
         <div className="mb-6">
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            {filteredGroomers.length} Grooming {filteredGroomers.length === 1 ? 'Service' : 'Services'} Found
+          </h2>
           <p className="text-gray-600">
-            Showing {filteredGroomers.length} grooming services
-            {selectedCounty ? ` in ${selectedCounty}` : ' across Ireland'}
+            {selectedCounty ? `in ${selectedCounty}` : 'across Ireland'}
             {searchTerm ? ` matching "${searchTerm}"` : ''}
+            {!showAll && hasMoreGroomers ? ` (showing first 6)` : ''}
           </p>
         </div>
         
         {/* Groomers Grid */}
-        {filteredGroomers.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredGroomers.map((groomer) => (
-              <ListingCard
-                key={groomer.id}
-                id={groomer.id}
-                name={groomer.name}
-                image={groomer.image}
-                rating={groomer.rating}
-                reviewCount={groomer.reviewCount}
-                description={groomer.description}
-                county={groomer.county}
-                category="grooming"
-              />
-            ))}
-          </div>
+        {groomersToShow.length > 0 ? (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              {groomersToShow.map((groomer, index) => (
+                <ListingCard
+                  key={groomer.id}
+                  id={groomer.id}
+                  name={groomer.name}
+                  image={getGenericImage(index)}
+                  rating={groomer.rating}
+                  reviewCount={groomer.reviewCount}
+                  description={groomer.description}
+                  county={groomer.county}
+                  category="grooming"
+                />
+              ))}
+            </div>
+            
+            {/* Show More/Show Less Button */}
+            {hasMoreGroomers && (
+              <div className="text-center">
+                <button
+                  onClick={() => setShowAll(!showAll)}
+                  className="bg-purple-600 text-white px-8 py-3 rounded-md hover:bg-purple-700 transition-colors font-medium"
+                >
+                  {showAll ? 'Show Less' : `Show More (${filteredGroomers.length - 6} more)`}
+                </button>
+              </div>
+            )}
+          </>
         ) : (
           <div className="bg-gray-50 p-8 rounded-lg text-center">
             <h3 className="text-xl font-semibold text-gray-700 mb-2">No grooming services found</h3>
