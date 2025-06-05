@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import HomePage from './pages/HomePage';
@@ -27,6 +27,12 @@ import LoginPage from './pages/LoginPage';
 import PetShopsPage from './pages/PetShopsPage';
 import PetShopDetailPage from './pages/PetShopDetailPage';
 
+// Generic redirect for typo paths like vetss, parkss, etc.
+function ExtraSRedirect({ prefix }: { prefix: string }) {
+  const { id } = useParams();
+  return <Navigate to={`/${prefix}/${id}`} replace />;
+}
+
 function App() {
   return (
     <Router>
@@ -34,52 +40,45 @@ function App() {
         <Header />
         <main className="flex-grow">
           <Routes>
+            {/* Redirect typo routes */}
+            <Route path="/vetss/:id" element={<ExtraSRedirect prefix="vets" />} />
+            <Route path="/minderss/:id" element={<ExtraSRedirect prefix="minders" />} />
+            <Route path="/parkss/:id" element={<ExtraSRedirect prefix="parks" />} />
+            <Route path="/placess/:id" element={<ExtraSRedirect prefix="places" />} />
+
+            {/* Also handle base typo routes without IDs */}
+            <Route path="/vetss" element={<Navigate to="/vets" replace />} />
+            <Route path="/minderss" element={<Navigate to="/minders" replace />} />
+            <Route path="/parkss" element={<Navigate to="/parks" replace />} />
+            <Route path="/placess" element={<Navigate to="/places" replace />} />
+
+            {/* All your actual routes */}
             <Route path="/" element={<HomePage />} />
-            
-            {/* Pet Shops Routes */}
             <Route path="/petshops" element={<PetShopsPage />} />
             <Route path="/petshops/:id" element={<PetShopDetailPage />} />
-            
-            {/* Dog Minders Routes */}
             <Route path="/minders" element={<MindersPage />} />
             <Route path="/minders/:id" element={<MinderDetailPage />} />
-            
-            {/* Vets Routes */}
             <Route path="/vets" element={<VetsPage />} />
             <Route path="/vets/:id" element={<VetDetailPage />} />
-            
-            {/* Parks Routes */}
             <Route path="/parks" element={<ParksPage />} />
             <Route path="/parks/:id" element={<ParkDetailPage />} />
-            
-            {/* Nutrition Routes */}
             <Route path="/nutrition" element={<NutritionPage />} />
             <Route path="/nutrition/:id" element={<NutritionDetailPage />} />
-            
-            {/* Training Routes */}
             <Route path="/training" element={<TrainingPage />} />
             <Route path="/training/:id" element={<TrainingDetailPage />} />
-            
-            {/* Grooming Routes */}
             <Route path="/grooming" element={<GroomingPage />} />
             <Route path="/grooming/:id" element={<GroomingDetailPage />} />
-            
-            {/* Places Routes */}
             <Route path="/places" element={<PlacesPage />} />
             <Route path="/places/:id" element={<PlaceDetailPage />} />
-            
-            {/* Community Routes */}
             <Route path="/community" element={<CommunityPage />} />
             <Route path="/forum" element={<ForumPage />} />
             <Route path="/marketplace" element={<MarketplacePage />} />
             <Route path="/adoption" element={<AdoptionPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
-            
-            {/* Other Routes */}
             <Route path="/advice" element={<AdvicePage />} />
-            
-            {/* 404 Route - Use HomePage as fallback */}
+
+            {/* Catch-all fallback */}
             <Route path="*" element={<HomePage />} />
           </Routes>
         </main>
