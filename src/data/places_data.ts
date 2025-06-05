@@ -127,6 +127,31 @@ const placesData = [
       "Dog photo wall"
     ],
     hours: "Monday-Thursday: 3:00pm-11:00pm, Friday-Sunday: 12:00pm-12:30am"
+  },
+  {
+    id: 6,
+    name: "The Glasson Lakehouse",
+    address: "Killinure, Glasson,",
+    county: "Co. Westmeath",
+    phone: "01 276 8901",
+    email: "thedeangroup@karlaotto.com",
+    website: "https://www.glassonlakehouse.ie/",
+    rating: 4.5,
+    reviewCount: 98,
+    description: "The Glasson Lakehouse is a hotel with Dog Friendly Rooms and Outdoor Cabins, we have something for everyone.",
+    image: "https://via.placeholder.com/400x300?text=The+Glasson+Lakehouse",
+    dogMenu: [
+      "Pub snacks for dogs",
+      "Dried meat treats",
+      "Doggy beer (non-alcoholic)"
+    ],
+    dogAmenities: [
+      "Water bowls",
+      "Dog treats at the bar",
+      "Spacious beer garden",
+      "Dog photo wall"
+    ],
+    hours: "All week"
   }
 ];
 

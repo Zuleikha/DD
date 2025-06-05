@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 interface ListingCardProps {
   id: number;
   name: string;
-  image: string;
+  image?: string; // Made optional
   rating: number;
   reviewCount: number;
   description: string;
@@ -28,39 +28,44 @@ const ListingCard: React.FC<ListingCardProps> = ({
 }) => {
   // Determine the correct route based on the category
   const getDetailRoute = () => {
-  const categoryLower = category.toLowerCase();
+    const categoryLower = category.toLowerCase();
 
-  console.log('Debug - Category:', categoryLower, 'ID:', id); // Add this line
-  
-  switch (categoryLower) {
-    case 'vet':
-    case 'find a vet':  // Handle "find a vet"
-      return `/vets/${id}`;
-    case 'park':
-    case 'parks and walks':  // Handle "parks and walks"
-      return `/parks/${id}`;
-    case 'place':
-    case 'dog friendly places':  // Handle "dog friendly places"
-      return `/places/${id}`;
-    case 'nutrition':
-      return `/nutrition/${id}`;
-    case 'training':
-      return `/training/${id}`;
-    case 'grooming':
-      return `/grooming/${id}`;
-    case 'petshop':
-      return `/petshops/${id}`;
-    case 'minder':
-      return `/minders/${id}`;
-    default:
-      const cleanCategory = categoryLower.replace(/\s+/g, '');
-      return `/${cleanCategory}s/${id}`;
-  }
-};
+    console.log('Debug - Category:', categoryLower, 'ID:', id); // Add this line
+    
+    switch (categoryLower) {
+      case 'vet':
+      case 'find a vet':  // Handle "find a vet"
+        return `/vets/${id}`;
+      case 'park':
+      case 'parks':  // Handle "parks"
+      case 'parks and walks':  // Handle "parks and walks"
+        return `/parks/${id}`;
+      case 'place':
+      case 'dog friendly places':  // Handle "dog friendly places"
+        return `/places/${id}`;
+      case 'nutrition':
+        return `/nutrition/${id}`;
+      case 'training':
+        return `/training/${id}`;
+      case 'grooming':
+        return `/grooming/${id}`;
+      case 'petshop':
+        return `/petshops/${id}`;
+      case 'minder':
+        return `/minders/${id}`;
+      default:
+        const cleanCategory = categoryLower.replace(/\s+/g, '');
+        return `/${cleanCategory}s/${id}`;
+    }
+  };
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      <img src={image} alt={name} className="w-full h-48 object-cover" />
+      {/* Conditionally render image only if image is provided and not empty */}
+      {image && image.trim() !== '' && (
+        <img src={image} alt={name} className="w-full h-48 object-cover" />
+      )}
+      
       <div className="p-4">
         <h2 className="text-xl font-semibold">{name}</h2>
         <p className="text-sm text-gray-600">{county}</p>

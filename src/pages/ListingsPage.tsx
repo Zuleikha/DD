@@ -3,13 +3,14 @@ import { useLocation, Link } from 'react-router-dom';
 import { Search, Filter, MapPin, Phone, Globe, Mail, Clock } from 'lucide-react';
 
 import ChatbotWidget from '../components/common/ChatbotWidget';
-import GoogleMap, { CalculateRouteFunction } from '../components/maps/GoogleMap'; // Ensure this component is correctly implemented and import CalculateRouteFunction
-import SEO from '../components/common/SEO'; // Ensure this component is correctly implemented
+import GoogleMap, { CalculateRouteFunction } from '../components/maps/GoogleMap';
+import SEO from '../components/common/SEO';
 
 // Add your Google Maps API key here.
-// IMPORTANT: Replace "YOUR_Maps_API_KEY" with your actual API key
-// This key should ideally be loaded from environment variables in a real project (e.g., process.env.REACT_APP_Maps_API_KEY)
-const Maps_API_KEY = ""; // Replace with your actual key
+const Maps_API_KEY = "AIzaSyA9nmAemVv4-rkPRHhs52i0-7sVCb5GEC4"; // Replace with your actual key
+
+// Default fallback image
+const defaultImage = "https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80";
 
 // Define the shape of a Listing item for better type safety
 interface Listing {
@@ -18,29 +19,29 @@ interface Listing {
   address: string;
   rating: number;
   reviewCount: number;
-  distance: string; // Consider making this a number for easier sorting
-  type: 'vet' | 'park' | 'nutrition' | 'training' | 'grooming' | 'place'; // Enforce specific types
-  image: string;
-  featured?: boolean; // Optional property
+  distance: string;
+  type: 'vet' | 'park' | 'nutrition' | 'training' | 'grooming' | 'place';
+  image?: string;
+  featured?: boolean;
   lat: number;
   lng: number;
   phone?: string;
   website?: string;
   email?: string;
   hours?: string;
-  county?: string; // Add this line
-  specialties?: string[]; // add specialties prop
+  county?: string;
+  specialties?: string[];
 }
 
 const ListingsPage: React.FC = () => {
   const location = useLocation();
-  const path = location.pathname.split('/')[1]; // Get the first part of the path (e.g., 'vets', 'parks', etc.)
+  const path = location.pathname.split('/')[1];
 
   // State for search, filter, and sort
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [selectedCounty, setSelectedCounty] = useState<string>('all-counties'); // Default to 'All Counties'
-  const [sortBy, setSortBy] = useState<string>('distance'); // Default sort option
-  const [userLocation, setUserLocation] = useState<string>(''); // State for user's location (for directions)
+  const [selectedCounty, setSelectedCounty] = useState<string>('all-counties');
+  const [sortBy, setSortBy] = useState<string>('distance');
+  const [userLocation, setUserLocation] = useState<string>('');
 
   // State to hold the calculateRoute function received from the GoogleMap component
   const [mapCalculateRoute, setMapCalculateRoute] = useState<CalculateRouteFunction | null>(null);
@@ -53,7 +54,6 @@ const ListingsPage: React.FC = () => {
       color: '#4A90E2',
       searchPlaceholder: 'Search vets by name or service...',
       mapText: 'Showing vets across Ireland',
-      // Note: `locations` here are just for the map pins, actual listings have more detail
       locations: [
         { lat: 53.3643, lng: -6.2977, title: 'Village Vets Cabra' },
         { lat: 53.3723, lng: -6.2701, title: 'Botanic Veterinary Hospital' },
@@ -148,7 +148,6 @@ const ListingsPage: React.FC = () => {
   };
 
   // Comprehensive listings data with real information
-  // In a real app, this data would likely come from an API
   const allListings: Listing[] = [
   // VET LISTINGS
   {
@@ -243,45 +242,36 @@ const ListingsPage: React.FC = () => {
     { name: "Wexford", value: "wexford" }, { name: "Wicklow", value: "wicklow" }
   ];
 
-
   // Filter and sort listings dynamically
-  const filteredAndSortedListings = [...allListings] // Create a shallow copy to avoid mutating original data
+  const filteredAndSortedListings = [...allListings]
     .filter(listing => {
-      // 1. Filter by type based on path
       const matchesType = (path === 'vets' && listing.type === 'vet') ||
                           (path === 'parks' && listing.type === 'park') ||
                           (path === 'grooming' && listing.type === 'grooming') ||
                           (path === 'nutrition' && listing.type === 'nutrition') ||
                           (path === 'training' && listing.type === 'training') ||
                           (path === 'places' && listing.type === 'place') ||
-                          (path === '' && true); // Show all if path is empty/root for listings
+                          (path === '' && true);
 
-      // 2. Filter by search term
       const matchesSearchTerm = searchTerm.toLowerCase() === '' ||
                                 listing.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                                 listing.address.toLowerCase().includes(searchTerm.toLowerCase());
 
-      
-		// 3. Filter by selected county
-	  const matchesCounty = selectedCounty === 'all-counties' ||
-                      (listing.county && listing.county.toLowerCase( ) === selectedCounty);
-
+      const matchesCounty = selectedCounty === 'all-counties' ||
+                      (listing.county && listing.county.toLowerCase() === selectedCounty);
 
       return matchesType && matchesSearchTerm && matchesCounty;
     })
     .sort((a, b) => {
-      // 4. Sort based on sortBy state
       if (sortBy === 'rating') {
-        return b.rating - a.rating; // Descending rating
+        return b.rating - a.rating;
       }
       if (sortBy === 'name') {
-        return a.title.localeCompare(b.title); // Alphabetical by name
+        return a.title.localeCompare(b.title);
       }
-      // Default to distance (assuming distance is a string like "1.2 km", convert to number for comparison)
-      // This is a basic conversion, more robust parsing might be needed
       const distanceA = parseFloat(a.distance);
       const distanceB = parseFloat(b.distance);
-      return distanceA - distanceB; // Ascending distance
+      return distanceA - distanceB;
     });
 
   // Define SEO content based on current path
@@ -343,15 +333,12 @@ const ListingsPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Add SEO component */}
       <SEO
         title={seoContent.title}
         description={seoContent.description}
         keywords={seoContent.keywords}
         canonicalUrl={seoContent.canonicalUrl}
       />
-
-    
 
       <main className="flex-grow">
         {/* Page Header */}
@@ -372,7 +359,7 @@ const ListingsPage: React.FC = () => {
                 <input
                   type="text"
                   id="search-input"
-                  name="searchTerm" // Added name attribute
+                  name="searchTerm"
                   placeholder={currentPage.searchPlaceholder}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A90E2] focus:border-transparent"
                   style={{ '--tw-ring-color': currentPage.color } as React.CSSProperties}
@@ -387,7 +374,7 @@ const ListingsPage: React.FC = () => {
                 <label htmlFor="county-select" className="sr-only">Select county</label>
                 <select
                   id="county-select"
-                  name="selectedCounty" // Added name attribute
+                  name="selectedCounty"
                   className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A90E2] focus:border-transparent"
                   aria-label="Select county"
                   style={{ '--tw-ring-color': currentPage.color } as React.CSSProperties}
@@ -402,7 +389,7 @@ const ListingsPage: React.FC = () => {
                 </select>
               </div>
 
-              {/* Filter Button (Currently not hooked up to a modal/panel) */}
+              {/* Filter Button */}
               <button className="px-6 py-3 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors duration-300 flex items-center justify-center">
                 <Filter className="mr-2 h-5 w-5" />
                 <span>Filters</span>
@@ -417,7 +404,6 @@ const ListingsPage: React.FC = () => {
             {/* Map Container */}
             <div className="lg:col-span-1 order-2 lg:order-1">
               <div className="sticky top-24 bg-white rounded-lg shadow-lg overflow-hidden">
-                {/* Google Maps Integration */}
                 <div className="p-4 bg-white border-b">
                   <h3 className="text-lg font-semibold mb-2">Get Directions</h3>
                   <div className="flex flex-col space-y-2">
@@ -425,7 +411,7 @@ const ListingsPage: React.FC = () => {
                     <input
                       type="text"
                       id="user-location-input"
-                      name="userLocation" // Added name attribute
+                      name="userLocation"
                       placeholder="Enter your location"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:border-transparent"
                       style={{ '--tw-ring-color': currentPage.color } as React.CSSProperties}
@@ -438,12 +424,12 @@ const ListingsPage: React.FC = () => {
                 {/* Conditionally render Google Map Component based on API key */}
                 {Maps_API_KEY ? (
                   <GoogleMap
-                    apiKey={Maps_API_KEY} // Pass the API key to the GoogleMap component
+                    apiKey={Maps_API_KEY}
                     locations={currentPage.locations}
-                    center={{ lat: 53.3498, lng: -6.2603 }} // Dublin center
+                    center={{ lat: 53.3498, lng: -6.2603 }}
                     zoom={12}
-                    onDirectionsServiceReady={setMapCalculateRoute} // Pass the setter function as a callback
-                    directionsPanelId="directions-panel" // Pass the ID of the directions panel
+                    onDirectionsServiceReady={setMapCalculateRoute}
+                    directionsPanelId="directions-panel"
                   />
                 ) : (
                   <div className="bg-gray-100 p-6 rounded-lg text-center" style={{ height: '500px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -453,7 +439,6 @@ const ListingsPage: React.FC = () => {
                   </div>
                 )}
 
-                {/* Directions Panel - this div would be populated by the Google Maps API directions service */}
                 <div id="directions-panel" className="p-4 max-h-[300px] overflow-y-auto"></div>
               </div>
             </div>
@@ -468,7 +453,7 @@ const ListingsPage: React.FC = () => {
                   <label htmlFor="sort-by-select" className="mr-2 text-gray-600">Sort by:</label>
                   <select
                     id="sort-by-select"
-                    name="sortBy" // Added name attribute
+                    name="sortBy"
                     className="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-[#4A90E2] focus:border-transparent"
                     style={{ '--tw-ring-color': currentPage.color } as React.CSSProperties}
                     value={sortBy}
@@ -486,10 +471,10 @@ const ListingsPage: React.FC = () => {
                   filteredAndSortedListings.map(listing => (
                     <div key={listing.id} className="bg-white rounded-lg shadow-md overflow-hidden">
                       <div className="md:flex">
-                        {/* Image */}
+                        {/* Image with fallback */}
                         <div className="md:w-1/3 h-48 md:h-auto relative">
                           <img
-                            src={listing.image}
+                            src={listing.image || defaultImage}
                             alt={listing.title}
                             className="w-full h-full object-cover"
                           />
@@ -517,9 +502,9 @@ const ListingsPage: React.FC = () => {
                             </div>
                           </div>
 
-                          {/* Additional details for vets (and other types if they have similar fields) */}
+                          {/* Additional details */}
                           {(listing.type === 'vet' || listing.type === 'grooming' || listing.type === 'nutrition' || listing.type === 'training' || listing.type === 'place') && (
-                            <div className="mt-4 space-y-2 text-sm"> {/* Added text-sm for smaller font */}
+                            <div className="mt-4 space-y-2 text-sm">
                               {listing.phone && (
                                 <p className="text-gray-700 flex items-center">
                                   <Phone className="h-4 w-4 mr-2 text-gray-500" />
@@ -529,9 +514,8 @@ const ListingsPage: React.FC = () => {
                               {listing.website && (
                                 <p className="text-gray-700 flex items-center">
                                   <Globe className="h-4 w-4 mr-2 text-gray-500" />
-                                  {/* Ensure proper display and linking for external websites */}
                                   <a href={listing.website} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600">
-                                    {listing.website.replace(/^(https?:\/\/)?(www\.)?/i, '').split('/')[0]} {/* Clean URL display */}
+                                    {listing.website.replace(/^(https?:\/\/)?(www\.)?/i, '').split('/')[0]}
                                   </a>
                                 </p>
                               )}
@@ -551,23 +535,20 @@ const ListingsPage: React.FC = () => {
                           )}
 
                           <div className="mt-4 flex justify-between items-center">
-                            {/* Assuming distance is dynamic or needs to be calculated */}
                             <span className="text-gray-600 text-sm">{listing.distance} from center</span>
 
                             <div className="flex space-x-2">
-                              {/* View Details button - links to a detailed page for the listing */}
                               <Link
                                 to={`/${path}/${listing.id}`}
                                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300 text-sm"
-                                style={{ backgroundColor: currentPage.color }} // Use current page color
+                                style={{ backgroundColor: currentPage.color }}
                               >
                                 View Details
                               </Link>
 
-                              {/* Get Directions button */}
                               <button
                                 className={`px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors duration-300 text-sm ${!Maps_API_KEY || !mapCalculateRoute ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                onClick={() => getDirections(listing.lat, listing.lng)} // Pass lat/lng for destination
+                                onClick={() => getDirections(listing.lat, listing.lng)}
                                 disabled={!Maps_API_KEY || !mapCalculateRoute}
                               >
                                 Get Directions
@@ -587,9 +568,9 @@ const ListingsPage: React.FC = () => {
         </div>
       </main>
       <ChatbotWidget />
-    
     </div>
   );
 };
 
 export default ListingsPage;
+

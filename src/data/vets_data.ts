@@ -1,5 +1,6 @@
 // Vets data with placeholder images
 const vetsData = [
+  // Existing entries (id: 1–5)...
   {
     id: 1,
     name: "Grey Abbey Vets",
@@ -10,8 +11,8 @@ const vetsData = [
     website: "https://www.greyabbeyvets.ie",
     rating: 4.9,
     reviewCount: 187,
-    description: "Grey Abbey Vets is a modern, fully-equipped veterinary practice dedicated to providing exceptional care for dogs and other pets. The clinic offers comprehensive services including preventative care, surgery, dental treatments, and emergency services. The team of experienced veterinarians specializes in canine medicine and is committed to ensuring the health and wellbeing of your furry family members through all stages of their lives.",
-    image: "https://via.placeholder.com/400x300?text=Grey+Abbey+Vets",
+    description: "Grey Abbey Vets is a modern, fully-equipped veterinary practice dedicated to providing exceptional care for dogs and other pets.",
+    image: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80", 
     services: [
       "Wellness examinations",
       "Vaccinations",
@@ -39,8 +40,8 @@ const vetsData = [
     website: "https://www.dublinanimalhospital.ie",
     rating: 4.8,
     reviewCount: 243,
-    description: "Dublin Animal Hospital is a state-of-the-art veterinary facility offering comprehensive medical, surgical, and emergency care for dogs. The hospital features advanced diagnostic equipment, a modern surgical suite, and dedicated dog wards designed to minimize stress during hospitalization. The team includes specialists in various fields of veterinary medicine, ensuring your dog receives the highest standard of care for any condition.",
-    image: "https://via.placeholder.com/400x300?text=Dublin+Animal+Hospital",
+    description: "State-of-the-art facility offering comprehensive medical, surgical, and emergency care for dogs.",
+   image: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80",  // Example URL (adjust if incorrect)
     services: [
       "24/7 emergency care",
       "Advanced diagnostics",
@@ -69,8 +70,8 @@ const vetsData = [
     website: "https://www.villagevets.ie",
     rating: 4.7,
     reviewCount: 176,
-    description: "Village Vets is a network of veterinary clinics with a strong focus on community and personalized care for dogs and their families. The Dunboyne clinic offers a comprehensive range of services in a friendly, low-stress environment. The practice emphasizes preventative care and client education, helping dog owners make informed decisions about their pets' health. The team prides itself on building lasting relationships with clients and their canine companions.",
-    image: "https://via.placeholder.com/400x300?text=Village+Vets",
+    description: "Village Vets is a community-focused network of clinics with personalized care for dogs.",
+    image: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80", 
     services: [
       "Preventative care",
       "Vaccinations",
@@ -98,8 +99,8 @@ const vetsData = [
     website: "https://www.blacklionpethospital.ie",
     rating: 4.9,
     reviewCount: 215,
-    description: "Blacklion Pet Hospital is a purpose-built veterinary facility dedicated to providing exceptional care for dogs in a compassionate environment. The hospital offers comprehensive services from routine check-ups to complex surgical procedures. The team's approach focuses on fear-free handling techniques to reduce anxiety during veterinary visits. State-of-the-art equipment and a dedicated staff ensure that dogs receive the best possible care tailored to their individual needs.",
-    image: "https://via.placeholder.com/400x300?text=Blacklion+Pet+Hospital",
+    description: "Compassionate veterinary care with modern facilities in Greystones.",
+    image: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80", 
     services: [
       "Wellness care",
       "Vaccinations",
@@ -127,8 +128,8 @@ const vetsData = [
     website: "https://www.palmerstownvet.ie",
     rating: 4.6,
     reviewCount: 142,
-    description: "Palmerstown Veterinary Clinic is a family-run practice with a special interest in canine medicine. The clinic offers a personal touch, with the same veterinarians seeing your dog at each visit to build trust and familiarity. The practice provides a comprehensive range of services in a warm, welcoming environment designed to make both dogs and their owners feel comfortable. Preventative care plans are tailored to each dog's specific needs based on breed, age, and lifestyle.",
-    image: "https://via.placeholder.com/400x300?text=Palmerstown+Veterinary+Clinic",
+    description: "Family-run veterinary practice offering trusted care in a warm setting.",
+    image:"https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80",
     services: [
       "Wellness examinations",
       "Vaccinations",
@@ -145,6 +146,98 @@ const vetsData = [
       "Preventative care"
     ],
     hours: "Monday-Friday: 9:00am-6:00pm, Saturday: 9:00am-1:00pm, Sunday: Closed"
+  },
+
+  // 🔽 NEW entries start here
+  {
+    id: 6,
+    name: "Veterinary Specialists Ireland",
+    address: "Clonmahon, Summerhill, Co. Meath",
+    county: "Meath",
+    phone: "046 955 7551",
+    email: "info@vetspecialists.ie",
+    website: "https://vetspecialists.ie",
+    rating: 4.9,
+    reviewCount: 98,
+    description: "A referral-only veterinary hospital offering cutting-edge diagnostics and treatment across specialties such as neurology, oncology, and orthopaedics.",
+    image: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80", // Generic vet clinic image
+    services: ["Advanced diagnostics", "Specialist consultations", "MRI/CT imaging", "Emergency surgery"],
+    specialties: ["Neurology", "Orthopaedics", "Oncology"],
+    hours: "Monday-Friday: 8:00am-6:00pm, Emergency on-call 24/7"
+  },
+  {
+    id: 7,
+    name: "All Care Veterinary Hospital",
+    address: "Park Road, Killarney, Co. Kerry",
+    county: "Kerry",
+    phone: "064 663 5889",
+    email: "info@allcarevet.ie",
+    website: "https://www.allcarevet.ie",
+    rating: 4.8,
+    reviewCount: 132,
+    description: "Trusted family-run veterinary hospital providing compassionate care with modern facilities in the heart of Kerry.",
+    image: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80", // Generic vet clinic image
+    services: ["Routine checkups", "Dental surgery", "X-ray", "Spay & neuter", "Microchipping"],
+    specialties: ["Small animal surgery", "Preventative care"],
+    hours: "Monday-Friday: 9:00am-6:00pm, Saturday: 10:00am-2:00pm"
+  },
+  {
+    id: 8,
+    name: "Sunbeam Veterinary Hospital",
+    address: "Unit 1, Blackpool Retail Park, Cork",
+    county: "Cork",
+    phone: "021 439 7722",
+    email: "info@sunbeamvets.com",
+    website: "https://www.sunbeamvets.com",
+    rating: 4.7,
+    reviewCount: 201,
+    description: "Sunbeam offers top-tier veterinary services across Cork with branches in Blackpool, Passage West, and Cobh.",
+    image: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80", // Generic vet clinic image
+    services: ["Vaccinations", "Diagnostics", "Surgery", "Dental care", "Puppy classes"],
+    specialties: ["Rehabilitation", "Canine behavior", "Chronic pain management"],
+    hours: "Monday-Saturday: 8:00am-7:00pm, Sunday: Emergencies only"
+  },
+  {
+    id: 9,
+    name: "Adare Veterinary Clinic",
+    address: "Main Street, Adare, Co. Limerick",
+    county: "Limerick",
+    phone: "061 396 800",
+    email: "hello@adarevets.ie",
+    website: "https://www.adarevets.ie",
+    rating: 4.8,
+    reviewCount: 87,
+    description: "Friendly and experienced veterinary team in Adare offering complete pet care and diagnostics.",
+    image: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80", // Generic vet clinic image
+    services: ["Examinations", "Microchipping", "Surgery", "Flea/tick treatment"],
+    specialties: ["Dermatology", "Puppy care", "Diagnostics"],
+    hours: "Monday-Friday: 9:00am-6:00pm, Saturday: 9:00am-1:00pm"
+  },
+  
+  {
+    id: 10,
+    name: "All Creatures Veterinary Clinic",
+    address: "Circular Road, Roscommon Town, Co. Roscommon",
+    county: "Roscommon",
+    phone: "090 662 5822",
+    email: "reception@allcreatures.ie",
+    website: "https://www.allcreatures.ie",
+    rating: 4.7,
+    reviewCount: 94,
+    description: "Providing compassionate and professional pet care in Roscommon for over 20 years.",
+    image: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80", // Generic vet clinic image
+    services: ["Vaccinations", "Diagnostics", "Surgery", "Dental work", "Pet travel documentation"],
+    specialties: ["General practice", "Canine wellness", "Soft tissue surgery"],
+    hours: "Monday-Friday: 9:00am-5:30pm, Saturday: 9:00am-12:00pm"
+  },
+  {
+    id: 11,
+    name: "Vet Me Featured Listing",
+    website: "https://https://www.vetme.ie/",
+    
+    description: "Provide Comprehensive list of vet clinics in Irealand",
+    image: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80", // Generic vet clinic image
+    
   }
 ];
 
