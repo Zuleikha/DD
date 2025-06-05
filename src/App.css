@@ -40,3 +40,37 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Hero Image Optimization - Add this section */
+.hero-image-optimized {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  /* Prevent pixelation */
+  image-rendering: auto;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* For high DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .hero-image-optimized {
+    image-rendering: -webkit-optimize-contrast;
+  }
+}
+
+/* Responsive hero adjustments */
+@media (max-width: 768px) {
+  .hero-image-optimized {
+    object-position: center top;
+  }
+}
+
+/* Alternative: Background image approach */
+.hero-background-optimized {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
+
