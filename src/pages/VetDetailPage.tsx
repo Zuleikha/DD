@@ -3,26 +3,33 @@ import { useParams, Link } from 'react-router-dom';
 import { MapPin, Phone, Globe, Mail, Clock, ArrowLeft, Star } from 'lucide-react';
 import SEO from '../components/common/SEO';
 
-// Import the vets data
+// Import the updated vets data
 import vetsData from '../data/vets_data';
 
-// Define a type for vet objects - made address optional to fix deploy error
+// Import images using the same method as training page
+import vetImage1 from '../assets/images/vets/vet_generic_1.png';
+import vetImage2 from '../assets/images/vets/vet_generic_3.png';
+import vetImage3 from '../assets/images/vets/vet_generic_4.png';
+import vetImage4 from '../assets/images/vets/vet_generic_5.png';
+import vetImage5 from '../assets/images/vets/vet_generic_6.png';
+
+// Define a type for vet objects
 interface Vet {
   id: number;
   name: string;
-  address?: string; // Made optional
-  county?: string; // Made optional
-  phone?: string; // Made optional
+  address?: string;
+  county?: string;
+  phone?: string;
   mobile?: string;
-  email?: string; // Made optional
-  website: string;
-  rating?: number; // Made optional
-  reviewCount?: number; // Made optional
-  description: string;
-  image: string;
-  services?: string[]; // Made optional
+  email?: string;
+  website?: string;
+  rating?: number;
+  reviewCount?: number;
+  description?: string;
+  image?: string;
+  services?: string[];
   specialties?: string[];
-  hours?: string; // Made optional
+  hours?: string;
 }
 
 const VetDetailPage: React.FC = () => {
@@ -31,10 +38,33 @@ const VetDetailPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Generic vet images from your assets folder - same method as training page
+  const getGenericImage = (index: number): string => {
+    const images = [
+      vetImage1,  // Veterinary clinic reception
+      vetImage2,  // Surgery room
+      vetImage3,  // Diagnostic equipment
+      vetImage4,  // Pharmacy area
+      vetImage5   // Examination room
+    ];
+    return images[index % images.length];
+  };
+
+  // Get the appropriate image for each vet
+  const getVetImage = (vet: Vet): string => {
+    // Use the existing image if it's a URL
+    if (vet.image && vet.image.startsWith('http')) {
+      return vet.image;
+    }
+    
+    // Use generic image based on vet ID for consistency
+    return vet.image || getGenericImage(vet.id - 1);
+  };
+
   useEffect(() => {
     if (id) {
       const vetId = parseInt(id, 10);
-      const foundVet = vetsData.find((v: any) => v.id === vetId); // Changed to any to avoid type conflicts
+      const foundVet = vetsData.find((v: Vet) => v.id === vetId);
       
       if (foundVet) {
         setVet(foundVet);
@@ -112,22 +142,28 @@ const VetDetailPage: React.FC = () => {
               <div className="md:col-span-2">
                 <div className="mb-8">
                   <img 
-                    src={vet.image} 
+                    src={getVetImage(vet)} 
                     alt={vet.name} 
                     className="w-full h-64 object-cover rounded-lg shadow-md"
+                    style={{
+                      imageRendering: '-webkit-optimize-contrast'
+                    }}
+                    loading="eager"
                   />
                 </div>
                 
-                <div className="mb-8">
-                  <h2 className="text-2xl font-bold mb-4 text-gray-800">About {vet.name}</h2>
-                  <p className="text-gray-700 leading-relaxed">{vet.description}</p>
-                </div>
+                {vet.description && (
+                  <div className="mb-8">
+                    <h2 className="text-2xl font-bold mb-4 text-gray-800">About {vet.name}</h2>
+                    <p className="text-gray-700 leading-relaxed">{vet.description}</p>
+                  </div>
+                )}
 
                 {vet.services && vet.services.length > 0 && (
                   <div className="mb-8">
                     <h2 className="text-2xl font-bold mb-4 text-gray-800">Services Offered</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {vet.services.map((service, index) => (
+                      {vet.services.map((service: string, index: number) => (
                         <div key={index} className="flex items-center bg-blue-50 p-3 rounded-lg">
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -143,7 +179,7 @@ const VetDetailPage: React.FC = () => {
                   <div className="mb-8">
                     <h2 className="text-2xl font-bold mb-4 text-gray-800">Specialties</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {vet.specialties.map((specialty, index) => (
+                      {vet.specialties.map((specialty: string, index: number) => (
                         <div key={index} className="flex items-center bg-blue-50 p-3 rounded-lg">
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -177,7 +213,9 @@ const VetDetailPage: React.FC = () => {
                       <Phone className="h-6 w-6 text-blue-500 mr-3 mt-1" />
                       <div>
                         <h3 className="font-semibold">Phone</h3>
-                        <p className="text-gray-700">{vet.phone}</p>
+                        <a href={`tel:${vet.phone}`} className="text-blue-600 hover:underline">
+                          {vet.phone}
+                        </a>
                         {vet.mobile && vet.mobile !== vet.phone && (
                           <p className="text-gray-700">Mobile: {vet.mobile}</p>
                         )}
@@ -185,7 +223,7 @@ const VetDetailPage: React.FC = () => {
                     </div>
                   )}
 
-                  {vet.email && (
+                  {vet.email && vet.email.trim() && (
                     <div className="flex items-start">
                       <Mail className="h-6 w-6 text-blue-500 mr-3 mt-1" />
                       <div>
@@ -197,15 +235,17 @@ const VetDetailPage: React.FC = () => {
                     </div>
                   )}
 
-                  <div className="flex items-start">
-                    <Globe className="h-6 w-6 text-blue-500 mr-3 mt-1" />
-                    <div>
-                      <h3 className="font-semibold">Website</h3>
-                      <a href={vet.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                        {vet.website.replace(/^https?:\/\//, '')}
-                      </a>
+                  {vet.website && vet.website.trim() && (
+                    <div className="flex items-start">
+                      <Globe className="h-6 w-6 text-blue-500 mr-3 mt-1" />
+                      <div>
+                        <h3 className="font-semibold">Website</h3>
+                        <a href={vet.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                          {vet.website.replace(/^https?:\/\//, '')}
+                        </a>
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   {vet.hours && (
                     <div className="flex items-start">
