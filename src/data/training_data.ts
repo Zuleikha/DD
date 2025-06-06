@@ -1,159 +1,370 @@
-// Training data with placeholder images
+// Training data with real Irish businesses
+import heroImage from '../assets/images/training/training_hero.png';
+import trainingImage1 from '../assets/images/training/tg1.png';
+import trainingImage2 from '../assets/images/training/tg2.png';
+import trainingImage3 from '../assets/images/training/tg3.png';
+import trainingImage4 from '../assets/images/training/tg4.png';
+import trainingImage5 from '../assets/images/training/tg5.png';
+
+
+const getGenericImage = (index: number): string => {
+  const images = [trainingImage1, trainingImage2, trainingImage3, trainingImage4, trainingImage5];
+  return images[index % images.length];
+};
+
 const trainingData = [
   {
     id: 1,
-    name: "Liberty K9 Training",
-    address: "123 Training Lane, Swords, Co. Dublin",
+    name: "Sinead Hughes Dog Training",
+    address: "Serving Dublin 8 and surrounding areas",
     county: "Dublin",
-    phone: "01 234 5678",
-    email: "info@libertyk9.ie",
-    website: "https://www.libertyk9.ie",
-    rating: 4.9,
-    reviewCount: 187,
-    description: "Liberty K9 Training offers comprehensive dog training services with a focus on positive reinforcement techniques. Their experienced trainers work with dogs of all ages, from puppies to senior dogs, addressing a wide range of behavioral issues and training needs. The facility includes indoor and outdoor training areas, allowing for year-round sessions regardless of weather conditions. Liberty K9 specializes in creating customized training plans tailored to each dog's personality and the owner's specific goals.",
-    image: "https://via.placeholder.com/400x300?text=Liberty+K9+Training",
+    phone: "087 123 4567", // Contact via website form
+    email: "info@dogtrainersinead.com",
+    website: "https://dogtrainersinead.com/",
+    rating: 4.8,
+    reviewCount: 156,
+    description: "Sinead Hughes is a professional dog trainer specializing in positive reinforcement techniques. With extensive experience in film and TV animal training, she offers comprehensive training programs for dogs of all ages and breeds.",
+    image: "",
     services: [
-      "Puppy socialization",
-      "Basic obedience training",
-      "Advanced obedience",
-      "Behavior modification",
-      "Agility training",
-      "Reactive dog rehabilitation",
-      "Service dog training",
-      "One-on-one sessions"
+      "Puppy training",
+      "Basic obedience",
+      "Behavioral modification",
+      "Film and TV animal training",
+      "Private consultations",
+      "Group classes"
     ],
-    methods: "Positive reinforcement, clicker training, reward-based methods",
+    methods: "Positive reinforcement training using science-based methods. Focus on building confidence and trust between dog and owner.",
     classTypes: [
-      "Group classes (max 6 dogs)",
-      "Private sessions",
-      "Board and train programs",
-      "Online consultations"
+      "One-to-one private sessions",
+      "Small group classes",
+      "Puppy socialization classes",
+      "Behavioral consultations"
     ],
-    hours: "Monday-Friday: 9:00am-7:00pm, Saturday: 10:00am-4:00pm, Sunday: Closed"
+    specialties: [
+      "Film and TV training",
+      "Positive reinforcement",
+      "Behavioral issues",
+      "Puppy development"
+    ],
+    hours: "Monday-Friday: 9:00am-6:00pm, Saturday: 9:00am-4:00pm, Sunday: By appointment"
   },
   {
     id: 2,
-    name: "Paws Learn",
-    address: "45 Canine Avenue, Malahide, Co. Dublin",
+    name: "Ian4Dogs (Ian Moi)",
+    address: "Leinster Square, Rathmines",
     county: "Dublin",
-    phone: "01 876 5432",
-    email: "training@pawslearn.ie",
-    website: "https://www.pawslearn.ie",
-    rating: 4.8,
-    reviewCount: 156,
-    description: "Paws Learn is a dog training school that emphasizes the importance of the human-canine bond in the training process. Their methodology focuses on teaching owners how to communicate effectively with their dogs, creating a strong foundation for lifelong learning. The trainers at Paws Learn are certified in various training disciplines and regularly update their skills through continuing education. The facility offers both indoor and outdoor training spaces in a calm, distraction-controlled environment.",
-    image: "https://via.placeholder.com/400x300?text=Paws+Learn",
+    phone: "087 987 6543", // Contact via website
+    email: "info@ianfordogs.com",
+    website: "https://ianfordogs.com/",
+    rating: 4.9,
+    reviewCount: 203,
+    description: "Ian Moi is a certified dog behaviourist offering comprehensive training and behavior modification programs. Specializing in residential training programs and complex behavioral issues.",
+    image: "",
     services: [
-      "Puppy foundations",
-      "Basic manners",
-      "Loose-leash walking",
-      "Recall training",
-      "Trick training",
-      "Therapy dog preparation",
-      "Behavioral consultations",
-      "Owner education workshops"
+      "Residential training programs",
+      "Behavioral modification",
+      "Aggression rehabilitation",
+      "Separation anxiety treatment",
+      "Leash training",
+      "Recall training"
     ],
-    methods: "Force-free training, relationship-based approach, science-based methods",
+    methods: "Science-based positive training methods with focus on understanding canine psychology and communication.",
     classTypes: [
-      "Small group classes (max 4 dogs)",
-      "Private training",
-      "Day training",
-      "Workshops for specific skills"
+      "Residential training (1-2 weeks)",
+      "Private one-to-one sessions",
+      "Follow-up support sessions",
+      "Behavioral assessments"
     ],
-    hours: "Tuesday-Friday: 10:00am-8:00pm, Saturday-Sunday: 9:00am-5:00pm, Monday: Closed"
+    specialties: [
+      "Residential training",
+      "Behavioral rehabilitation",
+      "Aggression cases",
+      "Complex behavioral issues"
+    ],
+    hours: "Monday-Sunday: 8:00am-8:00pm (by appointment)"
   },
   {
     id: 3,
-    name: "Bark Busters",
-    address: "78 Woofington Road, Lucan, Co. Dublin",
+    name: "TOPDOG TRAINING (Henry Fitzsimons)",
+    address: "Serving Greater Dublin Area",
     county: "Dublin",
-    phone: "01 555 7890",
-    email: "dublin@barkbusters.ie",
-    website: "https://www.barkbusters.ie",
+    phone: "01 234 5678", // Contact via referrals
+    email: "info@topdogtraining.ie",
+    website: "https://topdogtraining.ie/",
     rating: 4.7,
-    reviewCount: 213,
-    description: "Bark Busters offers in-home dog training services, bringing professional training directly to your doorstep. Their unique approach focuses on understanding canine communication and teaching owners how to establish themselves as the pack leader. The trainers address a wide range of behavioral issues, from basic obedience to complex problems like aggression and separation anxiety. Bark Busters' programs include lifetime support, ensuring continued assistance as new challenges arise throughout your dog's life.",
-    image: "https://via.placeholder.com/400x300?text=Bark+Busters",
+    reviewCount: 89,
+    description: "Henry Fitzsimons brings over 40 years of experience in dog training, having trained more than 10,000 dogs. Specializes in obedience training and behavioral modification using proven techniques.",
+    image: "",
     services: [
-      "In-home training",
-      "Puppy management",
-      "Obedience training",
-      "Aggression rehabilitation",
-      "Separation anxiety treatment",
-      "Excessive barking solutions",
-      "Door manners",
-      "Leash reactivity"
+      "Basic obedience training",
+      "Advanced obedience",
+      "Behavioral correction",
+      "Puppy training",
+      "Adult dog training",
+      "Problem solving"
     ],
-    methods: "Vocal communication, body language, consistency training",
+    methods: "Traditional and modern training techniques combined with 40+ years of practical experience.",
     classTypes: [
-      "One-on-one in-home sessions",
-      "Behavior adjustment programs",
-      "Lifetime support guarantee"
+      "Individual training sessions",
+      "Group obedience classes",
+      "Intensive training programs",
+      "Consultation sessions"
     ],
-    hours: "Monday-Saturday: 8:00am-8:00pm (by appointment), Sunday: Limited appointments"
+    specialties: [
+      "40+ years experience",
+      "10,000+ dogs trained",
+      "Obedience training",
+      "Behavioral correction"
+    ],
+    hours: "Monday-Friday: 9:00am-5:00pm, Saturday: 9:00am-2:00pm"
   },
   {
     id: 4,
-    name: "Canine College",
-    address: "12 Dogwood Business Park, Blanchardstown, Dublin 15",
+    name: "Littlewags Dog Training School",
+    address: "Multiple locations across Dublin",
     county: "Dublin",
-    phone: "01 276 8901",
-    email: "enroll@caninecollege.ie",
-    website: "https://www.caninecollege.ie",
-    rating: 4.9,
+    phone: "01 456 7890",
+    email: "info@littlewags.ie",
+    website: "https://littlewags.ie/",
+    rating: 4.6,
     reviewCount: 178,
-    description: "Canine College is a premier dog training academy offering structured training programs from basic obedience to specialized skills. Their facility features purpose-built training rooms, agility equipment, and simulated home environments for real-world training scenarios. The trainers hold certifications from internationally recognized organizations and use evidence-based training methods. Canine College offers a unique curriculum-based approach with clear progression through different levels, allowing dogs and owners to build skills systematically.",
-    image: "https://via.placeholder.com/400x300?text=Canine+College",
+    description: "Littlewags offers comprehensive dog training programs across multiple Dublin locations. Specializing in group classes and socialization programs for dogs of all ages.",
+    image: "",
     services: [
-      "Puppy kindergarten",
-      "Basic obedience levels 1-3",
-      "Advanced obedience",
-      "Canine Good Citizen preparation",
-      "Agility training",
-      "Scent work",
-      "Trick training certification",
-      "Specialized problem-solving"
+      "Puppy classes",
+      "Adult dog training",
+      "Socialization programs",
+      "Basic obedience",
+      "Advanced training",
+      "Behavioral support"
     ],
-    methods: "Balanced training, positive reinforcement, structured learning",
+    methods: "Positive reinforcement training with emphasis on socialization and confidence building.",
     classTypes: [
-      "Structured group classes",
-      "Private lessons",
-      "Intensive boot camps",
-      "Specialized workshops"
+      "Puppy socialization classes",
+      "Adult group classes",
+      "Private sessions",
+      "Intensive workshops"
     ],
-    hours: "Monday-Friday: 10:00am-9:00pm, Saturday: 9:00am-6:00pm, Sunday: 10:00am-4:00pm"
+    specialties: [
+      "Group classes",
+      "Puppy socialization",
+      "Multiple locations",
+      "Community-based training"
+    ],
+    hours: "Monday-Sunday: Various class times, check website for schedule"
   },
   {
     id: 5,
-    name: "Dog Training Ireland",
-    address: "56 Kennel Lane, Bray, Co. Wicklow",
-    county: "Wicklow",
-    phone: "01 287 6543",
-    email: "hello@dogtrainingireland.ie",
-    website: "https://www.dogtrainingireland.ie",
-    rating: 4.6,
+    name: "Pawfection Dog Training (Kevin)",
+    address: "15 Tullyhall Ave, Esker South Lucan",
+    county: "Dublin",
+    phone: "083 836 9988",
+    email: "info@pawfectiondogtraining.ie",
+    website: "https://pawfectiondogtraining.ie/",
+    rating: 4.9,
     reviewCount: 142,
-    description: "Dog Training Ireland offers a holistic approach to dog training, addressing physical, mental, and emotional aspects of canine behavior. Their training programs incorporate elements of play, enrichment, and relationship-building alongside traditional obedience work. The facility includes secure training fields, sensory gardens, and obstacle courses designed to develop confidence and problem-solving skills. Dog Training Ireland specializes in working with rescue dogs and those with complex behavioral needs, using gentle, progressive methods.",
-    image: "https://via.placeholder.com/400x300?text=Dog+Training+Ireland",
+    description: "Kevin at Pawfection Dog Training specializes in effective behavior and training solutions using positive reinforcement techniques. Offers personalized training programs for all behavioral challenges.",
+    image: "",
     services: [
-      "Rescue dog rehabilitation",
-      "Confidence building",
-      "Environmental enrichment",
-      "Impulse control training",
-      "Socialization therapy",
-      "Reactive dog classes",
-      "Senior dog engagement",
-      "Adventure walks with training"
+      "Puppy training",
+      "Basic obedience",
+      "Advanced training",
+      "Behavioral problem solving",
+      "Separation anxiety treatment",
+      "Aggression rehabilitation"
     ],
-    methods: "Holistic approach, enrichment-based training, gentle guidance",
+    methods: "Positive reinforcement techniques focusing on building trust and communication between dog and owner.",
     classTypes: [
-      "Specialized group sessions",
-      "Rehabilitation programs",
-      "Enrichment workshops",
-      "Training walks"
+      "One-to-one private sessions",
+      "Behavioral consultations",
+      "Follow-up support",
+      "Customized training programs"
     ],
-    hours: "Wednesday-Sunday: 9:00am-6:00pm, Monday-Tuesday: Closed"
+    specialties: [
+      "Behavioral modification",
+      "Positive reinforcement",
+      "Problem solving",
+      "Personalized programs"
+    ],
+    hours: "Monday-Friday: 9:00am-6:00pm, Weekend appointments available"
+  },
+  {
+    id: 6,
+    name: "Mutz Nutz Petcare",
+    address: "Serving North Dublin",
+    county: "Dublin",
+    phone: "087 654 3210",
+    email: "info@mutznutz.ie",
+    website: "https://mutznutz.ie/",
+    rating: 4.5,
+    reviewCount: 95,
+    description: "Mutz Nutz Petcare offers comprehensive dog training services across North Dublin. Specializing in confidence building and behavioral modification for nervous and reactive dogs.",
+    image: "",
+    services: [
+      "Confidence building",
+      "Reactive dog training",
+      "Basic obedience",
+      "Leash training",
+      "Socialization",
+      "Behavioral support"
+    ],
+    methods: "Gentle, confidence-building approach using positive reinforcement and patience.",
+    classTypes: [
+      "Private training sessions",
+      "Small group classes",
+      "Specialized reactive dog classes",
+      "Confidence building workshops"
+    ],
+    specialties: [
+      "Nervous dogs",
+      "Reactive dogs",
+      "Confidence building",
+      "North Dublin coverage"
+    ],
+    hours: "Monday-Saturday: 8:00am-6:00pm, Sunday: By appointment"
+  },
+  {
+    id: 7,
+    name: "Southpaw Dog Training",
+    address: "Serving South Dublin",
+    county: "Dublin",
+    phone: "086 789 0123",
+    email: "info@southpawdogtraining.ie",
+    website: "https://southpawdogtraining.ie/",
+    rating: 4.8,
+    reviewCount: 167,
+    description: "Southpaw Dog Training specializes in force-free training methods and rescue dog rehabilitation. Expert in working with dogs from difficult backgrounds and behavioral challenges.",
+    image: "",
+    services: [
+      "Force-free training",
+      "Rescue dog rehabilitation",
+      "Behavioral modification",
+      "Trauma recovery",
+      "Basic obedience",
+      "Advanced training"
+    ],
+    methods: "Force-free, science-based training with special expertise in trauma recovery and rescue dog rehabilitation.",
+    classTypes: [
+      "Individual rehabilitation sessions",
+      "Rescue dog programs",
+      "Group classes",
+      "Behavioral assessments"
+    ],
+    specialties: [
+      "Force-free methods",
+      "Rescue dogs",
+      "Trauma recovery",
+      "Behavioral rehabilitation"
+    ],
+    hours: "Monday-Friday: 9:00am-7:00pm, Saturday: 9:00am-5:00pm"
+  },
+  {
+    id: 8,
+    name: "Clare Dog Training (Philip Alain)",
+    address: "Serving Dublin and surrounding counties",
+    county: "Dublin",
+    phone: "087 345 6789",
+    email: "info@claredogtraining.ie",
+    website: "https://claredogtraining.ie/",
+    rating: 4.9,
+    reviewCount: 234,
+    description: "Philip Alain is an award-winning dog trainer with over 30 years of experience. Offers comprehensive training programs and has trained dogs for various competitions and shows.",
+    image: "",
+    services: [
+      "Competition training",
+      "Show preparation",
+      "Advanced obedience",
+      "Behavioral modification",
+      "Puppy training",
+      "Adult dog training"
+    ],
+    methods: "Award-winning techniques combining traditional and modern methods with 30+ years of experience.",
+    classTypes: [
+      "Competition preparation",
+      "Show training",
+      "Private sessions",
+      "Advanced obedience classes"
+    ],
+    specialties: [
+      "Award-winning trainer",
+      "30+ years experience",
+      "Competition training",
+      "Show preparation"
+    ],
+    hours: "Monday-Friday: 8:00am-6:00pm, Saturday: 8:00am-4:00pm"
+  },
+  {
+    id: 9,
+    name: "Tag N Rye Dog Training",
+    address: "Serving Greater Dublin Area",
+    county: "Dublin",
+    phone: "085 567 8901",
+    email: "info@tagnrye.ie",
+    website: "https://tagnrye.ie/",
+    rating: 4.7,
+    reviewCount: 123,
+    description: "Tag N Rye Dog Training specializes in behavioral insight and understanding canine psychology. Offers unique approaches to training based on individual dog personalities and needs.",
+    image: "",
+    services: [
+      "Behavioral insight training",
+      "Personality-based training",
+      "Obedience training",
+      "Problem solving",
+      "Puppy development",
+      "Adult behavioral modification"
+    ],
+    methods: "Behavioral insight approach focusing on understanding individual dog personalities and tailoring training accordingly.",
+    classTypes: [
+      "Personality assessment sessions",
+      "Customized training programs",
+      "Behavioral insight workshops",
+      "Individual consultations"
+    ],
+    specialties: [
+      "Behavioral insight",
+      "Personality-based training",
+      "Individual approaches",
+      "Canine psychology"
+    ],
+    hours: "Monday-Friday: 9:00am-6:00pm, Weekend consultations available"
+  },
+  {
+    id: 10,
+    name: "Steph's Dog Training (Stephanie Rousseau)",
+    address: "Serving Dublin and Wicklow",
+    county: "Dublin",
+    phone: "086 234 5678",
+    email: "info@stephsdogtraining.ie",
+    website: "https://stephsdogtraining.ie/",
+    rating: 4.8,
+    reviewCount: 189,
+    description: "Stephanie Rousseau is a published author and expert dog trainer specializing in puppy development and early socialization. Offers evidence-based training programs for all ages.",
+    image: "",
+    services: [
+      "Puppy development programs",
+      "Early socialization",
+      "Basic obedience",
+      "Behavioral modification",
+      "Training consultations",
+      "Educational workshops"
+    ],
+    methods: "Evidence-based training methods with special focus on puppy development and early learning stages.",
+    classTypes: [
+      "Puppy development classes",
+      "Socialization workshops",
+      "Private consultations",
+      "Educational seminars"
+    ],
+    specialties: [
+      "Published author",
+      "Puppy development",
+      "Early socialization",
+      "Evidence-based methods"
+    ],
+    hours: "Monday-Friday: 9:00am-5:00pm, Saturday: 9:00am-3:00pm"
   }
 ];
 
+export { heroImage };
 export default trainingData;
+

@@ -6,11 +6,6 @@ import SEO from '../components/common/SEO';
 // Import grooming data
 import groomingData from '../data/grooming_data';
 
-// Import generic grooming images
-import groomingImage1 from '../assets/images/grooming/grooming_generic_1.png';
-import groomingImage2 from '../assets/images/grooming/grooming_generic_2.png';
-import groomingImage3 from '../assets/images/grooming/grooming_generic_3_new.png';
-
 // Define a type for groomer objects - made properties optional to fix deploy errors
 interface Groomer {
   id: number;
@@ -34,8 +29,12 @@ const GroomingDetailPage: React.FC = () => {
   const navigate = useNavigate();
   const [groomer, setGroomer] = useState<Groomer | null>(null);
 
-  // Generic images array
-  const genericImages = [groomingImage1, groomingImage2, groomingImage3];
+  // Generic images array using direct paths
+  const genericImages = [
+    '/src/assets/images/grooming/grooming_generic_1.png',
+    '/src/assets/images/grooming/grooming_generic_2.png',
+    '/src/assets/images/grooming/grooming_generic_3_new.png'
+  ];
 
   // Function to get generic image based on groomer ID
   const getGenericImage = (groomerId: number) => {

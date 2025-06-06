@@ -26,6 +26,7 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import PetShopsPage from './pages/PetShopsPage';
 import PetShopDetailPage from './pages/PetShopDetailPage';
+import ScrollToTop from './components/ScrollToTop'; // ADD THIS IMPORT
 
 // Generic redirect for typo paths like vetss, parkss, etc.
 function ExtraSRedirect({ prefix }: { prefix: string }) {
@@ -36,6 +37,7 @@ function ExtraSRedirect({ prefix }: { prefix: string }) {
 function App() {
   return (
     <Router>
+      <ScrollToTop /> {/* ADD THIS LINE - Must be inside Router but before everything else */}
       <div className="flex flex-col min-h-screen">
         <Header />
         <main className="flex-grow">
