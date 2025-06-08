@@ -1,184 +1,219 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Filter } from 'lucide-react';
-import parksData from '../data/parks_data.js';
-import heroImage from '../assets/images/parks/ph.jpg';
-import ListingCard from '../components/listings/ListingCard';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { parksData } from '../data/parks_data';
 
-// Define the Park interface to match your data structure
+// Import only the 5 images that exist
+import parkHero from '../assets/images/parks/park_hero.png';
+import parkImage1 from '../assets/images/parks/park_generic_1.png';
+import parkImage2 from '../assets/images/parks/park_generic_2.png';
+import parkImage3 from '../assets/images/parks/park_generic_3.png';
+import parkImage4 from '../assets/images/parks/park_generic_4.png';
+import parkImage5 from '../assets/images/parks/park_generic_5.png';
+
 interface Park {
   id: number;
   name: string;
   address: string;
   county: string;
-  phone: string;
-  email: string;
-  website: string;
+  phone?: string;
+  email?: string;
+  website?: string;
   rating: number;
   reviewCount: number;
   description: string;
-  image?: string;
+  image: string;
   amenities?: string[];
   leashRules?: string;
   size?: string;
-  hours?: string;
-  lat?: number;
-  lng?: number;
+  hours: string;
 }
 
 const ParksPage: React.FC = () => {
-  // State for search and filtering
-  const [searchTerm, setSearchTerm] = useState<string>('');
-  const [selectedCounty, setSelectedCounty] = useState<string>('');
-  const [filteredParks, setFilteredParks] = useState<Park[]>(parksData);
-  
-  // Get unique counties for the filter dropdown
-  const counties = Array.from(new Set(parksData.map((park: Park) => park.county))).sort();
+  const [selectedCounty, setSelectedCounty] = useState<string>('All');
+  const [showAll, setShowAll] = useState<boolean>(false);
 
-  // Filter parks when search term or county changes
-  useEffect(() => {
-    let results = parksData;
-    
-    // Filter by search term
-    if (searchTerm) {
-      const term = searchTerm.toLowerCase();
-      results = results.filter((park: Park) => 
-        park.name.toLowerCase().includes(term) || 
-        park.description.toLowerCase().includes(term) ||
-        // Use optional chaining for amenities
-        park.amenities?.some((amenity: string) => amenity.toLowerCase().includes(term))
-      );
-    }
-    
-    // Filter by county
-    if (selectedCounty && selectedCounty !== 'All Counties') {
-      results = results.filter((park: Park) => park.county === selectedCounty);
-    }
-    
-    setFilteredParks(results);
-  }, [searchTerm, selectedCounty]);
+  // Get unique counties for filter
+  const counties: string[] = ['All', ...new Set(parksData.map((park: Park) => park.county).filter((county): county is string => Boolean(county)))];
+
+  // Filter parks by county
+  const filteredParks = selectedCounty === 'All' 
+    ? parksData 
+    : parksData.filter((park: Park) => park.county === selectedCounty);
+
+  // Show only 6 parks initially, or all if showAll is true
+  const displayedParks = showAll ? filteredParks : filteredParks.slice(0, 6);
+
+  // Get the appropriate image for each park - only use the 5 images that exist
+  const getGenericImage = (index: number): string => {
+    const images = [parkImage1, parkImage2, parkImage3, parkImage4, parkImage5];
+    return images[index % images.length];
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section - Made Bigger */}
-      <div className="relative w-full h-[500px] mb-8">
-        <img
-          src={heroImage}
-          alt="Beautiful park landscape"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-          <div className="text-center text-white px-4">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">Dog Parks & Walks in Ireland</h1>
-            <p className="text-xl md:text-2xl max-w-3xl mx-auto">
-              Find the best parks and walking trails for you and your furry companion
-            </p>
+      {/* Hero Section - No Green Overlay */}
+      <div className="relative h-96 overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src={parkHero} 
+            alt="Dogs playing in Irish park" 
+            className="w-full h-full object-cover"
+            style={{
+              imageRendering: '-webkit-optimize-contrast'
+            }}
+            loading="eager"
+          />
+        </div>
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+        <div className="relative z-10 flex items-center justify-center h-full">
+          <div className="text-center text-white">
+            <h1 className="text-5xl font-bold mb-4 drop-shadow-lg">Dog-Friendly Parks</h1>
+            <p className="text-xl mb-6 drop-shadow-md">Discover the best parks in Ireland for you and your furry friend</p>
+            <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-lg px-6 py-3 inline-block">
+              <span className="text-2xl font-semibold text-gray-800">{filteredParks.length} Parks Found</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 pb-8">
-        {/* Search and Filter Section */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Search Input */}
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
-              </div>
-              <input
-                type="text"
-                placeholder="Search by name or amenity..."
-                className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-            
-            {/* County Filter */}
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Filter className="h-5 w-5 text-gray-400" />
-              </div>
-              <select
-                className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
-                value={selectedCounty}
-                onChange={(e) => setSelectedCounty(e.target.value)}
-              >
-                <option value="">All Counties</option>
-                {counties.map((county: string) => (
-                  <option key={county} value={county}>{county}</option>
-                ))}
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <svg className="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Information Section */}
-        <div className="bg-blue-50 rounded-lg p-6 mb-8 border border-blue-100">
-          <h2 className="text-xl font-semibold mb-3 text-blue-800">About Dog Parks & Walks</h2>
-          <p className="text-gray-700 mb-4">
-            Dog parks and walking trails provide essential exercise and socialization opportunities for your dog. 
-            Finding the right outdoor space can make a big difference in your dog's happiness and wellbeing.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-            <div className="bg-white p-3 rounded-md shadow-sm">
-              <h3 className="font-semibold text-blue-700">Leash Rules</h3>
-              <p className="text-gray-600">Always check if the park has off-leash areas or requires dogs to be leashed</p>
-            </div>
-            <div className="bg-white p-3 rounded-md shadow-sm">
-              <h3 className="font-semibold text-blue-700">Amenities</h3>
-              <p className="text-gray-600">Look for parks with water stations, waste bins, and secure fencing</p>
-            </div>
-            <div className="bg-white p-3 rounded-md shadow-sm">
-              <h3 className="font-semibold text-blue-700">Park Etiquette</h3>
-              <p className="text-gray-600">Always clean up after your dog and respect other park users</p>
-            </div>
-          </div>
-        </div>
-        
-        {/* Results Count */}
-        <div className="mb-6">
-          <p className="text-gray-600">
-            Showing {filteredParks.length} parks & walks
-            {selectedCounty ? ` in ${selectedCounty}` : ' across Ireland'}
-            {searchTerm ? ` matching "${searchTerm}"` : ''}
-          </p>
-        </div>
-        
-        {/* Parks Grid - Cards without images */}
-        {filteredParks.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {filteredParks.map((park: Park) => (
-              <ListingCard
-                key={park.id}
-                id={park.id}
-                name={park.name}
-                image= ""
-                rating={park.rating}
-                reviewCount={park.reviewCount}
-                description={park.description}
-                county={park.county}
-                category="parks"
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="bg-gray-50 p-8 rounded-lg text-center">
-            <h3 className="text-xl font-semibold text-gray-700 mb-2">No parks found</h3>
-            <p className="text-gray-600 mb-4">Try adjusting your search criteria or selecting a different county.</p>
-            <button 
-              onClick={() => {
-                setSearchTerm('');
-                setSelectedCounty('');
-              }}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-8">
+        {/* Filter Section */}
+        <div className="mb-8 flex flex-col sm:flex-row gap-4 items-center justify-between">
+          <div className="flex items-center gap-4">
+            <label htmlFor="county-filter" className="text-lg font-medium text-gray-700">
+              Filter by County:
+            </label>
+            <select
+              id="county-filter"
+              value={selectedCounty}
+              onChange={(e) => setSelectedCounty(e.target.value)}
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
             >
-              Reset Filters
+              {counties.map((county) => (
+                <option key={county} value={county}>{county}</option>
+              ))}
+            </select>
+          </div>
+          
+          <div className="text-lg text-gray-600">
+            Showing {displayedParks.length} of {filteredParks.length} parks
+          </div>
+        </div>
+
+        {/* Parks Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          {displayedParks.map((park: Park, index: number) => (
+            <div key={park.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+              <div className="h-48 overflow-hidden">
+                <img
+                  src={getGenericImage(index)}
+                  alt={park.name}
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  style={{
+                    imageRendering: '-webkit-optimize-contrast'
+                  }}
+                  loading="lazy"
+                />
+              </div>
+              
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-xl font-semibold text-gray-800 line-clamp-1">{park.name}</h3>
+                  <div className="flex items-center bg-green-100 px-2 py-1 rounded-full ml-2">
+                    <span className="text-yellow-500 mr-1">⭐</span>
+                    <span className="text-sm font-medium text-green-800">{park.rating}</span>
+                  </div>
+                </div>
+                
+                <p className="text-gray-600 mb-2">{park.address}</p>
+                <p className="text-sm text-green-600 font-medium mb-3">{park.county}</p>
+                
+                <p className="text-gray-700 text-sm mb-4 line-clamp-3">{park.description}</p>
+                
+                {/* Amenities */}
+                {park.amenities && park.amenities.length > 0 && (
+                  <div className="mb-4">
+                    <h4 className="text-sm font-semibold text-gray-800 mb-2">Amenities:</h4>
+                    <div className="flex flex-wrap gap-1">
+                      {park.amenities.slice(0, 3).map((amenity: string, index: number) => (
+                        <span key={index} className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+                          {amenity}
+                        </span>
+                      ))}
+                      {park.amenities.length > 3 && (
+                        <span className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">
+                          +{park.amenities.length - 3} more
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )}
+                
+                {/* Contact Info */}
+                <div className="space-y-1 text-sm text-gray-600 mb-4">
+                  {park.phone && (
+                    <p><span className="font-medium">Phone:</span> {park.phone}</p>
+                  )}
+                  {park.size && (
+                    <p><span className="font-medium">Size:</span> {park.size}</p>
+                  )}
+                  {park.leashRules && (
+                    <p><span className="font-medium">Leash Rules:</span> {park.leashRules}</p>
+                  )}
+                </div>
+                
+                {/* Hours */}
+                <div className="text-sm text-gray-600 mb-4">
+                  <span className="font-medium">Hours:</span> {park.hours}
+                </div>
+                
+                {/* Action Buttons */}
+                <div className="flex gap-2">
+                  <Link
+                    to={`/parks/${park.id}`}
+                    className="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors duration-200 text-sm font-medium text-center"
+                  >
+                    View Details
+                  </Link>
+                  {park.website && (
+                    <a
+                      href={park.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 bg-gray-100 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors duration-200 text-sm font-medium text-center"
+                    >
+                      Visit Website
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Show More/Less Button */}
+        {filteredParks.length > 6 && (
+          <div className="text-center">
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="bg-green-600 text-white py-3 px-8 rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium text-lg"
+            >
+              {showAll ? 'Show Less' : `Show All ${filteredParks.length} Parks`}
+            </button>
+          </div>
+        )}
+
+        {/* No Results Message */}
+        {filteredParks.length === 0 && (
+          <div className="text-center py-12">
+            <div className="text-gray-500 text-xl mb-4">No parks found in {selectedCounty}</div>
+            <button
+              onClick={() => setSelectedCounty('All')}
+              className="bg-green-600 text-white py-2 px-6 rounded-lg hover:bg-green-700 transition-colors duration-200"
+            >
+              Show All Parks
             </button>
           </div>
         )}

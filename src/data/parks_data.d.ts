@@ -18,4 +18,3 @@ export interface Park {
 
 declare const parksData: Park[];
 export default parksData;
-

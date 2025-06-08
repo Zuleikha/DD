@@ -8,6 +8,7 @@ import MinderDetailPage from './pages/MinderDetailPage';
 import VetsPage from './pages/VetsPage';
 import VetDetailPage from './pages/VetDetailPage';
 import ParksPage from './pages/ParksPage';
+//import ParksPage from './WRONG_PATH';
 import ParkDetailPage from './pages/ParkDetailPage';
 import NutritionPage from './pages/NutritionPage';
 import NutritionDetailPage from './pages/NutritionDetailPage';
