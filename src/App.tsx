@@ -28,6 +28,8 @@ import LoginPage from './pages/LoginPage';
 import PetShopsPage from './pages/PetShopsPage';
 import PetShopDetailPage from './pages/PetShopDetailPage';
 import ScrollToTop from './components/ScrollToTop'; // ADD THIS IMPORT
+import AboutMascotPage from './pages/AboutMascotPage';
+
 
 // Generic redirect for typo paths like vetss, parkss, etc.
 function ExtraSRedirect({ prefix }: { prefix: string }) {
@@ -80,6 +82,8 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/advice" element={<AdvicePage />} />
+            <Route path="/about-mascot" element={<AboutMascotPage />} />
+
 
             {/* Catch-all fallback */}
             <Route path="*" element={<HomePage />} />
