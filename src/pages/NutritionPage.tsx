@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search } from 'lucide-react';
+import { Search, PawPrint, Bone } from 'lucide-react';
 import SEO from '../components/common/SEO';
 import ListingCard from '../components/listings/ListingCard';
 
@@ -22,16 +22,46 @@ interface NutritionItem {
   services: string[];
   brands: string[];
   hours: string;
-  products?: string[]; // Make products optional
+  products?: string[];
 }
 
 const NutritionPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [countyFilter, setCountyFilter] = useState('');
   const [filteredItems, setFilteredItems] = useState<NutritionItem[]>(nutritionData as NutritionItem[]);
+  const [visibleItems, setVisibleItems] = useState(6);
+  const [showAll, setShowAll] = useState(false);
 
   // Get unique counties for filter dropdown
   const counties = [...new Set(nutritionData.map(item => item.county))].sort();
+
+  // SVG Paw Print Component
+  const PawPrint = ({ size = 24, className = "", opacity = 0.2 }) => (
+    <svg 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24" 
+      fill="currentColor" 
+      className={className}
+      style={{ opacity }}
+    >
+      <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9C22.1 9 23 9.9 23 11C23 12.1 22.1 13 21 13C19.9 13 19 12.1 19 11C19 9.9 19.9 9 21 9ZM3 9C4.1 9 5 9.9 5 11C5 12.1 4.1 13 3 13C1.9 13 1 12.1 1 11C1 9.9 1.9 9 3 9ZM15 7C16.1 7 17 7.9 17 9C17 10.1 16.1 11 15 11C13.9 11 13 10.1 13 9C13 7.9 13.9 7 15 7ZM9 7C10.1 7 11 7.9 11 9C11 10.1 10.1 11 9 11C7.9 11 7 10.1 7 9C7 7.9 7.9 7 9 7ZM12 14C15.31 14 18 16.69 18 20C18 21.1 17.1 22 16 22H8C6.9 22 6 21.1 6 20C6 16.69 8.69 14 12 14Z"/>
+    </svg>
+  );
+
+  // SVG Bone Component
+  const Bone = ({ size = 24, className = "", opacity = 0.2 }) => (
+    <svg 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24" 
+      fill="currentColor" 
+      className={className}
+      style={{ opacity }}
+    >
+      <path d="M3.5 6C2.67 6 2 6.67 2 7.5S2.67 9 3.5 9C4.33 9 5 8.33 5 7.5S4.33 6 3.5 6ZM20.5 6C19.67 6 19 6.67 19 7.5S19.67 9 20.5 9C21.33 9 22 8.33 22 7.5S21.33 6 20.5 6ZM3.5 15C2.67 15 2 15.67 2 16.5S2.67 18 3.5 18C4.33 18 5 17.33 5 16.5S4.33 15 3.5 15ZM20.5 15C19.67 15 19 15.67 19 16.5S19.67 18 20.5 18C21.33 18 22 17.33 22 16.5S21.33 15 20.5 15ZM6 7.5C6 8.88 7.12 10 8.5 10H15.5C16.88 10 18 8.88 18 7.5C18 6.12 16.88 5 15.5 5H8.5C7.12 5 6 6.12 6 7.5ZM6 16.5C6 17.88 7.12 19 8.5 19H15.5C16.88 19 18 17.88 18 16.5C18 15.12 16.88 14 15.5 14H8.5C7.12 14 6 15.12 6 16.5Z"/>
+    </svg>
+  );
 
   useEffect(() => {
     // Filter items based on search term and county filter
@@ -49,7 +79,16 @@ const NutritionPage: React.FC = () => {
     });
     
     setFilteredItems(filtered);
+    setVisibleItems(6); // Reset to show 6 items when filter changes
+    setShowAll(false);
   }, [searchTerm, countyFilter]);
+
+  const handleShowMore = () => {
+    setVisibleItems(filteredItems.length);
+    setShowAll(true);
+  };
+
+  const displayedItems = showAll ? filteredItems : filteredItems.slice(0, visibleItems);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -59,20 +98,64 @@ const NutritionPage: React.FC = () => {
         canonicalUrl="https://www.dogdays.ie/nutrition"
       />
 
-      {/* Hero Section */}
-      <section className="bg-blue-600 text-white py-16">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-4">Dog Nutrition Services</h1>
-          <p className="text-xl max-w-3xl">
+      {/* Hero Section with Nutrition Image */}
+      <section className="relative bg-gray-100 text-gray-800 py-16 overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-70"
+          style={{
+            backgroundImage: 'url(/src/assets/images/nutrition/nutrition_hero.png)'
+          }}
+        ></div>
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black opacity-30"></div>
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-10 left-10 animate-pulse">
+            <PawPrint size={60} opacity={0.1} className="animate-bounce" />
+          </div>
+          <div className="absolute top-20 right-20 animate-pulse" style={{animationDelay: '1s'}}>
+            <Bone size={40} opacity={0.1} className="animate-bounce" />
+          </div>
+          <div className="absolute bottom-20 left-1/4 animate-pulse" style={{animationDelay: '2s'}}>
+            <PawPrint size={80} opacity={0.1} className="animate-bounce" />
+          </div>
+          <div className="absolute bottom-10 right-10 animate-pulse" style={{animationDelay: '0.5s'}}>
+            <Bone size={50} opacity={0.1} className="animate-bounce" />
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="flex items-center justify-center space-x-4 mb-6">
+            <PawPrint size={40} opacity={0.8} className="text-white" />
+            <h1 className="text-4xl md:text-5xl font-bold text-white">Dog Nutrition Services</h1>
+            <PawPrint size={40} opacity={0.8} className="text-white" />
+          </div>
+          <div className="flex justify-center space-x-3 mb-6">
+            <Bone size={25} opacity={0.6} className="text-white" />
+            <Bone size={25} opacity={0.6} className="text-white" />
+            <Bone size={25} opacity={0.6} className="text-white" />
+          </div>
+          <p className="text-xl md:text-2xl text-center max-w-4xl mx-auto text-white">
             Find specialized pet food stores, canine nutritionists, and dietary consultants across Ireland. 
-            Get expert advice on your dog's dietary needs.
+            Get expert advice on your dog's dietary needs and discover premium nutrition solutions.
           </p>
         </div>
       </section>
 
       {/* Search and Filter Section */}
-      <section className="py-8 bg-white shadow">
-        <div className="container mx-auto px-4">
+      <section className="py-8 bg-white shadow relative overflow-hidden">
+        {/* Background decorations */}
+        <div className="absolute inset-0 pointer-events-none text-gray-100">
+          <div className="absolute top-4 right-8">
+            <PawPrint size={30} opacity={0.3} className="text-orange-200" />
+          </div>
+          <div className="absolute bottom-4 left-8">
+            <Bone size={25} opacity={0.3} className="text-orange-200" />
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="relative flex-grow">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -80,7 +163,7 @@ const NutritionPage: React.FC = () => {
               </div>
               <input
                 type="text"
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
                 placeholder="Search by name or keyword..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -88,7 +171,7 @@ const NutritionPage: React.FC = () => {
             </div>
             <div className="w-full md:w-64">
               <select
-                className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
                 value={countyFilter}
                 onChange={(e) => setCountyFilter(e.target.value)}
               >
@@ -105,28 +188,64 @@ const NutritionPage: React.FC = () => {
       </section>
 
       {/* Listings Section */}
-      <section className="py-12">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-6">
-            {filteredItems.length} {filteredItems.length === 1 ? 'Service' : 'Services'} Found
-          </h2>
+      <section className="py-12 relative overflow-hidden">
+        {/* Background decorations */}
+        <div className="absolute inset-0 pointer-events-none text-gray-200">
+          <div className="absolute top-20 left-10">
+            <Bone size={40} opacity={0.2} className="text-orange-200" />
+          </div>
+          <div className="absolute top-40 right-20">
+            <PawPrint size={35} opacity={0.2} className="text-orange-200" />
+          </div>
+          <div className="absolute bottom-40 left-1/4">
+            <PawPrint size={45} opacity={0.2} className="text-orange-200" />
+          </div>
+          <div className="absolute bottom-20 right-10">
+            <Bone size={30} opacity={0.2} className="text-orange-200" />
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="flex items-center justify-center space-x-4 mb-8">
+            <PawPrint size={25} opacity={0.4} className="text-orange-500" />
+            <h2 className="text-2xl font-bold text-gray-800">
+              {filteredItems.length} {filteredItems.length === 1 ? 'Nutrition Service' : 'Nutrition Services'} Found
+            </h2>
+            <PawPrint size={25} opacity={0.4} className="text-orange-500" />
+          </div>
           
           {filteredItems.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredItems.map((item) => (
-                <ListingCard
-                  key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  image={item.image}
-                  rating={item.rating}
-                  reviewCount={item.reviewCount}
-                  description={item.description}
-                  county={item.county}
-                  category="nutrition"
-                />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {displayedItems.map((item) => (
+                  <ListingCard
+                    key={item.id}
+                    id={item.id}
+                    name={item.name}
+                    image={item.image}
+                    rating={item.rating}
+                    reviewCount={item.reviewCount}
+                    description={item.description}
+                    county={item.county}
+                    category="nutrition"
+                  />
+                ))}
+              </div>
+              
+              {/* Show More Button */}
+              {!showAll && filteredItems.length > 6 && (
+                <div className="text-center mt-12">
+                  <button
+                    onClick={handleShowMore}
+                    className="inline-flex items-center bg-orange-600 text-white px-8 py-3 rounded-lg hover:bg-orange-700 transition-colors group text-lg font-semibold"
+                  >
+                    <PawPrint size={20} className="mr-3 group-hover:animate-bounce" />
+                    Show More Nutrition Services ({filteredItems.length - 6} more)
+                    <Bone size={20} className="ml-3 group-hover:animate-bounce" />
+                  </button>
+                </div>
+              )}
+            </>
           ) : (
             <div className="bg-gray-100 p-6 rounded-lg text-center">
               <h3 className="text-xl font-semibold mb-2">No nutrition services found</h3>
@@ -142,3 +261,4 @@ const NutritionPage: React.FC = () => {
 };
 
 export default NutritionPage;
+

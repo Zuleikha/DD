@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { MapPin, Phone, Globe, Mail, Clock, ArrowLeft, Star } from 'lucide-react';
+import { ArrowLeft, Phone, Mail, Globe, MapPin, Clock, Star, PawPrint, Bone } from 'lucide-react';
 import SEO from '../components/common/SEO';
 
-// Import the nutrition data
-import nutritionData from '../data/nutrition_data.js';
+// Import nutrition data
+import nutritionData from '../data/nutrition_data';
 
-// Define a type for nutrition objects
-interface Nutrition {
+interface NutritionItem {
   id: number;
   name: string;
   address: string;
@@ -19,49 +18,51 @@ interface Nutrition {
   reviewCount: number;
   description: string;
   image: string;
-  products?: string[];
   services: string[];
   brands?: string[];
+  products?: string[];
   hours: string;
 }
 
 const NutritionDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [store, setStore] = useState<Nutrition | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const nutrition = (nutritionData as NutritionItem[]).find(item => item.id === parseInt(id || '0'));
 
-  useEffect(() => {
-    if (id) {
-      const storeId = parseInt(id, 10);
-      const foundStore = nutritionData.find((s: Nutrition) => s.id === storeId);
-      
-      if (foundStore) {
-        setStore(foundStore);
-        setLoading(false);
-      } else {
-        setError('Nutrition store not found');
-        setLoading(false);
-      }
-    }
-  }, [id]);
+  // SVG Paw Print Component
+  const PawPrint = ({ size = 24, className = "", opacity = 0.2 }) => (
+    <svg 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24" 
+      fill="currentColor" 
+      className={className}
+      style={{ opacity }}
+    >
+      <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9C22.1 9 23 9.9 23 11C23 12.1 22.1 13 21 13C19.9 13 19 12.1 19 11C19 9.9 19.9 9 21 9ZM3 9C4.1 9 5 9.9 5 11C5 12.1 4.1 13 3 13C1.9 13 1 12.1 1 11C1 9.9 1.9 9 3 9ZM15 7C16.1 7 17 7.9 17 9C17 10.1 16.1 11 15 11C13.9 11 13 10.1 13 9C13 7.9 13.9 7 15 7ZM9 7C10.1 7 11 7.9 11 9C11 10.1 10.1 11 9 11C7.9 11 7 10.1 7 9C7 7.9 7.9 7 9 7ZM12 14C15.31 14 18 16.69 18 20C18 21.1 17.1 22 16 22H8C6.9 22 6 21.1 6 20C6 16.69 8.69 14 12 14Z"/>
+    </svg>
+  );
 
-  if (loading) {
+  // SVG Bone Component
+  const Bone = ({ size = 24, className = "", opacity = 0.2 }) => (
+    <svg 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24" 
+      fill="currentColor" 
+      className={className}
+      style={{ opacity }}
+    >
+      <path d="M3.5 6C2.67 6 2 6.67 2 7.5S2.67 9 3.5 9C4.33 9 5 8.33 5 7.5S4.33 6 3.5 6ZM20.5 6C19.67 6 19 6.67 19 7.5S19.67 9 20.5 9C21.33 9 22 8.33 22 7.5S21.33 6 20.5 6ZM3.5 15C2.67 15 2 15.67 2 16.5S2.67 18 3.5 18C4.33 18 5 17.33 5 16.5S4.33 15 3.5 15ZM20.5 15C19.67 15 19 15.67 19 16.5S19.67 18 20.5 18C21.33 18 22 17.33 22 16.5S21.33 15 20.5 15ZM6 7.5C6 8.88 7.12 10 8.5 10H15.5C16.88 10 18 8.88 18 7.5C18 6.12 16.88 5 15.5 5H8.5C7.12 5 6 6.12 6 7.5ZM6 16.5C6 17.88 7.12 19 8.5 19H15.5C16.88 19 18 17.88 18 16.5C18 15.12 16.88 14 15.5 14H8.5C7.12 14 6 15.12 6 16.5Z"/>
+    </svg>
+  );
+
+  if (!nutrition) {
     return (
-      <div className="container mx-auto px-4 py-16 flex justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-      </div>
-    );
-  }
-
-  if (error || !store) {
-    return (
-      <div className="container mx-auto px-4 py-16">
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-          <h2 className="text-xl font-bold mb-2">Error</h2>
-          <p>{error || 'Nutrition store not found'}</p>
-          <Link to="/nutrition" className="mt-4 inline-block text-blue-500 hover:underline">
-            Back to Nutrition Stores
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-800 mb-4">Nutrition Service Not Found</h1>
+          <Link to="/nutrition" className="text-orange-600 hover:text-orange-700">
+            ← Back to Nutrition Services
           </Link>
         </div>
       </div>
@@ -69,173 +70,220 @@ const NutritionDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen bg-gray-50">
       <SEO
-        title={`${store.name} | Dog Nutrition Details`}
-        description={`Learn more about ${store.name}, a dog nutrition store in ${store.county}, Ireland.`}
-        canonicalUrl={`https://www.dogdays.ie/nutrition/${store.id}`}
+        title={`${nutrition.name} - Dog Nutrition Services | DogDays.ie`}
+        description={nutrition.description}
+        canonicalUrl={`https://www.dogdays.ie/nutrition/${nutrition.id}`}
       />
 
-      <main className="flex-grow">
-        {/* Hero Section with gradient background */}
-        <section className="relative py-16 bg-gradient-to-r from-blue-600 to-blue-400 text-white">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-              <div>
-                <h1 className="text-3xl md:text-4xl font-bold mb-2">{store.name}</h1>
-                <div className="flex items-center mb-4">
-                  <MapPin className="h-5 w-5 mr-1" />
-                  <span>{store.address}</span>
-                </div>
-                <div className="flex items-center">
-                  <Star className="h-5 w-5 text-yellow-300 mr-1" />
-                  <span className="font-semibold">{store.rating.toFixed(1)}</span>
-                  <span className="mx-1">•</span>
-                  <span>{store.reviewCount} reviews</span>
-                </div>
-              </div>
-              <Link to="/nutrition" className="mt-4 md:mt-0 flex items-center text-white hover:text-blue-100 transition-colors">
-                <ArrowLeft className="h-5 w-5 mr-1" />
-                Back to Nutrition Stores
-              </Link>
-            </div>
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-r from-orange-600 to-yellow-600 text-white py-16 overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-10 left-10 animate-pulse">
+            <PawPrint size={60} opacity={0.1} className="animate-bounce" />
           </div>
-        </section>
+          <div className="absolute top-20 right-20 animate-pulse" style={{animationDelay: '1s'}}>
+            <Bone size={40} opacity={0.1} className="animate-bounce" />
+          </div>
+          <div className="absolute bottom-20 left-1/4 animate-pulse" style={{animationDelay: '2s'}}>
+            <PawPrint size={80} opacity={0.1} className="animate-bounce" />
+          </div>
+          <div className="absolute bottom-10 right-10 animate-pulse" style={{animationDelay: '0.5s'}}>
+            <Bone size={50} opacity={0.1} className="animate-bounce" />
+          </div>
+        </div>
 
-        {/* Main Content */}
-        <section className="py-12">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Left Column - Image and Description */}
-              <div className="md:col-span-2">
-                <div className="mb-8">
-                  <img 
-                    src={store.image} 
-                    alt={store.name} 
-                    className="w-full h-64 object-cover rounded-lg shadow-md"
-                  />
-                </div>
-                
-                <div className="mb-8">
-                  <h2 className="text-2xl font-bold mb-4 text-gray-800">About {store.name}</h2>
-                  <p className="text-gray-700 leading-relaxed">{store.description}</p>
-                </div>
+        <div className="container mx-auto px-4 relative z-10">
+          <Link 
+            to="/nutrition" 
+            className="inline-flex items-center text-orange-100 hover:text-white mb-6 transition-colors"
+          >
+            <ArrowLeft className="mr-2" size={20} />
+            Back to Nutrition Services
+          </Link>
+          
+          <div className="flex items-center space-x-4 mb-4">
+            <PawPrint size={40} opacity={0.8} className="text-white" />
+            <h1 className="text-4xl md:text-5xl font-bold">{nutrition.name}</h1>
+          </div>
+          
+          <div className="flex items-center space-x-4 mb-6">
+            <div className="flex items-center">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className={`w-5 h-5 ${
+                    i < Math.floor(nutrition.rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                  }`}
+                />
+              ))}
+              <span className="ml-2 text-orange-100">
+                {nutrition.rating} ({nutrition.reviewCount} reviews)
+              </span>
+            </div>
+            <span className="text-orange-100">•</span>
+            <span className="text-orange-100">{nutrition.county}</span>
+          </div>
+        </div>
+      </section>
 
-                <div className="mb-8">
-                  <h2 className="text-2xl font-bold mb-4 text-gray-800">Services Offered</h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {store.services.map((service, index) => (
-                      <div key={index} className="flex items-center bg-blue-50 p-3 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                        <span>{service}</span>
+      {/* Main Content */}
+      <section className="py-12 relative overflow-hidden">
+        {/* Background decorations */}
+        <div className="absolute inset-0 pointer-events-none text-gray-200">
+          <div className="absolute top-20 left-10">
+            <Bone size={40} opacity={0.2} className="text-orange-200" />
+          </div>
+          <div className="absolute top-40 right-20">
+            <PawPrint size={35} opacity={0.2} className="text-orange-200" />
+          </div>
+          <div className="absolute bottom-40 left-1/4">
+            <PawPrint size={45} opacity={0.2} className="text-orange-200" />
+          </div>
+          <div className="absolute bottom-20 right-10">
+            <Bone size={30} opacity={0.2} className="text-orange-200" />
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Main Content */}
+            <div className="lg:col-span-2">
+              {/* Image */}
+              <div className="mb-8">
+                <img
+                  src={nutrition.image}
+                  alt={nutrition.name}
+                  className="w-full h-64 object-cover rounded-lg shadow-lg"
+                />
+              </div>
+
+              {/* Description */}
+              <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <div className="flex items-center space-x-3 mb-4">
+                  <PawPrint size={25} opacity={0.6} className="text-orange-500" />
+                  <h2 className="text-2xl font-bold text-gray-800">About {nutrition.name}</h2>
+                </div>
+                <p className="text-gray-600 leading-relaxed">{nutrition.description}</p>
+              </div>
+
+              {/* Services */}
+              {nutrition.services && nutrition.services.length > 0 && (
+                <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <Bone size={25} opacity={0.6} className="text-orange-500" />
+                    <h2 className="text-2xl font-bold text-gray-800">Services</h2>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {nutrition.services.map((service, index) => (
+                      <div key={index} className="flex items-center space-x-2">
+                        <PawPrint size={16} opacity={0.6} className="text-orange-500 flex-shrink-0" />
+                        <span className="text-gray-600">{service}</span>
                       </div>
                     ))}
                   </div>
                 </div>
+              )}
 
-                {store.products && store.products.length > 0 && (
-                  <div className="mb-8">
-                    <h2 className="text-2xl font-bold mb-4 text-gray-800">Products</h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {store.products.map((product, index) => (
-                        <div key={index} className="flex items-center bg-blue-50 p-3 rounded-lg">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                          </svg>
-                          <span>{product}</span>
-                        </div>
-                      ))}
-                    </div>
+              {/* Products */}
+              {nutrition.products && nutrition.products.length > 0 && (
+                <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <PawPrint size={25} opacity={0.6} className="text-orange-500" />
+                    <h2 className="text-2xl font-bold text-gray-800">Products</h2>
                   </div>
-                )}
-
-                {store.brands && store.brands.length > 0 && (
-                  <div className="mb-8">
-                    <h2 className="text-2xl font-bold mb-4 text-gray-800">Brands</h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {store.brands.map((brand, index) => (
-                        <div key={index} className="flex items-center bg-blue-50 p-3 rounded-lg">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                          </svg>
-                          <span>{brand}</span>
-                        </div>
-                      ))}
-                    </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {nutrition.products.map((product, index) => (
+                      <div key={index} className="flex items-center space-x-2">
+                        <Bone size={16} opacity={0.6} className="text-orange-500 flex-shrink-0" />
+                        <span className="text-gray-600">{product}</span>
+                      </div>
+                    ))}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
 
-              {/* Right Column - Contact Information */}
-              <div className="bg-gray-50 p-6 rounded-lg shadow-md h-fit">
-                <h2 className="text-2xl font-bold mb-4 text-gray-800">Contact Information</h2>
+              {/* Brands */}
+              {nutrition.brands && nutrition.brands.length > 0 && (
+                <div className="bg-white rounded-lg shadow-lg p-6">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <Bone size={25} opacity={0.6} className="text-orange-500" />
+                    <h2 className="text-2xl font-bold text-gray-800">Brands Available</h2>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {nutrition.brands.map((brand, index) => (
+                      <div key={index} className="bg-gray-50 p-3 rounded-lg text-center">
+                        <span className="text-gray-700 font-medium">{brand}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Sidebar */}
+            <div className="lg:col-span-1">
+              {/* Contact Information */}
+              <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <div className="flex items-center space-x-3 mb-4">
+                  <PawPrint size={25} opacity={0.6} className="text-orange-500" />
+                  <h2 className="text-xl font-bold text-gray-800">Contact Information</h2>
+                </div>
                 
                 <div className="space-y-4">
-                  <div className="flex items-start">
-                    <MapPin className="h-6 w-6 text-blue-500 mr-3 mt-1" />
+                  <div className="flex items-start space-x-3">
+                    <MapPin className="text-orange-500 mt-1 flex-shrink-0" size={20} />
                     <div>
-                      <h3 className="font-semibold">Address</h3>
-                      <p className="text-gray-700">{store.address}</p>
-                      <p className="text-gray-700">County {store.county}</p>
+                      <p className="text-gray-600">{nutrition.address}</p>
+                      <p className="text-gray-600">{nutrition.county}</p>
                     </div>
                   </div>
-
-                  <div className="flex items-start">
-                    <Phone className="h-6 w-6 text-blue-500 mr-3 mt-1" />
-                    <div>
-                      <h3 className="font-semibold">Phone</h3>
-                      <p className="text-gray-700">{store.phone}</p>
-                    </div>
+                  
+                  <div className="flex items-center space-x-3">
+                    <Phone className="text-orange-500 flex-shrink-0" size={20} />
+                    <a href={`tel:${nutrition.phone}`} className="text-orange-600 hover:text-orange-700">
+                      {nutrition.phone}
+                    </a>
                   </div>
-
-                  <div className="flex items-start">
-                    <Mail className="h-6 w-6 text-blue-500 mr-3 mt-1" />
-                    <div>
-                      <h3 className="font-semibold">Email</h3>
-                      <a href={`mailto:${store.email}`} className="text-blue-600 hover:underline">
-                        {store.email}
-                      </a>
-                    </div>
+                  
+                  <div className="flex items-center space-x-3">
+                    <Mail className="text-orange-500 flex-shrink-0" size={20} />
+                    <a href={`mailto:${nutrition.email}`} className="text-orange-600 hover:text-orange-700">
+                      {nutrition.email}
+                    </a>
                   </div>
-
-                  <div className="flex items-start">
-                    <Globe className="h-6 w-6 text-blue-500 mr-3 mt-1" />
-                    <div>
-                      <h3 className="font-semibold">Website</h3>
-                      <a href={store.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                        {store.website.replace(/^https?:\/\//, '')}
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start">
-                    <Clock className="h-6 w-6 text-blue-500 mr-3 mt-1" />
-                    <div>
-                      <h3 className="font-semibold">Business Hours</h3>
-                      <p className="text-gray-700">{store.hours}</p>
-                    </div>
+                  
+                  <div className="flex items-center space-x-3">
+                    <Globe className="text-orange-500 flex-shrink-0" size={20} />
+                    <a 
+                      href={nutrition.website} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-orange-600 hover:text-orange-700"
+                    >
+                      Visit Website
+                    </a>
                   </div>
                 </div>
+              </div>
 
-                <div className="mt-6">
-                  <a 
-                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(store.name + ' ' + store.address)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full bg-blue-600 text-white text-center py-3 rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    View on Map
-                  </a>
+              {/* Opening Hours */}
+              <div className="bg-white rounded-lg shadow-lg p-6">
+                <div className="flex items-center space-x-3 mb-4">
+                  <Clock className="text-orange-500" size={25} />
+                  <h2 className="text-xl font-bold text-gray-800">Opening Hours</h2>
                 </div>
+                <p className="text-gray-600">{nutrition.hours}</p>
               </div>
             </div>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
     </div>
   );
 };
 
 export default NutritionDetailPage;
+
