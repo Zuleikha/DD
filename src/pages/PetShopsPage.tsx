@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Search, PawPrint, Bone, ChevronDown, ChevronUp, MapPin, Star, Phone, Globe, Truck } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Search, PawPrint, Bone, ArrowLeft, ChevronDown, ChevronUp, MapPin, Star, Phone, Globe, Truck } from 'lucide-react';
 import SEO from '../components/common/SEO';
 import petShopsData, { PetShop } from '../data/petshops_data';
 
@@ -126,6 +127,13 @@ const PetShopsPage: React.FC = () => {
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <Link
+            to="/"
+            className="inline-flex items-center text-white hover:text-purple-200 transition-colors mb-8 group"
+          >
+            <ArrowLeft className="h-5 w-5 mr-2 group-hover:transform group-hover:-translate-x-1 transition-transform" />
+            Back to Home
+          </Link>
           <div className="text-center">
             <div className="flex items-center justify-center space-x-2 sm:space-x-4 mb-4 sm:mb-6">
               <PawPrint size={30} opacity={0.8} className="text-white sm:w-8 sm:h-8 md:w-10 md:h-10" />

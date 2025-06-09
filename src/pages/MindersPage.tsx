@@ -19,11 +19,11 @@ const MindersPage: React.FC = () => {
     // Filter minders based on search term and county filter
     const filtered = dogMindersData.filter(minder => {
       const matchesSearch = minder.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           minder.description.toLowerCase().includes(searchTerm.toLowerCase());
+        minder.description.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCounty = countyFilter === '' || minder.county === countyFilter;
       return matchesSearch && matchesCounty;
     });
-    
+
     setFilteredMinders(filtered);
   }, [searchTerm, countyFilter]);
 
@@ -38,9 +38,10 @@ const MindersPage: React.FC = () => {
       {/* Hero Section */}
       <section className="bg-blue-600 text-white py-16">
         <div className="container mx-auto px-4">
+          
           <h1 className="text-4xl font-bold mb-4">Find a Dog Minder</h1>
           <p className="text-xl max-w-3xl">
-            Browse trusted dog minders across Ireland. Read reviews, compare services, 
+            Browse trusted dog minders across Ireland. Read reviews, compare services,
             and find the perfect match for your furry friend.
           </p>
         </div>
@@ -86,7 +87,7 @@ const MindersPage: React.FC = () => {
           <h2 className="text-2xl font-bold mb-6">
             {filteredMinders.length} {filteredMinders.length === 1 ? 'Minder' : 'Minders'} Found
           </h2>
-          
+
           {filteredMinders.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredMinders.map((minder) => (
