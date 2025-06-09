@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter } from 'lucide-react';
+import { Search, Filter, PawPrint, Bone, ChevronDown, ChevronUp } from 'lucide-react';
+import SEO from '../components/common/SEO';
 import trainingData, { heroImage } from '../data/training_data';
 import ListingCard from '../components/listings/ListingCard';
+import trainingImage1 from '../assets/images/training/tg1.png';
+import trainingImage2 from '../assets/images/training/tg2.png';
+import trainingImage3 from '../assets/images/training/tg3.png';
+import trainingImage4 from '../assets/images/training/tg4.png';
+import trainingImage5 from '../assets/images/training/tg5.png';
+//import trainingImage6 from '../assets/images/training/training_generic_6.png';
 
 interface Training {
   id: number;
@@ -27,198 +34,300 @@ const TrainingPage: React.FC = () => {
   const [filteredTrainers, setFilteredTrainers] = useState<Training[]>(trainingData as Training[]);
   const [showAll, setShowAll] = useState<boolean>(false);
 
+  // SVG Paw Print Component
+  const PawPrint = ({ size = 24, className = "", opacity = 0.2 }) => (
+    <svg 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24" 
+      fill="currentColor" 
+      className={className}
+      style={{ opacity }}
+    >
+      <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9C22.1 9 23 9.9 23 11C23 12.1 22.1 13 21 13C19.9 13 19 12.1 19 11C19 9.9 19.9 9 21 9ZM3 9C4.1 9 5 9.9 5 11C5 12.1 4.1 13 3 13C1.9 13 1 12.1 1 11C1 9.9 1.9 9 3 9ZM15 7C16.1 7 17 7.9 17 9C17 10.1 16.1 11 15 11C13.9 11 13 10.1 13 9C13 7.9 13.9 7 15 7ZM9 7C10.1 7 11 7.9 11 9C11 10.1 10.1 11 9 11C7.9 11 7 10.1 7 9C7 7.9 7.9 7 9 7ZM12 14C15.31 14 18 16.69 18 20C18 21.1 17.1 22 16 22H8C6.9 22 6 21.1 6 20C6 16.69 8.69 14 12 14Z"/>
+    </svg>
+  );
+
+  // SVG Bone Component
+  const Bone = ({ size = 24, className = "", opacity = 0.2 }) => (
+    <svg 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24" 
+      fill="currentColor" 
+      className={className}
+      style={{ opacity }}
+    >
+      <path d="M3.5 6C2.67 6 2 6.67 2 7.5S2.67 9 3.5 9C4.33 9 5 8.33 5 7.5S4.33 6 3.5 6ZM20.5 6C19.67 6 19 6.67 19 7.5S19.67 9 20.5 9C21.33 9 22 8.33 22 7.5S21.33 6 20.5 6ZM3.5 15C2.67 15 2 15.67 2 16.5S2.67 18 3.5 18C4.33 18 5 17.33 5 16.5S4.33 15 3.5 15ZM20.5 15C19.67 15 19 15.67 19 16.5S19.67 18 20.5 18C21.33 18 22 17.33 22 16.5S21.33 15 20.5 15ZM6 7.5C6 8.88 7.12 10 8.5 10H15.5C16.88 10 18 8.88 18 7.5C18 6.12 16.88 5 15.5 5H8.5C7.12 5 6 6.12 6 7.5ZM6 16.5C6 17.88 7.12 19 8.5 19H15.5C16.88 19 18 17.88 18 16.5C18 15.12 16.88 14 15.5 14H8.5C7.12 14 6 15.12 6 16.5Z"/>
+    </svg>
+  );
+
   const counties = Array.from(new Set(trainingData.map(trainer => trainer.county))).sort();
 
-  // Generic training images with your renamed files
+  // Generic training images from your assets folder
   const getGenericImage = (index: number): string => {
     const images = [
-      '/src/assets/images/training/tg1.png',
-      '/src/assets/images/training/tg2.png',
-      '/src/assets/images/training/tg3.png',
-      '/src/assets/images/training/tg4.png',
-      '/src/assets/images/training/tg5.png'
-     
+      trainingImage1,  // Border Collie obedience training
+      trainingImage2,  // Puppy socialization class
+      trainingImage3,  // German Shepherd agility training
+      trainingImage4,  // Behavioral rehabilitation session
+      trainingImage5,  // Group training class
+      //trainingImage6   // Service dog training
     ];
     return images[index % images.length];
   };
 
   useEffect(() => {
-    let results = trainingData as Training[];
-
+    let filtered = trainingData as Training[];
+    
     if (searchTerm) {
-      const term = searchTerm.toLowerCase();
-      results = results.filter(trainer =>
-        trainer.name.toLowerCase().includes(term) ||
-        trainer.description.toLowerCase().includes(term) ||
-        trainer.services.some(service => service.toLowerCase().includes(term)) ||
-        trainer.specialties?.some(specialty => specialty.toLowerCase().includes(term)) ||
-        trainer.trainingTypes?.some(type => type.toLowerCase().includes(term))
+      filtered = filtered.filter(trainer =>
+        trainer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        trainer.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        trainer.services.some(service => service.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (trainer.specialties && trainer.specialties.some(specialty => specialty.toLowerCase().includes(searchTerm.toLowerCase())))
       );
     }
-
-    if (selectedCounty && selectedCounty !== 'All Counties') {
-      results = results.filter(trainer => trainer.county === selectedCounty);
+    
+    if (selectedCounty) {
+      filtered = filtered.filter(trainer => trainer.county === selectedCounty);
     }
-
-    setFilteredTrainers(results);
-    setShowAll(false); // Reset to show only 6 when filters change
+    
+    setFilteredTrainers(filtered);
   }, [searchTerm, selectedCounty]);
 
   const displayedTrainers = showAll ? filteredTrainers : filteredTrainers.slice(0, 6);
-  const remainingCount = filteredTrainers.length - 6;
+  const hasMoreTrainers = filteredTrainers.length > 6;
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <div className="relative w-full h-[600px] mb-8 overflow-hidden">
+      <SEO
+        title="Dog Training Services in Ireland | DogDays.ie"
+        description="Find professional dog trainers and behavior specialists across Ireland. Expert training services for puppies and adult dogs."
+        canonicalUrl="https://www.dogdays.ie/training"
+      />
+
+      {/* Responsive Hero Section */}
+      <section className="relative w-full py-12 sm:py-16 md:py-20 lg:py-24 xl:py-32 overflow-hidden min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh] lg:min-h-[90vh] flex items-center">
+        {/* Hero Background Image */}
         <img
           src={heroImage}
           alt="Professional dog training services"
-          className="w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover"
           style={{
             imageRendering: '-webkit-optimize-contrast'
           }}
           loading="eager"
           decoding="sync"
         />
-        <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-          <div className="text-center text-white px-4">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">Professional Dog Training</h1>
-            <p className="text-xl md:text-2xl max-w-3xl mx-auto">
+
+        {/* Background decorative elements with responsive positioning */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-4 sm:top-8 md:top-10 left-4 sm:left-8 md:left-10 animate-pulse">
+            <PawPrint size={40} opacity={0.3} className="animate-bounce text-white sm:w-12 sm:h-12 md:w-16 md:h-16" />
+          </div>
+          <div className="absolute top-8 sm:top-12 md:top-20 right-8 sm:right-12 md:right-20 animate-pulse" style={{animationDelay: '1s'}}>
+            <Bone size={30} opacity={0.3} className="animate-bounce text-white sm:w-8 sm:h-8 md:w-10 md:h-10" />
+          </div>
+          <div className="absolute bottom-8 sm:bottom-12 md:bottom-20 left-1/4 animate-pulse" style={{animationDelay: '2s'}}>
+            <PawPrint size={60} opacity={0.2} className="animate-bounce text-white sm:w-16 sm:h-16 md:w-20 md:h-20" />
+          </div>
+          <div className="absolute bottom-4 sm:bottom-8 md:bottom-10 right-4 sm:right-8 md:right-10 animate-pulse" style={{animationDelay: '0.5s'}}>
+            <Bone size={40} opacity={0.3} className="animate-bounce text-white sm:w-10 sm:h-10 md:w-12 md:h-12" />
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center">
+            <div className="flex items-center justify-center space-x-2 sm:space-x-4 mb-4 sm:mb-6">
+              <PawPrint size={30} opacity={0.8} className="text-white sm:w-8 sm:h-8 md:w-10 md:h-10" />
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white">
+                Professional Dog Training
+              </h1>
+              <PawPrint size={30} opacity={0.8} className="text-white sm:w-8 sm:h-8 md:w-10 md:h-10" />
+            </div>
+            
+            <div className="flex justify-center space-x-2 sm:space-x-3 mb-4 sm:mb-6">
+              <Bone size={20} opacity={0.6} className="text-white sm:w-6 sm:h-6 md:w-7 md:h-7" />
+              <Bone size={20} opacity={0.6} className="text-white sm:w-6 sm:h-6 md:w-7 md:h-7" />
+              <Bone size={20} opacity={0.6} className="text-white sm:w-6 sm:h-6 md:w-7 md:h-7" />
+            </div>
+            
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-6 sm:mb-8 md:mb-10 max-w-2xl md:max-w-4xl mx-auto leading-relaxed text-white">
               Connect with certified dog trainers and behavior specialists across Ireland
             </p>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="container mx-auto px-4 py-8">
-        {/* Search and Filter Section */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+      {/* Responsive Search and Filter Section */}
+      <section className="py-6 sm:py-8 bg-white shadow-sm">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 mb-6">
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <PawPrint size={20} opacity={0.6} className="text-purple-500 sm:w-6 sm:h-6" />
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">
+                {filteredTrainers.length} {filteredTrainers.length === 1 ? 'Trainer' : 'Trainers'} Found
+              </h2>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Search Input */}
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
+                <Search className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
               </div>
               <input
                 type="text"
                 placeholder="Search by name, service, or specialty..."
-                className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="pl-8 sm:pl-10 pr-4 py-2 sm:py-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
 
+            {/* County Filter */}
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Filter className="h-5 w-5 text-gray-400" />
-              </div>
               <select
-                className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+                className="w-full py-2 sm:py-3 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
                 value={selectedCounty}
                 onChange={(e) => setSelectedCounty(e.target.value)}
               >
                 <option value="">All Counties</option>
-                {counties.map((county: string) => (
-                  <option key={county} value={county}>{county}</option>
+                {counties.map((county) => (
+                  <option key={county} value={county}>
+                    {county}
+                  </option>
                 ))}
               </select>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <svg className="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Responsive Trainers Grid */}
+      <section className="py-8 sm:py-12 md:py-16 relative overflow-hidden">
+        {/* Background decorations with responsive positioning */}
+        <div className="absolute inset-0 pointer-events-none text-gray-200">
+          <div className="absolute top-8 sm:top-12 md:top-16 left-8 sm:left-12 md:left-16">
+            <Bone size={35} opacity={0.2} className="text-purple-200 sm:w-10 sm:h-10 md:w-12 md:h-12" />
+          </div>
+          <div className="absolute top-20 sm:top-32 md:top-40 right-12 sm:right-16 md:right-20">
+            <PawPrint size={30} opacity={0.2} className="text-purple-200 sm:w-8 sm:h-8 md:w-10 md:h-10" />
+          </div>
+          <div className="absolute bottom-20 sm:bottom-32 md:bottom-40 left-1/4">
+            <PawPrint size={40} opacity={0.2} className="text-purple-200 sm:w-11 sm:h-11 md:w-14 md:h-14" />
+          </div>
+          <div className="absolute bottom-8 sm:bottom-12 md:bottom-16 right-8 sm:right-12 md:right-16">
+            <Bone size={25} opacity={0.2} className="text-purple-200 sm:w-7 sm:h-7 md:w-8 md:h-8" />
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {filteredTrainers.length > 0 ? (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+                {displayedTrainers.map((trainer, index) => (
+                  <div key={trainer.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden group">
+                    <div className="relative">
+                      <img
+                        src={getGenericImage(index)}
+                        alt={trainer.name}
+                        className="w-full h-48 sm:h-56 md:h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <div className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-white rounded-full p-1 sm:p-2 shadow-md">
+                        <PawPrint size={16} opacity={0.8} className="text-purple-500 sm:w-5 sm:h-5" />
+                      </div>
+                    </div>
+                    
+                    <div className="p-4 sm:p-6">
+                      <div className="flex items-start justify-between mb-2 sm:mb-3">
+                        <h3 className="text-lg sm:text-xl font-bold text-gray-800 group-hover:text-purple-600 transition-colors">
+                          {trainer.name}
+                        </h3>
+                        <div className="flex items-center space-x-1 bg-yellow-50 px-2 py-1 rounded-full">
+                          <span className="text-xs sm:text-sm font-medium text-yellow-700">★ {trainer.rating}</span>
+                        </div>
+                      </div>
+                      
+                      <div className="inline-block bg-purple-100 text-purple-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium mb-3 sm:mb-4">
+                        {trainer.county}
+                      </div>
+                      
+                      <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4 line-clamp-3">
+                        {trainer.description}
+                      </p>
+                      
+                      {trainer.services && trainer.services.length > 0 && (
+                        <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4">
+                          {trainer.services.slice(0, 2).map((service, idx) => (
+                            <span key={idx} className="inline-flex items-center bg-purple-50 text-purple-700 px-2 py-1 rounded-full text-xs">
+                              <Bone size={12} className="mr-1" />
+                              {service}
+                            </span>
+                          ))}
+                          {trainer.services.length > 2 && (
+                            <span className="text-xs text-gray-500">+{trainer.services.length - 2} more</span>
+                          )}
+                        </div>
+                      )}
+                      
+                      <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                        <button className="flex-1 bg-purple-600 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg hover:bg-purple-700 transition-colors text-center text-sm sm:text-base font-medium">
+                          View Details
+                        </button>
+                        {trainer.phone && (
+                          <a
+                            href={`tel:${trainer.phone}`}
+                            className="flex items-center justify-center bg-gray-100 text-gray-700 px-3 sm:px-4 py-2 sm:py-3 rounded-lg hover:bg-gray-200 transition-colors text-sm sm:text-base"
+                          >
+                            📞
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
+
+              {/* Responsive Show More Button */}
+              {hasMoreTrainers && !showAll && (
+                <div className="text-center mt-8 sm:mt-12">
+                  <button
+                    onClick={() => setShowAll(true)}
+                    className="inline-flex items-center bg-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-purple-700 transition-colors group text-base sm:text-lg font-semibold"
+                  >
+                    <PawPrint size={18} className="mr-2 sm:mr-3 group-hover:animate-bounce sm:w-5 sm:h-5" />
+                    Show More Trainers ({filteredTrainers.length - 6} more)
+                    <ChevronDown size={18} className="ml-2 sm:ml-3 group-hover:animate-bounce sm:w-5 sm:h-5" />
+                  </button>
+                </div>
+              )}
+
+              {showAll && hasMoreTrainers && (
+                <div className="text-center mt-8 sm:mt-12">
+                  <button
+                    onClick={() => setShowAll(false)}
+                    className="inline-flex items-center bg-gray-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-gray-700 transition-colors group text-base sm:text-lg font-semibold"
+                  >
+                    <PawPrint size={18} className="mr-2 sm:mr-3 group-hover:animate-bounce sm:w-5 sm:h-5" />
+                    Show Less
+                    <ChevronUp size={18} className="ml-2 sm:ml-3 group-hover:animate-bounce sm:w-5 sm:h-5" />
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="bg-gray-100 p-6 sm:p-8 rounded-lg text-center">
+              <h3 className="text-lg sm:text-xl font-semibold mb-2">No trainers found</h3>
+              <p className="text-sm sm:text-base text-gray-600">
+                Try adjusting your search or filter criteria to find dog trainers.
+              </p>
             </div>
-          </div>
+          )}
         </div>
-
-        {/* Trainers Count */}
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">
-            {filteredTrainers.length} Dog Training Services Found
-          </h2>
-          <p className="text-gray-600">
-            {selectedCounty ? `Professional dog trainers in ${selectedCounty}` : 'Professional dog trainers across Ireland'}
-            {searchTerm ? ` matching "${searchTerm}"` : ''}
-            {!showAll && filteredTrainers.length > 6 ? ` - Showing first 6 results` : ''}
-          </p>
-        </div>
-
-        {/* Info Section */}
-        <div className="bg-blue-50 rounded-lg p-6 mb-8 border border-blue-100">
-          <h2 className="text-xl font-semibold mb-3 text-blue-800">About Dog Training</h2>
-          <p className="text-gray-700 mb-4">
-            Professional dog training helps build a strong relationship between you and your dog through positive reinforcement techniques. 
-            From basic obedience to specialized behavior modification, trainers can help with a wide range of needs.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-            <div className="bg-white p-3 rounded-md shadow-sm">
-              <h3 className="font-semibold text-blue-700">Training Methods</h3>
-              <p className="text-gray-600">Look for trainers who use positive, reward-based methods rather than punishment</p>
-            </div>
-            <div className="bg-white p-3 rounded-md shadow-sm">
-              <h3 className="font-semibold text-blue-700">Class Types</h3>
-              <p className="text-gray-600">Options include group classes, private sessions, and specialized behavior consultations</p>
-            </div>
-            <div className="bg-white p-3 rounded-md shadow-sm">
-              <h3 className="font-semibold text-blue-700">Consistency</h3>
-              <p className="text-gray-600">Regular practice between sessions is key to successful training outcomes</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Listing Grid */}
-        {filteredTrainers.length > 0 ? (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {displayedTrainers.map((trainer: Training, index: number) => (
-                <ListingCard
-                  key={trainer.id}
-                  id={trainer.id}
-                  name={trainer.name}
-                  image={trainer.image || getGenericImage(index)}
-                  rating={trainer.rating}
-                  reviewCount={trainer.reviewCount}
-                  description={trainer.description}
-                  county={trainer.county}
-                  category="training"
-                  address={trainer.address}
-                  specialties={trainer.specialties}
-                  trainingTypes={trainer.trainingTypes}
-                />
-              ))}
-            </div>
-
-            {/* Show More/Less Button */}
-            {filteredTrainers.length > 6 && (
-              <div className="text-center">
-                <button
-                  onClick={() => setShowAll(!showAll)}
-                  className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
-                >
-                  {showAll 
-                    ? 'Show Less' 
-                    : `Show More (${remainingCount} more trainer${remainingCount !== 1 ? 's' : ''})`
-                  }
-                </button>
-              </div>
-            )}
-          </>
-        ) : (
-          <div className="bg-gray-50 p-8 rounded-lg text-center">
-            <h3 className="text-xl font-semibold text-gray-700 mb-2">No dog trainers found</h3>
-            <p className="text-gray-600 mb-4">Try adjusting your search criteria or selecting a different county.</p>
-            <button 
-              onClick={() => {
-                setSearchTerm('');
-                setSelectedCounty('');
-              }}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-            >
-              Reset Filters
-            </button>
-          </div>
-        )}
-      </div>
+      </section>
     </div>
   );
 };

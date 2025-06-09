@@ -132,7 +132,7 @@ const AboutMascotPage: React.FC = () => {
                                 <div className="space-y-6 text-gray-600 text-lg leading-relaxed">
                                     <p>
                                         Before Chewy became the beloved mascot of her new home,
-                                        the adorable dog was adopted by a thoughtful family who wanted to make sure they were truly 
+                                        the adorable dog was adopted by a thoughtful family who wanted to make sure they were truly
                                         ready for the commitment.
                                         To test the waters, they decided to foster a dog for two months,
                                         giving everyone in the household — especially the children — a chance to
@@ -145,15 +145,15 @@ const AboutMascotPage: React.FC = () => {
                                     </p>
 
                                     <p>
-                                    To share their journey and help other dog lovers, the family created a dog-friendly website packed with
-                                    with helpful advice, fun activities, and resources for anyone considering or already living the dog life.
-                                    From grooming tips to local dog-friendly events, the site offers a wide range of services and information.
-                                    Best of all, it features an interactive chatbot that specializes in all things canine — ready to answer
-                                    questions about training, health, behavior and more, its
-                                    a one-stop hub for everything a dog owner (or future dog owner) might need.
+                                        To share their journey and help other dog lovers, the family created a dog-friendly website packed with
+                                        with helpful advice, fun activities, and resources for anyone considering or already living the dog life.
+                                        From grooming tips to local dog-friendly events, the site offers a wide range of services and information.
+                                        Best of all, it features an interactive chatbot that specializes in all things canine — ready to answer
+                                        questions about training, health, behavior and more, its
+                                        a one-stop hub for everything a dog owner (or future dog owner) might need.
                                     </p>
 
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -194,19 +194,19 @@ const AboutMascotPage: React.FC = () => {
                             <p className="text-center">
                                 Dog Days Ireland began with a simple love for dogs and the joy they bring into our lives.
                                 Like many families, we discovered firsthand how much a dog can become part of the heart of a
-                                 home — offering loyalty, laughter, and unconditional love every single day. After fostering and
-                                  eventually adopting our own furry friend, we realized just how much there is to learn, share, and 
-                                  celebrate about life with dogs. We wanted to create a space that reflects that love, where fellow
-                                   dog lovers can connect, support each other, and share their own stories.
+                                home — offering loyalty, laughter, and unconditional love every single day. After fostering and
+                                eventually adopting our own furry friend, we realized just how much there is to learn, share, and
+                                celebrate about life with dogs. We wanted to create a space that reflects that love, where fellow
+                                dog lovers can connect, support each other, and share their own stories.
                             </p>
 
                             <p className="text-center">
-                                This isn’t just a website — it’s a community built for people who truly care 
-                                
-                                about their pets. Whether you’re thinking about adopting, already have a dog by your side, or just want to learn more, 
+                                This isn’t just a website — it’s a community built for people who truly care
+
+                                about their pets. Whether you’re thinking about adopting, already have a dog by your side, or just want to learn more,
                                 we’re here to help. Dog Days Ireland is a friendly corner of the internet where you’ll find advice,
-                                 ideas for fun things to do with your dog, and a place to feel supported in your journey as a pet owner. 
-                                 It’s all about making life better — for dogs and for the people who love them.
+                                ideas for fun things to do with your dog, and a place to feel supported in your journey as a pet owner.
+                                It’s all about making life better — for dogs and for the people who love them.
                             </p>
                         </div>
 

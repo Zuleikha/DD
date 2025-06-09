@@ -98,72 +98,77 @@ const NutritionPage: React.FC = () => {
         canonicalUrl="https://www.dogdays.ie/nutrition"
       />
 
-      {/* Hero Section with Nutrition Image */}
-      <section className="relative bg-gray-100 text-gray-800 py-16 overflow-hidden">
+      {/* Responsive Hero Section */}
+      <section className="relative bg-gray-100 text-gray-800 py-12 sm:py-16 md:py-20 lg:py-24 xl:py-32 overflow-hidden min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh] lg:min-h-[90vh] flex items-center">
         {/* Background Image */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-70"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: 'url(/src/assets/images/nutrition/nutrition_hero.png)'
           }}
         ></div>
-        {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-black opacity-30"></div>
-        {/* Background decorative elements */}
+
+        {/* Background decorative elements with responsive positioning */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-10 left-10 animate-pulse">
-            <PawPrint size={60} opacity={0.1} className="animate-bounce" />
+          <div className="absolute top-4 sm:top-8 md:top-10 left-4 sm:left-8 md:left-10 animate-pulse">
+            <PawPrint size={40} opacity={0.3} className="animate-bounce text-white sm:w-12 sm:h-12 md:w-16 md:h-16" />
           </div>
-          <div className="absolute top-20 right-20 animate-pulse" style={{animationDelay: '1s'}}>
-            <Bone size={40} opacity={0.1} className="animate-bounce" />
+          <div className="absolute top-8 sm:top-12 md:top-20 right-8 sm:right-12 md:right-20 animate-pulse" style={{animationDelay: '1s'}}>
+            <Bone size={30} opacity={0.3} className="animate-bounce text-white sm:w-8 sm:h-8 md:w-10 md:h-10" />
           </div>
-          <div className="absolute bottom-20 left-1/4 animate-pulse" style={{animationDelay: '2s'}}>
-            <PawPrint size={80} opacity={0.1} className="animate-bounce" />
+          <div className="absolute bottom-8 sm:bottom-12 md:bottom-20 left-1/4 animate-pulse" style={{animationDelay: '2s'}}>
+            <PawPrint size={60} opacity={0.2} className="animate-bounce text-white sm:w-16 sm:h-16 md:w-20 md:h-20" />
           </div>
-          <div className="absolute bottom-10 right-10 animate-pulse" style={{animationDelay: '0.5s'}}>
-            <Bone size={50} opacity={0.1} className="animate-bounce" />
+          <div className="absolute bottom-4 sm:bottom-8 md:bottom-10 right-4 sm:right-8 md:right-10 animate-pulse" style={{animationDelay: '0.5s'}}>
+            <Bone size={40} opacity={0.3} className="animate-bounce text-white sm:w-10 sm:h-10 md:w-12 md:h-12" />
           </div>
         </div>
 
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="flex items-center justify-center space-x-4 mb-6">
-            <PawPrint size={40} opacity={0.8} className="text-white" />
-            <h1 className="text-4xl md:text-5xl font-bold text-white">Dog Nutrition Services</h1>
-            <PawPrint size={40} opacity={0.8} className="text-white" />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center">
+            <div className="flex items-center justify-center space-x-2 sm:space-x-4 mb-4 sm:mb-6">
+              <PawPrint size={30} opacity={0.8} className="text-white sm:w-8 sm:h-8 md:w-10 md:h-10" />
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white">
+                Dog Nutrition Services
+              </h1>
+              <PawPrint size={30} opacity={0.8} className="text-white sm:w-8 sm:h-8 md:w-10 md:h-10" />
+            </div>
+            
+            <div className="flex justify-center space-x-2 sm:space-x-3 mb-4 sm:mb-6">
+              <Bone size={20} opacity={0.6} className="text-white sm:w-6 sm:h-6 md:w-7 md:h-7" />
+              <Bone size={20} opacity={0.6} className="text-white sm:w-6 sm:h-6 md:w-7 md:h-7" />
+              <Bone size={20} opacity={0.6} className="text-white sm:w-6 sm:h-6 md:w-7 md:h-7" />
+            </div>
+            
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-6 sm:mb-8 md:mb-10 max-w-2xl md:max-w-4xl mx-auto leading-relaxed text-white">
+              Find specialized pet food stores, canine nutritionists, and dietary consultants across Ireland. 
+              Get expert advice on your dog's dietary needs and discover premium nutrition solutions.
+            </p>
           </div>
-          <div className="flex justify-center space-x-3 mb-6">
-            <Bone size={25} opacity={0.6} className="text-white" />
-            <Bone size={25} opacity={0.6} className="text-white" />
-            <Bone size={25} opacity={0.6} className="text-white" />
-          </div>
-          <p className="text-xl md:text-2xl text-center max-w-4xl mx-auto text-white">
-            Find specialized pet food stores, canine nutritionists, and dietary consultants across Ireland. 
-            Get expert advice on your dog's dietary needs and discover premium nutrition solutions.
-          </p>
         </div>
       </section>
 
-      {/* Search and Filter Section */}
-      <section className="py-8 bg-white shadow relative overflow-hidden">
+      {/* Responsive Search and Filter Section */}
+      <section className="py-6 sm:py-8 bg-white shadow relative overflow-hidden">
         {/* Background decorations */}
         <div className="absolute inset-0 pointer-events-none text-gray-100">
-          <div className="absolute top-4 right-8">
-            <PawPrint size={30} opacity={0.3} className="text-orange-200" />
+          <div className="absolute top-2 sm:top-4 right-4 sm:right-8">
+            <PawPrint size={25} opacity={0.3} className="text-orange-200 sm:w-7 sm:h-7" />
           </div>
-          <div className="absolute bottom-4 left-8">
-            <Bone size={25} opacity={0.3} className="text-orange-200" />
+          <div className="absolute bottom-2 sm:bottom-4 left-4 sm:left-8">
+            <Bone size={20} opacity={0.3} className="text-orange-200 sm:w-6 sm:h-6" />
           </div>
         </div>
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="relative flex-grow">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
+                <Search className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
               </div>
               <input
                 type="text"
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+                className="block w-full pl-8 sm:pl-10 pr-3 py-2 sm:py-3 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-orange-500 focus:border-orange-500 text-sm sm:text-base"
                 placeholder="Search by name or keyword..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -171,7 +176,7 @@ const NutritionPage: React.FC = () => {
             </div>
             <div className="w-full md:w-64">
               <select
-                className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+                className="block w-full py-2 sm:py-3 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 text-sm sm:text-base"
                 value={countyFilter}
                 onChange={(e) => setCountyFilter(e.target.value)}
               >
@@ -187,36 +192,36 @@ const NutritionPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Listings Section */}
-      <section className="py-12 relative overflow-hidden">
-        {/* Background decorations */}
+      {/* Responsive Listings Section */}
+      <section className="py-8 sm:py-12 md:py-16 relative overflow-hidden">
+        {/* Background decorations with responsive positioning */}
         <div className="absolute inset-0 pointer-events-none text-gray-200">
-          <div className="absolute top-20 left-10">
-            <Bone size={40} opacity={0.2} className="text-orange-200" />
+          <div className="absolute top-8 sm:top-12 md:top-16 left-8 sm:left-12 md:left-16">
+            <Bone size={35} opacity={0.2} className="text-orange-200 sm:w-10 sm:h-10 md:w-12 md:h-12" />
           </div>
-          <div className="absolute top-40 right-20">
-            <PawPrint size={35} opacity={0.2} className="text-orange-200" />
+          <div className="absolute top-20 sm:top-32 md:top-40 right-12 sm:right-16 md:right-20">
+            <PawPrint size={30} opacity={0.2} className="text-orange-200 sm:w-8 sm:h-8 md:w-10 md:h-10" />
           </div>
-          <div className="absolute bottom-40 left-1/4">
-            <PawPrint size={45} opacity={0.2} className="text-orange-200" />
+          <div className="absolute bottom-20 sm:bottom-32 md:bottom-40 left-1/4">
+            <PawPrint size={40} opacity={0.2} className="text-orange-200 sm:w-11 sm:h-11 md:w-14 md:h-14" />
           </div>
-          <div className="absolute bottom-20 right-10">
-            <Bone size={30} opacity={0.2} className="text-orange-200" />
+          <div className="absolute bottom-8 sm:bottom-12 md:bottom-16 right-8 sm:right-12 md:right-16">
+            <Bone size={25} opacity={0.2} className="text-orange-200 sm:w-7 sm:h-7 md:w-8 md:h-8" />
           </div>
         </div>
 
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="flex items-center justify-center space-x-4 mb-8">
-            <PawPrint size={25} opacity={0.4} className="text-orange-500" />
-            <h2 className="text-2xl font-bold text-gray-800">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="flex items-center justify-center space-x-2 sm:space-x-4 mb-6 sm:mb-8">
+            <PawPrint size={20} opacity={0.4} className="text-orange-500 sm:w-6 sm:h-6" />
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">
               {filteredItems.length} {filteredItems.length === 1 ? 'Nutrition Service' : 'Nutrition Services'} Found
             </h2>
-            <PawPrint size={25} opacity={0.4} className="text-orange-500" />
+            <PawPrint size={20} opacity={0.4} className="text-orange-500 sm:w-6 sm:h-6" />
           </div>
           
           {filteredItems.length > 0 ? (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                 {displayedItems.map((item) => (
                   <ListingCard
                     key={item.id}
@@ -232,24 +237,24 @@ const NutritionPage: React.FC = () => {
                 ))}
               </div>
               
-              {/* Show More Button */}
+              {/* Responsive Show More Button */}
               {!showAll && filteredItems.length > 6 && (
-                <div className="text-center mt-12">
+                <div className="text-center mt-8 sm:mt-12">
                   <button
                     onClick={handleShowMore}
-                    className="inline-flex items-center bg-orange-600 text-white px-8 py-3 rounded-lg hover:bg-orange-700 transition-colors group text-lg font-semibold"
+                    className="inline-flex items-center bg-orange-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-orange-700 transition-colors group text-base sm:text-lg font-semibold"
                   >
-                    <PawPrint size={20} className="mr-3 group-hover:animate-bounce" />
+                    <PawPrint size={18} className="mr-2 sm:mr-3 group-hover:animate-bounce sm:w-5 sm:h-5" />
                     Show More Nutrition Services ({filteredItems.length - 6} more)
-                    <Bone size={20} className="ml-3 group-hover:animate-bounce" />
+                    <Bone size={18} className="ml-2 sm:ml-3 group-hover:animate-bounce sm:w-5 sm:h-5" />
                   </button>
                 </div>
               )}
             </>
           ) : (
-            <div className="bg-gray-100 p-6 rounded-lg text-center">
-              <h3 className="text-xl font-semibold mb-2">No nutrition services found</h3>
-              <p className="text-gray-600">
+            <div className="bg-gray-100 p-6 sm:p-8 rounded-lg text-center">
+              <h3 className="text-lg sm:text-xl font-semibold mb-2">No nutrition services found</h3>
+              <p className="text-sm sm:text-base text-gray-600">
                 Try adjusting your search or filter criteria to find dog nutrition services.
               </p>
             </div>
