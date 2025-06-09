@@ -13,8 +13,6 @@ import parkImage2 from '../assets/images/parks/park_generic_2.png';
 import parkImage3 from '../assets/images/parks/park_generic_3.png';
 import parkImage4 from '../assets/images/parks/park_generic_4.png';
 import parkImage5 from '../assets/images/parks/park_generic_5.png';
-import BackButton from '../components/common/BackButton';
-
 interface Park {
   id: number;
   name: string;
