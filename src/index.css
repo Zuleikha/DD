@@ -5,14 +5,22 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Fonts */
-
+/* Irish Theme Variables */
 :root {
-  --primary-color: #4A90E2;
-  --secondary-color: #F5A623;
-  --accent-color: #7ED321;
+  /* Irish Theme Colors */
+  --irish-navy: #2C3E50;
+  --irish-stone: #D4B896;
+  --irish-purple: #8E44AD;
+  --irish-green: #27AE60;
+  --irish-cream: #FDF6E3;
+  --irish-charcoal: #34495E;
+  
+  /* Updated theme variables with Irish colors */
+  --primary-color: #2C3E50; /* Irish navy */
+  --secondary-color: #D4B896; /* Irish stone */
+  --accent-color: #8E44AD; /* Irish purple */
   --text-color: #2C3E50;
-  --light-bg: #F9F9F9;
+  --light-bg: #FDF6E3; /* Irish cream */
 }
 
 body {
@@ -30,104 +38,105 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Caveat', cursive;
 }
 
-/* Custom Components */
+/* Custom Irish Theme Styles */
 .hero-section {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/hero-bg.jpg');
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)), url('/bright_hero_background.png');
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
 }
+
+.celtic-pattern {
+  background-image: url('/celtic_pattern.png');
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  opacity: 0.1;
+}
+
+.service-card {
+  @apply bg-white rounded-lg shadow-lg p-6 transition-all duration-300 hover:shadow-xl hover:scale-105;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.service-card:hover {
+  border-color: var(--irish-purple);
+}
+
+.irish-button {
+  @apply bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl;
+}
+
+.irish-nav {
+  @apply backdrop-blur-md bg-white/90 shadow-lg;
+}
+
+.celtic-border {
+  position: relative;
+}
+
+.celtic-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('/celtic_pattern.png');
+  background-size: 100px 100px;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Irish Theme Utility Classes */
+.text-irish-navy { color: var(--irish-navy); }
+.text-irish-stone { color: var(--irish-stone); }
+.text-irish-purple { color: var(--irish-purple); }
+.text-irish-green { color: var(--irish-green); }
+.bg-irish-navy { background-color: var(--irish-navy); }
+.bg-irish-stone { background-color: var(--irish-stone); }
+.bg-irish-purple { background-color: var(--irish-purple); }
+.bg-irish-green { background-color: var(--irish-green); }
+.bg-irish-cream { background-color: var(--irish-cream); }
+.bg-irish-charcoal { background-color: var(--irish-charcoal); }
 
 .map-container {
   height: 400px;
   width: 100%;
 }
 
-/* Mesh gradients for different pages */
+/* Updated mesh gradients with Irish theme */
 .bg-mesh-gradient {
-  background-color: #4158D0;
-  background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+  background-color: var(--irish-navy);
+  background-image: linear-gradient(43deg, var(--irish-navy) 0%, var(--irish-purple) 46%, var(--irish-stone) 100%);
   opacity: 0.85;
 }
 
-.bg-mesh-gradient-home {
-  background-color: #4158D0;
-  background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
-  opacity: 0.85;
+/* Footer improvements for better readability */
+.footer-text {
+  color: #f3f4f6; /* text-gray-100 equivalent */
 }
 
-.bg-mesh-gradient-vets {
-  background-color: #0093E9;
-  background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
-  opacity: 0.85;
+.footer-heading {
+  color: #ffffff;
 }
 
-.bg-mesh-gradient-parks {
-  background-color: #08AEEA;
-  background-image: linear-gradient(0deg, #08AEEA 0%, #2AF598 100%);
-  opacity: 0.85;
-}
-
-.bg-mesh-gradient-nutrition {
-  background-color: #FBAB7E;
-  background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
-  opacity: 0.85;
-}
-
-.bg-mesh-gradient-training {
-  background-color: #8EC5FC;
-  background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
-  opacity: 0.85;
-}
-
-.bg-mesh-gradient-grooming {
-  background-color: #FF9A8B;
-  background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
-  opacity: 0.85;
-}
-
-.bg-mesh-gradient-places {
-  background-color: #21D4FD;
-  background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
-  opacity: 0.85;
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 0.5s ease-in-out;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .map-container {
-    height: 300px;
-  }
-}
-
-/* Add this to src/index.css */
-
-/* Ensure all images are responsive by default */
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-/* Prevent horizontal scroll */
-html, body {
-  overflow-x: hidden;
-}
-
-/* Ensure touch targets are large enough */
-button, a, input, select {
-  min-height: 44px;
-}
-
-/* Make sure containers don't overflow */
-* {
-  box-sizing: border-box;
+.footer-link:hover {
+  color: var(--irish-stone);
 }
 

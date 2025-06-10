@@ -1,0 +1,40 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { BrowserRouter as Router, Routes, Route, Navigate, useParams } from 'react-router-dom';
+import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
+import HomePage from './pages/HomePage';
+import MindersPage from './pages/MindersPage';
+import MinderDetailPage from './pages/MinderDetailPage';
+import VetsPage from './pages/VetsPage';
+import VetDetailPage from './pages/VetDetailPage';
+import ParksPage from './pages/ParksPage';
+//import ParksPage from './WRONG_PATH';
+import ParkDetailPage from './pages/ParkDetailPage';
+import NutritionPage from './pages/NutritionPage';
+import NutritionDetailPage from './pages/NutritionDetailPage';
+import TrainingPage from './pages/TrainingPage';
+import TrainingDetailPage from './pages/TrainingDetailPage';
+import GroomingPage from './pages/GroomingPage';
+import GroomingDetailPage from './pages/GroomingDetailPage';
+import PlacesPage from './pages/PlacesPage';
+import PlaceDetailPage from './pages/PlaceDetailPage';
+import AdvicePage from './pages/AdvicePage';
+import CommunityPage from './pages/CommunityPage';
+import ForumPage from './pages/ForumPage';
+import MarketplacePage from './pages/MarketplacePage';
+import AdoptionPage from './pages/AdoptionPage';
+import RegisterPage from './pages/RegisterPage';
+import LoginPage from './pages/LoginPage';
+import PetShopsPage from './pages/PetShopsPage';
+import PetShopDetailPage from './pages/PetShopDetailPage';
+import ScrollToTop from './components/ScrollToTop'; // ADD THIS IMPORT
+import AboutMascotPage from './pages/AboutMascotPage';
+// Generic redirect for typo paths like vetss, parkss, etc.
+function ExtraSRedirect({ prefix }) {
+    const { id } = useParams();
+    return _jsx(Navigate, { to: `/${prefix}/${id}`, replace: true });
+}
+function App() {
+    return (_jsxs(Router, { children: [_jsx(ScrollToTop, {}), " ", _jsxs("div", { className: "flex flex-col min-h-screen", children: [_jsx(Header, {}), _jsx("main", { className: "flex-grow", children: _jsxs(Routes, { children: [_jsx(Route, { path: "/vetss/:id", element: _jsx(ExtraSRedirect, { prefix: "vets" }) }), _jsx(Route, { path: "/minderss/:id", element: _jsx(ExtraSRedirect, { prefix: "minders" }) }), _jsx(Route, { path: "/parkss/:id", element: _jsx(ExtraSRedirect, { prefix: "parks" }) }), _jsx(Route, { path: "/placess/:id", element: _jsx(ExtraSRedirect, { prefix: "places" }) }), _jsx(Route, { path: "/vetss", element: _jsx(Navigate, { to: "/vets", replace: true }) }), _jsx(Route, { path: "/minderss", element: _jsx(Navigate, { to: "/minders", replace: true }) }), _jsx(Route, { path: "/parkss", element: _jsx(Navigate, { to: "/parks", replace: true }) }), _jsx(Route, { path: "/placess", element: _jsx(Navigate, { to: "/places", replace: true }) }), _jsx(Route, { path: "/", element: _jsx(HomePage, {}) }), _jsx(Route, { path: "/petshops", element: _jsx(PetShopsPage, {}) }), _jsx(Route, { path: "/petshops/:id", element: _jsx(PetShopDetailPage, {}) }), _jsx(Route, { path: "/minders", element: _jsx(MindersPage, {}) }), _jsx(Route, { path: "/minders/:id", element: _jsx(MinderDetailPage, {}) }), _jsx(Route, { path: "/vets", element: _jsx(VetsPage, {}) }), _jsx(Route, { path: "/vets/:id", element: _jsx(VetDetailPage, {}) }), _jsx(Route, { path: "/parks", element: _jsx(ParksPage, {}) }), _jsx(Route, { path: "/parks/:id", element: _jsx(ParkDetailPage, {}) }), _jsx(Route, { path: "/nutrition", element: _jsx(NutritionPage, {}) }), _jsx(Route, { path: "/nutrition/:id", element: _jsx(NutritionDetailPage, {}) }), _jsx(Route, { path: "/training", element: _jsx(TrainingPage, {}) }), _jsx(Route, { path: "/training/:id", element: _jsx(TrainingDetailPage, {}) }), _jsx(Route, { path: "/grooming", element: _jsx(GroomingPage, {}) }), _jsx(Route, { path: "/grooming/:id", element: _jsx(GroomingDetailPage, {}) }), _jsx(Route, { path: "/places", element: _jsx(PlacesPage, {}) }), _jsx(Route, { path: "/places/:id", element: _jsx(PlaceDetailPage, {}) }), _jsx(Route, { path: "/community", element: _jsx(CommunityPage, {}) }), _jsx(Route, { path: "/forum", element: _jsx(ForumPage, {}) }), _jsx(Route, { path: "/marketplace", element: _jsx(MarketplacePage, {}) }), _jsx(Route, { path: "/adoption", element: _jsx(AdoptionPage, {}) }), _jsx(Route, { path: "/register", element: _jsx(RegisterPage, {}) }), _jsx(Route, { path: "/login", element: _jsx(LoginPage, {}) }), _jsx(Route, { path: "/advice", element: _jsx(AdvicePage, {}) }), _jsx(Route, { path: "/about-mascot", element: _jsx(AboutMascotPage, {}) }), _jsx(Route, { path: "*", element: _jsx(HomePage, {}) })] }) }), _jsx(Footer, {})] })] }));
+}
+export default App;
