@@ -33,6 +33,7 @@ import PetShopsPage from './pages/PetShopsPage';
 import PetShopDetailPage from './pages/PetShopDetailPage';
 import ScrollToTop from './components/ScrollToTop'; // ADD THIS IMPORT
 import AboutMascotPage from './pages/AboutMascotPage';
+import { Toaster } from './components/ui/toaster'; // Import Toaster
 
 
 // Generic redirect for typo paths like vetss, parkss, etc.
@@ -99,9 +100,12 @@ function App() {
           <Footer />
           <DogChatbot />
         </div>
+        <Toaster /> {/* Add Toaster component here */}
       </Router>
     </AuthProvider>
   );
 }
 
 export default App;
+
+

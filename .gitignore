@@ -1,3 +1,10 @@
 node_modules/
 .vercel
 .env
+
+
+# Ignore compiled JavaScript files in src/, except for firebase.js and utils.js
+src/**/*.js
+!src/config/firebase.js
+!src/lib/utils.js
+

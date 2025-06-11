@@ -5,6 +5,7 @@ import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { Eye, EyeOff, Mail, Lock, User, PawPrint } from 'lucide-react';
 import BackToHomeButton from '../components/common/BackToHomeButton';
+import { useToast } from '../hooks/use-toast'; // Import useToast
 
 const SignUpPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -18,6 +19,7 @@ const SignUpPage: React.FC = () => {
   
   const { signup } = useAuth();
   const navigate = useNavigate();
+  const { toast } = useToast(); // Initialize useToast
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -45,12 +47,26 @@ const SignUpPage: React.FC = () => {
         });
       }
       
-      navigate('/forum');
+      toast({
+        title: 'Success!',
+        description: 'Your account has been created. Redirecting to forum...', 
+        variant: 'success',
+      });
+
+      setTimeout(() => {
+        navigate('/forum');
+      }, 1000); // Redirect after 1 second to allow toast to be seen
+
     } catch (error: any) {
       setError('Failed to create an account: ' + error.message);
+      toast({
+        title: 'Error',
+        description: 'Failed to create an account: ' + error.message,
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   }
 
   return (
@@ -213,4 +229,5 @@ const SignUpPage: React.FC = () => {
 };
 
 export default SignUpPage;
+
 
