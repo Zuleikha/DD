@@ -1,6 +1,44 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import SEO from '../components/common/SEO';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import { Eye, EyeOff, Mail, Lock, PawPrint } from 'lucide-react';
+import BackToHomeButton from '../components/common/BackToHomeButton';
 const LoginPage = () => {
-    return (_jsxs("div", { className: "min-h-screen bg-gray-50", children: [_jsx(SEO, { title: "Sign In | DogDays.ie", description: "Sign in to your DogDays.ie account to access all features.", canonicalUrl: "https://www.dogdays.ie/login" }), _jsx("section", { className: "bg-[#4A90E2] text-white py-16", children: _jsxs("div", { className: "container mx-auto px-4", children: [_jsx("h1", { className: "text-4xl font-bold mb-4", children: "Sign In" }), _jsx("p", { className: "text-xl max-w-3xl", children: "Sign in to your DogDays.ie account to access all features." })] }) }), _jsx("section", { className: "py-12", children: _jsx("div", { className: "container mx-auto px-4", children: _jsxs("div", { className: "bg-white p-8 rounded-lg shadow-md", children: [_jsx("h2", { className: "text-2xl font-bold mb-6", children: "Coming Soon!" }), _jsx("p", { className: "text-gray-600 mb-4", children: "Our login system is currently under development and will be available soon. Check back later to sign in to your account." }), _jsx("a", { href: "/", className: "inline-block px-6 py-2 bg-[#4A90E2] text-white font-medium rounded-md hover:bg-[#3A80D2] transition-colors duration-300", children: "Return to Home" })] }) }) })] }));
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [resetEmailSent, setResetEmailSent] = useState(false);
+    const { login, resetPassword } = useAuth();
+    const navigate = useNavigate();
+    async function handleSubmit(e) {
+        e.preventDefault();
+        try {
+            setError('');
+            setLoading(true);
+            await login(email, password);
+            navigate('/forum');
+        }
+        catch (error) {
+            setError('Failed to log in: ' + error.message);
+        }
+        setLoading(false);
+    }
+    async function handleForgotPassword() {
+        if (!email) {
+            return setError('Please enter your email address first');
+        }
+        try {
+            setError('');
+            await resetPassword(email);
+            setResetEmailSent(true);
+        }
+        catch (error) {
+            setError('Failed to reset password: ' + error.message);
+        }
+    }
+    return (_jsx("div", { className: "min-h-screen bg-gradient-to-br from-orange-50 to-purple-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8", children: _jsxs("div", { className: "max-w-md w-full space-y-8", children: [_jsx(BackToHomeButton, {}), _jsxs("div", { className: "text-center", children: [_jsx("div", { className: "flex justify-center mb-4", children: _jsx("div", { className: "bg-orange-100 p-3 rounded-full", children: _jsx(PawPrint, { className: "h-8 w-8 text-orange-600" }) }) }), _jsx("h2", { className: "text-3xl font-bold text-gray-900", children: "Welcome Back" }), _jsx("p", { className: "mt-2 text-sm text-gray-600", children: "Sign in to your DogDays.ie account" })] }), _jsxs("form", { className: "mt-8 space-y-6", onSubmit: handleSubmit, children: [error && (_jsx("div", { className: "bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm", children: error })), resetEmailSent && (_jsx("div", { className: "bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-md text-sm", children: "Password reset email sent! Check your inbox." })), _jsxs("div", { className: "space-y-4", children: [_jsxs("div", { children: [_jsx("label", { htmlFor: "email", className: "block text-sm font-medium text-gray-700", children: "Email Address" }), _jsxs("div", { className: "mt-1 relative", children: [_jsx("div", { className: "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none", children: _jsx(Mail, { className: "h-5 w-5 text-gray-400" }) }), _jsx("input", { id: "email", name: "email", type: "email", autoComplete: "email", required: true, className: "appearance-none relative block w-full pl-10 pr-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm", placeholder: "your@email.com", value: email, onChange: (e) => setEmail(e.target.value) })] })] }), _jsxs("div", { children: [_jsx("label", { htmlFor: "password", className: "block text-sm font-medium text-gray-700", children: "Password" }), _jsxs("div", { className: "mt-1 relative", children: [_jsx("div", { className: "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none", children: _jsx(Lock, { className: "h-5 w-5 text-gray-400" }) }), _jsx("input", { id: "password", name: "password", type: showPassword ? 'text' : 'password', autoComplete: "current-password", required: true, className: "appearance-none relative block w-full pl-10 pr-10 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm", placeholder: "Your password", value: password, onChange: (e) => setPassword(e.target.value) }), _jsx("button", { type: "button", className: "absolute inset-y-0 right-0 pr-3 flex items-center", onClick: () => setShowPassword(!showPassword), children: showPassword ? (_jsx(EyeOff, { className: "h-5 w-5 text-gray-400" })) : (_jsx(Eye, { className: "h-5 w-5 text-gray-400" })) })] })] })] }), _jsx("div", { className: "flex items-center justify-between", children: _jsx("button", { type: "button", className: "text-sm text-orange-600 hover:text-orange-500", onClick: handleForgotPassword, children: "Forgot your password?" }) }), _jsx("div", { children: _jsx("button", { type: "submit", disabled: loading, className: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed", children: loading ? 'Signing In...' : 'Sign In' }) }), _jsx("div", { className: "text-center", children: _jsxs("p", { className: "text-sm text-gray-600", children: ["Don't have an account?", ' ', _jsx(Link, { to: "/signup", className: "font-medium text-orange-600 hover:text-orange-500", children: "Create one here" })] }) })] })] }) }));
 };
 export default LoginPage;
