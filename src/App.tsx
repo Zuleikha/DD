@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
+import DogChatbot from './components/common/DogChatbot';
 import HomePage from './pages/HomePage';
 import MindersPage from './pages/MindersPage';
 import MinderDetailPage from './pages/MinderDetailPage';
@@ -90,6 +91,7 @@ function App() {
           </Routes>
         </main>
         <Footer />
+        <DogChatbot />
       </div>
     </Router>
   );
