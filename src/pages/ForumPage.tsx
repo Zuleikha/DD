@@ -352,6 +352,21 @@ const ForumPage: React.FC = () => {
                   required
                 />
               </div>
+
+              {/* Media Upload Section */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Add Photo or Video (Optional)
+                </label>
+                <MediaUpload onMediaUploaded={handleMediaUploaded} />
+                {newPostMediaUrl && (
+                  <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded-md">
+                    <p className="text-sm text-green-700">
+                      ✅ {newPostMediaType === 'image' ? 'Image' : 'Video'} uploaded successfully!
+                    </p>
+                  </div>
+                )}
+              </div>
               
               <div className="flex justify-end space-x-3">
                 <button
@@ -386,6 +401,27 @@ const ForumPage: React.FC = () => {
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">{post.title}</h3>
                   <p className="text-gray-700 mb-4">{post.content}</p>
+                  
+                  {/* Display uploaded media */}
+                  {post.mediaUrl && (
+                    <div className="mb-4">
+                      {post.mediaType === 'image' ? (
+                        <img 
+                          src={post.mediaUrl} 
+                          alt="Post attachment" 
+                          className="max-w-full h-auto rounded-lg shadow-md max-h-96 object-cover"
+                        />
+                      ) : (
+                        <video 
+                          src={post.mediaUrl} 
+                          controls 
+                          className="max-w-full h-auto rounded-lg shadow-md max-h-96"
+                        >
+                          Your browser does not support the video tag.
+                        </video>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
               
