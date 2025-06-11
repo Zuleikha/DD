@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import ChatbotWidget from '../components/common/ChatbotWidget';
 import ListingCard from '../components/listings/ListingCard';
 import HeroSection from '../components/home/HeroSection';
-
+import ScrollToTopButton from '../components/common/ScrollToTop'; // Keep this if you want the separate scroll-to-top button
 
 interface Message {
   id: number;
@@ -22,7 +22,7 @@ const AdvicePage: React.FC = () => {
   ]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null); // You can keep this ref, it just won't be used for auto-scrolling
 
   // Common dog advice topics
   const commonTopics = [
@@ -45,15 +45,19 @@ const AdvicePage: React.FC = () => {
     "exercise": "Most dogs need at least 30 minutes to 2 hours of exercise daily, depending on breed, age, and health. This can include walks, play sessions, or training activities. Mental stimulation through puzzle toys and training is also important for your dog's wellbeing."
   };
 
-  // Auto-scroll to bottom of chat when new messages appear
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  // ----------------------------------------------------
+  // REMOVE THIS useEffect BLOCK:
+  // useEffect(() => {
+  //   messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  // }, [messages]);
+  // ----------------------------------------------------
+
+  // ... (rest of your component code remains the same)
 
   // Handle sending a message
   const handleSendMessage = () => {
     if (inputText.trim() === '') return;
-    
+
     // Add user message
     const userMessage: Message = {
       id: messages.length + 1,
@@ -61,16 +65,16 @@ const AdvicePage: React.FC = () => {
       sender: 'user',
       timestamp: new Date()
     };
-    
+
     setMessages(prev => [...prev, userMessage]);
     setInputText('');
     setIsTyping(true);
-    
+
     // Simulate bot thinking and responding
     setTimeout(() => {
       // Generate response based on keywords in user message
       let botResponse = "I'm not sure about that. Could you try asking about puppy training, dog food, behavior issues, or health concerns?";
-      
+
       const userText = inputText.toLowerCase();
       for (const [keyword, response] of Object.entries(sampleResponses)) {
         if (userText.includes(keyword)) {
@@ -78,14 +82,14 @@ const AdvicePage: React.FC = () => {
           break;
         }
       }
-      
+
       const botMessage: Message = {
         id: messages.length + 2,
         text: botResponse,
         sender: 'bot',
         timestamp: new Date()
       };
-      
+
       setMessages(prev => [...prev, botMessage]);
       setIsTyping(false);
     }, 1500);
@@ -108,7 +112,7 @@ const AdvicePage: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Dog Advice Center</h1>
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main chat section */}
         <div className="lg:col-span-2">
@@ -117,18 +121,18 @@ const AdvicePage: React.FC = () => {
               <h2 className="text-white text-xl font-semibold">Chat with DogBuddy</h2>
               <p className="text-blue-100 text-sm">Ask any questions about dog care, training, or behavior</p>
             </div>
-            
+
             {/* Chat messages container */}
             <div className="h-[500px] overflow-y-auto p-4 bg-gray-50">
               {messages.map(message => (
-                <div 
-                  key={message.id} 
+                <div
+                  key={message.id}
                   className={`mb-4 flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
-                  <div 
+                  <div
                     className={`max-w-[80%] rounded-lg p-3 ${
-                      message.sender === 'user' 
-                        ? 'bg-blue-500 text-white rounded-br-none' 
+                      message.sender === 'user'
+                        ? 'bg-blue-500 text-white rounded-br-none'
                         : 'bg-white border border-gray-200 rounded-bl-none'
                     }`}
                   >
@@ -139,7 +143,7 @@ const AdvicePage: React.FC = () => {
                   </div>
                 </div>
               ))}
-              
+
               {isTyping && (
                 <div className="flex justify-start mb-4">
                   <div className="bg-white border border-gray-200 rounded-lg rounded-bl-none p-3">
@@ -151,10 +155,10 @@ const AdvicePage: React.FC = () => {
                   </div>
                 </div>
               )}
-              
-              <div ref={messagesEndRef} />
+
+              <div ref={messagesEndRef} /> {/* This ref still points to the end, but nothing auto-scrolls to it now */}
             </div>
-            
+
             {/* Chat input */}
             <div className="p-4 border-t border-gray-200">
               <div className="flex">
@@ -179,14 +183,14 @@ const AdvicePage: React.FC = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Sidebar with information and suggested topics */}
         <div className="lg:col-span-1">
           {/* About section */}
           <div className="bg-white rounded-lg shadow-md p-6 mb-6">
             <h3 className="text-lg font-semibold mb-3">About DogBuddy</h3>
             <p className="text-gray-600 mb-4">
-              DogBuddy is your virtual assistant for all dog-related questions. While I can provide general advice, 
+              DogBuddy is your virtual assistant for all dog-related questions. While I can provide general advice,
               please consult with a veterinarian for specific health concerns.
             </p>
             <div className="flex items-center text-sm text-gray-500">
@@ -196,7 +200,7 @@ const AdvicePage: React.FC = () => {
               <span>Responses are generated for demonstration purposes</span>
             </div>
           </div>
-          
+
           {/* Suggested topics */}
           <div className="bg-white rounded-lg shadow-md p-6">
             <h3 className="text-lg font-semibold mb-3">Suggested Topics</h3>
@@ -212,7 +216,7 @@ const AdvicePage: React.FC = () => {
               ))}
             </div>
           </div>
-          
+
           {/* Emergency info */}
           <div className="bg-red-50 border border-red-200 rounded-lg p-4 mt-6">
             <h3 className="text-red-700 font-semibold flex items-center">
@@ -227,8 +231,12 @@ const AdvicePage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Keep the ScrollToTopButton if you want it for overall page scrolling */}
+      <ScrollToTopButton />
     </div>
   );
 };
 
 export default AdvicePage;
+
