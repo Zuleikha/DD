@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../config/firebase';
 import { Eye, EyeOff, Mail, Lock, User, PawPrint } from 'lucide-react';
 import BackToHomeButton from '../components/common/BackToHomeButton';
 
@@ -31,7 +33,18 @@ const SignUpPage: React.FC = () => {
     try {
       setError('');
       setLoading(true);
-      await signup(email, password, displayName);
+      const userCredential = await signup(email, password, displayName);
+      
+      // Store user registration data for analytics
+      if (userCredential?.user) {
+        await setDoc(doc(db, 'userRegistrations', userCredential.user.uid), {
+          email: email,
+          displayName: displayName,
+          createdAt: serverTimestamp(),
+          uid: userCredential.user.uid
+        });
+      }
+      
       navigate('/forum');
     } catch (error: any) {
       setError('Failed to create an account: ' + error.message);

@@ -28,6 +28,7 @@ import AdoptionPage from './pages/AdoptionPage';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
+import AdminDashboard from './pages/AdminDashboard';
 import PetShopsPage from './pages/PetShopsPage';
 import PetShopDetailPage from './pages/PetShopDetailPage';
 import ScrollToTop from './components/ScrollToTop'; // ADD THIS IMPORT
@@ -86,6 +87,7 @@ function App() {
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/advice" element={<AdvicePage />} />
               <Route path="/about-mascot" element={<AboutMascotPage />} />
 

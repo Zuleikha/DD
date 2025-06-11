@@ -15,18 +15,24 @@ const DogChatbot = () => {
     const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef(null);
     const chatContainerRef = useRef(null);
-    // FIXED: Only scroll within the chat container, never the page
+    // FIXED: Prevent any page scrolling - only scroll chat container
     const scrollChatToBottom = () => {
         if (chatContainerRef.current) {
-            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+            // Use scrollTo with smooth behavior but prevent page scroll
+            chatContainerRef.current.scrollTo({
+                top: chatContainerRef.current.scrollHeight,
+                behavior: 'smooth'
+            });
         }
     };
-    // Only scroll when chat is first opened
+    // Only scroll when chat is first opened or new message added
     useEffect(() => {
-        if (isOpen && messages.length === 1) {
-            setTimeout(() => scrollChatToBottom(), 100);
+        if (isOpen) {
+            // Small delay to ensure DOM is updated
+            const timeoutId = setTimeout(() => scrollChatToBottom(), 50);
+            return () => clearTimeout(timeoutId);
         }
-    }, [isOpen]);
+    }, [isOpen, messages.length]);
     const sendMessage = async () => {
         if (!inputText.trim() || isLoading)
             return;
@@ -40,8 +46,7 @@ const DogChatbot = () => {
         const currentInput = inputText.trim();
         setInputText('');
         setIsLoading(true);
-        // FIXED: Only scroll the chat container, not the page
-        setTimeout(() => scrollChatToBottom(), 100);
+        // Messages will auto-scroll via useEffect
         // FIXED: Provide immediate nutrition response for nutrition questions
         const lowerInput = currentInput.toLowerCase();
         if (lowerInput.includes('nutrition') || lowerInput.includes('food') || lowerInput.includes('feed') || lowerInput.includes('diet')) {
@@ -54,7 +59,7 @@ const DogChatbot = () => {
             };
             setMessages(prev => [...prev, nutritionResponse]);
             setIsLoading(false);
-            setTimeout(() => scrollChatToBottom(), 200);
+            // Auto-scroll handled by useEffect
             return;
         }
         try {
@@ -96,8 +101,7 @@ const DogChatbot = () => {
                 timestamp: new Date()
             };
             setMessages(prev => [...prev, botMessage]);
-            // FIXED: Only scroll the chat container
-            setTimeout(() => scrollChatToBottom(), 200);
+            // Auto-scroll handled by useEffect
         }
         catch (error) {
             console.error('Error sending message:', error);
@@ -108,7 +112,7 @@ const DogChatbot = () => {
                 timestamp: new Date()
             };
             setMessages(prev => [...prev, errorMessage]);
-            setTimeout(() => scrollChatToBottom(), 200);
+            // Auto-scroll handled by useEffect
         }
         finally {
             setIsLoading(false);
