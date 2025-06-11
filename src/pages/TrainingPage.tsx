@@ -283,9 +283,12 @@ const TrainingPage: React.FC = () => {
                       )}
                       
                       <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-                        <button className="flex-1 bg-purple-600 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg hover:bg-purple-700 transition-colors text-center text-sm sm:text-base font-medium">
+                        <Link
+                          to={`/training/${trainer.id}`}
+                          className="flex-1 bg-purple-600 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg hover:bg-purple-700 transition-colors text-center text-sm sm:text-base font-medium"
+                        >
                           View Details
-                        </button>
+                        </Link>
                         {trainer.phone && (
                           <a
                             href={`tel:${trainer.phone}`}
