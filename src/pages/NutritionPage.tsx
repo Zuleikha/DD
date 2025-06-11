@@ -107,7 +107,7 @@ const NutritionPage: React.FC = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: 'url(/src/assets/images/nutrition/nutrition_hero.png)'
+            backgroundImage: 'url(/nutrition_hero.png)'
           }}
         ></div>
 
