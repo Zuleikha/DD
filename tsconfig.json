@@ -13,9 +13,12 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "allowJs": false,
-    "noEmit": true
+    "allowJs": true, 
+    "noEmit": true,
+    "allowImportingTsExtensions": true
   },
   "include": ["src", "vite-env.d.ts"],
   "exclude": ["src/data/backups/**/*"]
 }
+
+

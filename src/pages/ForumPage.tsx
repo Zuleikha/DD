@@ -1,28 +1,36 @@
+// src/pages/ForumPage.tsx
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import { 
-  collection, 
-  addDoc, 
-  query, 
-  orderBy, 
-  onSnapshot, 
-  serverTimestamp,
-  doc,
-  updateDoc,
-  arrayUnion,
-  getDoc
-} from 'firebase/firestore';
-import { db } from '../config/firebase';
-import { 
-  MessageSquare, 
-  Plus, 
-  User, 
-  Clock, 
-  Heart, 
-  MessageCircle, 
+import { Helmet } from 'react-helmet-async'; // Assuming you use Helmet for SEO
+import { useAuth } from '../contexts/AuthContext'; // Assuming you have an AuthContext
+
+// *** Import Realtime Database functions ***
+import {
+  ref,             // To get a reference to a location in the DB
+  onValue,         // To listen for real-time data changes
+  push,            // To add a new item with a unique ID (for posts and replies)
+  set,             // To set data (used for simple updates or setting the initial state of a node)
+  update,          // To update data (good for multiple fields at once)
+  remove,          // To remove data (used for unliking in the object structure)
+  query as rtdbQuery, // Import query specifically for RTDB and rename it
+  orderByChild,    // To order data by a child key (like createdAt)
+  get              // To get data once (like checking if a user liked a post)
+} from 'firebase/database';
+
+// *** Import your initialized Realtime Database service ***
+// Make sure the path '../config/firebase' is correct and that file exports 'rtdb'
+import { rtdb } from '../config/firebase';
+
+
+import {
+  MessageSquare,
+  Plus,
+  User,
+  Clock,
+  Heart,
+  MessageCircle,
   PawPrint,
-  LogIn,
-  UserPlus,
+  LogIn, // <-- Imported Login
+  UserPlus, // <-- Imported UserPlus
   Image,
   Video
 } from 'lucide-react';
@@ -30,30 +38,34 @@ import { Link } from 'react-router-dom';
 import BackToHomeButton from '../components/common/BackToHomeButton';
 import MediaUpload from '../components/common/MediaUpload';
 
+// *** Update interfaces based on RTDB structure (using objects/maps for likes/replies) ***
+// Note: The actual data coming from RTDB via snapshot.val() will be JS objects,
+// these interfaces help with type checking in TypeScript.
 interface ForumPost {
-  id: string;
+  id: string; // The RTDB key assigned by push()
   title: string;
   content: string;
   author: string;
   authorId: string;
-  createdAt: any;
-  likes: string[];
-  replies: Reply[];
+  createdAt: number; // Using numeric timestamp (Date.now()) for ordering
+  likes?: { [userId: string]: boolean }; // Likes stored as an object { userId: true, ... }
+  replies?: { [replyId: string]: Reply }; // Replies stored as an object { pushKey: ReplyData, ... }
   category: string;
   mediaUrl?: string;
   mediaType?: 'image' | 'video';
 }
 
 interface Reply {
-  id: string;
+  // The reply ID will be the key in the replies object in the DB, not a field within the object
   content: string;
   author: string;
   authorId: string;
-  createdAt: any;
-  likes: string[];
+  createdAt: number; // Using numeric timestamp
+  likes?: { [userId: string]: boolean }; // Likes on replies
 }
 
 const ForumPage: React.FC = () => {
+  // Assuming useAuth provides currentUser (which has uid, displayName, email) and logout
   const { currentUser, logout } = useAuth();
   const [posts, setPosts] = useState<ForumPost[]>([]);
   const [showNewPostForm, setShowNewPostForm] = useState(false);
@@ -61,7 +73,8 @@ const ForumPage: React.FC = () => {
   const [newPostContent, setNewPostContent] = useState('');
   const [newPostCategory, setNewPostCategory] = useState('general');
   const [loading, setLoading] = useState(false);
-  const [selectedPost, setSelectedPost] = useState<ForumPost | null>(null);
+  // Track selected post by ID for showing/hiding replies
+  const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
   const [replyContent, setReplyContent] = useState('');
   const [newPostMediaUrl, setNewPostMediaUrl] = useState('');
   const [newPostMediaType, setNewPostMediaType] = useState<'image' | 'video' | ''>('');
@@ -78,53 +91,96 @@ const ForumPage: React.FC = () => {
   ];
 
   useEffect(() => {
-    const q = query(collection(db, 'forumPosts'), orderBy('createdAt', 'desc'));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    // *** Realtime Database: Listen for posts ***
+    const postsRef = ref(rtdb, 'forumPosts/'); // Reference to the 'forumPosts' node
+    // Create a query to order by the 'createdAt' child key
+    // RTDB orderByChild gives results in ascending order of the child value
+    // We'll fetch ascending and reverse client-side for descending display.
+    const postsQuery = rtdbQuery(postsRef, orderByChild('createdAt'));
+
+
+    const unsubscribe = onValue(postsQuery, (snapshot) => {
       const postsData: ForumPost[] = [];
-      querySnapshot.forEach((doc) => {
-        postsData.push({ id: doc.id, ...doc.data() } as ForumPost);
-      });
-      setPosts(postsData);
+      const data = snapshot.val(); // Get all data at this location as a JS object
+
+      if (data) {
+        // Iterate over the object keys (the post IDs generated by push)
+        // Each key is the unique ID for a post
+        Object.keys(data).forEach((postId) => {
+          const post = data[postId];
+          // Add the RTDB key (postId) as the 'id' property for easier handling
+          // Also ensure likes and replies are treated as objects, default to empty if null/undefined
+          postsData.push({
+            id: postId,
+            ...post,
+            likes: post.likes || {},
+            replies: post.replies || {}
+           } as ForumPost); // Cast to ForumPost interface
+        });
+      }
+
+      // RTDB orderByChild is ascending by default. Reverse for newest-first display.
+      // For very large datasets where client-side reversal is slow, consider
+      // a different data structure (e.g., storing with negative timestamps) or
+      // implementing pagination.
+      setPosts(postsData.reverse());
+
+    }, (error) => {
+        console.error('Error fetching posts:', error);
+        // Optionally show error to user
     });
 
+    // Detach the listener when the component unmounts
     return () => unsubscribe();
-  }, []);
+  }, [rtdb]); // Dependency array includes rtdb
+
 
   const handleCreatePost = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!currentUser || !newPostTitle.trim() || !newPostContent.trim()) return;
+    // Ensure user is logged in and fields are not empty
+    if (!currentUser?.uid || !newPostTitle.trim() || !newPostContent.trim()) {
+       console.warn("Cannot create post: User not logged in or fields empty.");
+       return; // <-- Correctly exit the function here
+    } // <-- Closing brace of the if block
 
-    setLoading(true);
+    setLoading(true); // <-- THIS LINE WAS MISSING before the try block
+
     try {
-      const postData: any = {
-        title: newPostTitle,
-        content: newPostContent,
+      // *** Use Realtime Database push to create a new post ***
+      // Get a reference to the 'forumPosts' location
+      const postsListRef = ref(rtdb, 'forumPosts/');
+
+      const postData: Omit<ForumPost, 'id'> = { // Data to be pushed, without the 'id' field initially
+        title: newPostTitle.trim(),
+        content: newPostContent.trim(),
         category: newPostCategory,
-        author: currentUser.displayName || currentUser.email,
+        author: currentUser.displayName || currentUser.email || 'Anonymous', // Fallback author name
         authorId: currentUser.uid,
-        createdAt: serverTimestamp(),
-        likes: [],
-        replies: []
+        createdAt: Date.now(), // Use numeric timestamp for ordering
+        likes: {}, // Initialize likes as an empty object {}
+        replies: {}, // Initialize replies as an empty object {}
+        // Add media if uploaded
+        ...(newPostMediaUrl && newPostMediaType && { mediaUrl: newPostMediaUrl, mediaType: newPostMediaType }),
       };
 
-      // Add media if uploaded
-      if (newPostMediaUrl && newPostMediaType) {
-        postData.mediaUrl = newPostMediaUrl;
-        postData.mediaType = newPostMediaType;
-      }
+      // Push the data to the location. push() automatically generates a unique, time-ordered key.
+      await push(postsListRef, postData);
 
-      await addDoc(collection(db, 'forumPosts'), postData);
-
+      // Clear form fields and hide form on success
       setNewPostTitle('');
       setNewPostContent('');
       setNewPostCategory('general');
       setNewPostMediaUrl('');
       setNewPostMediaType('');
       setShowNewPostForm(false);
+
     } catch (error) {
       console.error('Error creating post:', error);
+      // Optionally show an error message to the user
+    } finally {
+       // Ensure loading is set to false even if there's an error
+      setLoading(false); // <-- This should run after try/catch
     }
-    setLoading(false);
   };
 
   const handleMediaUploaded = (mediaUrl: string, mediaType: 'image' | 'video') => {
@@ -133,381 +189,279 @@ const ForumPage: React.FC = () => {
   };
 
   const handleLikePost = async (postId: string) => {
-    if (!currentUser) return;
+    // Ensure user is logged in
+    if (!currentUser?.uid) {
+      console.warn("Cannot like post: User not logged in.");
+      return;
+    }
 
     try {
-      const postRef = doc(db, 'forumPosts', postId);
-      const postDoc = await getDoc(postRef);
-      const postData = postDoc.data();
-      
-      if (postData?.likes?.includes(currentUser.uid)) {
-        // Unlike
-        await updateDoc(postRef, {
-          likes: postData.likes.filter((uid: string) => uid !== currentUser.uid)
-        });
+      // *** Realtime Database: Handle liking/unliking ***
+      const userId = currentUser.uid;
+      // Get a reference to the specific user's like node for this post
+      const userLikeRef = ref(rtdb, `forumPosts/${postId}/likes/${userId}`);
+
+      // Use a transaction or fetch-then-set pattern to check if it exists and toggle
+      // Fetch current state once using get()
+      const snapshot = await get(userLikeRef);
+
+      if (snapshot.exists()) {
+        // User has already liked, so unlike (remove their ID from the likes object)
+        await remove(userLikeRef);
+        console.log(`User ${userId} unliked post ${postId}`);
       } else {
-        // Like
-        await updateDoc(postRef, {
-          likes: arrayUnion(currentUser.uid)
-        });
+        // User has not liked, so like (set their ID to true in the likes object)
+        // Setting a simple value like true or the timestamp works.
+        await set(userLikeRef, true);
+        console.log(`User ${userId} liked post ${postId}`);
       }
     } catch (error) {
       console.error('Error liking post:', error);
+      // Optionally show an error message to the user
     }
   };
 
   const handleReply = async (postId: string) => {
-    if (!currentUser || !replyContent.trim()) return;
+    // Ensure user is logged in and reply content is not empty
+    if (!currentUser?.uid || !replyContent.trim()) {
+      console.warn("Cannot add reply: User not logged in or reply content empty.");
+      return;
+    }
 
     try {
-      const postRef = doc(db, 'forumPosts', postId);
-      const newReply = {
-        id: Date.now().toString(),
-        content: replyContent,
-        author: currentUser.displayName || currentUser.email,
+      // *** Realtime Database: Add a new reply ***
+      // Get a reference to the specific post's replies location
+      const postRepliesRef = ref(rtdb, `forumPosts/${postId}/replies`);
+
+      const newReplyData: Omit<Reply, 'id'> = { // Data for the new reply
+        content: replyContent.trim(),
+        author: currentUser.displayName || currentUser.email || 'Anonymous', // Fallback author name
         authorId: currentUser.uid,
-        createdAt: new Date(),
-        likes: []
+        createdAt: Date.now(), // Use numeric timestamp for ordering
+        likes: {} // Initialize likes for the reply
       };
 
-      await updateDoc(postRef, {
-        replies: arrayUnion(newReply)
-      });
+      // Push the reply data to the post's replies location.
+      // push() generates a unique ID for this reply. The key of the new node
+      // is the reply's ID in this RTDB structure.
+      await push(postRepliesRef, newReplyData);
 
+      // Clear the reply input field
       setReplyContent('');
+
     } catch (error) {
       console.error('Error adding reply:', error);
+      // Optionally show an error message to the user
     }
   };
 
-  const formatDate = (timestamp: any) => {
+
+  // Helper function to format timestamps
+  const formatDate = (timestamp: number) => {
     if (!timestamp) return 'Just now';
-    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    const date = new Date(timestamp); // RTDB stores timestamps as numbers (from Date.now())
+    // Check if the date is valid
+    if (isNaN(date.getTime())) return 'Invalid date';
     return date.toLocaleDateString() + ' at ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
-  const getCategoryColor = (category: string) => {
-    const colors: { [key: string]: string } = {
-      general: 'bg-gray-100 text-gray-800',
-      health: 'bg-red-100 text-red-800',
-      training: 'bg-blue-100 text-blue-800',
-      nutrition: 'bg-green-100 text-green-800',
-      breeds: 'bg-purple-100 text-purple-800',
-      adoption: 'bg-pink-100 text-pink-800',
-      events: 'bg-yellow-100 text-yellow-800',
-      photos: 'bg-indigo-100 text-indigo-800'
-    };
-    return colors[category] || colors.general;
+  // Helper function to get the number of likes from the likes object
+  const getLikeCount = (likes?: { [userId: string]: boolean }) => {
+      return likes ? Object.keys(likes).length : 0;
   };
 
-  if (!currentUser) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="container mx-auto px-4 py-8">
-          <BackToHomeButton />
-          
-          <div className="max-w-2xl mx-auto text-center">
-            <div className="bg-white rounded-lg shadow-md p-8">
-              <div className="flex justify-center mb-6">
-                <div className="bg-orange-100 p-4 rounded-full">
-                  <MessageSquare className="h-12 w-12 text-orange-600" />
-                </div>
-              </div>
-              
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">
-                Join the DogDays.ie Community
-              </h1>
-              
-              <p className="text-lg text-gray-600 mb-8">
-                Connect with fellow dog lovers, share experiences, ask questions, and get advice from our amazing community.
-              </p>
-              
-              <div className="space-y-4">
-                <Link
-                  to="/login"
-                  className="inline-flex items-center justify-center w-full px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 transition-colors"
-                >
-                  <LogIn className="h-5 w-5 mr-2" />
-                  Sign In
-                </Link>
-                
-                <Link
-                  to="/signup"
-                  className="inline-flex items-center justify-center w-full px-6 py-3 border border-orange-600 text-base font-medium rounded-md text-orange-600 bg-white hover:bg-orange-50 transition-colors"
-                >
-                  <UserPlus className="h-5 w-5 mr-2" />
-                  Create Account
-                </Link>
-              </div>
-              
-              <div className="mt-8 pt-6 border-t border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                  What you can do in our forum:
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
-                  <div className="flex items-center">
-                    <PawPrint className="h-4 w-4 text-orange-500 mr-2" />
-                    Share your dog stories
-                  </div>
-                  <div className="flex items-center">
-                    <PawPrint className="h-4 w-4 text-orange-500 mr-2" />
-                    Get training advice
-                  </div>
-                  <div className="flex items-center">
-                    <PawPrint className="h-4 w-4 text-orange-500 mr-2" />
-                    Discuss health topics
-                  </div>
-                  <div className="flex items-center">
-                    <PawPrint className="h-4 w-4 text-orange-500 mr-2" />
-                    Find local events
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+    // Helper function to check if the current user has liked an item
+  const hasUserLiked = (likes?: { [userId: string]: boolean }, userId?: string | null) => {
+      return userId && likes ? !!likes[userId] : false;
+  };
+
+    // Helper function to get the number of replies from the replies object
+  const getReplyCount = (replies?: { [replyId: string]: Reply }) => {
+      return replies ? Object.keys(replies).length : 0;
+  };
+
+    // Helper function to convert replies object to a sorted array for rendering
+    const getSortedRepliesArray = (replies?: { [replyId: string]: Reply }) => {
+        if (!replies) return [];
+        // Convert the replies object into an array of Reply objects, including the key as 'id'
+        return Object.keys(replies)
+            .map(replyId => ({ id: replyId, ...replies[replyId] }))
+            .sort((a, b) => a.createdAt - b.createdAt); // Sort by createdAt for chronological order
+    };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-8">
-          <div className="flex items-center space-x-4">
-            <BackToHomeButton />
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center">
-                <MessageSquare className="h-8 w-8 text-orange-600 mr-3" />
-                Community Forum
-              </h1>
-              <p className="text-gray-600">Welcome back, {currentUser.displayName || currentUser.email}!</p>
-            </div>
-          </div>
-          
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={() => setShowNewPostForm(true)}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              New Post
-            </button>
-            
-            <button
-              onClick={logout}
-              className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-            >
-              Sign Out
-            </button>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
+      <Helmet>
+        <title>Forum - DogDays.ie</title>
+        <meta name="description" content="Join the DogDays.ie community forum to discuss all things dog-related." />
+      </Helmet>
+
+      <BackToHomeButton />
+
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-extrabold text-gray-900 mb-2">DogDays Forum</h1>
+          <p className="text-lg text-gray-600">Connect with other dog lovers!</p>
         </div>
 
-        {/* New Post Form */}
-        {showNewPostForm && (
-          <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h2 className="text-xl font-semibold mb-4">Create New Post</h2>
+        {!currentUser ? (
+          <div className="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 mb-6 rounded-md shadow-sm flex items-center justify-between">
+            <div className="flex items-center">
+              <LogIn className="h-5 w-5 mr-3" />
+              <p className="text-sm">
+                Please <Link to="/login" className="font-medium underline hover:text-yellow-900">log in</Link> or <Link to="/signup" className="font-medium underline hover:text-yellow-900">sign up</Link> to participate in the forum.
+              </p>
+            </div>
+            <div className="flex space-x-2">
+              <Link to="/login" className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-yellow-800 bg-yellow-200 hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                <LogIn className="h-4 w-4 mr-2" /> Login
+              </Link>
+              <Link to="/signup" className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-yellow-800 bg-yellow-200 hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                <UserPlus className="h-4 w-4 mr-2" /> Sign Up
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="mb-6 flex justify-end">
+            <button
+              onClick={() => setShowNewPostForm(!showNewPostForm)}
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+            >
+              <Plus className="-ml-1 mr-2 h-5 w-5" />
+              {showNewPostForm ? 'Cancel New Post' : 'Create New Post'}
+            </button>
+          </div>
+        )}
+
+        {showNewPostForm && currentUser && (
+          <div className="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Create New Post</h2>
             <form onSubmit={handleCreatePost} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Category
-                </label>
+                <label htmlFor="postTitle" className="block text-sm font-medium text-gray-700">Title</label>
+                <input
+                  type="text"
+                  id="postTitle"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                  value={newPostTitle}
+                  onChange={(e) => setNewPostTitle(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="postContent" className="block text-sm font-medium text-gray-700">Content</label>
+                <textarea
+                  id="postContent"
+                  rows={5}
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                  value={newPostContent}
+                  onChange={(e) => setNewPostContent(e.target.value)}
+                  required
+                ></textarea>
+              </div>
+              <div>
+                <label htmlFor="postCategory" className="block text-sm font-medium text-gray-700">Category</label>
                 <select
+                  id="postCategory"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
                   value={newPostCategory}
                   onChange={(e) => setNewPostCategory(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500"
                 >
-                  {categories.map((category) => (
-                    <option key={category.value} value={category.value}>
-                      {category.label}
-                    </option>
+                  {categories.map((cat) => (
+                    <option key={cat.value} value={cat.value}>{cat.label}</option>
                   ))}
                 </select>
               </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Title
-                </label>
-                <input
-                  type="text"
-                  value={newPostTitle}
-                  onChange={(e) => setNewPostTitle(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="What's your post about?"
-                  required
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Content
-                </label>
-                <textarea
-                  value={newPostContent}
-                  onChange={(e) => setNewPostContent(e.target.value)}
-                  rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="Share your thoughts, questions, or experiences..."
-                  required
-                />
-              </div>
-
-              {/* Media Upload Section */}
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Add Photo or Video (Optional)
-                </label>
-                <MediaUpload onMediaUploaded={handleMediaUploaded} />
-                {newPostMediaUrl && (
-                  <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded-md">
-                    <p className="text-sm text-green-700">
-                      ✅ {newPostMediaType === 'image' ? 'Image' : 'Video'} uploaded successfully!
-                    </p>
-                  </div>
-                )}
-              </div>
-              
-              <div className="flex justify-end space-x-3">
-                <button
-                  type="button"
-                  onClick={() => setShowNewPostForm(false)}
-                  className="px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 disabled:opacity-50"
-                >
-                  {loading ? 'Posting...' : 'Post'}
-                </button>
-              </div>
+              <MediaUpload onMediaUploaded={handleMediaUploaded} />
+              <button
+                type="submit"
+                disabled={loading}
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? 'Posting...' : 'Submit Post'}
+              </button>
             </form>
           </div>
         )}
 
-        {/* Posts List */}
         <div className="space-y-6">
-          {posts.map((post) => (
-            <div key={post.id} className="bg-white rounded-lg shadow-md p-6">
-              <div className="flex justify-between items-start mb-4">
-                <div className="flex-1">
-                  <div className="flex items-center space-x-2 mb-2">
-                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${getCategoryColor(post.category)}`}>
-                      {categories.find(c => c.value === post.category)?.label || post.category}
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{post.title}</h3>
-                  <p className="text-gray-700 mb-4">{post.content}</p>
-                  
-                  {/* Display uploaded media */}
-                  {post.mediaUrl && (
-                    <div className="mb-4">
-                      {post.mediaType === 'image' ? (
-                        <img 
-                          src={post.mediaUrl} 
-                          alt="Post attachment" 
-                          className="max-w-full h-auto rounded-lg shadow-md max-h-96 object-cover"
-                        />
-                      ) : (
-                        <video 
-                          src={post.mediaUrl} 
-                          controls 
-                          className="max-w-full h-auto rounded-lg shadow-md max-h-96"
-                        >
-                          Your browser does not support the video tag.
-                        </video>
-                      )}
-                    </div>
-                  )}
+          {posts.length === 0 && !loading ? (
+            <p className="text-center text-gray-600">No posts yet. Be the first to create one!</p>
+          ) : (
+            posts.map((post) => (
+              <div key={post.id} className="bg-white p-6 rounded-lg shadow-md">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-2xl font-bold text-gray-900">{post.title}</h2>
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                    <PawPrint className="h-3 w-3 mr-1" /> {categories.find(cat => cat.value === post.category)?.label || 'General'}
+                  </span>
                 </div>
-              </div>
-              
-              <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                <div className="flex items-center space-x-4">
-                  <div className="flex items-center">
-                    <User className="h-4 w-4 mr-1" />
-                    {post.author}
+                <p className="text-gray-700 mb-4">{post.content}</p>
+                {post.mediaUrl && (
+                  <div className="mb-4">
+                    {post.mediaType === 'image' ? (
+                      <img src={post.mediaUrl} alt="Post media" className="max-w-full h-auto rounded-md" />
+                    ) : (
+                      <video controls src={post.mediaUrl} className="max-w-full h-auto rounded-md" />
+                    )}
                   </div>
-                  <div className="flex items-center">
-                    <Clock className="h-4 w-4 mr-1" />
-                    {formatDate(post.createdAt)}
-                  </div>
+                )}
+                <div className="flex items-center text-sm text-gray-500 mb-4">
+                  <User className="h-4 w-4 mr-1" /> {post.author}
+                  <Clock className="h-4 w-4 ml-4 mr-1" /> {formatDate(post.createdAt)}
                 </div>
-              </div>
-              
-              <div className="flex items-center space-x-4 border-t pt-4">
-                <button
-                  onClick={() => handleLikePost(post.id)}
-                  className={`flex items-center space-x-1 px-3 py-1 rounded-md transition-colors ${
-                    post.likes?.includes(currentUser.uid)
-                      ? 'bg-red-100 text-red-600'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  <Heart className="h-4 w-4" />
-                  <span>{post.likes?.length || 0}</span>
-                </button>
-                
-                <button
-                  onClick={() => setSelectedPost(selectedPost?.id === post.id ? null : post)}
-                  className="flex items-center space-x-1 px-3 py-1 rounded-md bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors"
-                >
-                  <MessageCircle className="h-4 w-4" />
-                  <span>{post.replies?.length || 0} replies</span>
-                </button>
-              </div>
-              
-              {/* Replies Section */}
-              {selectedPost?.id === post.id && (
-                <div className="mt-6 border-t pt-6">
-                  <h4 className="font-semibold mb-4">Replies</h4>
-                  
-                  {/* Reply Form */}
-                  <div className="mb-6">
-                    <textarea
-                      value={replyContent}
-                      onChange={(e) => setReplyContent(e.target.value)}
-                      rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-                      placeholder="Write a reply..."
-                    />
-                    <button
-                      onClick={() => handleReply(post.id)}
-                      disabled={!replyContent.trim()}
-                      className="mt-2 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 disabled:opacity-50"
-                    >
-                      Reply
-                    </button>
-                  </div>
-                  
-                  {/* Replies List */}
-                  <div className="space-y-4">
-                    {post.replies?.map((reply) => (
-                      <div key={reply.id} className="bg-gray-50 rounded-lg p-4">
-                        <p className="text-gray-700 mb-2">{reply.content}</p>
-                        <div className="flex items-center text-sm text-gray-500">
-                          <User className="h-4 w-4 mr-1" />
-                          <span className="mr-4">{reply.author}</span>
-                          <Clock className="h-4 w-4 mr-1" />
-                          <span>{formatDate(reply.createdAt)}</span>
+
+                <div className="flex items-center space-x-4 border-t border-gray-200 pt-4">
+                  <button
+                    onClick={() => handleLikePost(post.id)}
+                    className={`flex items-center text-sm font-medium ${hasUserLiked(post.likes, currentUser?.uid) ? 'text-red-500' : 'text-gray-500'} hover:text-red-600`}
+                  >
+                    <Heart className="h-5 w-5 mr-1" fill={hasUserLiked(post.likes, currentUser?.uid) ? 'currentColor' : 'none'} />
+                    {getLikeCount(post.likes)} Likes
+                  </button>
+                  <button
+                    onClick={() => setSelectedPostId(selectedPostId === post.id ? null : post.id)}
+                    className="flex items-center text-sm font-medium text-gray-500 hover:text-blue-600"
+                  >
+                    <MessageCircle className="h-5 w-5 mr-1" /> {getReplyCount(post.replies)} Replies
+                  </button>
+                </div>
+
+                {selectedPostId === post.id && (
+                  <div className="mt-6 bg-gray-50 p-4 rounded-lg">
+                    <h3 className="text-lg font-bold text-gray-800 mb-4">Replies</h3>
+                    <div className="space-y-4">
+                      {getSortedRepliesArray(post.replies).map((reply) => (
+                        <div key={reply.id} className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                          <p className="text-gray-700 mb-2">{reply.content}</p>
+                          <div className="flex items-center text-xs text-gray-500">
+                            <User className="h-3 w-3 mr-1" /> {reply.author}
+                            <Clock className="h-3 w-3 ml-3 mr-1" /> {formatDate(reply.createdAt)}
+                          </div>
                         </div>
+                      ))}
+                    </div>
+                    {currentUser && (
+                      <div className="mt-4">
+                        <textarea
+                          rows={2}
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                          placeholder="Write a reply..."
+                          value={replyContent}
+                          onChange={(e) => setReplyContent(e.target.value)}
+                        ></textarea>
+                        <button
+                          onClick={() => handleReply(post.id)}
+                          className="mt-2 inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        >
+                          Submit Reply
+                        </button>
                       </div>
-                    ))}
+                    )}
                   </div>
-                </div>
-              )}
-            </div>
-          ))}
-          
-          {posts.length === 0 && (
-            <div className="text-center py-12">
-              <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No posts yet</h3>
-              <p className="text-gray-600">Be the first to start a discussion!</p>
-            </div>
+                )}
+              </div>
+            ))
           )}
         </div>
       </div>
@@ -516,4 +470,5 @@ const ForumPage: React.FC = () => {
 };
 
 export default ForumPage;
+
 
