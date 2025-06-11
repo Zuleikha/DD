@@ -22,10 +22,13 @@ import {
   MessageCircle, 
   PawPrint,
   LogIn,
-  UserPlus
+  UserPlus,
+  Image,
+  Video
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import BackToHomeButton from '../components/common/BackToHomeButton';
+import MediaUpload from '../components/common/MediaUpload';
 
 interface ForumPost {
   id: string;
@@ -37,6 +40,8 @@ interface ForumPost {
   likes: string[];
   replies: Reply[];
   category: string;
+  mediaUrl?: string;
+  mediaType?: 'image' | 'video';
 }
 
 interface Reply {
@@ -58,6 +63,8 @@ const ForumPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [selectedPost, setSelectedPost] = useState<ForumPost | null>(null);
   const [replyContent, setReplyContent] = useState('');
+  const [newPostMediaUrl, setNewPostMediaUrl] = useState('');
+  const [newPostMediaType, setNewPostMediaType] = useState<'image' | 'video' | ''>('');
 
   const categories = [
     { value: 'general', label: 'General Discussion' },
@@ -89,7 +96,7 @@ const ForumPage: React.FC = () => {
 
     setLoading(true);
     try {
-      await addDoc(collection(db, 'forumPosts'), {
+      const postData: any = {
         title: newPostTitle,
         content: newPostContent,
         category: newPostCategory,
@@ -98,16 +105,31 @@ const ForumPage: React.FC = () => {
         createdAt: serverTimestamp(),
         likes: [],
         replies: []
-      });
+      };
+
+      // Add media if uploaded
+      if (newPostMediaUrl && newPostMediaType) {
+        postData.mediaUrl = newPostMediaUrl;
+        postData.mediaType = newPostMediaType;
+      }
+
+      await addDoc(collection(db, 'forumPosts'), postData);
 
       setNewPostTitle('');
       setNewPostContent('');
       setNewPostCategory('general');
+      setNewPostMediaUrl('');
+      setNewPostMediaType('');
       setShowNewPostForm(false);
     } catch (error) {
       console.error('Error creating post:', error);
     }
     setLoading(false);
+  };
+
+  const handleMediaUploaded = (mediaUrl: string, mediaType: 'image' | 'video') => {
+    setNewPostMediaUrl(mediaUrl);
+    setNewPostMediaType(mediaType);
   };
 
   const handleLikePost = async (postId: string) => {

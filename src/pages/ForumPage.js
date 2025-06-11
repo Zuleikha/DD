@@ -16,6 +16,8 @@ const ForumPage = () => {
     const [loading, setLoading] = useState(false);
     const [selectedPost, setSelectedPost] = useState(null);
     const [replyContent, setReplyContent] = useState('');
+    const [newPostMediaUrl, setNewPostMediaUrl] = useState('');
+    const [newPostMediaType, setNewPostMediaType] = useState('');
     const categories = [
         { value: 'general', label: 'General Discussion' },
         { value: 'health', label: 'Health & Wellness' },
@@ -43,7 +45,7 @@ const ForumPage = () => {
             return;
         setLoading(true);
         try {
-            await addDoc(collection(db, 'forumPosts'), {
+            const postData = {
                 title: newPostTitle,
                 content: newPostContent,
                 category: newPostCategory,
@@ -52,16 +54,28 @@ const ForumPage = () => {
                 createdAt: serverTimestamp(),
                 likes: [],
                 replies: []
-            });
+            };
+            // Add media if uploaded
+            if (newPostMediaUrl && newPostMediaType) {
+                postData.mediaUrl = newPostMediaUrl;
+                postData.mediaType = newPostMediaType;
+            }
+            await addDoc(collection(db, 'forumPosts'), postData);
             setNewPostTitle('');
             setNewPostContent('');
             setNewPostCategory('general');
+            setNewPostMediaUrl('');
+            setNewPostMediaType('');
             setShowNewPostForm(false);
         }
         catch (error) {
             console.error('Error creating post:', error);
         }
         setLoading(false);
+    };
+    const handleMediaUploaded = (mediaUrl, mediaType) => {
+        setNewPostMediaUrl(mediaUrl);
+        setNewPostMediaType(mediaType);
     };
     const handleLikePost = async (postId) => {
         if (!currentUser)
