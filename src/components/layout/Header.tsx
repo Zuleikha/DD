@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Menu, X, Search } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Link, useLocation, NavLink, NavLinkProps } from 'react-router-dom';
-//import dogLogo from '../../assets/images/dog.jpg';
-import newLogo from '../../assets/images/new-logo.png';
+import { Link, useLocation, NavLink } from 'react-router-dom';
+import SearchComponent from '../common/SearchComponent';
 
 type StableNavLinkProps = {
   to: string;
@@ -40,6 +38,10 @@ const Header: React.FC = () => {
   const toggleMenu = useCallback(() => {
     setIsMenuOpen(prevState => !prevState);
   }, []);
+
+  const closeMobileMenu = () => {
+    setIsMenuOpen(false);
+  };
 
   return (
     <header
@@ -128,18 +130,9 @@ const Header: React.FC = () => {
             </StableNavLink>
           </nav>
 
+          {/* Desktop Search */}
           <div className="hidden md:flex items-center">
-            <div className="relative">
-              <label htmlFor="desktopSearchInput" className="sr-only">Search</label>
-              <Input
-                type="text"
-                id="desktopSearchInput"
-                name="desktopSearch"
-                placeholder="Search..."
-                className="pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#4A90E2] focus:border-transparent"
-              />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-            </div>
+            <SearchComponent />
           </div>
 
           <div className="md:hidden">
@@ -154,6 +147,7 @@ const Header: React.FC = () => {
           </div>
         </div>
 
+        {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden mt-4 py-4 border-t border-gray-200">
             <nav className="flex flex-col space-y-4">
@@ -223,18 +217,10 @@ const Header: React.FC = () => {
                 </span>
               </StableNavLink>
             </nav>
+            
+            {/* Mobile Search */}
             <div className="mt-4">
-              <div className="relative">
-                <label htmlFor="mobileSearchInput" className="sr-only">Search</label>
-                <Input
-                  type="text"
-                  id="mobileSearchInput"
-                  name="mobileSearch"
-                  placeholder="Search..."
-                  className="pl-10 pr-4 py-2 w-full rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#4A90E2] focus:border-transparent"
-                />
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              </div>
+              <SearchComponent isMobile={true} onClose={closeMobileMenu} />
             </div>
           </div>
         )}
@@ -244,3 +230,4 @@ const Header: React.FC = () => {
 };
 
 export default Header;
+
