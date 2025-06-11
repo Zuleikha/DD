@@ -1,0 +1,63 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { MapPin, Phone, Globe, Mail, Clock, ArrowLeft, Star } from 'lucide-react';
+import SEO from '../components/common/SEO';
+// Import the updated vets data
+import vetsData from '../data/vets_data';
+// Import images using the same method as training page
+import vetImage1 from '../assets/images/vets/vet_generic_1.png';
+import vetImage2 from '../assets/images/vets/vet_generic_3.png';
+import vetImage3 from '../assets/images/vets/vet_generic_4.png';
+import vetImage4 from '../assets/images/vets/vet_generic_5.png';
+import vetImage5 from '../assets/images/vets/vet_generic_6.png';
+const VetDetailPage = () => {
+    const { id } = useParams();
+    const [vet, setVet] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    // Generic vet images from your assets folder - same method as training page
+    const getGenericImage = (index) => {
+        const images = [
+            vetImage1, // Veterinary clinic reception
+            vetImage2, // Surgery room
+            vetImage3, // Diagnostic equipment
+            vetImage4, // Pharmacy area
+            vetImage5 // Examination room
+        ];
+        return images[index % images.length];
+    };
+    // Get the appropriate image for each vet
+    const getVetImage = (vet) => {
+        // Use the existing image if it's a URL
+        if (vet.image && vet.image.startsWith('http')) {
+            return vet.image;
+        }
+        // Use generic image based on vet ID for consistency
+        return vet.image || getGenericImage(vet.id - 1);
+    };
+    useEffect(() => {
+        if (id) {
+            const vetId = parseInt(id, 10);
+            const foundVet = vetsData.find((v) => v.id === vetId);
+            if (foundVet) {
+                setVet(foundVet);
+                setLoading(false);
+            }
+            else {
+                setError('Veterinarian not found');
+                setLoading(false);
+            }
+        }
+    }, [id]);
+    if (loading) {
+        return (_jsx("div", { className: "container mx-auto px-4 py-16 flex justify-center", children: _jsx("div", { className: "animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500" }) }));
+    }
+    if (error || !vet) {
+        return (_jsx("div", { className: "container mx-auto px-4 py-16", children: _jsxs("div", { className: "bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded", children: [_jsx("h2", { className: "text-xl font-bold mb-2", children: "Error" }), _jsx("p", { children: error || 'Veterinarian not found' }), _jsx(Link, { to: "/vets", className: "mt-4 inline-block text-blue-500 hover:underline", children: "Back to Veterinarians" })] }) }));
+    }
+    return (_jsxs("div", { className: "min-h-screen flex flex-col", children: [_jsx(SEO, { title: `${vet.name} | Veterinarian Details`, description: `Learn more about ${vet.name}, a veterinary service in ${vet.county || 'Ireland'}.`, canonicalUrl: `https://www.dogdays.ie/vets/${vet.id}` }), _jsxs("main", { className: "flex-grow", children: [_jsx("section", { className: "relative py-16 bg-gradient-to-r from-blue-600 to-blue-400 text-white", children: _jsx("div", { className: "container mx-auto px-4", children: _jsxs("div", { className: "flex flex-col md:flex-row justify-between items-start md:items-center", children: [_jsxs("div", { children: [_jsx("h1", { className: "text-3xl md:text-4xl font-bold mb-2", children: vet.name }), vet.address && (_jsxs("div", { className: "flex items-center mb-4", children: [_jsx(MapPin, { className: "h-5 w-5 mr-1" }), _jsx("span", { children: vet.address })] })), _jsxs("div", { className: "flex items-center", children: [_jsx(Star, { className: "h-5 w-5 text-yellow-300 mr-1" }), _jsx("span", { className: "font-semibold", children: (vet.rating || 0).toFixed(1) }), _jsx("span", { className: "mx-1", children: "\u2022" }), _jsxs("span", { children: [vet.reviewCount || 0, " reviews"] })] })] }), _jsxs(Link, { to: "/vets", className: "mt-4 md:mt-0 flex items-center text-white hover:text-blue-100 transition-colors", children: [_jsx(ArrowLeft, { className: "h-5 w-5 mr-1" }), "Back to Veterinarians"] })] }) }) }), _jsx("section", { className: "py-12", children: _jsx("div", { className: "container mx-auto px-4", children: _jsxs("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-8", children: [_jsxs("div", { className: "md:col-span-2", children: [_jsx("div", { className: "mb-8", children: _jsx("img", { src: getVetImage(vet), alt: vet.name, className: "w-full h-64 object-cover rounded-lg shadow-md", style: {
+                                                        imageRendering: '-webkit-optimize-contrast'
+                                                    }, loading: "eager" }) }), vet.description && (_jsxs("div", { className: "mb-8", children: [_jsxs("h2", { className: "text-2xl font-bold mb-4 text-gray-800", children: ["About ", vet.name] }), _jsx("p", { className: "text-gray-700 leading-relaxed", children: vet.description })] })), vet.services && vet.services.length > 0 && (_jsxs("div", { className: "mb-8", children: [_jsx("h2", { className: "text-2xl font-bold mb-4 text-gray-800", children: "Services Offered" }), _jsx("div", { className: "grid grid-cols-1 sm:grid-cols-2 gap-3", children: vet.services.map((service, index) => (_jsxs("div", { className: "flex items-center bg-blue-50 p-3 rounded-lg", children: [_jsx("svg", { xmlns: "http://www.w3.org/2000/svg", className: "h-5 w-5 text-blue-500 mr-2", viewBox: "0 0 20 20", fill: "currentColor", children: _jsx("path", { fillRule: "evenodd", d: "M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z", clipRule: "evenodd" }) }), _jsx("span", { children: service })] }, index))) })] })), vet.specialties && vet.specialties.length > 0 && (_jsxs("div", { className: "mb-8", children: [_jsx("h2", { className: "text-2xl font-bold mb-4 text-gray-800", children: "Specialties" }), _jsx("div", { className: "grid grid-cols-1 sm:grid-cols-2 gap-3", children: vet.specialties.map((specialty, index) => (_jsxs("div", { className: "flex items-center bg-blue-50 p-3 rounded-lg", children: [_jsx("svg", { xmlns: "http://www.w3.org/2000/svg", className: "h-5 w-5 text-blue-500 mr-2", viewBox: "0 0 20 20", fill: "currentColor", children: _jsx("path", { fillRule: "evenodd", d: "M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z", clipRule: "evenodd" }) }), _jsx("span", { children: specialty })] }, index))) })] }))] }), _jsxs("div", { className: "bg-gray-50 p-6 rounded-lg shadow-md h-fit", children: [_jsx("h2", { className: "text-2xl font-bold mb-4 text-gray-800", children: "Contact Information" }), _jsxs("div", { className: "space-y-4", children: [vet.address && (_jsxs("div", { className: "flex items-start", children: [_jsx(MapPin, { className: "h-6 w-6 text-blue-500 mr-3 mt-1" }), _jsxs("div", { children: [_jsx("h3", { className: "font-semibold", children: "Address" }), _jsx("p", { className: "text-gray-700", children: vet.address }), vet.county && _jsxs("p", { className: "text-gray-700", children: ["County ", vet.county] })] })] })), vet.phone && (_jsxs("div", { className: "flex items-start", children: [_jsx(Phone, { className: "h-6 w-6 text-blue-500 mr-3 mt-1" }), _jsxs("div", { children: [_jsx("h3", { className: "font-semibold", children: "Phone" }), _jsx("a", { href: `tel:${vet.phone}`, className: "text-blue-600 hover:underline", children: vet.phone }), vet.mobile && vet.mobile !== vet.phone && (_jsxs("p", { className: "text-gray-700", children: ["Mobile: ", vet.mobile] }))] })] })), vet.email && vet.email.trim() && (_jsxs("div", { className: "flex items-start", children: [_jsx(Mail, { className: "h-6 w-6 text-blue-500 mr-3 mt-1" }), _jsxs("div", { children: [_jsx("h3", { className: "font-semibold", children: "Email" }), _jsx("a", { href: `mailto:${vet.email}`, className: "text-blue-600 hover:underline", children: vet.email })] })] })), vet.website && vet.website.trim() && (_jsxs("div", { className: "flex items-start", children: [_jsx(Globe, { className: "h-6 w-6 text-blue-500 mr-3 mt-1" }), _jsxs("div", { children: [_jsx("h3", { className: "font-semibold", children: "Website" }), _jsx("a", { href: vet.website, target: "_blank", rel: "noopener noreferrer", className: "text-blue-600 hover:underline", children: vet.website.replace(/^https?:\/\//, '') })] })] })), vet.hours && (_jsxs("div", { className: "flex items-start", children: [_jsx(Clock, { className: "h-6 w-6 text-blue-500 mr-3 mt-1" }), _jsxs("div", { children: [_jsx("h3", { className: "font-semibold", children: "Business Hours" }), _jsx("p", { className: "text-gray-700", children: vet.hours })] })] }))] }), vet.address && (_jsx("div", { className: "mt-6", children: _jsx("a", { href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(vet.name + ' ' + vet.address)}`, target: "_blank", rel: "noopener noreferrer", className: "block w-full bg-blue-600 text-white text-center py-3 rounded-lg hover:bg-blue-700 transition-colors", children: "View on Map" }) }))] })] }) }) })] })] }));
+};
+export default VetDetailPage;

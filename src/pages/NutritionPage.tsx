@@ -5,6 +5,8 @@ import SEO from '../components/common/SEO';
 import BackToHomeButton from '../components/common/BackToHomeButton';
 import ListingCard from '../components/listings/ListingCard';
 
+// Import the hero image
+import nutritionHeroImage from '../assets/images/nutrition/nutrition_hero.png';
 
 // Import nutrition data
 import nutritionData from '../data/nutrition_data';
@@ -107,7 +109,7 @@ const NutritionPage: React.FC = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: 'url(/nutrition_hero.png)'
+            backgroundImage: `url(${nutritionHeroImage})`
           }}
         ></div>
 
