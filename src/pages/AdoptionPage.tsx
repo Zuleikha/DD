@@ -1,5 +1,6 @@
 import React from 'react';
 import SEO from '../components/common/SEO';
+import BackToHomeButton from '../components/common/BackToHomeButton';
 
 const AdoptionPage: React.FC = () => {
   return (
@@ -13,6 +14,7 @@ const AdoptionPage: React.FC = () => {
       {/* Hero Section */}
       <section className="bg-[#7ED321] text-white py-16">
         <div className="container mx-auto px-4">
+          <BackToHomeButton variant="light" />
           <h1 className="text-4xl font-bold mb-4">Adoption</h1>
           <p className="text-xl max-w-3xl">
             Find your new best friend through our ethical adoption listings. Connect with shelters and rescues across Ireland.
