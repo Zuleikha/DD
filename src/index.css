@@ -141,7 +141,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ========================================
-   FORUM TEXT OVERFLOW FIX
+   COMPREHENSIVE FORUM TEXT OVERFLOW FIX
    ======================================== */
 
 /* Fix text overflow in all textareas - prevents long words/URLs from overflowing */
@@ -149,6 +149,48 @@ textarea {
   overflow-wrap: break-word;
   word-wrap: break-word; /* For older browser compatibility */
   white-space: pre-wrap; /* Preserves line breaks and allows wrapping */
+}
+
+/* Fix overflow in ALL displayed text content - covers posts, replies, comments */
+p, div, span {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+/* Specific forum content classes for better targeting */
+.forum-post-content,
+.forum-reply-content,
+.forum-comment-content {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word; /* More aggressive breaking for very long strings */
+  white-space: pre-wrap; /* Preserves formatting while allowing wrapping */
+}
+
+/* Target common Tailwind text color classes used in forums */
+.text-gray-700,
+.text-gray-600,
+.text-gray-800,
+.text-gray-900 {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+/* Ensure forum containers don't allow horizontal overflow */
+.forum-container,
+.forum-post,
+.forum-reply {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  max-width: 100%;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Handle long URLs and links specifically */
+a {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all; /* Break URLs at any character if needed */
 }
 
 /* Alternative: More specific selector for forum textareas only */
