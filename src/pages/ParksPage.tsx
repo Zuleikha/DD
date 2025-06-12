@@ -8,7 +8,7 @@ import ListingCard from '../components/listings/ListingCard';
 import { parksData } from '../data/parks_data';
 
 // Import only the 5 images that exist
-import parkHero from '../assets/images/parks/park_hero.png';
+import parkHero from '../assets/images/parks/phero.png';
 import parkImage1 from '../assets/images/parks/park_generic_1.png';
 import parkImage2 from '../assets/images/parks/park_generic_2.png';
 import parkImage3 from '../assets/images/parks/park_generic_3.png';

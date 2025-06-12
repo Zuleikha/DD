@@ -135,36 +135,68 @@ const ForumPage: React.FC = () => {
   }, [rtdb]); // Dependency array includes rtdb
 
 
-  const handleCreatePost = async (e: React.FormEvent) => {
+    const handleCreatePost = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Enhanced validation and logging
+    console.log('=== POST CREATION DEBUG ===');
+    console.log('Current user:', currentUser);
+    console.log('User UID:', currentUser?.uid);
+    console.log('User display name:', currentUser?.displayName);
+    console.log('User email:', currentUser?.email);
+    console.log('Post title:', newPostTitle.trim());
+    console.log('Post content:', newPostContent.trim());
+    
     // Ensure user is logged in and fields are not empty
-    if (!currentUser?.uid || !newPostTitle.trim() || !newPostContent.trim()) {
-       console.warn("Cannot create post: User not logged in or fields empty.");
-       return; // <-- Correctly exit the function here
-    } // <-- Closing brace of the if block
+    if (!currentUser?.uid) {
+       console.error("❌ Cannot create post: User not logged in");
+       alert("You must be logged in to create a post. Please sign in and try again.");
+       return;
+    }
+    
+    if (!newPostTitle.trim()) {
+       console.error("❌ Cannot create post: Title is empty");
+       alert("Please enter a title for your post.");
+       return;
+    }
+    
+    if (!newPostContent.trim()) {
+       console.error("❌ Cannot create post: Content is empty");
+       alert("Please enter content for your post.");
+       return;
+    }
 
-    setLoading(true); // <-- THIS LINE WAS MISSING before the try block
+    setLoading(true);
+    console.log('🔄 Starting post creation...');
 
     try {
       // *** Use Realtime Database push to create a new post ***
       // Get a reference to the 'forumPosts' location
       const postsListRef = ref(rtdb, 'forumPosts/');
+      console.log('📍 Database reference created:', postsListRef);
 
-      const postData: Omit<ForumPost, 'id'> = { // Data to be pushed, without the 'id' field initially
+      const postData: Omit<ForumPost, 'id'> = {
         title: newPostTitle.trim(),
         content: newPostContent.trim(),
         category: newPostCategory,
-        author: currentUser.displayName || currentUser.email || 'Anonymous', // Fallback author name
+        author: currentUser.displayName || currentUser.email || 'Anonymous',
         authorId: currentUser.uid,
-        createdAt: Date.now(), // Use numeric timestamp for ordering
-        likes: {}, // Initialize likes as an empty object {}
-        replies: {}, // Initialize replies as an empty object {}
+        createdAt: Date.now(),
+        likes: {},
+        replies: {},
         // Add media if uploaded
         ...(newPostMediaUrl && newPostMediaType && { mediaUrl: newPostMediaUrl, mediaType: newPostMediaType }),
       };
 
+      console.log('📝 Post data prepared:', postData);
+      console.log('🚀 Attempting to push to Firebase...');
+
       // Push the data to the location. push() automatically generates a unique, time-ordered key.
-      await push(postsListRef, postData);
+      const result = await push(postsListRef, postData);
+      
+      console.log('✅ Post created successfully!');
+      console.log('📍 New post key:', result.key);
+      console.log('📍 New post reference:', result);
 
       // Clear form fields and hide form on success
       setNewPostTitle('');
@@ -173,15 +205,39 @@ const ForumPage: React.FC = () => {
       setNewPostMediaUrl('');
       setNewPostMediaType('');
       setShowNewPostForm(false);
+      
+      // Show success message
+      alert('Post created successfully! 🎉');
 
-    } catch (error) {
-      console.error('Error creating post:', error);
-      // Optionally show an error message to the user
+    } catch (error: any) {
+      console.error('❌ Error creating post:', error);
+      console.error('❌ Error code:', error.code);
+      console.error('❌ Error message:', error.message);
+      console.error('❌ Full error object:', error);
+      
+      // Provide specific error messages based on error type
+      let userMessage = 'Failed to create post. ';
+      
+      if (error.code === 'PERMISSION_DENIED') {
+        userMessage += 'Permission denied. This usually means the database security rules are blocking writes. Please check your Firebase Database Rules.';
+      } else if (error.code === 'NETWORK_ERROR') {
+        userMessage += 'Network error. Please check your internet connection and try again.';
+      } else if (error.code === 'INVALID_ARGUMENT') {
+        userMessage += 'Invalid data format. Please try again.';
+      } else {
+        userMessage += `Error: ${error.message}`;
+      }
+      
+      alert(userMessage);
+      
     } finally {
-       // Ensure loading is set to false even if there's an error
-      setLoading(false); // <-- This should run after try/catch
+      setLoading(false);
+      console.log('🏁 Post creation process completed');
+      console.log('=== END POST CREATION DEBUG ===');
     }
   };
+
+
 
   const handleMediaUploaded = (mediaUrl: string, mediaType: 'image' | 'video') => {
     setNewPostMediaUrl(mediaUrl);

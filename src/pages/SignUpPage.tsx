@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../config/firebase';
-import { Eye, EyeOff, Mail, Lock, User, PawPrint } from 'lucide-react';
+import { ref, set } from 'firebase/database'; // Import Realtime Database functions
+import { rtdb } from '../config/firebase'; // Import Realtime Database
+import { Eye, EyeOff, Mail, Lock, User, PawPrint, CheckCircle } from 'lucide-react';
 import BackToHomeButton from '../components/common/BackToHomeButton';
-import { useToast } from '../hooks/use-toast'; // Import useToast
 
 const SignUpPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -16,10 +15,10 @@ const SignUpPage: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   
   const { signup } = useAuth();
   const navigate = useNavigate();
-  const { toast } = useToast(); // Initialize useToast
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -37,36 +36,65 @@ const SignUpPage: React.FC = () => {
       setLoading(true);
       const userCredential = await signup(email, password, displayName);
       
-      // Store user registration data for analytics
+      // Store user registration data in Realtime Database instead of Firestore
       if (userCredential?.user) {
-        await setDoc(doc(db, 'userRegistrations', userCredential.user.uid), {
+        const userRegistrationRef = ref(rtdb, `userRegistrations/${userCredential.user.uid}`);
+        await set(userRegistrationRef, {
           email: email,
           displayName: displayName,
-          createdAt: serverTimestamp(),
+          createdAt: Date.now(), // Use timestamp instead of serverTimestamp
           uid: userCredential.user.uid
         });
       }
       
-      toast({
-        title: 'Success!',
-        description: 'Your account has been created. Redirecting to forum...', 
-        variant: 'success',
-      });
+      // Show success message immediately
+      setSuccess(true);
+      setLoading(false);
 
+      // Redirect after showing success message for 2 seconds
       setTimeout(() => {
         navigate('/forum');
-      }, 1000); // Redirect after 1 second to allow toast to be seen
+      }, 2000);
 
     } catch (error: any) {
       setError('Failed to create an account: ' + error.message);
-      toast({
-        title: 'Error',
-        description: 'Failed to create an account: ' + error.message,
-        variant: 'destructive',
-      });
-    } finally {
       setLoading(false);
     }
+  }
+
+  // If signup was successful, show success screen
+  if (success) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-purple-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8">
+          <div className="text-center">
+            <div className="flex justify-center mb-4">
+              <div className="bg-green-100 p-3 rounded-full">
+                <CheckCircle className="h-12 w-12 text-green-600" />
+              </div>
+            </div>
+            <h2 className="text-3xl font-bold text-gray-900">Account Created Successfully!</h2>
+            <p className="mt-4 text-lg text-gray-600">
+              Welcome to DogDays.ie, {displayName}!
+            </p>
+            <p className="mt-2 text-sm text-gray-500">
+              Redirecting you to the forum in a moment...
+            </p>
+            <div className="mt-6">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600 mx-auto"></div>
+            </div>
+            <div className="mt-4">
+              <Link 
+                to="/forum" 
+                className="text-orange-600 hover:text-orange-500 font-medium"
+              >
+                Or click here to go to the forum now
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -111,6 +139,7 @@ const SignUpPage: React.FC = () => {
                   placeholder="Your display name"
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
+                  disabled={loading}
                 />
               </div>
             </div>
@@ -133,6 +162,7 @@ const SignUpPage: React.FC = () => {
                   placeholder="your@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  disabled={loading}
                 />
               </div>
             </div>
@@ -155,11 +185,13 @@ const SignUpPage: React.FC = () => {
                   placeholder="Password (min 6 characters)"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  disabled={loading}
                 />
                 <button
                   type="button"
                   className="absolute inset-y-0 right-0 pr-3 flex items-center"
                   onClick={() => setShowPassword(!showPassword)}
+                  disabled={loading}
                 >
                   {showPassword ? (
                     <EyeOff className="h-5 w-5 text-gray-400" />
@@ -188,11 +220,13 @@ const SignUpPage: React.FC = () => {
                   placeholder="Confirm your password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
+                  disabled={loading}
                 />
                 <button
                   type="button"
                   className="absolute inset-y-0 right-0 pr-3 flex items-center"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  disabled={loading}
                 >
                   {showConfirmPassword ? (
                     <EyeOff className="h-5 w-5 text-gray-400" />
@@ -210,7 +244,14 @@ const SignUpPage: React.FC = () => {
               disabled={loading}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Creating Account...' : 'Create Account'}
+              {loading ? (
+                <div className="flex items-center">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  Creating Account...
+                </div>
+              ) : (
+                'Create Account'
+              )}
             </button>
           </div>
 
@@ -229,5 +270,4 @@ const SignUpPage: React.FC = () => {
 };
 
 export default SignUpPage;
-
 

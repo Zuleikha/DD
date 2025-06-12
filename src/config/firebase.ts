@@ -14,7 +14,8 @@ const firebaseConfig = {
     messagingSenderId: "730200299370",
     appId: "1:730200299370:web:a6eca9fd5948b0ffa6b713",
     measurementId: "G-MF2856EVXT",
-    databaseURL: "https://dogdays-bb394-default-rtdb.firebaseio.com/" // Add your Realtime Database URL
+    databaseURL: "https://dogdays-bb394-default-rtdb.europe-west1.firebasedatabase.app"
+
 };
 
 // Initialize Firebase

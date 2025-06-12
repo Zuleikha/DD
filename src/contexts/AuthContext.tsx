@@ -38,21 +38,53 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [loading, setLoading] = useState(true);
 
   async function signup(email: string, password: string, displayName: string) {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    await updateProfile(userCredential.user, { displayName });
-    return userCredential;
+    try {
+      // Create the user account
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      
+      // Try to update the profile, but don't let it block the signup process
+      try {
+        await updateProfile(userCredential.user, { displayName });
+        console.log('Profile updated successfully');
+      } catch (profileError) {
+        // Log the error but don't throw it - the account was still created successfully
+        console.warn('Profile update failed, but account was created:', profileError);
+        // The user can update their display name later if needed
+      }
+      
+      return userCredential;
+    } catch (error) {
+      // Re-throw the original signup error
+      console.error('Signup failed:', error);
+      throw error;
+    }
   }
 
-  function login(email: string, password: string) {
-    return signInWithEmailAndPassword(auth, email, password).then(() => {});
+  async function login(email: string, password: string) {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.error('Login failed:', error);
+      throw error;
+    }
   }
 
-  function logout() {
-    return signOut(auth);
+  async function logout() {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error('Logout failed:', error);
+      throw error;
+    }
   }
 
-  function resetPassword(email: string) {
-    return sendPasswordResetEmail(auth, email);
+  async function resetPassword(email: string) {
+    try {
+      await sendPasswordResetEmail(auth, email);
+    } catch (error) {
+      console.error('Password reset failed:', error);
+      throw error;
+    }
   }
 
   useEffect(() => {
