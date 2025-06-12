@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Coffee, Clock, Smile, CupSoda, MapPin, PawPrint, Users, MessageCircleQuestion, ShoppingBag } from 'lucide-react';
+import { Coffee, Clock, Smile, CupSoda, MapPin, PawPrint, Users, MessageCircleQuestion, ShoppingBag, Heart } from 'lucide-react';
 import SEO from '../components/common/SEO';
 
 import dogImage from '../assets/images/dog.jpg';
@@ -32,41 +32,8 @@ const HomePage: React.FC = () => {
         keywords="dog friendly Ireland, pet services Ireland, dog parks, veterinarians, dog grooming, pet training"
       />
       
-      {/* Clean Hero Section without floating icons */}
-      <section 
-        className="relative text-white py-20 overflow-hidden bg-cover bg-center bg-no-repeat min-h-[500px] flex items-center"
-        style={{
-          backgroundImage: `linear-gradient(rgba(88, 28, 135, 0.4), rgba(67, 56, 202, 0.3)), url(${dp2Image})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
-        }}
-      >
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 drop-shadow-lg">
-            Welcome to Dog Days Ireland
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto drop-shadow-md">
-            Your ultimate guide to dog-friendly places, services, and adventures across the Country
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              to="/parks" 
-              className="bg-white text-purple-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center shadow-lg"
-            >
-              <PawPrint className="mr-2 h-5 w-5" />
-              Explore Parks
-            </Link>
-            <Link 
-              to="/vets" 
-              className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-purple-600 transition-colors inline-flex items-center justify-center shadow-lg"
-            >
-              <MapPin className="mr-2 h-5 w-5" />
-              Find Services
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* HeroSection Component with Working Buttons */}
+      <HeroSection />
 
       {/* Enhanced Services Section with Paw Accents */}
       <section id="services" className="py-16 bg-gray-50 relative overflow-hidden">
@@ -227,11 +194,41 @@ const HomePage: React.FC = () => {
               </div>
             </Link>
           </div>
+
+          {/* Meet Our Mascot Section */}
+          <div className="mt-16 flex justify-center">
+            <Link to="/mascot" className="group relative bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:scale-105 max-w-md w-full">
+              {/* Background Pattern */}
+              <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
+              
+              {/* Content */}
+              <div className="relative p-8 text-center text-white">
+                <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mb-6 mx-auto group-hover:bg-white/30 transition-colors">
+                  <Heart className="h-10 w-10 text-white" />
+                </div>
+                
+                <h3 className="text-2xl font-bold mb-3 flex items-center justify-center">
+                  Meet Our Mascot
+                  <PawPrint size={20} className="ml-2 group-hover:animate-bounce" />
+                </h3>
+                
+                <p className="text-white/90 text-sm mb-4">
+                  Get to know our adorable furry friend who represents the spirit of Dog Days Ireland!
+                </p>
+                
+                <div className="inline-flex items-center text-white font-semibold">
+                  <span>Learn More</span>
+                  <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Other sections */}
-      <HeroSection />
+      {/* All Other Sections */}
       <MapSection />
       <CommunitySection />
       <NewsletterSection />

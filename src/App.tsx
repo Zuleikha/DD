@@ -31,9 +31,9 @@ import SignUpPage from './pages/SignUpPage';
 import AdminDashboard from './pages/AdminDashboard';
 import PetShopsPage from './pages/PetShopsPage';
 import PetShopDetailPage from './pages/PetShopDetailPage';
-import ScrollToTop from './components/ScrollToTop'; // ADD THIS IMPORT
-import AboutMascotPage from './pages/AboutMascotPage';
-import { Toaster } from './components/ui/toaster'; // Import Toaster
+import ScrollToTop from './components/ScrollToTop';
+import MascotPage from './pages/MascotPage';
+import { Toaster } from './components/ui/toaster';
 
 // Generic redirect for typo paths like vetss, parkss, etc.
 function ExtraSRedirect({ prefix }: { prefix: string }) {
@@ -45,12 +45,13 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <ScrollToTop /> {/* ADD THIS LINE - Must be inside Router but before everything else */}
+        <ScrollToTop />
         <div className="flex flex-col min-h-screen">
           <Header />
           <main className="flex-grow">
             <Routes>
               {/* Redirect typo routes */}
+          
               <Route path="/vetss/:id" element={<ExtraSRedirect prefix="vets" />} />
               <Route path="/minderss/:id" element={<ExtraSRedirect prefix="minders" />} />
               <Route path="/parkss/:id" element={<ExtraSRedirect prefix="parks" />} />
@@ -89,8 +90,11 @@ function App() {
               <Route path="/signup" element={<SignUpPage />} />
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/advice" element={<AdvicePage />} />
-              <Route path="/about-mascot" element={<AboutMascotPage />} />
+              <Route path="/mascot" element={<MascotPage />} />
               
+              
+              {/* Redirect old about-mascot route to new mascot route */}
+              <Route path="/about-mascot" element={<Navigate to="/mascot" replace />} />
 
               {/* Catch-all fallback */}
               <Route path="*" element={<HomePage />} />
@@ -99,12 +103,11 @@ function App() {
           <Footer />
           <DogChatbot />
         </div>
-        <Toaster /> {/* Add Toaster component here */}
+        <Toaster />
       </Router>
     </AuthProvider>
   );
 }
 
 export default App;
-
 

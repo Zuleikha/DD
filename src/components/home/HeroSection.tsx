@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface HeroSectionProps {
   title?: string;
@@ -32,14 +33,20 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           {subtitle}
         </p>
         
-        {/* Call to Action Buttons */}
+        {/* Call to Action Buttons - Now with working Links */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button className="bg-irish-purple hover:bg-irish-purple/90 text-white font-semibold py-4 px-8 rounded-lg text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+          <Link 
+            to="/parks"
+            className="bg-irish-purple hover:bg-irish-purple/90 text-white font-semibold py-4 px-8 rounded-lg text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+          >
             🐕 Explore Parks
-          </button>
-          <button className="bg-white/90 hover:bg-white text-irish-navy font-semibold py-4 px-8 rounded-lg text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+          </Link>
+          <Link 
+            to="/vets"
+            className="bg-white/90 hover:bg-white text-irish-navy font-semibold py-4 px-8 rounded-lg text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+          >
             🏥 Find Services
-          </button>
+          </Link>
         </div>
         
         {/* Fun Stats */}
