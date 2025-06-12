@@ -4,6 +4,7 @@ import { Coffee, Clock, Smile, CupSoda, MapPin, PawPrint, Users, MessageCircleQu
 import SEO from '../components/common/SEO';
 
 import dogImage from '../assets/images/dog.jpg';
+import dp2Image from '../assets/images/dp2.jpg'; // Import the new hero image
 
 import HeroSection from '../components/home/HeroSection';
 import MapSection from '../components/home/MapSection';
@@ -79,8 +80,22 @@ const HomePage: React.FC = () => {
         keywords="dog friendly Ireland, pet services Ireland, dog parks, veterinarians, dog grooming, pet training"
       />
       
-      {/* Enhanced Hero Section with Whiter Paws */}
-      <section className="relative bg-gradient-to-r from-purple-600 to-pink-600 text-white py-20 overflow-hidden">
+      {/* Updated Hero Section with dp2.jpg Background Image */}
+      <section 
+        className="relative text-white py-20 overflow-hidden bg-cover bg-center bg-no-repeat min-h-[500px] flex items-center"
+        style={{
+          //backgroundImage: `linear-gradient(rgba(147, 51, 234, 0.1), rgba(219, 39, 119, 0.1)), url(${dp2Image})`,
+          //backgroundImage: `linear-gradient(rgba(120, 53, 15, 0.4), rgba(245, 158, 11, 0.3)), url(${dp2Image})`,
+          backgroundImage: `linear-gradient(rgba(88, 28, 135, 0.4), rgba(67, 56, 202, 0.3)), url(${dp2Image})`,
+          //backgroundImage: `linear-gradient(rgba(31, 41, 55, 0.5), rgba(30, 64, 175, 0.3)), url(${dp2Image})`,
+
+
+
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
+      >
         {/* Enhanced floating paw prints and bones with whiter appearance */}
         <div className="absolute inset-0 pointer-events-none">
           {/* Hero-specific enhanced paw prints */}
@@ -105,23 +120,23 @@ const HomePage: React.FC = () => {
         </div>
 
         <div className="container mx-auto px-4 text-center relative z-10">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 drop-shadow-lg">
             Welcome to Dog Days Ireland
           </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
-            Your ultimate guide to dog-friendly places, services, and adventures across the Emerald Isle
+          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto drop-shadow-md">
+            Your ultimate guide to dog-friendly places, services, and adventures across the Country
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
               to="/parks" 
-              className="bg-white text-purple-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center"
+              className="bg-white text-purple-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center shadow-lg"
             >
               <PawPrint className="mr-2 h-5 w-5" />
               Explore Parks
             </Link>
             <Link 
               to="/vets" 
-              className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-purple-600 transition-colors inline-flex items-center justify-center"
+              className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-purple-600 transition-colors inline-flex items-center justify-center shadow-lg"
             >
               <MapPin className="mr-2 h-5 w-5" />
               Find Services
@@ -130,7 +145,7 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Enhanced Dog Image Feature Section */}
+      {/* Updated Meet Our Mascot Section with Smaller Image */}
       <section className="py-12 bg-gray-50 relative overflow-hidden">
         {/* Subtle background decorations */}
         <div className="absolute inset-0 pointer-events-none text-gray-200">
@@ -150,7 +165,8 @@ const HomePage: React.FC = () => {
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="flex flex-col lg:flex-row items-center gap-12">
-            <div className="lg:w-1/2">
+            {/* Text Section - Now takes more space */}
+            <div className="lg:w-3/5">
               <div className="flex items-center space-x-4 mb-6">
                 <PawPrint size={30} opacity={0.3} className="text-purple-500" />
                 <h2 className="text-3xl font-bold text-gray-800">Meet Our Mascot</h2>
@@ -177,8 +193,10 @@ const HomePage: React.FC = () => {
                 Learn More About Us
               </Link>
             </div>
-            <div className="lg:w-1/2">
-              <div className="relative">
+            
+            {/* Image Section - Now smaller and more balanced */}
+            <div className="lg:w-2/5">
+              <div className="relative max-w-md mx-auto">
                 <img 
                   src={dogImage} 
                   alt="Friendly dog representing Dog Days Ireland" 
@@ -295,21 +313,21 @@ const HomePage: React.FC = () => {
                   Grooming
                   <PawPrint size={16} opacity={0.3} className="ml-2 text-pink-500 group-hover:animate-bounce" />
                 </h3>
-                <p className="text-gray-600 text-sm">Keep your dog looking and feeling great with professional grooming</p>
+                <p className="text-gray-600 text-sm">Find professional grooming services to keep your dog looking great</p>
               </div>
             </Link>
 
             {/* Dog-Friendly Places */}
             <Link to="/places" className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
               <div className="p-6">
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-red-200 transition-colors">
-                  <CupSoda className="h-8 w-8 text-red-500" />
+                <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-indigo-200 transition-colors">
+                  <CupSoda className="h-8 w-8 text-indigo-500" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-800 mb-2 flex items-center">
                   Dog-Friendly Places
-                  <Bone size={16} opacity={0.3} className="ml-2 text-red-500 group-hover:animate-bounce" />
+                  <Bone size={16} opacity={0.3} className="ml-2 text-indigo-500 group-hover:animate-bounce" />
                 </h3>
-                <p className="text-gray-600 text-sm">Discover restaurants, cafes, and hotels that welcome dogs</p>
+                <p className="text-gray-600 text-sm">Discover restaurants, cafes, and venues that welcome dogs</p>
               </div>
             </Link>
 
@@ -323,43 +341,48 @@ const HomePage: React.FC = () => {
                   Pet Shops
                   <PawPrint size={16} opacity={0.3} className="ml-2 text-orange-500 group-hover:animate-bounce" />
                 </h3>
-                <p className="text-gray-600 text-sm">Discover trusted pet stores for all your dog's needs and supplies</p>
+                <p className="text-gray-600 text-sm">Find pet stores for all your dog's needs and supplies</p>
               </div>
             </Link>
 
-            {/* Find Dog Minders */}
+            {/* Dog Minders */}
             <Link to="/minders" className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
               <div className="p-6">
-                <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-indigo-200 transition-colors">
-                  <Users className="h-8 w-8 text-indigo-500" />
+                <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-teal-200 transition-colors">
+                  <Users className="h-8 w-8 text-teal-500" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-800 mb-2 flex items-center">
-                  Find Dog Minders
-                  <PawPrint size={16} opacity={0.3} className="ml-2 text-indigo-500 group-hover:animate-bounce" />
+                  Dog Minders
+                  <Bone size={16} opacity={0.3} className="ml-2 text-teal-500 group-hover:animate-bounce" />
                 </h3>
-                <p className="text-gray-600 text-sm">Connect with trusted dog minders and sitters across Ireland</p>
+                <p className="text-gray-600 text-sm">Connect with trusted dog minders and pet sitters</p>
               </div>
             </Link>
 
-            {/* Advice from Chat Bot */}
+            {/* Community & Advice */}
             <Link to="/advice" className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
               <div className="p-6">
-                <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-teal-200 transition-colors">
-                  <MessageCircleQuestion className="h-8 w-8 text-teal-500" />
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-red-200 transition-colors">
+                  <MessageCircleQuestion className="h-8 w-8 text-red-500" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-800 mb-2 flex items-center">
-                  Advice from Chat Bot
-                  <Bone size={16} opacity={0.3} className="ml-2 text-teal-500 group-hover:animate-bounce" />
+                  Community & Advice
+                  <PawPrint size={16} opacity={0.3} className="ml-2 text-red-500 group-hover:animate-bounce" />
                 </h3>
-                <p className="text-gray-600 text-sm">Get instant answers to your dog care questions from our AI assistant</p>
+                <p className="text-gray-600 text-sm">Get expert advice and connect with other dog owners</p>
               </div>
             </Link>
           </div>
         </div>
       </section>
 
+      {/* Map Section */}
       <MapSection />
+
+      {/* Community Section */}
       <CommunitySection />
+
+      {/* Newsletter Section */}
       <NewsletterSection />
     </div>
   );

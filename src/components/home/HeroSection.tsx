@@ -9,7 +9,7 @@ interface HeroSectionProps {
 
 const HeroSection: React.FC<HeroSectionProps> = ({
   title = "Welcome to Dog Days Ireland",
-  subtitle = "Your ultimate guide to dog-friendly places, services, and adventures across the Emerald Isle",
+  subtitle = "Your ultimate guide to dog-friendly places, services, and adventures across the Country",
   pageType = "listings",
   gradientClass = "bg-mesh-gradient-home"
 }) => {
