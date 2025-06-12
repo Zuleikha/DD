@@ -308,7 +308,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Updated Meet Our Mascot Section with Smaller Image - NOW MOVED AFTER SERVICES */}
-      <section className="py-12 bg-white relative overflow-hidden">
+      <section className="py-12 bg-cream relative overflow-hidden">
         {/* Subtle background decorations */}
         <div className="absolute inset-0 pointer-events-none text-gray-200">
           <div className="absolute top-10 left-10">

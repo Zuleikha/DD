@@ -140,3 +140,21 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--irish-stone);
 }
 
+/* ========================================
+   FORUM TEXT OVERFLOW FIX
+   ======================================== */
+
+/* Fix text overflow in all textareas - prevents long words/URLs from overflowing */
+textarea {
+  overflow-wrap: break-word;
+  word-wrap: break-word; /* For older browser compatibility */
+  white-space: pre-wrap; /* Preserves line breaks and allows wrapping */
+}
+
+/* Alternative: More specific selector for forum textareas only */
+.forum-textarea {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
