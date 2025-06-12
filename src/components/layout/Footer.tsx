@@ -1,5 +1,5 @@
 import React from 'react';
-import { Facebook, Instagram, Twitter } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Mail } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -16,6 +16,21 @@ const Footer = () => {
               <li><a href="/privacy" className="footer-link hover:text-irish-stone transition-colors">Privacy Policy</a></li>
               <li><a href="/terms" className="footer-link hover:text-irish-stone transition-colors">Terms of Use</a></li>
             </ul>
+            
+            {/* Contact Email Section */}
+            <div className="mt-6 pt-4 border-t border-gray-600">
+              <h4 className="text-lg font-medium mb-2 footer-heading">Get in Touch</h4>
+              <a 
+                href="mailto:dogdays363@gmail.com" 
+                className="footer-link hover:text-irish-stone transition-colors flex items-center space-x-2"
+              >
+                <Mail className="w-4 h-4" />
+                <span>dogdays363@gmail.com</span>
+              </a>
+              <p className="text-sm text-gray-300 mt-1">
+                Questions, suggestions, or need help? We'd love to hear from you!
+              </p>
+            </div>
           </div>
 
           {/* Services */}

@@ -35,7 +35,6 @@ import ScrollToTop from './components/ScrollToTop'; // ADD THIS IMPORT
 import AboutMascotPage from './pages/AboutMascotPage';
 import { Toaster } from './components/ui/toaster'; // Import Toaster
 
-
 // Generic redirect for typo paths like vetss, parkss, etc.
 function ExtraSRedirect({ prefix }: { prefix: string }) {
   const { id } = useParams();
@@ -91,7 +90,7 @@ function App() {
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/advice" element={<AdvicePage />} />
               <Route path="/about-mascot" element={<AboutMascotPage />} />
-
+              
 
               {/* Catch-all fallback */}
               <Route path="*" element={<HomePage />} />

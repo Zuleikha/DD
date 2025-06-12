@@ -1,352 +1,337 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { 
-  collection, 
-  query, 
-  orderBy, 
-  onSnapshot,
-  where,
-  Timestamp
-} from 'firebase/firestore';
-import { db } from '../config/firebase';
+import { rtdb } from '../config/firebase';
+import { ref, onValue, off } from 'firebase/database';
 import { 
   Users, 
-  MessageSquare, 
+  MessageCircle, 
   TrendingUp, 
   Calendar,
-  Eye,
-  UserPlus,
-  Activity
+  Activity,
+  BarChart3,
+  Shield,
+  Clock,
+  UserPlus
 } from 'lucide-react';
-import BackToHomeButton from '../components/common/BackToHomeButton';
 
-interface UserStats {
+// Admin email - only this user can access the dashboard
+const ADMIN_EMAIL = 'zuleikhak@gmail.com';
+
+interface DashboardStats {
   totalUsers: number;
-  newUsersToday: number;
-  newUsersThisWeek: number;
-  newUsersThisMonth: number;
-}
-
-interface ForumStats {
   totalPosts: number;
-  postsToday: number;
-  totalReplies: number;
+  recentUsers: number;
+  recentPosts: number;
+  todayPosts: number;
+  weeklyGrowth: number;
 }
 
-interface UserRegistration {
+interface RecentActivity {
   id: string;
-  email: string;
-  displayName: string;
-  createdAt: any;
-  uid: string;
-}
-
-interface ForumPost {
-  id: string;
+  type: 'post' | 'user';
   title: string;
-  content: string;
   author: string;
-  authorId: string;
-  createdAt: any;
-  likes: string[];
-  replies: any[];
-  category: string;
+  timestamp: number;
 }
 
 const AdminDashboard: React.FC = () => {
   const { currentUser } = useAuth();
-  const [userStats, setUserStats] = useState<UserStats>({
+  const [stats, setStats] = useState<DashboardStats>({
     totalUsers: 0,
-    newUsersToday: 0,
-    newUsersThisWeek: 0,
-    newUsersThisMonth: 0
-  });
-  const [forumStats, setForumStats] = useState<ForumStats>({
     totalPosts: 0,
-    postsToday: 0,
-    totalReplies: 0
+    recentUsers: 0,
+    recentPosts: 0,
+    todayPosts: 0,
+    weeklyGrowth: 0
   });
-  const [recentUsers, setRecentUsers] = useState<UserRegistration[]>([]);
+  const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Security check - only allow admin access
+  if (!currentUser || currentUser.email !== ADMIN_EMAIL) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="bg-white p-8 rounded-lg shadow-md text-center">
+          <Shield className="w-16 h-16 text-red-500 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Access Denied</h2>
+          <p className="text-gray-600">This area is restricted to administrators only.</p>
+          {!currentUser && (
+            <p className="text-sm text-gray-500 mt-2">Please sign in to continue.</p>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   useEffect(() => {
-    if (!currentUser) return;
+    const fetchStats = async () => {
+      try {
+        // Get forum posts
+        const postsRef = ref(rtdb, 'forumPosts');
+        onValue(postsRef, (snapshot) => {
+          const posts = snapshot.val() || {};
+          const postArray = Object.entries(posts).map(([id, post]: [string, any]) => ({
+            id,
+            ...post
+          }));
 
-    // Listen to forum posts for stats
-    const postsQuery = query(collection(db, 'forumPosts'), orderBy('createdAt', 'desc'));
-    const unsubscribePosts = onSnapshot(postsQuery, (querySnapshot) => {
-      const posts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as ForumPost));
-      
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      
-      const postsToday = posts.filter(post => {
-        if (!post.createdAt) return false;
-        const postDate = post.createdAt.toDate();
-        return postDate >= today;
-      }).length;
+          const now = Date.now();
+          const oneDayAgo = now - (24 * 60 * 60 * 1000);
+          const oneWeekAgo = now - (7 * 24 * 60 * 60 * 1000);
 
-      const totalReplies = posts.reduce((total, post) => {
-        return total + (post.replies?.length || 0);
-      }, 0);
+          const todayPosts = postArray.filter(post => post.createdAt > oneDayAgo).length;
+          const recentPosts = postArray.filter(post => post.createdAt > oneWeekAgo).length;
 
-      setForumStats({
-        totalPosts: posts.length,
-        postsToday,
-        totalReplies
-      });
-    });
+          // Get recent activity for feed
+          const recentPostActivity: RecentActivity[] = postArray
+            .filter(post => post.createdAt > oneWeekAgo)
+            .sort((a, b) => b.createdAt - a.createdAt)
+            .slice(0, 5)
+            .map(post => ({
+              id: post.id,
+              type: 'post' as const,
+              title: post.title,
+              author: post.author,
+              timestamp: post.createdAt
+            }));
 
-    // Listen to user registrations (stored in a separate collection)
-    const usersQuery = query(collection(db, 'userRegistrations'), orderBy('createdAt', 'desc'));
-    const unsubscribeUsers = onSnapshot(usersQuery, (querySnapshot) => {
-      const users = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as UserRegistration));
-      
-      const now = new Date();
-      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
-      const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+          setRecentActivity(recentPostActivity);
 
-      const newUsersToday = users.filter(user => {
-        if (!user.createdAt) return false;
-        const userDate = user.createdAt.toDate();
-        return userDate >= today;
-      }).length;
+          setStats(prev => ({
+            ...prev,
+            totalPosts: postArray.length,
+            recentPosts,
+            todayPosts
+          }));
+        });
 
-      const newUsersThisWeek = users.filter(user => {
-        if (!user.createdAt) return false;
-        const userDate = user.createdAt.toDate();
-        return userDate >= weekAgo;
-      }).length;
+        // Get user registrations
+        const usersRef = ref(rtdb, 'userRegistrations');
+        onValue(usersRef, (snapshot) => {
+          const users = snapshot.val() || {};
+          const userArray = Object.entries(users).map(([id, user]: [string, any]) => ({
+            id,
+            ...user
+          }));
 
-      const newUsersThisMonth = users.filter(user => {
-        if (!user.createdAt) return false;
-        const userDate = user.createdAt.toDate();
-        return userDate >= monthAgo;
-      }).length;
+          const now = Date.now();
+          const oneWeekAgo = now - (7 * 24 * 60 * 60 * 1000);
+          const twoWeeksAgo = now - (14 * 24 * 60 * 60 * 1000);
 
-      setUserStats({
-        totalUsers: users.length,
-        newUsersToday,
-        newUsersThisWeek,
-        newUsersThisMonth
-      });
+          const recentUsers = userArray.filter(user => user.createdAt > oneWeekAgo).length;
+          const previousWeekUsers = userArray.filter(user => 
+            user.createdAt > twoWeeksAgo && user.createdAt <= oneWeekAgo
+          ).length;
 
-      setRecentUsers(users.slice(0, 10)); // Show last 10 users
-      setLoading(false);
-    });
+          const weeklyGrowth = previousWeekUsers > 0 
+            ? ((recentUsers - previousWeekUsers) / previousWeekUsers) * 100 
+            : recentUsers > 0 ? 100 : 0;
 
-    return () => {
-      unsubscribePosts();
-      unsubscribeUsers();
+          setStats(prev => ({
+            ...prev,
+            totalUsers: userArray.length,
+            recentUsers,
+            weeklyGrowth
+          }));
+        });
+
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching dashboard stats:', error);
+        setLoading(false);
+      }
     };
-  }, [currentUser]);
 
-  const formatDate = (timestamp: any) => {
-    if (!timestamp) return 'Unknown';
-    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-    return date.toLocaleDateString('en-IE') + ' at ' + date.toLocaleTimeString('en-IE', { 
-      hour: '2-digit', 
-      minute: '2-digit' 
+    fetchStats();
+
+    // Cleanup listeners on unmount
+    return () => {
+      const postsRef = ref(rtdb, 'forumPosts');
+      const usersRef = ref(rtdb, 'userRegistrations');
+      off(postsRef);
+      off(usersRef);
+    };
+  }, []);
+
+  const formatDate = (timestamp: number) => {
+    return new Date(timestamp).toLocaleDateString('en-IE', {
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
     });
   };
 
-  if (!currentUser) {
+  if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Access Denied</h1>
-          <p className="text-gray-600">You must be logged in to view the admin dashboard.</p>
+          <Activity className="w-8 h-8 text-blue-500 animate-spin mx-auto mb-2" />
+          <p className="text-gray-600">Loading dashboard...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center space-x-4">
-            <BackToHomeButton />
+    <div className="min-h-screen bg-gray-100">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center">
-                <Activity className="h-8 w-8 text-orange-600 mr-3" />
-                User Analytics Dashboard
-              </h1>
-              <p className="text-gray-600">Monitor user signups and forum activity</p>
+              <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+              <p className="text-gray-600">DogDays.ie Community Overview</p>
+            </div>
+            <div className="flex items-center space-x-2 text-sm text-gray-500">
+              <Shield className="w-4 h-4" />
+              <span>Admin: {currentUser.email}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {/* Total Users */}
+          <div className="bg-white rounded-lg shadow p-6">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <Users className="h-8 w-8 text-blue-500" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-500">Total Users</p>
+                <p className="text-2xl font-bold text-gray-900">{stats.totalUsers}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Total Posts */}
+          <div className="bg-white rounded-lg shadow p-6">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <MessageCircle className="h-8 w-8 text-green-500" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-500">Total Posts</p>
+                <p className="text-2xl font-bold text-gray-900">{stats.totalPosts}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Weekly Growth */}
+          <div className="bg-white rounded-lg shadow p-6">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <TrendingUp className="h-8 w-8 text-purple-500" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-500">Weekly Growth</p>
+                <p className="text-2xl font-bold text-gray-900">
+                  {stats.weeklyGrowth > 0 ? '+' : ''}{stats.weeklyGrowth.toFixed(1)}%
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Today's Posts */}
+          <div className="bg-white rounded-lg shadow p-6">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <Calendar className="h-8 w-8 text-orange-500" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-500">Today's Posts</p>
+                <p className="text-2xl font-bold text-gray-900">{stats.todayPosts}</p>
+              </div>
             </div>
           </div>
         </div>
 
-        {loading ? (
-          <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading analytics...</p>
-          </div>
-        ) : (
-          <div className="space-y-8">
-            {/* User Statistics Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <Users className="h-8 w-8 text-blue-600" />
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-500">Total Users</p>
-                    <p className="text-2xl font-bold text-gray-900">{userStats.totalUsers}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <UserPlus className="h-8 w-8 text-green-600" />
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-500">New Today</p>
-                    <p className="text-2xl font-bold text-gray-900">{userStats.newUsersToday}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <TrendingUp className="h-8 w-8 text-purple-600" />
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-500">This Week</p>
-                    <p className="text-2xl font-bold text-gray-900">{userStats.newUsersThisWeek}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <Calendar className="h-8 w-8 text-orange-600" />
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-500">This Month</p>
-                    <p className="text-2xl font-bold text-gray-900">{userStats.newUsersThisMonth}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Forum Statistics */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <MessageSquare className="h-8 w-8 text-indigo-600" />
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-500">Total Posts</p>
-                    <p className="text-2xl font-bold text-gray-900">{forumStats.totalPosts}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <Eye className="h-8 w-8 text-teal-600" />
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-500">Posts Today</p>
-                    <p className="text-2xl font-bold text-gray-900">{forumStats.postsToday}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <MessageSquare className="h-8 w-8 text-pink-600" />
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-500">Total Replies</p>
-                    <p className="text-2xl font-bold text-gray-900">{forumStats.totalReplies}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Recent Users Table */}
-            <div className="bg-white rounded-lg shadow-md">
-              <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-lg font-semibold text-gray-900">Recent User Registrations</h2>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        User
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Email
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Registration Date
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {recentUsers.length > 0 ? (
-                      recentUsers.map((user) => (
-                        <tr key={user.id}>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <div className="flex-shrink-0 h-10 w-10">
-                                <div className="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
-                                  <Users className="h-5 w-5 text-orange-600" />
-                                </div>
-                              </div>
-                              <div className="ml-4">
-                                <div className="text-sm font-medium text-gray-900">
-                                  {user.displayName || 'Anonymous User'}
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">{user.email}</div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {formatDate(user.createdAt)}
-                          </td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan={3} className="px-6 py-4 text-center text-gray-500">
-                          No user registrations yet
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            {/* Instructions */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-blue-900 mb-2">
-                📊 How to Monitor User Signups
+        {/* Recent Activity and Quick Stats */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Recent Activity */}
+          <div className="bg-white rounded-lg shadow">
+            <div className="px-6 py-4 border-b border-gray-200">
+              <h3 className="text-lg font-medium text-gray-900 flex items-center">
+                <Activity className="w-5 h-5 mr-2" />
+                Recent Activity
               </h3>
-              <div className="text-blue-800 space-y-2">
-                <p><strong>Real-time Updates:</strong> This dashboard updates automatically when users sign up.</p>
-                <p><strong>Firebase Console:</strong> For more detailed analytics, visit your Firebase project console → Authentication → Users.</p>
-                <p><strong>Export Data:</strong> In Firebase Console, you can export user data for further analysis.</p>
-                <p><strong>Email Notifications:</strong> Set up Firebase Cloud Functions to get email alerts for new signups.</p>
+            </div>
+            <div className="p-6">
+              {recentActivity.length > 0 ? (
+                <div className="space-y-4">
+                  {recentActivity.map((activity) => (
+                    <div key={activity.id} className="flex items-start space-x-3">
+                      <div className="flex-shrink-0">
+                        <MessageCircle className="w-5 h-5 text-blue-500" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-gray-900 truncate">
+                          {activity.title}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          by {activity.author} • {formatDate(activity.timestamp)}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-500 text-center py-4">No recent activity</p>
+              )}
+            </div>
+          </div>
+
+          {/* Quick Stats */}
+          <div className="bg-white rounded-lg shadow">
+            <div className="px-6 py-4 border-b border-gray-200">
+              <h3 className="text-lg font-medium text-gray-900 flex items-center">
+                <BarChart3 className="w-5 h-5 mr-2" />
+                Quick Stats
+              </h3>
+            </div>
+            <div className="p-6">
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-500 flex items-center">
+                    <UserPlus className="w-4 h-4 mr-2" />
+                    New Users (7 days)
+                  </span>
+                  <span className="text-sm font-medium text-gray-900">{stats.recentUsers}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-500 flex items-center">
+                    <MessageCircle className="w-4 h-4 mr-2" />
+                    New Posts (7 days)
+                  </span>
+                  <span className="text-sm font-medium text-gray-900">{stats.recentPosts}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-500 flex items-center">
+                    <Clock className="w-4 h-4 mr-2" />
+                    Posts Today
+                  </span>
+                  <span className="text-sm font-medium text-gray-900">{stats.todayPosts}</span>
+                </div>
+                <div className="pt-4 border-t border-gray-200">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-blue-600">
+                      {stats.totalUsers > 0 ? (stats.totalPosts / stats.totalUsers).toFixed(1) : '0'}
+                    </p>
+                    <p className="text-sm text-gray-500">Average posts per user</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        )}
+        </div>
+
+        {/* Footer */}
+        <div className="mt-8 text-center text-sm text-gray-500">
+          <p>Dashboard last updated: {new Date().toLocaleString('en-IE')}</p>
+        </div>
       </div>
     </div>
   );
