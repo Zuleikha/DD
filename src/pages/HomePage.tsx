@@ -145,75 +145,6 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Updated Meet Our Mascot Section with Smaller Image */}
-      <section className="py-12 bg-gray-50 relative overflow-hidden">
-        {/* Subtle background decorations */}
-        <div className="absolute inset-0 pointer-events-none text-gray-200">
-          <div className="absolute top-10 left-10">
-            <PawPrint size={40} opacity={0.05} />
-          </div>
-          <div className="absolute top-20 right-20">
-            <Bone size={35} opacity={0.05} />
-          </div>
-          <div className="absolute bottom-20 left-1/4">
-            <PawPrint size={45} opacity={0.05} />
-          </div>
-          <div className="absolute bottom-10 right-10">
-            <Bone size={30} opacity={0.05} />
-          </div>
-        </div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
-            {/* Text Section - Now takes more space */}
-            <div className="lg:w-3/5">
-              <div className="flex items-center space-x-4 mb-6">
-                <PawPrint size={30} opacity={0.3} className="text-purple-500" />
-                <h2 className="text-3xl font-bold text-gray-800">Meet Our Mascot</h2>
-                <PawPrint size={30} opacity={0.3} className="text-purple-500" />
-              </div>
-              <div className="flex justify-start space-x-3 mb-6">
-                <Bone size={20} opacity={0.4} className="text-purple-400" />
-                <Bone size={20} opacity={0.4} className="text-purple-400" />
-                <Bone size={20} opacity={0.4} className="text-purple-400" />
-              </div>
-              <p className="text-lg text-gray-600 mb-6">
-                Meet Buddy, our adorable mascot who represents the joy and companionship that dogs bring to our lives. 
-                Buddy loves exploring Ireland's beautiful landscapes and discovering new dog-friendly places.
-              </p>
-              <p className="text-gray-600 mb-8">
-                Join Buddy on his adventures as we help you and your furry friend discover the best that Ireland has to offer. 
-                From scenic walks to cozy cafes, we're here to make every day a perfect dog day!
-              </p>
-              <Link 
-                to="/about-mascot"
-                className="inline-flex items-center bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors"
-              >
-                <PawPrint className="mr-2 h-5 w-5" />
-                Learn More About Us
-              </Link>
-            </div>
-            
-            {/* Image Section - Now smaller and more balanced */}
-            <div className="lg:w-2/5">
-              <div className="relative max-w-md mx-auto">
-                <img 
-                  src={dogImage} 
-                  alt="Friendly dog representing Dog Days Ireland" 
-                  className="rounded-lg shadow-lg w-full h-auto"
-                />
-                <div className="absolute -top-4 -right-4">
-                  <PawPrint size={50} opacity={0.2} className="text-purple-500 animate-pulse" />
-                </div>
-                <div className="absolute -bottom-4 -left-4">
-                  <Bone size={40} opacity={0.2} className="text-purple-400 animate-bounce" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Enhanced Services Section with Paw Accents */}
       <section id="services" className="py-16 bg-gray-50 relative overflow-hidden">
         {/* Subtle background decorations */}
@@ -372,6 +303,75 @@ const HomePage: React.FC = () => {
                 <p className="text-gray-600 text-sm">Get expert advice and connect with other dog owners</p>
               </div>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Updated Meet Our Mascot Section with Smaller Image - NOW MOVED AFTER SERVICES */}
+      <section className="py-12 bg-white relative overflow-hidden">
+        {/* Subtle background decorations */}
+        <div className="absolute inset-0 pointer-events-none text-gray-200">
+          <div className="absolute top-10 left-10">
+            <PawPrint size={40} opacity={0.05} />
+          </div>
+          <div className="absolute top-20 right-20">
+            <Bone size={35} opacity={0.05} />
+          </div>
+          <div className="absolute bottom-20 left-1/4">
+            <PawPrint size={45} opacity={0.05} />
+          </div>
+          <div className="absolute bottom-10 right-10">
+            <Bone size={30} opacity={0.05} />
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="flex flex-col lg:flex-row items-center gap-12">
+            {/* Text Section - Now takes more space */}
+            <div className="lg:w-3/5">
+              <div className="flex items-center space-x-4 mb-6">
+                <PawPrint size={30} opacity={0.3} className="text-purple-500" />
+                <h2 className="text-3xl font-bold text-gray-800">Meet Our Mascot</h2>
+                <PawPrint size={30} opacity={0.3} className="text-purple-500" />
+              </div>
+              <div className="flex justify-start space-x-3 mb-6">
+                <Bone size={20} opacity={0.4} className="text-purple-400" />
+                <Bone size={20} opacity={0.4} className="text-purple-400" />
+                <Bone size={20} opacity={0.4} className="text-purple-400" />
+              </div>
+              <p className="text-lg text-gray-600 mb-6">
+                Meet Buddy, our adorable mascot who represents the joy and companionship that dogs bring to our lives. 
+                Buddy loves exploring Ireland's beautiful landscapes and discovering new dog-friendly places.
+              </p>
+              <p className="text-gray-600 mb-8">
+                Join Buddy on his adventures as we help you and your furry friend discover the best that Ireland has to offer. 
+                From scenic walks to cozy cafes, we're here to make every day a perfect dog day!
+              </p>
+              <Link 
+                to="/about-mascot"
+                className="inline-flex items-center bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                <PawPrint className="mr-2 h-5 w-5" />
+                Learn More About Us
+              </Link>
+            </div>
+            
+            {/* Image Section - Now smaller and more balanced */}
+            <div className="lg:w-2/5">
+              <div className="relative max-w-md mx-auto">
+                <img 
+                  src={dogImage} 
+                  alt="Friendly dog representing Dog Days Ireland" 
+                  className="rounded-lg shadow-lg w-full h-auto"
+                />
+                <div className="absolute -top-4 -right-4">
+                  <PawPrint size={50} opacity={0.2} className="text-purple-500 animate-pulse" />
+                </div>
+                <div className="absolute -bottom-4 -left-4">
+                  <Bone size={40} opacity={0.2} className="text-purple-400 animate-bounce" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
