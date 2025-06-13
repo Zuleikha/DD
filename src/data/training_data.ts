@@ -53,10 +53,10 @@ const trainingData = [
     name: "Ian4Dogs (Ian Moi)",
     address: "Leinster Square, Rathmines",
     county: "Dublin",
-    phone: "087 987 6543", // Contact via website
+    phone: "087 679 2406", // Contact via website
     email: "info@ianfordogs.com",
     website: "https://ianfordogs.com/",
-    rating: 4.9,
+    rating: 4.9 ,
     reviewCount: 203,
     description: "Ian Moi is a certified dog behaviourist offering comprehensive training and behavior modification programs. Specializing in residential training programs and complex behavioral issues.",
     image: "",
