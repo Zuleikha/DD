@@ -34,6 +34,9 @@ import PetShopDetailPage from './pages/PetShopDetailPage';
 import ScrollToTop from './components/ScrollToTop';
 import MascotPage from './pages/MascotPage';
 import { Toaster } from './components/ui/toaster';
+//import firebaseApp from './config/firebase';
+
+
 
 // Generic redirect for typo paths like vetss, parkss, etc.
 function ExtraSRedirect({ prefix }: { prefix: string }) {

@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MessageCircle, ShoppingBag, Heart } from 'lucide-react';
+import firebaseApp from '../../config/firebase';
+
+
 
 const CommunitySection: React.FC = () => {
   return (

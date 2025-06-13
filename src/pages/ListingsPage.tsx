@@ -7,7 +7,7 @@ import GoogleMap, { CalculateRouteFunction } from '../components/maps/GoogleMap'
 import SEO from '../components/common/SEO';
 
 // Safely access your Google Maps API key from environment variables
-const Maps_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || "";
+const Maps_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY|| "";
 
 if (!Maps_API_KEY) {
   console.warn("⚠️ Google Maps API key is missing. Did you set REACT_APP_GOOGLE_MAPS_API_KEY in your .env file?");

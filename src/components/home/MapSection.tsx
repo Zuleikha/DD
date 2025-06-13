@@ -82,7 +82,7 @@ const MapSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Map Container */}
           <div className="lg:col-span-2 rounded-lg overflow-hidden shadow-lg relative">
-            <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY || ''}>
+            <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ''}>
               <GoogleMap
                 mapContainerStyle={{ width: '100%', height: '500px' }}
                 center={{ lat: 53.3498, lng: -6.2603 }}
