@@ -4,17 +4,18 @@ import { getAuth } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
 import { getDatabase } from 'firebase/database'; // Import Realtime Database
 
-// Your web app's Firebase configuration
+
 const firebaseConfig = {
-    apiKey: "AIzaSyDNFlEg8oQZDvosHwF3RP4-Et-8EJh0Qwo",
-    authDomain: "dogdays-bb394.firebaseapp.com",
-    projectId: "dogdays-bb394",
-    storageBucket: "dogdays-bb394.firebasestorage.app",
-    messagingSenderId: "730200299370",
-    appId: "1:730200299370:web:a6eca9fd5948b0ffa6b713",
-    measurementId: "G-MF2856EVXT",
-    databaseURL: "https://dogdays-bb394-default-rtdb.europe-west1.firebasedatabase.app"
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
+    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
+    databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL
 };
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

@@ -6,8 +6,12 @@ import ChatbotWidget from '../components/common/ChatbotWidget';
 import GoogleMap, { CalculateRouteFunction } from '../components/maps/GoogleMap';
 import SEO from '../components/common/SEO';
 
-// Add your Google Maps API key here.
-const Maps_API_KEY = "AIzaSyA9nmAemVv4-rkPRHhs52i0-7sVCb5GEC4"; // Replace with your actual key
+// Safely access your Google Maps API key from environment variables
+const Maps_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || "";
+
+if (!Maps_API_KEY) {
+  console.warn("⚠️ Google Maps API key is missing. Did you set REACT_APP_GOOGLE_MAPS_API_KEY in your .env file?");
+}
 
 // Default fallback image
 const defaultImage = "https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80";
