@@ -54,7 +54,7 @@ const trainingData = [
     address: "Leinster Square, Rathmines",
     county: "Dublin",
     phone: "087 679 2406", // Contact via website
-    email: "info@ianfordogs.com",
+    email: "ian@ianfordogs.com",
     website: "https://ianfordogs.com/",
     rating: 4.9 ,
     reviewCount: 203,
