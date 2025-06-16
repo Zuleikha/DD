@@ -9,7 +9,7 @@ interface HeroSectionProps {
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({
-  title = "Welcome to Dog Days Ireland",
+  title = "Welcome to Dog Days",
   subtitle = "Your ultimate guide to dog-friendly places, services, and adventures across the Country",
   pageType = "listings",
   gradientClass = "bg-mesh-gradient-home"
@@ -50,7 +50,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         </div>
         
         {/* Fun Stats */}
-        <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl">
+        {/* <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl">
           <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
             <div className="text-2xl font-bold">500+</div>
             <div className="text-sm">Dog-Friendly Places</div>
@@ -63,7 +63,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             <div className="text-2xl font-bold">1000+</div>
             <div className="text-sm">Happy Dog Owners</div>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

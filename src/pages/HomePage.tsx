@@ -41,7 +41,7 @@ const HomePage: React.FC = () => {
 	</div>
 
       {/* Enhanced Services Section with Paw Accents */}
-      <section id="services" className="py-16 bg-gray-50 relative overflow-hidden">
+      <section id="services" className="py-16 bg-gray-100 relative overflow-hidden">
         {/* Subtle background decorations */}
         <div className="absolute inset-0 pointer-events-none text-gray-200">
           <div className="absolute top-10 left-10">
@@ -74,7 +74,7 @@ const HomePage: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Find a Vet */}
-            <Link to="/vets" className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+            <Link to="/vets" className="group bg-blue-100 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
               <div className="p-6">
                 <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-blue-200 transition-colors">
                   <MapPin className="h-8 w-8 text-blue-500" />
@@ -88,7 +88,7 @@ const HomePage: React.FC = () => {
             </Link>
 
             {/* Parks & Walks */}
-            <Link to="/parks" className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+            <Link to="/parks" className="group bg-green-100 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
               <div className="p-6">
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-green-200 transition-colors">
                   <PawPrint className="h-8 w-8 text-green-500" />
@@ -102,7 +102,7 @@ const HomePage: React.FC = () => {
             </Link>
 
             {/* Nutrition */}
-            <Link to="/nutrition" className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+            <Link to="/nutrition" className="group bg-yellow-100 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
               <div className="p-6">
                 <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-yellow-200 transition-colors">
                   <Coffee className="h-8 w-8 text-yellow-500" />
@@ -116,7 +116,7 @@ const HomePage: React.FC = () => {
             </Link>
 
             {/* Dog Training */}
-            <Link to="/training" className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+            <Link to="/training" className="group bg-purple-100 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
               <div className="p-6">
                 <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-purple-200 transition-colors">
                   <Clock className="h-8 w-8 text-purple-500" />
@@ -130,7 +130,7 @@ const HomePage: React.FC = () => {
             </Link>
 
             {/* Grooming */}
-            <Link to="/grooming" className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+            <Link to="/grooming" className="group bg-pink-100 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
               <div className="p-6">
                 <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-pink-200 transition-colors">
                   <Smile className="h-8 w-8 text-pink-500" />
@@ -144,7 +144,7 @@ const HomePage: React.FC = () => {
             </Link>
 
             {/* Dog-Friendly Places */}
-            <Link to="/places" className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+            <Link to="/places" className="group bg-indigo-100  rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
               <div className="p-6">
                 <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-indigo-200 transition-colors">
                   <CupSoda className="h-8 w-8 text-indigo-500" />
@@ -158,7 +158,7 @@ const HomePage: React.FC = () => {
             </Link>
 
             {/* Pet Shops */}
-            <Link to="/petshops" className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+            <Link to="/petshops" className="group bg-orange-100 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
               <div className="p-6">
                 <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-orange-200 transition-colors">
                   <ShoppingBag className="h-8 w-8 text-orange-500" />
@@ -172,7 +172,7 @@ const HomePage: React.FC = () => {
             </Link>
 
             {/* Dog Minders */}
-            <Link to="/minders" className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+            <Link to="/minders" className="group bg-teal-100 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
               <div className="p-6">
                 <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-teal-200 transition-colors">
                   <Users className="h-8 w-8 text-teal-500" />
@@ -186,7 +186,7 @@ const HomePage: React.FC = () => {
             </Link>
 
             {/* Community & Advice */}
-            <Link to="/advice" className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+            <Link to="/advice" className="group bg-red-100 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105">
               <div className="p-6">
                 <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-red-200 transition-colors">
                   <MessageCircleQuestion className="h-8 w-8 text-red-500" />
