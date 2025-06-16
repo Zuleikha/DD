@@ -34,6 +34,11 @@ const HomePage: React.FC = () => {
       
       {/* HeroSection Component with Working Buttons */}
       <HeroSection />
+	  <div className="text-center text-sm text-gray-500 mt-4">
+  🚧 	We are still working on this site, Please report any issues email: {'dogdays.ie@gmail.com'}
+		<a href="mailto:dogdays.ie@gmail.com" className="underline">
+		</a>.
+	</div>
 
       {/* Enhanced Services Section with Paw Accents */}
       <section id="services" className="py-16 bg-gray-50 relative overflow-hidden">
