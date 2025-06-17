@@ -37,7 +37,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link 
             to="/parks"
-            className="bg-irish-purple hover:bg-irish-purple/90 text-white font-semibold py-4 px-8 rounded-lg text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+            className="bg-irish-purple hover:bg-purple-100 text-white font-semibold py-4 px-8 rounded-lg text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
           >
             🐕 Explore Parks
           </Link>

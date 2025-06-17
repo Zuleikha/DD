@@ -13,9 +13,10 @@ const MascotPage: React.FC = () => {
                 <link rel="canonical" href="https://www.dogdays.ie/mascot" />
             </Helmet>
 
-            <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50">
+            <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-teal-50">
                 {/* Hero Section */}
-                <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white py-16">
+               <div className="bg-gradient-to-r from-indigo-600 via-teal-400 to-amber-300 text-white py-16">
+
                     <div className="container mx-auto px-4 text-center">
                         <div className="flex items-center justify-center mb-4">
                             <Heart className="h-8 w-8 mr-3" />

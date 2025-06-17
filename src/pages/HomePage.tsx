@@ -41,7 +41,7 @@ const HomePage: React.FC = () => {
 	</div>
 
       {/* Enhanced Services Section with Paw Accents */}
-      <section id="services" className="py-16 bg-gray-100 relative overflow-hidden">
+      <section id="services" className="py-16 bg-cream-200 relative overflow-hidden">
         {/* Subtle background decorations */}
         <div className="absolute inset-0 pointer-events-none text-gray-200">
           <div className="absolute top-10 left-10">
@@ -202,7 +202,7 @@ const HomePage: React.FC = () => {
 
           {/* Meet Our Mascot Section */}
           <div className="mt-16 flex justify-center">
-            <Link to="/mascot" className="group relative bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:scale-105 max-w-md w-full">
+            <Link to="/mascot" className="group relative bg-gradient-to-r from-indigo-600 via-teal-400 to-amber-300 text-white py-16 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:scale-105 max-w-md w-full">
               {/* Background Pattern */}
               <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
               
