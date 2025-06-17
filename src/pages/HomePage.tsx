@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Coffee, Clock, Smile, CupSoda, MapPin, PawPrint, Users, MessageCircleQuestion, ShoppingBag, Heart } from 'lucide-react';
 import SEO from '../components/common/SEO';
+import AdvertiseForm from "../components/home/AdvertiseForm";
 
 import dogImage from '../assets/images/dog.jpg';
 import dp2Image from '../assets/images/dp2.jpg'; // Import the new hero image
@@ -24,6 +25,8 @@ const Bone: React.FC<{ size: number; opacity: number; className?: string }> = ({
 );
 
 const HomePage: React.FC = () => {
+  const [showForm, setShowForm] = useState(false);
+
   return (
     <div className="min-h-screen bg-white">
       <SEO 
@@ -200,35 +203,96 @@ const HomePage: React.FC = () => {
             </Link>
           </div>
 
-          {/* Meet Our Mascot Section */}
+          {/* Form appears below the grid when advertise button is clicked */}
+          {showForm && (
+            <div className="mt-12 flex justify-center">
+              <div className="w-full max-w-lg">
+                <AdvertiseForm onClose={() => setShowForm(false)} />
+              </div>
+            </div>
+          )}
+
+          {/* Meet Our Mascot & Advertise Section - Side by Side */}
           <div className="mt-16 flex justify-center">
-            <Link to="/mascot" className="group relative bg-gradient-to-r from-indigo-600 via-teal-400 to-amber-300 text-white py-16 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:scale-105 max-w-md w-full">
-              {/* Background Pattern */}
-              <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full">
               
-              {/* Content */}
-              <div className="relative p-8 text-center text-white">
-                <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mb-6 mx-auto group-hover:bg-white/30 transition-colors">
-                  <Heart className="h-10 w-10 text-white" />
+              {/* Meet Our Mascot Card */}
+              <Link to="/mascot" className="group relative bg-gradient-to-r from-indigo-600 via-teal-400 to-amber-300 text-white py-16 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                {/* Background Pattern */}
+                <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
+                
+                {/* Content */}
+                <div className="relative p-8 text-center text-white">
+                  <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mb-6 mx-auto group-hover:bg-white/30 transition-colors">
+                    <Heart className="h-10 w-10 text-white" />
+                  </div>
+                  
+                  <h3 className="text-2xl font-bold mb-3 flex items-center justify-center">
+                    Meet Our Mascot
+                    <PawPrint size={20} className="ml-2 group-hover:animate-bounce" />
+                  </h3>
+                  
+                  <p className="text-white/90 text-sm mb-4">
+                    Get to know our adorable furry friend who represents the spirit of Dog Days Ireland!
+                  </p>
+                  
+                  <div className="inline-flex items-center text-white font-semibold">
+                    <span>Learn More</span>
+                    <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
                 </div>
+              </Link>
+
+              {/* Advertise Here Card - Same size and styling as Mascot */}
+              <div
+                onClick={() => setShowForm(true)}
+                className="group relative bg-gradient-to-r from-blue-400 via-orange-300 to-yellow-400 text-white py-16 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:scale-105 cursor-pointer"
+              >
+                {/* Background Pattern */}
+                <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
                 
-                <h3 className="text-2xl font-bold mb-3 flex items-center justify-center">
-                  Meet Our Mascot
-                  <PawPrint size={20} className="ml-2 group-hover:animate-bounce" />
-                </h3>
-                
-                <p className="text-white/90 text-sm mb-4">
-                  Get to know our adorable furry friend who represents the spirit of Dog Days Ireland!
-                </p>
-                
-                <div className="inline-flex items-center text-white font-semibold">
-                  <span>Learn More</span>
-                  <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                {/* Content */}
+                <div className="relative p-8 text-center text-white">
+                  <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mb-6 mx-auto group-hover:bg-white/30 transition-colors">
+                    {/* Dog SVG Icon */}
+                    <svg
+                      width="40"
+                      height="40"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <circle cx="12" cy="12" r="10" fill="#fff" stroke="#333" strokeWidth="2" />
+                      <ellipse cx="8.5" cy="10.5" rx="1.5" ry="2" fill="#333" />
+                      <ellipse cx="15.5" cy="10.5" rx="1.5" ry="2" fill="#333" />
+                      <ellipse cx="12" cy="15" rx="2" ry="1.2" fill="#333" />
+                      <ellipse cx="6.5" cy="7.5" rx="2.5" ry="1.5" fill="#f4a460" />
+                      <ellipse cx="17.5" cy="7.5" rx="2.5" ry="1.5" fill="#f4a460" />
+                    </svg>
+                  </div>
+                  
+                  <h3 className="text-2xl font-bold mb-3 flex items-center justify-center">
+                    Advertise Here
+                    <PawPrint size={20} className="ml-2 group-hover:animate-bounce" />
+                  </h3>
+                  
+                  <p className="text-white/90 text-sm mb-4">
+                    Promote your dog service for FREE and reach more customers across Ireland!
+                  </p>
+                  
+                  <div className="inline-flex items-center text-white font-semibold">
+                    <span>Get Started</span>
+                    <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
                 </div>
               </div>
-            </Link>
+
+            </div>
           </div>
         </div>
       </section>

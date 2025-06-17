@@ -34,6 +34,7 @@ import PetShopDetailPage from './pages/PetShopDetailPage';
 import ScrollToTop from './components/ScrollToTop';
 import MascotPage from './pages/MascotPage';
 import { Toaster } from './components/ui/toaster';
+//import AdvertiseForm from "./components/home/AdvertiseForm";
 //import firebaseApp from './config/firebase';
 
 
@@ -94,8 +95,10 @@ function App() {
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/advice" element={<AdvicePage />} />
               <Route path="/mascot" element={<MascotPage />} />
-              
-              
+              {/* <Route path="/advertise" element={<AdvertiseForm onClose={function (): void {
+                throw new Error('Function not implemented.');
+              } } />} /> */}
+
               {/* Redirect old about-mascot route to new mascot route */}
               <Route path="/about-mascot" element={<Navigate to="/mascot" replace />} />
 
