@@ -103,66 +103,44 @@ const AdvertiseForm: FC<AdvertiseFormProps> = ({ onClose }) => {
         }
     };
 
-    // Send email with business information
+    // Send email with business information using Firebase Cloud Function
     const sendBusinessEmail = async (businessInfo: BusinessData) => {
         const categoryLabel = serviceCategories.find(cat => cat.value === businessInfo.serviceCategory)?.label;
         
-        // Create email content
+        // Construct the subject and message for the email
         const emailSubject = `New Business Listing Submission - ${categoryLabel}`;
         const emailBody = `
-New Business Listing Submission
+New Business Listing Submission\n\nService Category: ${categoryLabel}\nBusiness Name: ${businessInfo.businessName}\nDescription: ${businessInfo.description}\n\n${businessInfo.address ? `Address: ${businessInfo.address}` : ''}\n${businessInfo.phone ? `Phone: ${businessInfo.phone}` : ''}\n${businessInfo.email ? `Email: ${businessInfo.email}` : ''}\n${businessInfo.website ? `Website: ${businessInfo.website}` : ''}\n${businessInfo.socialMedia ? `Social Media: ${businessInfo.socialMedia}` : ''}\n\n${businessInfo.image ? 'Image: Attached' : 'No image provided'}\n\nSubmitted on: ${new Date().toLocaleString()}\n        `.trim();
 
-Service Category: ${categoryLabel}
-Business Name: ${businessInfo.businessName}
-Description: ${businessInfo.description}
+        // Your deployed Firebase Cloud Function URL
+        const functionUrl = 'https://sendemail-cpsx3cra3q-uc.a.run.app'; // <<< IMPORTANT: Use your actual Function URL here
 
-${businessInfo.address ? `Address: ${businessInfo.address}` : ''}
-${businessInfo.phone ? `Phone: ${businessInfo.phone}` : ''}
-${businessInfo.email ? `Email: ${businessInfo.email}` : ''}
-${businessInfo.website ? `Website: ${businessInfo.website}` : ''}
-${businessInfo.socialMedia ? `Social Media: ${businessInfo.socialMedia}` : ''}
-
-${businessInfo.image ? 'Image: Attached' : 'No image provided'}
-
-Submitted on: ${new Date().toLocaleString()}
-        `.trim();
-
-        // For now, we'll use mailto (in production, you'd use a backend service)
-        const mailtoLink = `mailto:dogdays.ie@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-        
-        // Open email client
-        window.location.href = mailtoLink;
-        
-        // In a production environment, you would use a service like EmailJS or a backend API
-        // Example with EmailJS:
-        /*
         try {
-            await emailjs.send(
-                'your_service_id',
-                'your_template_id',
-                {
-                    to_email: 'dogdays.ie@gmail.com',
-                    subject: emailSubject,
-                    business_name: businessInfo.businessName,
-                    category: categoryLabel,
-                    description: businessInfo.description,
-                    address: businessInfo.address,
-                    phone: businessInfo.phone,
-                    email: businessInfo.email,
-                    website: businessInfo.website,
-                    social_media: businessInfo.socialMedia,
-                    submission_date: new Date().toLocaleString()
+            const response = await fetch(functionUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
                 },
-                'your_public_key'
-            );
-            return { success: true };
+                body: JSON.stringify({
+                    recipientEmail: 'dogdays.ie@gmail.com', // <<< IMPORTANT: The email address where you want to receive the form data
+                    subject: emailSubject,
+                    message: emailBody,
+                } ),
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Email sent successfully:', result);
+                return { success: true };
+            } else {
+                const errorData = await response.json();
+                console.error('Error sending email:', errorData);
+                return { success: false, error: errorData.message || 'Unknown error' };
+            }
         } catch (error) {
-            console.error('Email send error:', error);
-            return { success: false, error };
+            console.error('Network or unexpected error:', error);
+            return { success: false, error: 'An unexpected error occurred.' };
         }
-        */
-        
-        return { success: true };
     };
 
     // Handle form submission
@@ -358,63 +336,42 @@ Submitted on: ${new Date().toLocaleString()}
                     </div>
                 </div>
 
-                {/* Image Upload - Optional */}
-                <div>
-                    <label htmlFor="image" className="block text-sm font-semibold text-gray-700 mb-2">
-                        Business Image (Optional)
+                {/* Image Upload */}
+                <div className="border-t pt-6">
+                    <label htmlFor="imageUpload" className="block text-sm font-semibold text-gray-700 mb-2">
+                        Upload Image (Optional)
                     </label>
-                    <p className="text-xs text-gray-500 mb-2">
-                        Note: Images will be included in the email to our team for review.
-                    </p>
                     <input
-                        id="image"
+                        id="imageUpload"
                         type="file"
                         accept="image/*"
                         onChange={handleImageChange}
                         ref={fileInputRef}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                        className="w-full text-sm text-gray-500
+                            file:mr-4 file:py-2 file:px-4
+                            file:rounded-full file:border-0
+                            file:text-sm file:font-semibold
+                            file:bg-blue-50 file:text-blue-700
+                            hover:file:bg-blue-100"
                     />
                     {preview && (
                         <div className="mt-4">
-                            <img
-                                src={preview}
-                                alt="Preview"
-                                className="max-w-full h-48 object-cover rounded-lg shadow-md"
-                            />
+                            <p className="text-sm text-gray-600 mb-2">Image Preview:</p>
+                            <img src={preview} alt="Image Preview" className="max-w-xs h-auto rounded-lg shadow" />
                         </div>
                     )}
                 </div>
 
-                {/* Submit Buttons */}
-                <div className="flex gap-3 pt-6 border-t">
+                {/* Submit Button */}
+                <div className="pt-6">
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className={`flex-1 flex items-center justify-center gap-2 font-bold py-3 px-6 rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-offset-2 ${
-                            isSubmitting
-                                ? 'bg-gray-400 cursor-not-allowed'
-                                : 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500'
-                        } text-white`}
+                        className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold text-lg
+                            hover:bg-blue-700 transition-colors
+                            disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        {isSubmitting ? (
-                            <>
-                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                                Sending...
-                            </>
-                        ) : (
-                            <>
-                                <Mail size={16} />
-                                Send to Dog Days Ireland
-                            </>
-                        )}
-                    </button>
-                    <button
-                        type="button"
-                        onClick={onClose}
-                        disabled={isSubmitting}
-                        className="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        Cancel
+                        {isSubmitting ? 'Submitting...' : 'Submit Your Business'}
                     </button>
                 </div>
             </form>
@@ -423,4 +380,3 @@ Submitted on: ${new Date().toLocaleString()}
 };
 
 export default AdvertiseForm;
-
