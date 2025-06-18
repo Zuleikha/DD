@@ -1,6 +1,9 @@
 import * as functions from "firebase-functions";
 const sgMail = require("@sendgrid/mail");
-const cors = require("cors")({ origin: true }); // Initialize cors middleware
+
+// Initialize cors middleware with your specific origin
+// IMPORTANT: Replace 'https://www.dogdays.ie' with your actual frontend domain if it changes.
+const cors = require("cors" )({ origin: "https://www.dogdays.ie" } ); 
 
 export const sendEmail = functions.https.onRequest(async (req, res ) => {
   // Use the cors middleware
