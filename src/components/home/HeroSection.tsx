@@ -24,6 +24,24 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         }}
       ></div>
       
+      {/* QR Code - Top Right Corner */}
+      <Link 
+        to="/qrcode" 
+        className="absolute top-5 right-5 bg-white/90 p-2 rounded-lg shadow-lg backdrop-blur-sm hover:bg-white transition-all duration-200 hover:scale-105 cursor-pointer z-50"
+        title="Click to view larger QR code"
+        onClick={(e) => {
+          console.log('QR Code clicked!');
+          // Test if click is working
+        }}
+      >
+        <img 
+          src="/src/assets/images/qrcode.png" 
+          alt="Scan to visit DogDays.ie" 
+          className="w-16 h-16 pointer-events-none"
+        />
+        <p className="text-xs text-center text-gray-700 mt-1 pointer-events-none">Scan me</p>
+      </Link>
+      
       {/* Hero Content */}
       <div className="relative container mx-auto px-4 h-full flex flex-col justify-center items-center text-center text-white">
         <h1 className="text-4xl md:text-6xl font-bold mb-6 max-w-4xl drop-shadow-lg">
@@ -70,4 +88,3 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 };
 
 export default HeroSection;
-
