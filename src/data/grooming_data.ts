@@ -41,7 +41,7 @@ const groomingData = [
     county: "Dublin",
     phone: "087 336 0493",
     email: "Contact via phone",
-    website: "Local service",
+    website: "Contact via phone: 087 336 0493",
     rating: 4.8,
     reviewCount: 156,
     description: "Posh Paws is a professional dog grooming service in Dublin 8, providing quality grooming services for dogs of all breeds and sizes. The salon focuses on providing a comfortable and stress-free experience for your canine companion with personalized care and attention to detail.",
@@ -130,7 +130,7 @@ const groomingData = [
     phone: "01 867 8793",
     mobile: "087 972 0703",
     email: "Contact via phone",
-    website: "Local service",
+    website: "Contact via phone: 01 867 8793 or 087 972 0703",
     rating: 4.7,
     reviewCount: 156,
     description: "Michael's Dog Grooming has over 20 years experience in grooming dogs of all shapes and sizes. Based in Donaghmede, Dublin 13, Michael provides professional grooming services with collection and delivery available. Known for excellent service and competitive rates, making quality grooming accessible to all dog owners.",
@@ -158,7 +158,7 @@ const groomingData = [
     county: "Dublin",
     phone: "087 911 7478",
     email: "Contact via phone",
-    website: "Local service",
+    website: "Contact via phone: 087 911 7478",
     rating: 4.7,
     reviewCount: 124,
     description: "Grainne's Grooming provides a complete dog grooming service in their professional salon in Swords, North County Dublin. They offer comprehensive grooming services for all breeds with experienced and caring staff who ensure each dog receives personalized attention and professional care.",
@@ -383,7 +383,7 @@ const groomingData = [
     county: "Cork",
     phone: "087 312 4801",
     email: "Contact via phone",
-    website: "Local service",
+    website: "Contact via phone: 087 312 4801",
     rating: 4.8,
     reviewCount: 73,
     description: "Highly recommended local dog grooming service in Cork, known for excellent customer service and professional grooming. Located in Dublin Hill area of Cork, they provide personalized care for each dog.",
@@ -431,4 +431,3 @@ const groomingData = [
 ];
 
 export default groomingData;
-
