@@ -627,3 +627,4 @@ const vetsData = [
     hours: "Monday-Friday: 9:00am-6:00pm, Saturday: 9:00am-1:00pm, Sunday: Closed"
   }
 ];
+export default vetsData;
