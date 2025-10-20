@@ -1,34 +1,35 @@
 // Vets data with real Irish veterinary clinics - COMPLETE CORRECTED VERSION
 const vetsData = [
   {
-    id: 1,
-    name: "Grey Abbey Vets",
-    address: "123 Main Street, Kildare Town, Co. Kildare",
-    county: "Kildare",
-    phone: "(045) 522 390",
-    email: "info@greyabbeyvets.ie",
-    website: "https://www.greyabbeyvets.com",
-    rating: 4.9,
-    reviewCount: 187,
-    description: "Grey Abbey Vets is a modern, fully-equipped veterinary practice dedicated to providing exceptional care for dogs and other pets.",
-    image: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80",
-    services: [
-      "Wellness examinations",
-      "Vaccinations",
-      "Microchipping",
-      "Surgery",
-      "Dental care",
-      "X-ray and ultrasound",
-      "Laboratory testing",
-      "Emergency services"
-    ],
-    specialties: [
-      "Canine medicine",
-      "Orthopedic surgery",
-      "Geriatric care"
-    ],
-    hours: "Monday-Friday: 8:00am-7:00pm, Saturday: 9:00am-4:00pm, Sunday: Emergency only"
-  },
+  id: 1,
+  name: "Grey Abbey Vets",
+  address: "Grey Abbey Rd, Greyabbey, Kildare, R51 NV25",
+  county: "Kildare",
+  phone: "045522390",
+  email: "greyabbey@villagevets.ie",
+  website: "https://www.villagevets.ie/clinics/village-vets-greyabbey",
+  rating: 4.9,
+  reviewCount: 187,
+  description: "Grey Abbey Vets is a modern, fully-equipped veterinary practice dedicated to providing exceptional care for dogs and other pets.",
+  image: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80",
+  services: [
+    "Wellness examinations",
+    "Vaccinations",
+    "Microchipping",
+    "Surgery",
+    "Dental care",
+    "X-ray and ultrasound",
+    "Laboratory testing",
+    "Emergency services"
+  ],
+  specialties: [
+    "Canine medicine",
+    "Orthopedic surgery",
+    "Geriatric care"
+  ],
+  hours: "24/7"
+},
+
   {
     id: 2,
     name: "The Animal Hospital",
